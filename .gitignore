@@ -1,0 +1,10 @@
+*.gen
+test/**
+test
+*.swp
+NOT*
+*.o
+*.a
+tags
+.nfs*
+.DS_Store
