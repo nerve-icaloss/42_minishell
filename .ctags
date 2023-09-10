@@ -1,0 +1,6 @@
+--with-list-header=no
+--recurse=yes
+--exclude=.git
+--exclude=*.o
+--exclude=NOT*
+--exclude=*.a
