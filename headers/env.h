@@ -6,7 +6,7 @@
 /*   By: hmelica <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/14 10:33:59 by hmelica           #+#    #+#             */
-/*   Updated: 2023/09/14 11:46:35 by hmelica          ###   ########.fr       */
+/*   Updated: 2023/09/14 12:13:40 by hmelica          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,9 @@
 # define ENV_H
 
 # include "minishell.h"
+
+// env.c
+int		env_init(t_myenv *myenv, char **envp);
 
 // var.c
 int		var_add(t_lstvar *origin, char *name, char *value);
