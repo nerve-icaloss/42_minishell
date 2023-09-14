@@ -6,7 +6,7 @@
 #    By: hmelica <marvin@42.fr>                     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/04/13 14:06:13 by hmelica           #+#    #+#              #
-#    Updated: 2023/09/14 11:41:10 by hmelica          ###   ########.fr        #
+#    Updated: 2023/09/14 11:54:22 by hmelica          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 #
@@ -179,3 +179,5 @@ force:;
 # supprime les fichiers dupliqués sur mac
 mac_clean:
 	@find . -type f -name "* [2-9]*" -print -delete
+
+library:
