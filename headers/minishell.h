@@ -6,20 +6,25 @@
 /*   By: nserve & hmelica                           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/10 14:58:41 by hmelica           #+#    #+#             */
-/*   Updated: 2023/09/14 10:18:11 by hmelica          ###   ########.fr       */
+/*   Updated: 2023/09/14 11:31:01 by hmelica          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
+# include <sys/types.h>
+
+# include "libft.h"
+
 typedef struct s_myvar {
 	char			*name;
 	char			*value;
 	struct s_myvar	*next;
+	struct s_myvar	*prev;
 }	t_myvar;
 
-typedef t_MyVar *	t_lstvar;
+typedef t_myvar *	t_lstvar;
 
 typedef struct s_myenv {
 	t_lstvar		lst_var;
@@ -30,9 +35,10 @@ typedef struct s_myenv {
 
 typedef struct s_myhistory {
 	char				*content;
-	struct s_myhistory	next;
+	struct s_myhistory	*next;
 } t_myhistory;
 
+/*
 typedef struct myinput {
 	
 };
@@ -67,6 +73,6 @@ typedef struct s_myshell {
 	
 	
 } t_myshell;
-
+*/
 
 #endif

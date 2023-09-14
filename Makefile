@@ -6,7 +6,7 @@
 #    By: hmelica <marvin@42.fr>                     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/04/13 14:06:13 by hmelica           #+#    #+#              #
-#    Updated: 2023/09/10 15:00:10 by hmelica          ###   ########.fr        #
+#    Updated: 2023/09/14 11:54:22 by hmelica          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 #
@@ -42,6 +42,8 @@ NAME_BONUS = ${NAME}_bonus
 #       src/main.c     # non
 SRCS_FILES = \
 				main.c \
+				env.c \
+				var.c \
 #
 # ^- (this comment line matters)
 #
@@ -72,7 +74,7 @@ LIBFT_DIR = ${SRCS_DIR}/libft
 LIBFT = ${SRCS_DIR}/libft/libft.a
 LIBFT_TARGET = $(if $(filter debug,$(MAKECMDGOALS)),debug,all)
 
-HEADERS_DIR = headers/
+HEADERS_DIR = headers/ src/libft/
 HEADERS_DIR_FLAG = ${addprefix -I ,${HEADERS_DIR}}
 
 SRCS_DIR = src
@@ -177,3 +179,5 @@ force:;
 # supprime les fichiers dupliqués sur mac
 mac_clean:
 	@find . -type f -name "* [2-9]*" -print -delete
+
+library:
