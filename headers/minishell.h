@@ -6,12 +6,14 @@
 /*   By: nserve & hmelica                           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/10 14:58:41 by hmelica           #+#    #+#             */
-/*   Updated: 2023/09/14 11:13:22 by hmelica          ###   ########.fr       */
+/*   Updated: 2023/09/14 11:17:51 by hmelica          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
+
+# include <sys/types.h>
 
 typedef struct s_myvar {
 	char			*name;
@@ -31,9 +33,10 @@ typedef struct s_myenv {
 
 typedef struct s_myhistory {
 	char				*content;
-	struct s_myhistory	next;
+	struct s_myhistory	*next;
 } t_myhistory;
 
+/*
 typedef struct myinput {
 	
 };
@@ -57,7 +60,6 @@ typedef struct s_mycmd
 	int		out_fd;
 }	t_mycmd;
 
-/*
 typedef struct myexec {
 	
 };
