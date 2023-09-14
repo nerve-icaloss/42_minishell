@@ -6,7 +6,7 @@
 /*   By: hmelica <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/14 10:57:42 by hmelica           #+#    #+#             */
-/*   Updated: 2023/09/14 12:32:59 by hmelica          ###   ########.fr       */
+/*   Updated: 2023/09/14 12:55:58 by hmelica          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,26 +59,22 @@ int	var_parsing(t_lstvar *lst, char *str)
 	char	*split;
 	char	*name;
 	char	*value;
-	int		len;
 
 	if (!str || !lst)
 		return (-1);
 	split = ft_strchr(str, '=');
 	if (!split)
 		return (-1);
-	name = malloc(sizeof(char) * (split - str + 1));
+	name = ft_substr(str, 0, split - str);
 	if (!name)
 		return (-1);
-	ft_strlcpy(name, str, (split - str + 1));
 	if (split[1] == '\0')
 		value = NULL;
 	else
 	{
-		len = ft_strlen(split + 1);
-		value = malloc(sizeof(char) * (len + 1));
+		value = ft_substr(str, split - str, ft_strlen(split + 1));
 		if (!value)
 			return (free(name), -1);
-		ft_strlcpy(value, split + 1, len + 1);
 	}
 	return (var_add(lst, name, value));
 }
