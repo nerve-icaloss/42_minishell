@@ -6,7 +6,7 @@
 /*   By: hmelica <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/14 10:33:12 by hmelica           #+#    #+#             */
-/*   Updated: 2023/09/14 12:34:21 by hmelica          ###   ########.fr       */
+/*   Updated: 2023/09/14 13:50:14 by hmelica          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,9 +22,6 @@ int	env_init(t_myenv *myenv, char **envp)
 {
 	if (!envp || !myenv)
 		return (-1);
-	myenv->pwd = NULL;
-	myenv->oldpwd = NULL;
-	myenv->home = NULL;
 	myenv->lst_var = NULL;
 	while (*envp)
 	{
