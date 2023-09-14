@@ -6,67 +6,67 @@
 /*   By: nserve & hmelica                           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/10 14:58:41 by hmelica           #+#    #+#             */
-/*   Updated: 2023/09/10 14:59:17 by hmelica          ###   ########.fr       */
+/*   Updated: 2023/09/14 10:15:15 by hmelica          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
-typedef struct s_MyVar {
-  char  *name;
-  char  *value;
-  struct s_MyVar  next;
-} t_MyVar;
+typedef struct s_myvar {
+	char			*name;
+	char			*value;
+	struct s_myvar	*next;
+}	t_myvar;
 
-typedef t_MyVar * t_LstVar
+typedef t_MyVar *	t_lstvar;
 
-typedef struct s_MyEnv {
-  t_LstVar          lst_var;
-  struct s_MyVar    *pwd;
-  struct s_MyVar    *oldpwd;
-  struct s_MyVar    *home;
-} t_MyEnv;
+typedef struct s_myenv {
+	t_LstVar		lst_var;
+	struct s_myvar	*pwd;
+	struct s_myvar	*oldpwd;
+	struct s_myvar	*home;
+}	t_myenv;
 
-typedef struct s_MyHistory {
-  char  *content;
-  struct s_MyHistory  next;
-} t_MyHistory;
+typedef struct s_myhistory {
+	char				*content;
+	struct s_myhistory	next;
+} t_myhistory;
 
-typedef struct MyInput {
-  
+typedef struct myinput {
+	
 };
 
-typedef struct s_MyParsing {
-  enum lexer          type;
-  char                *content;
-  struct s_MyParsing  next;
+typedef struct s_myparsing {
+	enum lexer			type;
+	char				*content;
+	struct s_myparsing	next;
 } t_MyParsing;
 
-typedef struct s_MyCmd
+typedef struct s_mycmd
 {
-	pid_t			pid;
-	int				in_fd;
-	int				here_doc;
-	char			*infile;
-	char			*path;
-	char			*args;
-	char			*outfile;
-	char			*wr_mode;
-	int				out_fd;
-}	t_MyCmd;
+	pid_t	pid;
+	int		in_fd;
+	int		here_doc;
+	char	*infile;
+	char	*path;
+	char	*args;
+	char	*outfile;
+	char	*wr_mode;
+	int		out_fd;
+}	t_mycmd;
 
-typedef struct MyExec {
-  
+typedef struct myexec {
+	
 };
 
-typedef struct s_MyShell {
-  struct s_MyHistory  history;
-  struct s_MyEnv      env;
-  struct s_MyInput    input;
-  
-  
-} t_MyShell;
+typedef struct s_myshell {
+	struct s_myhistory	history;
+	struct s_myenv			env;
+	struct s_myinput		input;
+	
+	
+} t_myshell;
 
 
 #endif
