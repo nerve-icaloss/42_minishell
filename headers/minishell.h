@@ -6,7 +6,7 @@
 /*   By: nserve & hmelica                           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/10 14:58:41 by hmelica           #+#    #+#             */
-/*   Updated: 2023/09/14 10:55:47 by hmelica          ###   ########.fr       */
+/*   Updated: 2023/09/14 11:13:22 by hmelica          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@ typedef struct s_myvar {
 	char			*name;
 	char			*value;
 	struct s_myvar	*next;
+	struct s_myvar	*prev;
 }	t_myvar;
 
 typedef t_myvar *	t_lstvar;
@@ -56,6 +57,7 @@ typedef struct s_mycmd
 	int		out_fd;
 }	t_mycmd;
 
+/*
 typedef struct myexec {
 	
 };
@@ -67,6 +69,6 @@ typedef struct s_myshell {
 	
 	
 } t_myshell;
-
+*/
 
 #endif
