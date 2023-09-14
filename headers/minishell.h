@@ -3,15 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nserve & hmelica                           +#+  +:+       +#+        */
+/*   By: marvin <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/10 14:58:41 by hmelica           #+#    #+#             */
-/*   Updated: 2023/09/14 10:18:11 by hmelica          ###   ########.fr       */
+/*   Updated: 2023/09/14 18:43:45 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
+
+# include <sys/types.h>
 
 typedef struct s_myvar {
 	char			*name;
@@ -19,29 +21,39 @@ typedef struct s_myvar {
 	struct s_myvar	*next;
 }	t_myvar;
 
-typedef t_MyVar *	t_lstvar;
+typedef t_myvar *	t_lstvar;
 
 typedef struct s_myenv {
 	t_lstvar		lst_var;
-	struct s_myvar	*pwd;
-	struct s_myvar	*oldpwd;
-	struct s_myvar	*home;
+	char			**envp;
+	t_myvar	*pwd;
+	t_myvar	*oldpwd;
+	t_myvar	*home;
 }	t_myenv;
 
 typedef struct s_myhistory {
 	char				*content;
-	struct s_myhistory	next;
-} t_myhistory;
+	struct s_myhistory	*next;
+}	t_myhistory;
 
-typedef struct myinput {
-	
-};
+typedef t_myhistory *	t_lsthistory;
+
+typedef struct s_myinput {
+	char	*content;
+}	t_myinput;
+
+typedef enum e_lexer {
+	in=1,
+	cmd,
+	redir,
+	arg,
+}	t_lexer;
 
 typedef struct s_myparsing {
-	enum lexer			type;
+	enum e_lexer		type;
 	char				*content;
-	struct s_myparsing	next;
-} t_MyParsing;
+	struct s_myparsing	*next;
+} t_myparsing;
 
 typedef struct s_mycmd
 {
@@ -56,17 +68,16 @@ typedef struct s_mycmd
 	int		out_fd;
 }	t_mycmd;
 
-typedef struct myexec {
+typedef struct s_myexec {
 	
-};
+}	t_myexec;
 
 typedef struct s_myshell {
-	struct s_myhistory	history;
-	struct s_myenv			env;
-	struct s_myinput		input;
-	
-	
-} t_myshell;
-
+	t_lsthistory	history;
+	t_myenv			*env;
+	t_myinput		input;
+	t_myparsing		*parsing;
+	t_myexec		*exec;
+}	t_myshell;
 
 #endif
