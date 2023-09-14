@@ -6,7 +6,7 @@
 /*   By: nserve & hmelica                           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/10 14:58:41 by hmelica           #+#    #+#             */
-/*   Updated: 2023/09/14 10:18:11 by hmelica          ###   ########.fr       */
+/*   Updated: 2023/09/14 10:55:47 by hmelica          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ typedef struct s_myvar {
 	struct s_myvar	*next;
 }	t_myvar;
 
-typedef t_MyVar *	t_lstvar;
+typedef t_myvar *	t_lstvar;
 
 typedef struct s_myenv {
 	t_lstvar		lst_var;
