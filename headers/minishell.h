@@ -6,7 +6,7 @@
 /*   By: nserve & hmelica                           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/10 14:58:41 by hmelica           #+#    #+#             */
-/*   Updated: 2023/09/14 11:17:51 by hmelica          ###   ########.fr       */
+/*   Updated: 2023/09/14 11:31:01 by hmelica          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 # define MINISHELL_H
 
 # include <sys/types.h>
+
+# include "libft.h"
 
 typedef struct s_myvar {
 	char			*name;
