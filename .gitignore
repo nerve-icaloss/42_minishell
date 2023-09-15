@@ -10,3 +10,8 @@ NOT*
 tags
 .nfs*
 .DS_Store
+criterion/**
+meson/**
+lib
+include
+build
