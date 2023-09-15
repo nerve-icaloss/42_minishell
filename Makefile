@@ -6,7 +6,7 @@
 #    By: hmelica <marvin@42.fr>                     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/04/13 14:06:13 by hmelica           #+#    #+#              #
-#    Updated: 2023/09/15 16:12:12 by hmelica          ###   ########.fr        #
+#    Updated: 2023/09/15 17:46:52 by hmelica          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 #
@@ -82,7 +82,7 @@ LIBFT_TARGET = $(if $(filter debug,$(MAKECMDGOALS)),debug,all)
 HEADERS_DIR = headers/ src/libft/ criterion/include/
 HEADERS_DIR_FLAG = ${addprefix -I ,${HEADERS_DIR}}
 
-LIBRARY_SEARCH_PATH = -L lib/x86_64-linux-gnu/
+LIBRARY_SEARCH_PATH = -L test/lib/x86_64-linux-gnu/
 LIBRARY_TESTS = -lcriterion
 
 SRCS_DIR = src
@@ -160,14 +160,15 @@ norm:
 
 clean:
 	@${MAKE} -C ${LIBFT_DIR} clean
-	@${RM} ${OBJS} ${OBJS_BONUS} test.out
+	@${MAKE} -C test fclean
+	@${RM} ${OBJS} ${OBJS_BONUS}
 	@${RMDIR} ${OBJS_DIR}
 	@printf "\033[1;34m%-34s\033[0m \033[1;32m%s\033[0m\n" "Cleaning" "done"
 
 fclean: clean
+	@${MAKE} -C test fclean
 	@${MAKE} -C ${LIBFT_DIR} fclean
-	@${RM} ${NAME} ${NAME_BONUS} libminishell.a
-	@rm -rf lib include
+	@${RM} ${NAME} ${NAME_BONUS}
 	@${RM} tags
 	@printf "\033[1;34m%-34s\033[0m \033[1;32m%s\033[0m\n" "File cleaning" "done"
 
@@ -193,14 +194,11 @@ criterion:
 	git submodule init
 	git submodule update
 
-lib: criterion
-	cd criterion ; python3 ../meson/meson.py setup --prefix=$$(realpath ..) build ; cd build ; \
+test/lib: criterion
+	cd criterion ; python3 ../meson/meson.py setup --prefix=$$(realpath ../test) build ; cd build ; \
 		python3 ../../meson/meson.py compile ; python3 ../../meson/meson.py test
 	cd criterion ; python3 ../meson/meson.py install -C build
 
-run_test: lib ${LIBFT} ${OBJS_DIR} ${OBJS}
-	if [ $$(echo $$LD_LIBRARY_PATH | grep -o "minishell") ]; then export LD_LIBRARY_PATH=$$(realpath lib/x86_64-linux-gnu):$$LD_LIBRARY_PATH ; fi
-	ar rcs libminishell.a $(filter-out obj/main.o , $(OBJS))
-	${CC} -g -L . ${HEADERS_DIR_FLAG} ${LIBFT} ${LIBRARY_SEARCH_PATH} \
-		-lminishell ${LIBRARY_TESTS} $$(find test -type f -name "*.c") -o test.out
-	./test.out
+run_test: test/lib ${LIBFT} ${OBJS_DIR} ${OBJS}
+	@${MAKE} -C test
+	@if [ !$$(echo $$LD_LIBRARY_PATH | grep -o "test") ]; then export LD_LIBRARY_PATH=$$(realpath test/lib/x86_64-linux-gnu):$$LD_LIBRARY_PATH ; fi ; ./test.out

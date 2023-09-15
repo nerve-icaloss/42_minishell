@@ -15,3 +15,5 @@ meson/**
 lib
 include
 build
+test.out
+TAGS
