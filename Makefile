@@ -6,7 +6,7 @@
 #    By: hmelica <marvin@42.fr>                     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/04/13 14:06:13 by hmelica           #+#    #+#              #
-#    Updated: 2023/09/14 14:39:03 by hmelica          ###   ########.fr        #
+#    Updated: 2023/09/15 14:15:52 by hmelica          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 #
@@ -42,6 +42,7 @@ NAME_BONUS = ${NAME}_bonus
 #       src/main.c     # non
 SRCS_FILES = \
 				env.c \
+				envp.c \
 				main.c \
 				var.c \
 				var_utils.c \
@@ -181,4 +182,5 @@ force:;
 mac_clean:
 	@find . -type f -name "* [2-9]*" -print -delete
 
-library:
+criterion:
+	cd criterion ; python3 ../meson/meson.py setup build ; cd build ; python3 ../../meson/meson.py compile ; python3 ../../meson/meson.py test
