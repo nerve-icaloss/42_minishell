@@ -6,7 +6,7 @@
 /*   By: hmelica <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/14 11:54:20 by hmelica           #+#    #+#             */
-/*   Updated: 2023/09/14 12:39:42 by hmelica          ###   ########.fr       */
+/*   Updated: 2023/09/15 10:25:29 by hmelica          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,10 +16,16 @@ int	main(int ac, char **av, char **envp)
 {
 	t_myenv		my;
 	t_lstvar	i;
+	int			ret;
 
-	(void) ac;
 	(void) av;
-	printf("return value = %d\n", env_init(&my, envp));
+	printf("# DEBUG # : env_init return value = %d\n", env_init(&my, envp));
+	if (ac > 1)
+	{
+		ret = env_builtin(&my);
+		var_clean(&my.lst_var);
+		return (ret);
+	}
 	i = my.lst_var;
 	while (i)
 	{
@@ -28,10 +34,10 @@ int	main(int ac, char **av, char **envp)
 	}
 	i = var_get(my.lst_var, "coucou");
 	if (i)
-		printf("Getting 'coucou' : %p\n'%s'='%s'\n", i, i->name, i->value);
+		printf("# DEBUG # : Getting 'coucou' : %p\n'%s'='%s'\n", i, i->name, i->value);
 	else
-		printf("Coucou not found. : %p\n", i);
-	printf("Coucou value only : %s\n", var_get_value(my.lst_var, "coucou"));
+		printf("# DEBUG # : Coucou not found. : %p\n", i);
+	printf("# DEBUG # : Coucou value only : %s\n", var_get_value(my.lst_var, "coucou"));
 	var_clean(&my.lst_var);
 	return (0);
 }

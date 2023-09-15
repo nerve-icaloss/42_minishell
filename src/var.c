@@ -6,7 +6,7 @@
 /*   By: hmelica <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/14 10:57:42 by hmelica           #+#    #+#             */
-/*   Updated: 2023/09/14 14:38:17 by hmelica          ###   ########.fr       */
+/*   Updated: 2023/09/15 10:27:05 by hmelica          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ int	var_parsing(t_lstvar *lst, char *str)
 		value = NULL;
 	else
 	{
-		value = ft_substr(str, split - str, ft_strlen(split + 1));
+		value = ft_substr(str, split - str + 1, ft_strlen(split + 1));
 		if (!value)
 			return (free(name), -1);
 	}

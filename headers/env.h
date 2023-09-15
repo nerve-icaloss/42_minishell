@@ -6,7 +6,7 @@
 /*   By: hmelica <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/14 10:33:59 by hmelica           #+#    #+#             */
-/*   Updated: 2023/09/14 14:38:17 by hmelica          ###   ########.fr       */
+/*   Updated: 2023/09/15 10:22:11 by hmelica          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 
 // env.c
 int		env_init(t_myenv *myenv, char **envp);
+int		env_builtin(t_myenv *myenv);
 
 // var.c
 char		*var_get_value(t_lstvar lst, char *name);
