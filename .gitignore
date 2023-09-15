@@ -1,8 +1,6 @@
 minishell
 minishell_bonus
 *.gen
-test/**
-test
 *.swp
 NOT*
 *.o
