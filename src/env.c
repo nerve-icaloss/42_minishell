@@ -6,7 +6,7 @@
 /*   By: hmelica <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/14 10:33:12 by hmelica           #+#    #+#             */
-/*   Updated: 2023/09/14 13:50:14 by hmelica          ###   ########.fr       */
+/*   Updated: 2023/09/14 13:53:07 by hmelica          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
  * Description :
  * Init myenv using envp
  *   - myenv is unitialized at the begining
- *   - doesnt check if pwd, oldpwd or home are set
+ *   - doesnt check if pwd, oldpwd or home are set at the end
  * */
 int	env_init(t_myenv *myenv, char **envp)
 {

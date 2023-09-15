@@ -6,7 +6,7 @@
 #    By: hmelica <marvin@42.fr>                     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/04/13 14:06:13 by hmelica           #+#    #+#              #
-#    Updated: 2023/09/14 11:54:22 by hmelica          ###   ########.fr        #
+#    Updated: 2023/09/14 14:39:03 by hmelica          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 #
@@ -41,9 +41,10 @@ NAME_BONUS = ${NAME}_bonus
 #       main.c \       # oui
 #       src/main.c     # non
 SRCS_FILES = \
-				main.c \
 				env.c \
+				main.c \
 				var.c \
+				var_utils.c \
 #
 # ^- (this comment line matters)
 #
