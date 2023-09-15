@@ -6,7 +6,7 @@
 #    By: hmelica <marvin@42.fr>                     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/04/13 14:06:13 by hmelica           #+#    #+#              #
-#    Updated: 2023/09/15 14:25:10 by hmelica          ###   ########.fr        #
+#    Updated: 2023/09/15 14:55:16 by hmelica          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 #
@@ -54,6 +54,9 @@ SRCS_FILES = \
 SRCS_FILES_BONUS = \
 #
 # ^- (this comment line matters too)
+TEST_FILES = test/test.c \
+#
+# ^- (this comment line matters too)
 CFLAGS = -Wall -Werror -Wextra
 # Other useful flags : -O3 -Wno-unused-result
 #                           ^- flag de compilation sur mac (Apple Clang)
@@ -76,8 +79,11 @@ LIBFT_DIR = ${SRCS_DIR}/libft
 LIBFT = ${SRCS_DIR}/libft/libft.a
 LIBFT_TARGET = $(if $(filter debug,$(MAKECMDGOALS)),debug,all)
 
-HEADERS_DIR = headers/ src/libft/
+HEADERS_DIR = headers/ src/libft/ criterion/include/
 HEADERS_DIR_FLAG = ${addprefix -I ,${HEADERS_DIR}}
+
+LIBRARY_SEARCH_PATH = -L criterion/build/src
+LIBRARY_TESTS = -lcriterion
 
 SRCS_DIR = src
 SRCS = ${addprefix ${SRCS_DIR}/,${SRCS_FILES}}
@@ -188,3 +194,10 @@ meson/meson.py:
 
 criterion: meson/meson.py
 	cd criterion ; python3 ../meson/meson.py setup build ; cd build ; python3 ../../meson/meson.py compile ; python3 ../../meson/meson.py test
+
+test: ${OBJS}
+	@printf "\033[1;33m.Compiling\033[0m %-23s" "debug lib"
+	ar rcs libminishell $(filter-out, main.c, ${OBJS})
+	for i in ${} ; do ${HEADERS_DIR_FLAG} ${LIBFT} ${LIBRARY_SEARCH_PATH} \
+	-lminishell ${LIBRARY_TESTS} -o test.out ; ./test.out ; done
+	${RM} test.out
