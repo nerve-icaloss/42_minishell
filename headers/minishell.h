@@ -6,7 +6,7 @@
 /*   By: nserve & hmelica                           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/10 14:58:41 by hmelica           #+#    #+#             */
-/*   Updated: 2023/09/14 11:31:01 by hmelica          ###   ########.fr       */
+/*   Updated: 2023/09/15 13:27:43 by hmelica          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,13 @@ typedef struct s_myvar {
 
 typedef t_myvar *	t_lstvar;
 
+/*
+ * count is the count of initialized variables
+ * */
 typedef struct s_myenv {
 	t_lstvar		lst_var;
+	unsigned int	count;
+	char			**envp;
 	struct s_myvar	*pwd;
 	struct s_myvar	*oldpwd;
 	struct s_myvar	*home;

@@ -6,7 +6,7 @@
 /*   By: hmelica <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/14 10:57:42 by hmelica           #+#    #+#             */
-/*   Updated: 2023/09/15 10:27:05 by hmelica          ###   ########.fr       */
+/*   Updated: 2023/09/15 13:46:03 by hmelica          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,4 +67,20 @@ char	*var_get_value(t_lstvar lst, char *name)
 	if (found->value == NULL)
 		return ("");
 	return (found->value);
+}
+
+/*
+ * return a malloc'd char NAME=VALUE
+ * NULL if error
+ * */
+char	*var_get_string(t_lstvar var)
+{
+	char	*ret;
+	char	*part;
+
+	part = ft_strjoin(var->name, "=");
+	if (!part)
+		return (NULL);
+	ret = ft_strjoin(part, var->value);
+	return (free(part), ret);
 }
