@@ -6,7 +6,7 @@
 #    By: hmelica <marvin@42.fr>                     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/04/13 14:06:13 by hmelica           #+#    #+#              #
-#    Updated: 2023/09/15 14:15:52 by hmelica          ###   ########.fr        #
+#    Updated: 2023/09/15 14:25:10 by hmelica          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 #
@@ -182,5 +182,9 @@ force:;
 mac_clean:
 	@find . -type f -name "* [2-9]*" -print -delete
 
-criterion:
+meson/meson.py:
+	git submodule init
+	git submodule update
+
+criterion: meson/meson.py
 	cd criterion ; python3 ../meson/meson.py setup build ; cd build ; python3 ../../meson/meson.py compile ; python3 ../../meson/meson.py test
