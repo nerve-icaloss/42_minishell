@@ -1,0 +1,19 @@
+{
+  "configurations": {
+    "run mandatory": {
+      "adapter": "vscode-cpptools",
+      "configuration": {
+        "request": "launch",
+        "protocol": "auto",
+        "console": "integratedTerminal",
+        "program": "${workspaceRoot}/minishell",
+        "stopAtEntry": true,
+        "args": [
+        ],
+        "cwd": "${workspaceRoot}",
+        "MIMode": "gdb",
+        "miDebuggerPath": "/usr/bin/gdb"
+      }
+    }
+   }
+ }

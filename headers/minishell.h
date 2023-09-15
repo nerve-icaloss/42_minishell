@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/10 14:58:41 by hmelica           #+#    #+#             */
-/*   Updated: 2023/09/14 18:43:45 by marvin           ###   ########.fr       */
+/*   Updated: 2023/09/15 14:31:50 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 # define MINISHELL_H
 
 # include <sys/types.h>
+
+# define HISTORY_FILE "/outs/minishell_history.log"
 
 typedef struct s_myvar {
 	char			*name;
@@ -31,12 +33,12 @@ typedef struct s_myenv {
 	t_myvar	*home;
 }	t_myenv;
 
-typedef struct s_myhistory {
-	char				*content;
-	struct s_myhistory	*next;
-}	t_myhistory;
+typedef struct s_myentry {
+	const char			*content;
+	struct s_myentry	*next;
+}	t_myentry;
 
-typedef t_myhistory *	t_lsthistory;
+typedef t_myentry *	t_myhistory;
 
 typedef struct s_myinput {
 	char	*content;
@@ -73,11 +75,11 @@ typedef struct s_myexec {
 }	t_myexec;
 
 typedef struct s_myshell {
-	t_lsthistory	history;
-	t_myenv			*env;
-	t_myinput		input;
-	t_myparsing		*parsing;
-	t_myexec		*exec;
+	t_myhistory	*history;
+	t_myenv		*env;
+	t_myinput	input;
+	t_myparsing	*parsing;
+	t_myexec	*exec;
 }	t_myshell;
 
 #endif

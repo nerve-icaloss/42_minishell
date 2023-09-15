@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/14 11:32:39 by marvin            #+#    #+#             */
-/*   Updated: 2023/09/14 18:43:48 by marvin           ###   ########.fr       */
+/*   Updated: 2023/09/15 14:36:47 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
+#include "readline.h"
+#include "history.h"
 
 void	init_shell(t_myshell *shell)
 {
@@ -27,10 +29,19 @@ void	init_shell(t_myshell *shell)
 int	main(int argc, char *argv[])
 {
 	t_myshell	shell;
+	t_myhistory	log;
 
+	printf("Welcom to %s\n", argv[0]);
 	init_shell(&shell);
 	if (argc)
 	{
+		prompt_loop(&shell);
 	}
-	return(EXIT_SUCCESS);
+	log = *shell.history;
+	while (log)
+	{
+		printf("log: %s\n", log->content);
+		log = log->next;
+	}
+	return(register_history(shell.history), EXIT_SUCCESS);
 }
