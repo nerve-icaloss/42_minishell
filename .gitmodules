@@ -1,0 +1,6 @@
+[submodule "criterion"]
+	path = criterion
+	url = https://github.com/Snaipe/Criterion.git
+[submodule "meson"]
+	path = meson
+	url = https://github.com/mesonbuild/meson.git

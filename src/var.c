@@ -6,64 +6,24 @@
 /*   By: hmelica <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/14 10:57:42 by hmelica           #+#    #+#             */
-/*   Updated: 2023/09/14 12:55:58 by hmelica          ###   ########.fr       */
+/*   Updated: 2023/09/16 10:46:36 by hmelica          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "env.h"
 
-void	var_clean(t_lstvar *lst)
-{
-	t_lstvar	i;
-
-	i = *lst;
-	while (i)
-	{
-		*lst = (*lst)->next;
-		free(i->name);
-		if (i->value)
-			free(i->value);
-		free(i);
-		i = *lst;
-	}
-}
-
 /*
- * Description :
- * Add var name=value to origin.
- *   - Crash if no name
- *   - name and value should be malloc'd (or value can be NULL)
- *   - add_var DOES NOT free name nor value in case of crash
+ * ft_strchr is secured in case str == NULL
+ * it SHOULD BE DEPENDING ON WHICH LIBFT
  * */
-int	var_add(t_lstvar *origin, char *name, char *value)
-{
-	t_myvar	*to_add;
-
-	if (!name || !origin)
-		return (-1);
-	to_add = malloc(sizeof(t_myvar));
-	if (!to_add)
-		return (-1);
-	to_add->name = name;
-	to_add->value = value;
-	if (*origin)
-		(*origin)->prev = to_add;
-	to_add->next = *origin;
-	to_add->prev = NULL;
-	*origin = to_add;
-	return (0);
-}
-
 int	var_parsing(t_lstvar *lst, char *str)
 {
 	char	*split;
 	char	*name;
 	char	*value;
 
-	if (!str || !lst)
-		return (-1);
 	split = ft_strchr(str, '=');
-	if (!split)
+	if (!split || !lst)
 		return (-1);
 	name = ft_substr(str, 0, split - str);
 	if (!name)
@@ -72,11 +32,17 @@ int	var_parsing(t_lstvar *lst, char *str)
 		value = NULL;
 	else
 	{
-		value = ft_substr(str, split - str, ft_strlen(split + 1));
+		value = ft_substr(str, split - str + 1, ft_strlen(split + 1));
 		if (!value)
 			return (free(name), -1);
 	}
-	return (var_add(lst, name, value));
+	if (var_add(lst, name, value))
+	{
+		if (value)
+			free(value);
+		return (free(name), -1);
+	}
+	return (0);
 }
 
 t_lstvar	var_get(t_lstvar lst, char *name)
@@ -109,4 +75,20 @@ char	*var_get_value(t_lstvar lst, char *name)
 	if (found->value == NULL)
 		return ("");
 	return (found->value);
+}
+
+/*
+ * return a malloc'd char NAME=VALUE
+ * NULL if error
+ * */
+char	*var_get_string(t_lstvar var)
+{
+	char	*ret;
+	char	*part;
+
+	part = ft_strjoin(var->name, "=");
+	if (!part)
+		return (NULL);
+	ret = ft_strjoin(part, var->value);
+	return (free(part), ret);
 }

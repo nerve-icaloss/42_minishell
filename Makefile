@@ -6,7 +6,7 @@
 #    By: hmelica <marvin@42.fr>                     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/04/13 14:06:13 by hmelica           #+#    #+#              #
-#    Updated: 2023/09/14 11:54:22 by hmelica          ###   ########.fr        #
+#    Updated: 2023/09/16 10:53:34 by hmelica          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 #
@@ -41,15 +41,20 @@ NAME_BONUS = ${NAME}_bonus
 #       main.c \       # oui
 #       src/main.c     # non
 SRCS_FILES = \
-				main.c \
 				env.c \
+				envp.c \
+				main.c \
 				var.c \
+				var_utils.c \
 #
 # ^- (this comment line matters)
 #
 # If needed, use macro BONUS that will be set to 1 when bonus is compiled.
 # Every normal srcs_files are re-compiled with those additionnal files :
 SRCS_FILES_BONUS = \
+#
+# ^- (this comment line matters too)
+TEST_FILES = test/test.c \
 #
 # ^- (this comment line matters too)
 CFLAGS = -Wall -Werror -Wextra
@@ -74,8 +79,11 @@ LIBFT_DIR = ${SRCS_DIR}/libft
 LIBFT = ${SRCS_DIR}/libft/libft.a
 LIBFT_TARGET = $(if $(filter debug,$(MAKECMDGOALS)),debug,all)
 
-HEADERS_DIR = headers/ src/libft/
+HEADERS_DIR = headers/ src/libft/ criterion/include/
 HEADERS_DIR_FLAG = ${addprefix -I ,${HEADERS_DIR}}
+
+LIBRARY_SEARCH_PATH = -L test/lib/x86_64-linux-gnu/
+LIBRARY_TESTS = -lcriterion
 
 SRCS_DIR = src
 SRCS = ${addprefix ${SRCS_DIR}/,${SRCS_FILES}}
@@ -152,11 +160,13 @@ norm:
 
 clean:
 	@${MAKE} -C ${LIBFT_DIR} clean
+	@${MAKE} -C test fclean
 	@${RM} ${OBJS} ${OBJS_BONUS}
 	@${RMDIR} ${OBJS_DIR}
 	@printf "\033[1;34m%-34s\033[0m \033[1;32m%s\033[0m\n" "Cleaning" "done"
 
 fclean: clean
+	@${MAKE} -C test fclean
 	@${MAKE} -C ${LIBFT_DIR} fclean
 	@${RM} ${NAME} ${NAME_BONUS}
 	@${RM} tags
@@ -180,4 +190,17 @@ force:;
 mac_clean:
 	@find . -type f -name "* [2-9]*" -print -delete
 
-library:
+meson/meson.py:
+	git submodule init
+	git submodule update
+
+test/lib: meson/meson.py
+	cd criterion ; python3 ../meson/meson.py setup --prefix=$$(realpath ../test) build ; cd build ; \
+		python3 ../../meson/meson.py compile ; python3 ../../meson/meson.py test
+	cd criterion ; python3 ../meson/meson.py install -C build
+
+run_test: test/lib ${LIBFT} ${OBJS_DIR} ${OBJS}
+	@${MAKE} -C test
+	@if [ !$$(echo $$LD_LIBRARY_PATH | grep -o "test") ]; \
+		then export LD_LIBRARY_PATH=$$(realpath test/lib/x86_64-linux-gnu):$$LD_LIBRARY_PATH \
+		; fi ; valgrind -q --leak-check=full --show-leak-kinds=all ./test.out --verbose 2>&1 ; exit 0

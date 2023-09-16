@@ -1,6 +1,8 @@
 --with-list-header=no
 --recurse=yes
 --exclude=.git
+--exclude=criterion
+--exclude=meson
 --exclude=*.o
 --exclude=NOT*
 --exclude=*.a

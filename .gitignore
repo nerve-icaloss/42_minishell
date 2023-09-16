@@ -1,8 +1,6 @@
 minishell
 minishell_bonus
 *.gen
-test/**
-test
 *.swp
 NOT*
 *.o
@@ -10,3 +8,10 @@ NOT*
 tags
 .nfs*
 .DS_Store
+criterion/**
+meson/**
+lib
+include
+build
+test.out
+TAGS
