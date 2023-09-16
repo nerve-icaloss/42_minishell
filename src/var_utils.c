@@ -6,7 +6,7 @@
 /*   By: hmelica <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/14 14:36:17 by hmelica           #+#    #+#             */
-/*   Updated: 2023/09/16 17:16:46 by hmelica          ###   ########.fr       */
+/*   Updated: 2023/09/16 21:29:57 by hmelica          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,8 @@ void	var_clean(t_lstvar *lst)
 
 void	var_update(t_lstvar var, char *name, char *value)
 {
-	free(var->name);
+	if (var->name != name)
+		free(var->name);
 	if (value)
 		free(var->value);
 	var->name = name;
