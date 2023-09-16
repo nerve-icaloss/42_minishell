@@ -6,7 +6,7 @@
 /*   By: hmelica <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/14 10:57:42 by hmelica           #+#    #+#             */
-/*   Updated: 2023/09/16 14:50:27 by hmelica          ###   ########.fr       */
+/*   Updated: 2023/09/16 15:06:07 by hmelica          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,6 +86,8 @@ char	*var_get_string(t_lstvar var)
 	char	*ret;
 	char	*part;
 
+	if (!var)
+		return (NULL);
 	part = ft_strjoin(var->name, "=");
 	if (!part)
 		return (NULL);

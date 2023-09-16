@@ -6,7 +6,7 @@
 /*   By: hmelica <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/15 18:10:09 by hmelica           #+#    #+#             */
-/*   Updated: 2023/09/16 14:59:10 by hmelica          ###   ########.fr       */
+/*   Updated: 2023/09/16 15:07:28 by hmelica          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,6 +113,8 @@ Test(var, get_string, .description="Testing var_get_string", .fini = clean_lst)
 {
 	lst = NULL;
 	char *a;
+	a = var_get_string(lst);
+	cr_assert(a == NULL, "failed when lst == NULL");
 	cr_assert(var_parsing(&lst, "var=coucou") == 0, "failed parsing");
 	a = var_get_string(lst);
 	cr_assert(a != NULL, "failed");
@@ -138,4 +140,22 @@ Test(var, get, .description="Testing var_get", .fini = clean_lst)
 	cr_expect(var_get(lst, NULL) == NULL, "Doesn't fail when no name");
 	cr_expect(var_get(lst, "hello") == NULL, "returns something when name doesn't exists");
 	cr_expect(var_get(lst, "coucou") == lst, "returns wrong struct");
+}
+
+Test(var, get_value, .description="Testing var_get_value", .fini=clean_lst)
+{
+	lst = NULL;
+	// unexpected
+	cr_expect(var_get_value(lst, "coucou") == NULL, "Doesn't fail when no lst");
+	cr_expect(var_get_value(lst, NULL) == NULL, "Doesn't fail when no lst nor name");
+	// expected
+	if (var_parsing(&lst, "hey=cestlajoie")
+			|| var_parsing(&lst, "eh=")
+			|| var_parsing(&lst, "coucou=jesuisheureux")
+			|| lst == NULL)
+		cr_fatal("init error");
+	cr_expect(var_get_value(lst, NULL) == NULL, "Doesn't fail when no name");
+	cr_expect(var_get_value(lst, "hello") == NULL, "returns something when name doesn't exists");
+	cr_expect(eq(str, var_get_value(lst, "coucou"), "jesuisheureux"), "returns wrong struct");
+	cr_expect(eq(str, var_get_value(lst, "eh"), ""), "returns something when value empty");
 }
