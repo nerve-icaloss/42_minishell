@@ -29,6 +29,5 @@ clean:
 
 fclean: clean
 	@${RM} ${NAME}
-	@rm -rf lib include
 
 re: fclean all
