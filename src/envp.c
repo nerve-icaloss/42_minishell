@@ -6,12 +6,14 @@
 /*   By: hmelica <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/15 10:34:40 by hmelica           #+#    #+#             */
-/*   Updated: 2023/09/16 13:00:39 by hmelica          ###   ########.fr       */
+/*   Updated: 2023/09/16 15:11:50 by hmelica          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "env.h"
 
+/*
+ * t_done */
 void	envp_clean(char ***envp)
 {
 	char	**i;
@@ -25,6 +27,8 @@ void	envp_clean(char ***envp)
 	*envp = NULL;
 }
 
+/*
+ * t_done */
 int	envp_update(t_myenv *myenv)
 {
 	t_lstvar	lst;
