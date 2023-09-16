@@ -6,7 +6,7 @@
 /*   By: hmelica <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/15 16:41:40 by hmelica           #+#    #+#             */
-/*   Updated: 2023/09/16 13:01:49 by hmelica          ###   ########.fr       */
+/*   Updated: 2023/09/16 15:33:32 by hmelica          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,4 +77,9 @@ Test(env, clean, .description="Test of env_clean", .init = setup) {
 	cr_expect(myenv.oldpwd == NULL, "oldpwd wasn't unset");
 	cr_expect(myenv.home == NULL, "home wasn't unset");
 	cr_expect(myenv.count == 0, "count wasn't set to 0");
+}
+
+Test(env, builtin, .description="tests for env (builtin)")
+{
+	cr_log_warn("env_builtin cannot be tested there.\nTest should be done manually");
 }

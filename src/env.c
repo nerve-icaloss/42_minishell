@@ -6,12 +6,14 @@
 /*   By: hmelica <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/14 10:33:12 by hmelica           #+#    #+#             */
-/*   Updated: 2023/09/16 11:29:35 by hmelica          ###   ########.fr       */
+/*   Updated: 2023/09/16 15:12:45 by hmelica          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "env.h"
 
+/*
+ * T */
 void	env_clean(t_myenv *myenv)
 {
 	var_clean(&myenv->lst_var);
@@ -22,6 +24,8 @@ void	env_clean(t_myenv *myenv)
 	myenv->home = NULL;
 }
 
+/*
+ * T */
 int	env_update_count(t_myenv *myenv)
 {
 	t_lstvar	lst;
@@ -44,7 +48,7 @@ int	env_update_count(t_myenv *myenv)
  * Init myenv using envp
  *   - myenv is unitialized at the begining
  *   - doesnt check if pwd, oldpwd or home are set at the end
- * */
+ * T */
 int	env_init(t_myenv *myenv, char **envp)
 {
 	if (!envp || !myenv)
@@ -67,7 +71,7 @@ int	env_init(t_myenv *myenv, char **envp)
 
 /*
  * there is no params needed
- * */
+ * T */
 int	env_builtin(t_myenv *myenv)
 {
 	t_lstvar	var;
