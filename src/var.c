@@ -6,22 +6,24 @@
 /*   By: hmelica <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/14 10:57:42 by hmelica           #+#    #+#             */
-/*   Updated: 2023/09/15 13:46:03 by hmelica          ###   ########.fr       */
+/*   Updated: 2023/09/16 10:46:36 by hmelica          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "env.h"
 
+/*
+ * ft_strchr is secured in case str == NULL
+ * it SHOULD BE DEPENDING ON WHICH LIBFT
+ * */
 int	var_parsing(t_lstvar *lst, char *str)
 {
 	char	*split;
 	char	*name;
 	char	*value;
 
-	if (!str || !lst)
-		return (-1);
 	split = ft_strchr(str, '=');
-	if (!split)
+	if (!split || !lst)
 		return (-1);
 	name = ft_substr(str, 0, split - str);
 	if (!name)
@@ -34,7 +36,13 @@ int	var_parsing(t_lstvar *lst, char *str)
 		if (!value)
 			return (free(name), -1);
 	}
-	return (var_add(lst, name, value));
+	if (var_add(lst, name, value))
+	{
+		if (value)
+			free(value);
+		return (free(name), -1);
+	}
+	return (0);
 }
 
 t_lstvar	var_get(t_lstvar lst, char *name)

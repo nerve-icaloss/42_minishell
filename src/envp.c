@@ -6,7 +6,7 @@
 /*   By: hmelica <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/15 10:34:40 by hmelica           #+#    #+#             */
-/*   Updated: 2023/09/15 13:56:14 by hmelica          ###   ########.fr       */
+/*   Updated: 2023/09/16 13:00:39 by hmelica          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,11 @@ int	envp_update(t_myenv *myenv)
 	envp = myenv->envp;
 	while (lst)
 	{
+		if (!lst->value)
+		{
+			lst = lst->next;
+			continue ;
+		}
 		*envp = var_get_string(lst);
 		if (!*envp)
 			return (envp_clean(&myenv->envp), -1);

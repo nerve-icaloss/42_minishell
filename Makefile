@@ -6,7 +6,7 @@
 #    By: hmelica <marvin@42.fr>                     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/04/13 14:06:13 by hmelica           #+#    #+#              #
-#    Updated: 2023/09/15 18:40:14 by nserve           ###   ########.fr        #
+#    Updated: 2023/09/16 10:53:34 by hmelica          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 #
@@ -203,4 +203,4 @@ run_test: test/lib ${LIBFT} ${OBJS_DIR} ${OBJS}
 	@${MAKE} -C test
 	@if [ !$$(echo $$LD_LIBRARY_PATH | grep -o "test") ]; \
 		then export LD_LIBRARY_PATH=$$(realpath test/lib/x86_64-linux-gnu):$$LD_LIBRARY_PATH \
-		; fi ; valgrind -q --leak-check=full --show-leak-kinds=all ./test.out ; exit 0
+		; fi ; valgrind -q --leak-check=full --show-leak-kinds=all ./test.out --verbose 2>&1 ; exit 0

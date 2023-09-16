@@ -6,7 +6,7 @@
 /*   By: hmelica <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/14 14:36:17 by hmelica           #+#    #+#             */
-/*   Updated: 2023/09/15 10:44:45 by hmelica          ###   ########.fr       */
+/*   Updated: 2023/09/16 11:13:00 by hmelica          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,8 @@ void	var_clean(t_lstvar *lst)
 {
 	t_lstvar	i;
 
+	if (!lst)
+		return ;
 	i = *lst;
 	while (i)
 	{
@@ -34,7 +36,7 @@ void	var_clean(t_lstvar *lst)
  * Add var name=value to origin.
  *   - Crash if no name
  *   - name and value should be malloc'd (or value can be NULL)
- *   - add_var DOES NOT free name nor value in case of crash
+ *   - var_add DOES NOT free name nor value in case of crash
  * */
 int	var_add(t_lstvar *origin, char *name, char *value)
 {
