@@ -6,7 +6,7 @@
 /*   By: hmelica <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/14 10:57:42 by hmelica           #+#    #+#             */
-/*   Updated: 2023/09/16 15:06:07 by hmelica          ###   ########.fr       */
+/*   Updated: 2023/09/16 15:10:55 by hmelica          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,8 @@ int	var_parsing(t_lstvar *lst, char *str)
 	return (0);
 }
 
+/*
+ * t_done */
 t_lstvar	var_get(t_lstvar lst, char *name)
 {
 	int	len;
@@ -64,7 +66,7 @@ t_lstvar	var_get(t_lstvar lst, char *name)
 /*
  * if not found : return NULL
  * if unitialized : return const "\0"
- * */
+ * t_done */
 char	*var_get_value(t_lstvar lst, char *name)
 {
 	t_lstvar	found;
@@ -80,7 +82,7 @@ char	*var_get_value(t_lstvar lst, char *name)
 /*
  * return a malloc'd char NAME=VALUE
  * NULL if error
- * */
+ * t_done */
 char	*var_get_string(t_lstvar var)
 {
 	char	*ret;
