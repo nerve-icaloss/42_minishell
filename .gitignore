@@ -11,6 +11,7 @@ tags
 criterion/**
 meson/**
 lib
+lib64
 include
 build
 test.out
