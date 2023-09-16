@@ -6,7 +6,7 @@
 /*   By: hmelica <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/14 14:36:17 by hmelica           #+#    #+#             */
-/*   Updated: 2023/09/16 16:40:55 by hmelica          ###   ########.fr       */
+/*   Updated: 2023/09/16 17:16:46 by hmelica          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,15 @@ void	var_clean(t_lstvar *lst)
 	*lst = NULL;
 }
 
+void	var_update(t_lstvar var, char *name, char *value)
+{
+	free(var->name);
+	if (value)
+		free(var->value);
+	var->name = name;
+	var->value = value;
+}
+
 /*
  * Description :
  * Add var name=value to origin.
@@ -55,13 +64,11 @@ int	var_add(t_lstvar *origin, char *name, char *value)
 	if (!to_add)
 		to_add = malloc(sizeof(t_myvar));
 	else
-		len = 0;
+		return (var_update(to_add, name, value), 0);
 	if (!to_add)
 		return (-1);
 	to_add->name = name;
 	to_add->value = value;
-	if (len)
-		return (0);
 	if (*origin)
 		(*origin)->prev = to_add;
 	to_add->next = *origin;

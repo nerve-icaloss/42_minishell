@@ -6,7 +6,7 @@
 /*   By: hmelica <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/15 18:10:09 by hmelica           #+#    #+#             */
-/*   Updated: 2023/09/16 15:07:28 by hmelica          ###   ########.fr       */
+/*   Updated: 2023/09/16 17:16:23 by hmelica          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,13 +73,28 @@ Test(var, var_add, .description="Test of var_add", .fini = clean_lst) {
 	cr_assert(lst == NULL, "Cleaning while testing not working");
 	// adding a var with no value
 	a = strdup("name_is_name");
-	cr_assert(var_add(&lst, a, NULL) == 0);
+	cr_assert(var_add(&lst, a, NULL) == 0, "Fail");
 	cr_assert(lst != NULL, "lst is not updated");
 	cr_assert(eq(str, lst->name, "name_is_name"), "Wrong name when set manually");
 	cr_assert(lst->value == NULL, "Wrong value when unset");
 	cr_assert(lst->next == NULL, "Next is left unset");
 	cr_assert(lst->prev == NULL, "Prev is left unset");
 	var_clean(&lst);
+	// adding duplicate name
+	a = strdup("name");
+	b = strdup("eh coucou");
+	cr_assert(var_add(&lst, a, b) == 0, "Fail");
+	cr_assert(lst != NULL, "lst not updated");
+	cr_assert(eq(str, lst->name, "name"), "Wrong value when unset");
+	cr_assert(eq(str, lst->value, "eh coucou"), "Wrong value when unset");
+	a = strdup("name");
+	b = strdup("je suis heureux");
+	cr_assert(var_add(&lst, a, b) == 0, "Fail");
+	cr_assert(lst->next == NULL, "Another var added");
+	cr_assert(lst->prev == NULL, "Another var added but nonsens");
+	cr_assert(eq(str, lst->name, "name"), "Wrong value when unset");
+	cr_assert(ne(str, lst->value, "eh coucou"), "Wrong value when unset");
+	cr_assert(eq(str, lst->value, "je suis heureux"), "Wrong value when unset");
 }
 
 Test(var, var_parsing, .description="Test of var_parsing", .fini = clean_lst)
