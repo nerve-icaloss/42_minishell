@@ -6,7 +6,7 @@
 /*   By: hmelica <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/14 10:57:42 by hmelica           #+#    #+#             */
-/*   Updated: 2023/09/16 10:46:36 by hmelica          ###   ########.fr       */
+/*   Updated: 2023/09/16 14:50:27 by hmelica          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 /*
  * ft_strchr is secured in case str == NULL
  * it SHOULD BE DEPENDING ON WHICH LIBFT
- * */
+ * t_done */
 int	var_parsing(t_lstvar *lst, char *str)
 {
 	char	*split;
