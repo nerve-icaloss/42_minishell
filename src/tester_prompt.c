@@ -29,7 +29,6 @@ void	init_shell(t_myshell *shell)
 int	main(int argc, char *argv[])
 {
 	t_myshell	shell;
-	t_myhistory	log;
 
 	printf("Welcom to %s\n", argv[0]);
 	init_shell(&shell);
@@ -37,11 +36,5 @@ int	main(int argc, char *argv[])
 	{
 		prompt_loop(&shell);
 	}
-	log = *shell.history;
-	while (log)
-	{
-		printf("log: %s\n", log->content);
-		log = log->next;
-	}
-	return(register_history(shell.history), EXIT_SUCCESS);
+	return(register_history(&shell.history), EXIT_SUCCESS);
 }

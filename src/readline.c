@@ -17,14 +17,13 @@ void	prompt_loop(t_myshell *shell)
 {
 	int	n;
 	//fct signal to put here
-	printf("input is %s - load history\n", shell->input.content);
 	if (!shell->input.content)
 		load_history();
 	n = 0;
 	while (n < 5)
 	{
 		shell->input.content = readline("minishell-1.0$ ");
-		ft_add_history(shell->history, new_entry(shell->input.content));
+		ft_add_history(&shell->history, new_entry(shell->input.content));
 		printf("--> %s\n", shell->input.content);
 		free(shell->input.content);
 		n++;

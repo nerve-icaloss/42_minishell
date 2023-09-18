@@ -15,7 +15,7 @@
 
 # include <sys/types.h>
 
-# define HISTORY_FILE "/outs/minishell_history.log"
+# define HISTORY_FILE "minishell_history.log"
 
 typedef struct s_myvar {
 	char			*name;
@@ -75,7 +75,7 @@ typedef struct s_myexec {
 }	t_myexec;
 
 typedef struct s_myshell {
-	t_myhistory	*history;
+	t_myhistory	history;
 	t_myenv		*env;
 	t_myinput	input;
 	t_myparsing	*parsing;
