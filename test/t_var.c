@@ -6,12 +6,13 @@
 /*   By: hmelica <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/15 18:10:09 by hmelica           #+#    #+#             */
-/*   Updated: 2023/09/16 17:16:23 by hmelica          ###   ########.fr       */
+/*   Updated: 2023/09/19 14:56:32 by hmelica          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "env.h"
 #include "criterion/criterion.h"
+#include "criterion/parameterized.h"
 #include "criterion/new/assert.h"
 #include <stdio.h>
 #include <string.h>

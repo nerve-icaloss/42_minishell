@@ -6,7 +6,7 @@
 /*   By: hmelica <hmelica@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/16 21:32:35 by hmelica           #+#    #+#             */
-/*   Updated: 2023/09/16 22:34:57 by hmelica          ###   ########.fr       */
+/*   Updated: 2023/09/18 17:30:59 by hmelica          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,9 +69,18 @@ int	print_export(t_myenv *myenv)
  * */
 int	export(char **av, t_myenv *myenv)
 {
+	int	len;
+
 	if (!av || !av[0] || !myenv)
 		return (-1);
 	if (!av[1])
 		return (print_export(myenv));
+	len = 1;
+	while (av[len])
+	{
+		if (var_parsing(&myenv->lst_var, av[len]))
+			return (-1);
+		len++;
+	}
 	return (0);
 }

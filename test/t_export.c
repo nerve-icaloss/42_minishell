@@ -6,7 +6,7 @@
 /*   By: hmelica <hmelica@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/16 21:57:09 by hmelica           #+#    #+#             */
-/*   Updated: 2023/09/16 23:05:58 by hmelica          ###   ########.fr       */
+/*   Updated: 2023/09/18 17:30:35 by hmelica          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ void free_set(struct criterion_test_params *crp)
 	cr_free((t_set *)crp->params);
 }
 
-char *cr_strdup(const char *str)
+static char *cr_strdup(const char *str)
 {
 	if (!str)
 		return (NULL);
