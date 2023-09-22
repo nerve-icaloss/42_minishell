@@ -6,7 +6,7 @@
 /*   By: hmelica <hmelica@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/16 21:57:09 by hmelica           #+#    #+#             */
-/*   Updated: 2023/09/22 15:01:07 by hmelica          ###   ########.fr       */
+/*   Updated: 2023/09/22 16:54:17 by hmelica          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,4 +123,9 @@ ParameterizedTest(t_set *set, export, format, .fini = free_result, .timeout = 1.
 		cr_assert(eq(str, result, set->expected), "Wrong format");
 	else
 		cr_fatal("format_export failed with '%s' (expected '%s' got '%s')", set->s, set->expected, result);
+}
+
+Test(export, builtin, .description="tests for env (builtin)")
+{
+	cr_log_warn("export_builtin cannot be tested there. Test should be done manually");
 }

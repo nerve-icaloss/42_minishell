@@ -6,7 +6,7 @@
 /*   By: hmelica <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/15 16:41:40 by hmelica           #+#    #+#             */
-/*   Updated: 2023/09/16 15:33:32 by hmelica          ###   ########.fr       */
+/*   Updated: 2023/09/22 16:52:00 by hmelica          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,6 @@ Test(env, update_count, .description="Test of env_update_count")
 	cr_assert(var_parsing(&myenv.lst_var, "HI=") == 0, "var manual setting problem");
 	cr_assert(env_update_count(&myenv) == 0, "fail when empty value");
 	cr_assert(myenv.count == 2, "count wrong when 2 with empty values");
-	puts("Some more tests to write for update count");
 }
 
 Test(env, init, .description="Test of env_init", .fini = clean) {
@@ -81,5 +80,5 @@ Test(env, clean, .description="Test of env_clean", .init = setup) {
 
 Test(env, builtin, .description="tests for env (builtin)")
 {
-	cr_log_warn("env_builtin cannot be tested there.\nTest should be done manually");
+	cr_log_warn("env_builtin cannot be tested there. Test should be done manually");
 }
