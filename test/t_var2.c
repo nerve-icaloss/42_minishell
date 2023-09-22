@@ -6,7 +6,7 @@
 /*   By: hmelica <hmelica@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/19 14:56:09 by hmelica           #+#    #+#             */
-/*   Updated: 2023/09/19 15:26:41 by hmelica          ###   ########.fr       */
+/*   Updated: 2023/09/20 15:38:58 by hmelica          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,10 @@ t_tpa exp_dup(t_exp *e)
 
 	if (!e)
 		return (ret);
-	ret.s = cr_strdup(e->s);
+	if (e->s)
+		ret.s = cr_strdup(e->s);
+	else
+		ret.s = NULL;
 	ret.r = e->r;
 	ret.expected = cr_malloc(sizeof(t_lstvar));
 	if (!ret.expected)
@@ -76,6 +79,9 @@ t_tpa exp_dup(t_exp *e)
 	return (ret);
 }
 
+/*
+ * set name to null if lst_var is supposed to be null
+ * */
 ParameterizedTestParameters(var2, var_parsing_loop) {
 	int len;
 	t_exp	setting[] = {
@@ -103,8 +109,8 @@ ParameterizedTestParameters(var2, var_parsing_loop) {
 			-1,
 			"",
 			{
-				"test",
-				"test",
+				NULL,
+				NULL,
 				NULL,
 				NULL
 			},
@@ -136,6 +142,8 @@ ParameterizedTestParameters(var2, var_parsing_loop) {
 	strings = cr_malloc(sizeof (t_tpa) * len);
 	for (size_t i = 0; i < len; i++)
 	{
+		cr_log_info("duplicating '%s'", setting[i].s);
+		// TODO segfault with 'test='
 		strings[i] = exp_dup(setting + i);
 	}
 	return (cr_make_param_array(t_tpa, strings, len, free_char_t));
@@ -150,25 +158,6 @@ static void free_lstvar(void)
 	lstvar_res = NULL;
 }
 
-static int lstvar_cmp(t_lstvar a, t_lstvar b)
-{
-	if (!a || !b)
-		return (puts("no something"), 0);
-	if (a->name && b->name)
-		if (strcmp(a->name, b->name))
-			return (0);
-	else
-		if (a->name != b->name)
-			return (0);
-	if (a->value && b->value)
-		if (strcmp(a->value, b->value))
-			return (0);
-	else
-		if (a->value != b->value)
-			return (0);
-	return (1);
-}
-
 ParameterizedTest(t_tpa *set, var2, var_parsing_loop, .fini = free_lstvar, .timeout = 1.)
 {
 	if (!set)
@@ -179,7 +168,21 @@ ParameterizedTest(t_tpa *set, var2, var_parsing_loop, .fini = free_lstvar, .time
 		cr_fatal("NO EXPECTED");
 	}
 	lstvar_res = NULL;
-	cr_expect(eq(int, var_parsing(&lstvar_res, set->s), set->r), "Unexpected error while varparsing");
+	cr_expect(eq(int, var_parsing(&lstvar_res, set->s), set->r), "Unexpected error while varparsing with '%s'", set->s);
+	cr_assert(set->expected != NULL, "test preparation error");
 	if (lstvar_res)
-		cr_assert(lstvar_cmp(lstvar_res, set->expected));
+	{
+		if (!set->expected->name)
+			cr_fatal("lst_var edited while mistaken");
+		if (lstvar_res->name)
+			cr_expect(eq(str, set->expected->name, lstvar_res->name), "name wrong");
+		else
+			cr_fatal("name unset");
+		if (lstvar_res->value && set->expected->value)
+			cr_expect(eq(str, set->expected->value, lstvar_res->value), "value wrong");
+		else
+			cr_expect(set->expected->value == NULL && lstvar_res->value == NULL, "value null error, got '%s' expected '%s', with '%s'", lstvar_res->value, set->expected->value, set->s);
+	}
+	else
+		cr_assert(set->expected->name == NULL, "lst_var not edited with '%s'", set->s);
 }

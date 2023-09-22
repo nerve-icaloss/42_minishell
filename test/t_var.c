@@ -6,7 +6,7 @@
 /*   By: hmelica <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/15 18:10:09 by hmelica           #+#    #+#             */
-/*   Updated: 2023/09/19 14:56:32 by hmelica          ###   ########.fr       */
+/*   Updated: 2023/09/20 15:09:03 by hmelica          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,6 +98,7 @@ Test(var, var_add, .description="Test of var_add", .fini = clean_lst) {
 	cr_assert(eq(str, lst->value, "je suis heureux"), "Wrong value when unset");
 }
 
+/*
 Test(var, var_parsing, .description="Test of var_parsing", .fini = clean_lst)
 {
 	lst = NULL;
@@ -124,6 +125,7 @@ Test(var, var_parsing, .description="Test of var_parsing", .fini = clean_lst)
 	cr_assert(eq(str, lst->name, "SUPER"), "name set wrong");
 	cr_assert(lst->value == NULL, "value not NULL");
 }
+*/
 
 Test(var, get_string, .description="Testing var_get_string", .fini = clean_lst)
 {
