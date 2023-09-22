@@ -6,7 +6,7 @@
 /*   By: hmelica <hmelica@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/19 14:56:09 by hmelica           #+#    #+#             */
-/*   Updated: 2023/09/22 16:24:42 by hmelica          ###   ########.fr       */
+/*   Updated: 2023/09/22 16:28:23 by hmelica          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,8 +98,8 @@ ParameterizedTestParameters(var2, var_parsing_loop) {
 			-1,
 			"",
 			{
-				"jh",
-				"hi",
+				NULL,
+				NULL,
 				NULL,
 				NULL,
 			},
@@ -109,14 +109,14 @@ ParameterizedTestParameters(var2, var_parsing_loop) {
 			"test=",
 			{
 				"test",
-				"hello",
+				"",
 				NULL,
 				NULL,
 			},
 		},
 		{
 			0,
-			"test123",
+			"test",
 			{
 				"test",
 				NULL,
@@ -132,12 +132,8 @@ ParameterizedTestParameters(var2, var_parsing_loop) {
 	bzero(strings, sizeof (t_tpa) * len);
 	for (size_t i = 0; i < len; i++)
 	{
-		cr_log_info("duplicating '%s'", setting[i].s);
-		// TODO segfault with 'test='
 		strings[i] = exp_dup(setting + i);
-		cr_log_info("done duplicating '%s'", setting[i].s);
 	}
-	cr_log_info("done duplicating");
 	return (cr_make_param_array(t_tpa, strings, len, free_char_t));
 }
 

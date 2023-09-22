@@ -6,7 +6,7 @@
 /*   By: hmelica <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/14 10:33:12 by hmelica           #+#    #+#             */
-/*   Updated: 2023/09/16 15:12:45 by hmelica          ###   ########.fr       */
+/*   Updated: 2023/09/22 16:30:21 by hmelica          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ int	env_update_count(t_myenv *myenv)
 	myenv->count = 0;
 	while (lst)
 	{
-		if (lst->value)
+		if (lst->value && *lst->value != '\0')
 			myenv->count++;
 		lst = lst->next;
 	}
