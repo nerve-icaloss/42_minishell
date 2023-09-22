@@ -6,7 +6,7 @@
 /*   By: hmelica <hmelica@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/19 14:56:09 by hmelica           #+#    #+#             */
-/*   Updated: 2023/09/20 15:38:58 by hmelica          ###   ########.fr       */
+/*   Updated: 2023/09/22 16:24:42 by hmelica          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,8 @@
 #include "criterion/new/assert.h"
 #include <stdio.h>
 #include <string.h>
+
+char *cr_strdup(const char *str);
 
 typedef struct s_exp {
 	int r;
@@ -42,36 +44,23 @@ void free_char_t(struct criterion_test_params *crp)
 	cr_free(strings);
 }
 
-static char *cr_strdup(const char *str)
-{
-	if (!str)
-		return (NULL);
-	char *ptr = cr_malloc(sizeof(char) * strlen(str) + 1);
-	if (ptr)
-		strcpy(ptr, str);
-	return ptr;
-}
-
 t_tpa exp_dup(t_exp *e)
 {
 	t_tpa ret;
 
 	if (!e)
 		return (ret);
+	ret.s = NULL;
 	if (e->s)
 		ret.s = cr_strdup(e->s);
-	else
-		ret.s = NULL;
 	ret.r = e->r;
-	ret.expected = cr_malloc(sizeof(t_lstvar));
+	ret.expected = cr_malloc(sizeof(t_myvar));
 	if (!ret.expected)
 		return (ret);
 	ret.expected->name = NULL;
 	ret.expected->value = NULL;
 	if (e->expected.name)
-	{
 		ret.expected->name = cr_strdup(e->expected.name);
-	}
 	if (e->expected.value)
 		ret.expected->value = cr_strdup(e->expected.value);
 	ret.expected->next = NULL;
@@ -92,7 +81,7 @@ ParameterizedTestParameters(var2, var_parsing_loop) {
 				"test",
 				"test",
 				NULL,
-				NULL
+				NULL,
 			},
 		},
 		{
@@ -102,17 +91,17 @@ ParameterizedTestParameters(var2, var_parsing_loop) {
 				"salut",
 				"test",
 				NULL,
-				NULL
+				NULL,
 			},
 		},
 		{
 			-1,
 			"",
 			{
+				"jh",
+				"hi",
 				NULL,
 				NULL,
-				NULL,
-				NULL
 			},
 		},
 		{
@@ -120,19 +109,19 @@ ParameterizedTestParameters(var2, var_parsing_loop) {
 			"test=",
 			{
 				"test",
-				"",
+				"hello",
 				NULL,
-				NULL
+				NULL,
 			},
 		},
 		{
 			0,
-			"test",
+			"test123",
 			{
 				"test",
 				NULL,
 				NULL,
-				NULL
+				NULL,
 			},
 		},
 	};
@@ -140,12 +129,15 @@ ParameterizedTestParameters(var2, var_parsing_loop) {
 
 	len = sizeof(setting) / sizeof(t_exp);
 	strings = cr_malloc(sizeof (t_tpa) * len);
+	bzero(strings, sizeof (t_tpa) * len);
 	for (size_t i = 0; i < len; i++)
 	{
 		cr_log_info("duplicating '%s'", setting[i].s);
 		// TODO segfault with 'test='
 		strings[i] = exp_dup(setting + i);
+		cr_log_info("done duplicating '%s'", setting[i].s);
 	}
+	cr_log_info("done duplicating");
 	return (cr_make_param_array(t_tpa, strings, len, free_char_t));
 }
 
