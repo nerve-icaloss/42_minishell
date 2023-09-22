@@ -6,7 +6,7 @@
 /*   By: hmelica <hmelica@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/19 14:56:09 by hmelica           #+#    #+#             */
-/*   Updated: 2023/09/22 16:28:23 by hmelica          ###   ########.fr       */
+/*   Updated: 2023/09/22 16:47:09 by hmelica          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,9 @@
 #include <string.h>
 
 char *cr_strdup(const char *str);
+static void free_lstvar(void);
+
+t_lstvar lstvar_res;
 
 typedef struct s_exp {
 	int r;
@@ -75,21 +78,31 @@ ParameterizedTestParameters(var2, var_parsing_loop) {
 	int len;
 	t_exp	setting[] = {
 		{
-			0,
-			"test=test",
+			-1,
+			NULL,
 			{
-				"test",
-				"test",
+				NULL,
+				NULL,
 				NULL,
 				NULL,
 			},
 		},
 		{
 			0,
-			"salut=test",
+			"coucou=jesuisheureux",
+			{
+				"coucou",
+				"jesuisheureux",
+				NULL,
+				NULL,
+			},
+		},
+		{
+			0,
+			"salut=testage",
 			{
 				"salut",
-				"test",
+				"testage",
 				NULL,
 				NULL,
 			},
@@ -116,9 +129,9 @@ ParameterizedTestParameters(var2, var_parsing_loop) {
 		},
 		{
 			0,
-			"test",
+			"test2",
 			{
-				"test",
+				"test2",
 				NULL,
 				NULL,
 				NULL,
@@ -137,8 +150,6 @@ ParameterizedTestParameters(var2, var_parsing_loop) {
 	return (cr_make_param_array(t_tpa, strings, len, free_char_t));
 }
 
-t_lstvar lstvar_res;
-
 static void free_lstvar(void)
 {
 	if (lstvar_res)
@@ -148,6 +159,7 @@ static void free_lstvar(void)
 
 ParameterizedTest(t_tpa *set, var2, var_parsing_loop, .fini = free_lstvar, .timeout = 1.)
 {
+	lstvar_res = NULL;
 	if (!set)
 		cr_fatal("NO SET DEFINED");
 	if (!set->expected)
@@ -155,7 +167,6 @@ ParameterizedTest(t_tpa *set, var2, var_parsing_loop, .fini = free_lstvar, .time
 		cr_log_error("testing '%s', return'%d'", set->s, set->r);
 		cr_fatal("NO EXPECTED");
 	}
-	lstvar_res = NULL;
 	cr_expect(eq(int, var_parsing(&lstvar_res, set->s), set->r), "Unexpected error while varparsing with '%s'", set->s);
 	cr_assert(set->expected != NULL, "test preparation error");
 	if (lstvar_res)
