@@ -6,7 +6,7 @@
 /*   By: hmelica <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/14 14:36:17 by hmelica           #+#    #+#             */
-/*   Updated: 2023/09/24 20:07:48 by hmelica          ###   ########.fr       */
+/*   Updated: 2023/09/24 21:32:11 by hmelica          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,8 @@ int	var_add(t_lstvar *origin, char *name, char *value)
 		return (-1);
 	len = ft_strlen(name);
 	to_add = *origin;
-	while (to_add && ft_strncmp(name, to_add->name, len) != 0)
+	while (to_add && (ft_strncmp(name, to_add->name, len) != 0 || len
+			!= ft_strlen(to_add->name)))
 		to_add = to_add->next;
 	if (!to_add)
 		to_add = malloc(sizeof(t_myvar));

@@ -6,7 +6,7 @@
 #    By: hmelica <marvin@42.fr>                     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/04/13 14:06:13 by hmelica           #+#    #+#              #
-#    Updated: 2023/09/22 16:56:49 by hmelica          ###   ########.fr        #
+#    Updated: 2023/09/24 19:49:08 by hmelica          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 #
@@ -47,6 +47,7 @@ SRCS_FILES = \
 				main.c \
 				var.c \
 				var_utils.c \
+				unset.c \
 #
 # ^- (this comment line matters)
 #
