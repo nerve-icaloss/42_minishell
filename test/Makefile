@@ -15,19 +15,19 @@ RMDIR = rm -df
 MKDIR = mkdir
 
 all: ${OBJS_DIR} ${OBJS}
-	@${CC} ${LIBRARIES} ${INCLUDES} -o ${NAME} ${OBJS} ${OBJ_UP} ../src/libft/libft.a
+	${CC} ${LIBRARIES} ${INCLUDES} -o ${NAME} ${OBJS} ${OBJ_UP} ../src/libft/libft.a
 
 ${OBJS_DIR}:
-	@${MKDIR} ${OBJS_DIR}
+	${MKDIR} ${OBJS_DIR}
 
 ${OBJS_DIR}/%.o: %.c
-	@${CC} ${LIBRARIES} ${INCLUDES} ${CFLAGS} ${HEADERS_DIR_FLAG} -c $< -o $@
+	${CC} ${LIBRARIES} ${INCLUDES} ${CFLAGS} ${HEADERS_DIR_FLAG} -c $< -o $@
 
 clean:
-	@${RM} ${OBJS}
-	@${RMDIR} ${OBJS_DIR}
+	${RM} ${OBJS}
+	${RMDIR} ${OBJS_DIR}
 
 fclean: clean
-	@${RM} ${NAME}
+	${RM} ${NAME}
 
 re: fclean all

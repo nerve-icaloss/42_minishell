@@ -6,7 +6,7 @@
 /*   By: hmelica <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/14 14:36:17 by hmelica           #+#    #+#             */
-/*   Updated: 2023/09/16 21:29:57 by hmelica          ###   ########.fr       */
+/*   Updated: 2023/09/24 20:07:48 by hmelica          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,3 +78,23 @@ int	var_add(t_lstvar *origin, char *name, char *value)
 	return (0);
 }
 
+/*
+ * pop lst item and handle link between next and prev
+ * origin is there to handle the case of lst being origin
+ * origin can be set to NULL if not needed
+ * */
+int	var_pop(t_lstvar *origin, t_lstvar lst)
+{
+	if (!lst)
+		return (-1);
+	if (origin && *origin == lst)
+		*origin = lst->next;
+	if (lst->prev)
+		lst->prev->next = lst->next;
+	if (lst->next)
+		lst->next->prev = lst->prev;
+	lst->next = NULL;
+	lst->prev = NULL;
+	var_clean(&lst);
+	return (0);
+}
