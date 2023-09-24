@@ -6,7 +6,7 @@
 /*   By: hmelica <hmelica@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/16 21:32:35 by hmelica           #+#    #+#             */
-/*   Updated: 2023/09/18 17:30:59 by hmelica          ###   ########.fr       */
+/*   Updated: 2023/09/24 19:21:26 by hmelica          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,9 @@ int	print_export(t_myenv *myenv)
 /*
  * export builtin
  * */
+/*
+ * export does check for numbers at first character of variable name
+ * */
 int	export(char **av, t_myenv *myenv)
 {
 	int	len;
@@ -78,7 +81,9 @@ int	export(char **av, t_myenv *myenv)
 	len = 1;
 	while (av[len])
 	{
-		if (var_parsing(&myenv->lst_var, av[len]))
+		if (ft_isdigit(*av[len]))
+			ft_dprintf(2, "export: '%s' : not a valid identifier\n", av[len]);
+		else if (var_parsing(&myenv->lst_var, av[len]))
 			return (-1);
 		len++;
 	}
