@@ -6,14 +6,14 @@
 /*   By: hmelica <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/11 15:53:02 by hmelica           #+#    #+#             */
-/*   Updated: 2023/09/24 11:04:47 by hmelica          ###   ########.fr       */
+/*   Updated: 2023/09/24 19:35:52 by hmelica          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-static int	handler(va_list act, t_insert ins, int fd);
-static int	separation(const char **format, int ret[2],
+int	handler(va_list act, t_insert ins, int fd);
+int	separation(const char **format, int ret[2],
 				va_list act, va_list ori);
 
 /*
@@ -58,7 +58,7 @@ FLAGS : every binary 1 tells that the flag exists
 this func is handeling an insert, *format pointing at '%'
 at the end, format is pointing at the csp
 */
-static int	separation(const char **format, int ret[2],
+int	separation(const char **format, int ret[2],
 	va_list act, va_list ori)
 {
 	t_insert	ins;
@@ -83,14 +83,14 @@ static int	separation(const char **format, int ret[2],
 	}
 	ins.type = **format;
 	ret[1] += handler(act, ins, ret[0]);
-	return (*ret);
+	return (ret[1]);
 }
 
 /*
 Launch different functions depending on the csp
 Return number of char printed
 */
-static int	handler(va_list act, t_insert ins, int fd)
+int	handler(va_list act, t_insert ins, int fd)
 {
 	if (ins.type == 'c')
 		return (main_c(act, ins, fd));
