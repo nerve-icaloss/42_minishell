@@ -6,7 +6,7 @@
 /*   By: hmelica <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/14 18:39:28 by hmelica           #+#    #+#             */
-/*   Updated: 2023/04/21 15:46:42 by hmelica          ###   ########.fr       */
+/*   Updated: 2023/09/24 11:11:08 by hmelica          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,14 +15,14 @@
 /*
 Recursiviely write an int
 */
-void	dec_rec(unsigned int i)
+void	dec_rec(unsigned int i, int fd)
 {
 	char	c;
 
 	c = (i % 10) + '0';
 	if (i / 10)
-		dec_rec(i / 10);
-	write(1, &c, 1);
+		dec_rec(i / 10, fd);
+	write(fd, &c, 1);
 }
 
 /*
@@ -41,7 +41,7 @@ int	int_len(unsigned int i)
 /*
 First usual function to write down number (and prev width stuff)
 */
-static int	write_number(unsigned int ui, t_insert ins, int i)
+static int	write_number(unsigned int ui, t_insert ins, int i, int fd)
 {
 	char	c;
 	int		ret;
@@ -51,21 +51,21 @@ static int	write_number(unsigned int ui, t_insert ins, int i)
 	if (check_flag(ins.flags, '0'))
 		c = '0';
 	if (i < 0 && (check_flag(ins.flags, '0')))
-		write(1, "-", 1);
+		write(fd, "-", 1);
 	if (ins.min_width > 0 && !check_flag(ins.flags, '-'))
 	{
 		while (ins.min_width-- > 0 && ++ret)
-			write(1, &c, 1);
+			write(fd, &c, 1);
 	}
 	if (i < 0 && (!check_flag(ins.flags, '0') || ins.prec < 0))
-		write(1, "-", 1);
+		write(fd, "-", 1);
 	if (i >= 0 && check_flag(ins.flags, ' '))
-		write(1, " ", 1);
+		write(fd, " ", 1);
 	else if (i >= 0 && check_flag(ins.flags, '+'))
-		write(1, "+", 1);
+		write(fd, "+", 1);
 	while ((ins.prec-- > 0 || (ins.prec++ > 0)))
-		write(1, "0", 1);
-	dec_rec(ui);
+		write(fd, "0", 1);
+	dec_rec(ui, fd);
 	return (ret);
 }
 
@@ -73,7 +73,7 @@ static int	write_number(unsigned int ui, t_insert ins, int i)
 Function to write a digit :
 run write_number and next width stuff
 */
-int	main_d(va_list act, t_insert ins)
+int	main_d(va_list act, t_insert ins, int fd)
 {
 	int				ret;
 	int				i;
@@ -88,11 +88,11 @@ int	main_d(va_list act, t_insert ins)
 	ret += int_len(ui) + (i < 0 || check_flag(ins.flags, ' ')
 			|| check_flag(ins.flags, '+')) + (ins.prec * (ins.prec > 0));
 	ins.min_width -= ret;
-	ret += write_number(ui, ins, i);
+	ret += write_number(ui, ins, i, fd);
 	if (ins.min_width > 0 && check_flag(ins.flags, '-'))
 	{
 		while (ins.min_width-- > 0 && ++ret)
-			write(1, " ", 1);
+			write(fd, " ", 1);
 	}
 	return (ret);
 }

@@ -6,7 +6,7 @@
 /*   By: hmelica <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/07 12:11:30 by hmelica           #+#    #+#             */
-/*   Updated: 2023/07/24 10:25:05 by hmelica          ###   ########.fr       */
+/*   Updated: 2023/09/24 11:12:56 by hmelica          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ char			*ft_substr(const char *s, unsigned int start, unsigned int len);
 char			*ft_strchr(const char *s, int c);
 char			*get_next_line(int fd);
 int				ft_atoi(const char *str);
-long			ft_atol(const char *str);
+int				ft_dprintf(int fd, const char *format, ...);
 int				ft_isalnum(int c);
 int				ft_isalpha(int c);
 int				ft_isascii(int c);
@@ -70,6 +70,7 @@ int				ft_strlen(char const *str);
 int				ft_strncmp(const char *s1, const char *s2, unsigned int n);
 int				ft_tolower(int c);
 int				ft_toupper(int c);
+long			ft_atol(const char *str);
 t_list			*ft_lstlast(t_list *lst);
 t_list			*ft_lstmap(t_list *lst, void *(*f)(void*), void (*del)(void*));
 t_list			*ft_lstnew(void *content);
@@ -109,16 +110,16 @@ void			compile_flags(t_insert *ins);
 int				precision(const char **format, va_list act, va_list ori);
 int				read_following_int(const char **format);
 
-int				display(char *s, t_insert ins, int force_len);
+int				display(char *s, t_insert ins, int force_len, int fd);
 int				hex_len(unsigned long i);
 int				int_len(unsigned int i);
-void			dec_rec(unsigned int i);
+void			dec_rec(unsigned int i, int fd);
 
-int				main_c(va_list act, t_insert ins);
-int				main_d(va_list act, t_insert ins);
-int				main_p(va_list act, t_insert ins);
-int				main_s(va_list act, t_insert ins);
-int				main_u(va_list act, t_insert ins);
-int				main_x(va_list act, t_insert ins, char *tab);
+int				main_c(va_list act, t_insert ins, int fd);
+int				main_d(va_list act, t_insert ins, int fd);
+int				main_p(va_list act, t_insert ins, int fd);
+int				main_s(va_list act, t_insert ins, int fd);
+int				main_u(va_list act, t_insert ins, int fd);
+int				main_x(va_list act, t_insert ins, char *tab, int fd);
 
 #endif

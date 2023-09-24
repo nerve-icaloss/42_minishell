@@ -6,7 +6,7 @@
 /*   By: hmelica <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/14 10:57:23 by hmelica           #+#    #+#             */
-/*   Updated: 2023/04/21 15:44:19 by hmelica          ###   ########.fr       */
+/*   Updated: 2023/09/24 10:53:47 by hmelica          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,16 +41,6 @@ int	is_csp(char c)
 }
 
 /*
-Return 1 if c is a digit
-*/
-int	is_digit(char c)
-{
-	if ('0' <= c && c <= '9')
-		return (1);
-	return (0);
-}
-
-/*
 Read the following number, and stop on the next non digit char
 */
 int	read_following_int(const char **format)
@@ -65,7 +55,7 @@ int	read_following_int(const char **format)
 		signe = -1;
 		(*format)++;
 	}
-	while (format && *format && **format && is_digit(**format))
+	while (format && *format && **format && ft_isdigit(**format))
 	{
 		ret *= 10;
 		ret += (**format - '0') * signe;
