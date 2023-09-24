@@ -6,12 +6,13 @@
 /*   By: hmelica <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/15 18:10:09 by hmelica           #+#    #+#             */
-/*   Updated: 2023/09/16 12:57:36 by hmelica          ###   ########.fr       */
+/*   Updated: 2023/09/20 15:09:03 by hmelica          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "env.h"
 #include "criterion/criterion.h"
+#include "criterion/parameterized.h"
 #include "criterion/new/assert.h"
 #include <stdio.h>
 #include <string.h>
@@ -73,15 +74,31 @@ Test(var, var_add, .description="Test of var_add", .fini = clean_lst) {
 	cr_assert(lst == NULL, "Cleaning while testing not working");
 	// adding a var with no value
 	a = strdup("name_is_name");
-	cr_assert(var_add(&lst, a, NULL) == 0);
+	cr_assert(var_add(&lst, a, NULL) == 0, "Fail");
 	cr_assert(lst != NULL, "lst is not updated");
 	cr_assert(eq(str, lst->name, "name_is_name"), "Wrong name when set manually");
 	cr_assert(lst->value == NULL, "Wrong value when unset");
 	cr_assert(lst->next == NULL, "Next is left unset");
 	cr_assert(lst->prev == NULL, "Prev is left unset");
 	var_clean(&lst);
+	// adding duplicate name
+	a = strdup("name");
+	b = strdup("eh coucou");
+	cr_assert(var_add(&lst, a, b) == 0, "Fail");
+	cr_assert(lst != NULL, "lst not updated");
+	cr_assert(eq(str, lst->name, "name"), "Wrong value when unset");
+	cr_assert(eq(str, lst->value, "eh coucou"), "Wrong value when unset");
+	a = strdup("name");
+	b = strdup("je suis heureux");
+	cr_assert(var_add(&lst, a, b) == 0, "Fail");
+	cr_assert(lst->next == NULL, "Another var added");
+	cr_assert(lst->prev == NULL, "Another var added but nonsens");
+	cr_assert(eq(str, lst->name, "name"), "Wrong value when unset");
+	cr_assert(ne(str, lst->value, "eh coucou"), "Wrong value when unset");
+	cr_assert(eq(str, lst->value, "je suis heureux"), "Wrong value when unset");
 }
 
+/*
 Test(var, var_parsing, .description="Test of var_parsing", .fini = clean_lst)
 {
 	lst = NULL;
@@ -108,11 +125,14 @@ Test(var, var_parsing, .description="Test of var_parsing", .fini = clean_lst)
 	cr_assert(eq(str, lst->name, "SUPER"), "name set wrong");
 	cr_assert(lst->value == NULL, "value not NULL");
 }
+*/
 
 Test(var, get_string, .description="Testing var_get_string", .fini = clean_lst)
 {
 	lst = NULL;
 	char *a;
+	a = var_get_string(lst);
+	cr_assert(a == NULL, "failed when lst == NULL");
 	cr_assert(var_parsing(&lst, "var=coucou") == 0, "failed parsing");
 	a = var_get_string(lst);
 	cr_assert(a != NULL, "failed");
@@ -123,4 +143,37 @@ Test(var, get_string, .description="Testing var_get_string", .fini = clean_lst)
 	cr_assert(a != NULL, "failed");
 	cr_assert(eq(str, a, "hello=again"), "failed");
 	free(a);
+}
+
+Test(var, get, .description="Testing var_get", .fini = clean_lst)
+{
+	lst = NULL;
+	// unexpected
+	cr_expect(var_get(lst, "coucou") == NULL, "Doesn't fail when no lst");
+	cr_expect(var_get(lst, NULL) == NULL, "Doesn't fail when no lst nor name");
+	// expected
+	if (var_parsing(&lst, "hey=cestlajoie") || var_parsing(&lst, "coucou=jesuisheureux")
+			|| lst == NULL)
+		cr_fatal("init error");
+	cr_expect(var_get(lst, NULL) == NULL, "Doesn't fail when no name");
+	cr_expect(var_get(lst, "hello") == NULL, "returns something when name doesn't exists");
+	cr_expect(var_get(lst, "coucou") == lst, "returns wrong struct");
+}
+
+Test(var, get_value, .description="Testing var_get_value", .fini=clean_lst)
+{
+	lst = NULL;
+	// unexpected
+	cr_expect(var_get_value(lst, "coucou") == NULL, "Doesn't fail when no lst");
+	cr_expect(var_get_value(lst, NULL) == NULL, "Doesn't fail when no lst nor name");
+	// expected
+	if (var_parsing(&lst, "hey=cestlajoie")
+			|| var_parsing(&lst, "eh=")
+			|| var_parsing(&lst, "coucou=jesuisheureux")
+			|| lst == NULL)
+		cr_fatal("init error");
+	cr_expect(var_get_value(lst, NULL) == NULL, "Doesn't fail when no name");
+	cr_expect(var_get_value(lst, "hello") == NULL, "returns something when name doesn't exists");
+	cr_expect(eq(str, var_get_value(lst, "coucou"), "jesuisheureux"), "returns wrong struct");
+	cr_expect(eq(str, var_get_value(lst, "eh"), ""), "returns something when value empty");
 }

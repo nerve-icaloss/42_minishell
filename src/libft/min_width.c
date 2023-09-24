@@ -6,7 +6,7 @@
 /*   By: hmelica <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/14 14:29:44 by hmelica           #+#    #+#             */
-/*   Updated: 2023/04/21 15:45:01 by hmelica          ###   ########.fr       */
+/*   Updated: 2023/09/24 10:56:07 by hmelica          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,12 +33,12 @@ static int	get_int_value(const char **format, va_list act, va_list ori)
 	int	ret;
 
 	ret = 0;
-	if (is_digit(**format) || **format == '-')
+	if (ft_isdigit(**format) || **format == '-')
 		return (read_following_int(format));
 	else if (**format != '*')
 		return (0);
 	(*format)++;
-	if (is_digit(**format))
+	if (ft_isdigit(**format))
 	{
 		ret = read_following_int(format);
 		if (**format != '$')
@@ -55,7 +55,7 @@ int	get_min_width(const char **format, int *flags, va_list act, va_list ori)
 {
 	int	ret;
 
-	if (!is_digit(**format) && **format != '*')
+	if (!ft_isdigit(**format) && **format != '*')
 		return (0);
 	ret = get_int_value(format, act, ori);
 	if (ret < 0)
@@ -74,7 +74,7 @@ int	precision(const char **format, va_list act, va_list ori)
 {
 	int	ret;
 
-	if (!is_digit(*(++(*format))) && **format != '*')
+	if (!ft_isdigit(*(++(*format))) && **format != '*')
 		return (0);
 	ret = get_int_value(format, act, ori);
 	if (ret < 0)
@@ -86,7 +86,7 @@ int	precision(const char **format, va_list act, va_list ori)
 display string s and handle min_width
 force len = 0 if not forced
 */
-int	display(char *s, t_insert ins, int force_len)
+int	display(char *s, t_insert ins, int force_len, int fd)
 {
 	int	ret;
 	int	len;
@@ -99,14 +99,14 @@ int	display(char *s, t_insert ins, int force_len)
 	if (ins.min_width > 0 && !check_flag(ins.flags, '-'))
 	{
 		while (ins.min_width-- > 0 && ++ret)
-			write(1, " ", 1);
+			write(fd, " ", 1);
 	}
-	write(1, s, len);
+	write(fd, s, len);
 	ret += len;
 	if (ins.min_width > 0 && check_flag(ins.flags, '-'))
 	{
 		while (ins.min_width-- > 0 && ++ret)
-			write(1, " ", 1);
+			write(fd, " ", 1);
 	}
 	return (ret);
 }

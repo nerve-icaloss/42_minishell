@@ -6,7 +6,7 @@
 /*   By: hmelica <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/14 10:57:42 by hmelica           #+#    #+#             */
-/*   Updated: 2023/09/16 10:46:36 by hmelica          ###   ########.fr       */
+/*   Updated: 2023/09/20 15:26:27 by hmelica          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,20 +15,22 @@
 /*
  * ft_strchr is secured in case str == NULL
  * it SHOULD BE DEPENDING ON WHICH LIBFT
- * */
+ * t_done */
 int	var_parsing(t_lstvar *lst, char *str)
 {
 	char	*split;
 	char	*name;
 	char	*value;
 
-	split = ft_strchr(str, '=');
-	if (!split || !lst)
+	if (!lst || !str || !*str)
 		return (-1);
+	split = ft_strchr(str, '=');
+	if (!split)
+		split = str + ft_strlen(str);
 	name = ft_substr(str, 0, split - str);
 	if (!name)
 		return (-1);
-	if (split[1] == '\0')
+	if (split[0] == '\0')
 		value = NULL;
 	else
 	{
@@ -45,6 +47,8 @@ int	var_parsing(t_lstvar *lst, char *str)
 	return (0);
 }
 
+/*
+ * t_done */
 t_lstvar	var_get(t_lstvar lst, char *name)
 {
 	int	len;
@@ -64,7 +68,7 @@ t_lstvar	var_get(t_lstvar lst, char *name)
 /*
  * if not found : return NULL
  * if unitialized : return const "\0"
- * */
+ * t_done */
 char	*var_get_value(t_lstvar lst, char *name)
 {
 	t_lstvar	found;
@@ -80,12 +84,14 @@ char	*var_get_value(t_lstvar lst, char *name)
 /*
  * return a malloc'd char NAME=VALUE
  * NULL if error
- * */
+ * t_done */
 char	*var_get_string(t_lstvar var)
 {
 	char	*ret;
 	char	*part;
 
+	if (!var)
+		return (NULL);
 	part = ft_strjoin(var->name, "=");
 	if (!part)
 		return (NULL);

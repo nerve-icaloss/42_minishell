@@ -6,7 +6,7 @@
 /*   By: hmelica <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/14 18:39:28 by hmelica           #+#    #+#             */
-/*   Updated: 2023/04/21 15:46:53 by hmelica          ###   ########.fr       */
+/*   Updated: 2023/09/24 11:06:43 by hmelica          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ static int	generate_buffer(char **buffer, char *s, t_insert ins)
 /*
 Writes a string
 */
-int	main_s(va_list act, t_insert ins)
+int	main_s(va_list act, t_insert ins, int fd)
 {
 	char	*buffer;
 	int		ret;
@@ -44,7 +44,7 @@ int	main_s(va_list act, t_insert ins)
 	need_free = generate_buffer(&buffer, va_arg(act, char *), ins);
 	if (need_free < 0)
 		return (0);
-	ret = display(buffer, ins, 0);
+	ret = display(buffer, ins, 0, fd);
 	if (need_free == 1)
 		free(buffer);
 	return (ret);

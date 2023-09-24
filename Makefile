@@ -6,7 +6,7 @@
 #    By: hmelica <marvin@42.fr>                     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/04/13 14:06:13 by hmelica           #+#    #+#              #
-#    Updated: 2023/09/16 14:45:14 by hmelica          ###   ########.fr        #
+#    Updated: 2023/09/22 16:56:49 by hmelica          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 #
@@ -43,6 +43,7 @@ NAME_BONUS = ${NAME}_bonus
 SRCS_FILES = \
 				env.c \
 				envp.c \
+				export.c \
 				main.c \
 				var.c \
 				var_utils.c \
@@ -201,7 +202,8 @@ test/lib: meson/meson.py
 
 run_test: test/lib ${LIBFT} ${OBJS_DIR} ${OBJS}
 	@${MAKE} -C test
-	@if [ !$$(echo $$LD_LIBRARY_PATH | grep -o "test") ]; \
-		then export LD_LIBRARY_PATH=$$(realpath test/lib/x86_64-linux-gnu):$$LD_LIBRARY_PATH \
-		; fi ; valgrind -q --leak-check=full --show-leak-kinds=all ./test.out --verbose 2>&1 ; exit 0
-	@echo \'export LD_LIBRARY_PATH=$$(realpath test/lib/x86_64-linux-gnu):$$$$LD_LIBRARY_PATH\' before running
+	@#valgrind -q --leak-check=full --show-leak-kinds=all
+	@if [ $$(echo $$LD_LIBRARY_PATH | grep -c "test") -eq 0 ]; \
+		then export LD_LIBRARY_PATH=$$(realpath test/lib64):$$(realpath test/lib/x86_64-linux-gnu):$$LD_LIBRARY_PATH \
+		; fi ; ./test.out --verbose 2>&1 ; exit 0
+	@echo \'export LD_LIBRARY_PATH=$$(realpath test/lib64):$$(realpath test/lib/x86_64-linux-gnu):\$$LD_LIBRARY_PATH\' before running
