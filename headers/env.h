@@ -6,11 +6,11 @@
 /*   By: hmelica <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/14 10:33:59 by hmelica           #+#    #+#             */
-/*   Updated: 2023/09/24 20:42:09 by hmelica          ###   ########.fr       */
+/*   Updated: 2023/09/27 18:08:23 by hmelica          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef ENH_H
+#ifndef ENV_H
 # define ENV_H
 
 # include "minishell.h"
