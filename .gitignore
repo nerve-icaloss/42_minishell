@@ -3,6 +3,9 @@ minishell_bonus
 *.gen
 test/**
 test
+test.out
+criterion
+meson
 *.swp
 NOT*
 *.o
@@ -10,3 +13,5 @@ NOT*
 tags
 .nfs*
 .DS_Store
+*.log
+.inputrc

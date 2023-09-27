@@ -14,57 +14,6 @@
 #include "libft/libft.h"
 #include <stdio.h>
 
-t_myentry	*new_entry(const char *str)
-{
-	t_myentry	*entry;
-
-	entry = malloc(sizeof(*entry));
-	if (!entry)
-		return (NULL);
-//should I do a copy and free read str in prompt loop
-	entry->content = ft_strdup(str);
-	entry->next = NULL;
-	return (entry);
-}
-
-void	ft_add_history(t_myhistory *history, t_myentry *entry)
-{
-	t_myhistory	current;
-
-	current = NULL;
-	add_history(entry->content);
-	if (!*history)
-	{
-		*history = entry;
-	}
-	else
-	{
-		current = *history;
-		while (current->next)
-		{
-			current = current->next;
-		}
-		current->next = entry;
-	}
-}
-
-void	ft_clear_history(t_myhistory *history)
-{
-	t_myhistory	current;
-	t_myentry	*todel;
-
-	if (!*history)
-		return ;
-	current = *history;
-	while (current)
-	{
-		todel = current;
-		current = current->next;
-		free(todel);
-	}
-	*history = NULL;
-}
-
 void	load_history(void)
 {
 	int		fd;
@@ -87,10 +36,10 @@ void	load_history(void)
 		return ;
 }
 
-void	register_history(t_myhistory *history)
+void	register_history(t_history *history)
 {
 	int			fd;
-	t_myhistory	current;
+	t_history	current;
 	char		*log;
 
 	fd = open(HISTORY_FILE, O_WRONLY | O_CREAT | O_APPEND, 000666);
