@@ -6,7 +6,7 @@
 /*   By: hmelica <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/14 10:33:12 by hmelica           #+#    #+#             */
-/*   Updated: 2023/09/22 16:30:21 by hmelica          ###   ########.fr       */
+/*   Updated: 2023/09/28 19:43:50 by hmelica          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,32 @@ int	env_update_count(t_myenv *myenv)
 }
 
 /*
+ * init PWD, OLDPWD and SHLVL
+ * Do increment SHLVL
+ * */
+int	env_default(t_myenv *myenv)
+{
+	t_lstvar	shlvl;
+	char		*old;
+	int			i;
+
+	if (!var_get(myenv->lst_var, "PWD"))
+		var_add(&myenv->lst_var, ft_strdup("PWD"), getcwd(NULL, 0));
+	if (!var_get(myenv->lst_var, "OLDPWD"))
+		var_add(&myenv->lst_var, ft_strdup("OLDPWD"), NULL);
+	shlvl = var_get(myenv->lst_var, "SHLVL");
+	if (!shlvl)
+		return (var_add(&myenv->lst_var, ft_strdup("SHLVL"), ft_strdup("1")));
+	old = shlvl->value;
+	i = ft_atoi(old) + 1;
+	if (i < 1)
+		i = 1;
+	shlvl->value = ft_itoa(i);
+	free(old);
+	return (0);
+}
+
+/*
  * Description :
  * Init myenv using envp
  *   - myenv is unitialized at the begining
@@ -61,6 +87,7 @@ int	env_init(t_myenv *myenv, char **envp)
 			return (var_clean(&myenv->lst_var), -1);
 		envp++;
 	}
+	env_default(myenv);
 	myenv->pwd = var_get(myenv->lst_var, "PWD");
 	myenv->oldpwd = var_get(myenv->lst_var, "OLDPWD");
 	myenv->home = var_get(myenv->lst_var, "HOME");
