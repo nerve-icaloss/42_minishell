@@ -6,7 +6,7 @@
 /*   By: hmelica <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/11 15:53:02 by hmelica           #+#    #+#             */
-/*   Updated: 2023/09/24 19:35:52 by hmelica          ###   ########.fr       */
+/*   Updated: 2023/09/28 10:30:52 by hmelica          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int	handler(va_list act, t_insert ins, int fd);
 int	separation(const char **format, int ret[2],
-				va_list act, va_list ori);
+		va_list act, va_list ori);
 
 /*
 main func

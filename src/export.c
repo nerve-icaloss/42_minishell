@@ -6,7 +6,7 @@
 /*   By: hmelica <hmelica@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/16 21:32:35 by hmelica           #+#    #+#             */
-/*   Updated: 2023/09/24 19:21:26 by hmelica          ###   ########.fr       */
+/*   Updated: 2023/09/28 10:37:11 by hmelica          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,13 +24,11 @@ char	*format_export(char *s)
 	count = ft_strlen(s);
 	while (*s)
 	{
-		if (*s == '"' || *s == '\\')
+		if ((*s == '"' && ++s) || (*s == '\\' && ++s) || (++s && 0))
 			count++;
-		s++;
 	}
 	ret = malloc(sizeof(char) * (count + 1));
-	ft_bzero(ret, sizeof(char) * (count + 1));
-	if (!ret)
+	if (!ft_memset(ret, '\0', sizeof(char) * (count + 1)))
 		return (NULL);
 	s = origin;
 	origin = ret;

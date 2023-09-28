@@ -6,7 +6,7 @@
 /*   By: hmelica <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/15 10:34:40 by hmelica           #+#    #+#             */
-/*   Updated: 2023/09/22 16:32:27 by hmelica          ###   ########.fr       */
+/*   Updated: 2023/09/28 10:12:19 by hmelica          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,9 +51,8 @@ int	envp_update(t_myenv *myenv)
 			continue ;
 		}
 		*envp = var_get_string(lst);
-		if (!*envp)
+		if (!*(envp++))
 			return (envp_clean(&myenv->envp), -1);
-		envp++;
 		lst = lst->next;
 	}
 	return (0);

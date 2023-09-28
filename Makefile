@@ -6,7 +6,7 @@
 #    By: hmelica <marvin@42.fr>                     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/04/13 14:06:13 by hmelica           #+#    #+#              #
-#    Updated: 2023/09/27 18:07:19 by hmelica          ###   ########.fr        #
+#    Updated: 2023/09/28 10:31:40 by hmelica          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 #
@@ -148,14 +148,8 @@ ${LIBFT}: force
 	@${MAKE} -C ${LIBFT_DIR} ${LIBFT_TARGET}
 
 norm:
-	#@printf "\033[1;33mChecking norm...\033[0m %-18s" " "
-	#@echo $$(a=$$(git ls-files | grep -E ".*\.[ch]$$" | grep -v "tests" |
-	#xargs -n 4 -P 4 norminette | grep --color=always Error) ; b=$$(printf "%s" "$$a" | wc -l) ;
-	#if [ $$b -eq 0 ]; then ${ECHO} "\033[1;32mdone\033[0m" ;
-	#else ${ECHO} "\033[1;31mERROR\033[0m" ; printf "%s\n" "$$a" ; fi ; ) | sed
-	#"s/Error/\nError/Ig"
 	@printf "\n\033[1;33mChecking norm...\033[0m %-18s" " "
-	@echo $$(a=$$(git ls-files | grep -E ".*\.[ch]$$" | grep -v "tests" | \
+	@echo $$(a=$$(git ls-files | grep -E ".*\.[ch]$$" | grep -v "test" | \
 	xargs -n 4 -P 4 norminette | grep --color=always Error) ; b=$$(printf "%s" "$$a" | wc -l) ; \
 	if [ $$b -eq 0 ]; then ${ECHO} "\033[1;32mdone\033[0m" ; \
 	else ${ECHO} "\033[1;31mERROR\033[0m" ; printf "%s\n" "$$a" ; fi ; ) | sed \

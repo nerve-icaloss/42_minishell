@@ -6,7 +6,7 @@
 /*   By: hmelica <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/14 10:57:42 by hmelica           #+#    #+#             */
-/*   Updated: 2023/09/24 21:19:46 by hmelica          ###   ########.fr       */
+/*   Updated: 2023/09/28 10:28:15 by hmelica          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,13 +38,11 @@ int	var_parsing(t_lstvar *lst, char *str)
 		if (!value)
 			return (free(name), -1);
 	}
-	if (var_add(lst, name, value))
-	{
-		if (value)
-			free(value); // minimize there
-		return (free(name), -1);
-	}
-	return (0);
+	if (!var_add(lst, name, value))
+		return (0);
+	if (value)
+		free(value);
+	return (free(name), -1);
 }
 
 /*
