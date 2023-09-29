@@ -6,7 +6,7 @@
 /*   By: hmelica <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/15 16:41:40 by hmelica           #+#    #+#             */
-/*   Updated: 2023/09/28 19:42:33 by hmelica          ###   ########.fr       */
+/*   Updated: 2023/09/29 10:26:11 by hmelica          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,6 +89,7 @@ int	env_default(t_myenv *myenv);
 Test(env, default_values, .description="tests for env default")
 {
 	t_lstvar a;
+
 	env_clean(&myenv);
 	cr_assert(eq(int, 0, env_default(&myenv)));
 	a = var_get(myenv.lst_var, "PWD");
@@ -125,7 +126,7 @@ Test(env, default_values, .description="tests for env default")
 	cr_assert(eq(int, 0, env_default(&myenv)));
 	a = var_get(myenv.lst_var, "PWD");
 	cr_assert(ne(ptr, NULL, a));
-	cr_assert(eq(str, "here", a->value), "pwd changed when already defined");
+	cr_assert(eq(str, getcwd(NULL, 0), a->value), "pwd changed when already defined");
 	a = var_get(myenv.lst_var, "OLDPWD");
 	cr_assert(ne(ptr, NULL, a));
 	cr_assert(eq(ptr, NULL, a->value));

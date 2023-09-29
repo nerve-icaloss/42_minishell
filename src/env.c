@@ -6,7 +6,7 @@
 /*   By: hmelica <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/14 10:33:12 by hmelica           #+#    #+#             */
-/*   Updated: 2023/09/28 19:43:50 by hmelica          ###   ########.fr       */
+/*   Updated: 2023/09/29 10:27:34 by hmelica          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,22 +50,29 @@ int	env_update_count(t_myenv *myenv)
 int	env_default(t_myenv *myenv)
 {
 	t_lstvar	shlvl;
-	char		*old;
 	int			i;
 
-	if (!var_get(myenv->lst_var, "PWD"))
-		var_add(&myenv->lst_var, ft_strdup("PWD"), getcwd(NULL, 0));
+	shlvl = var_get(myenv->lst_var, "PWD");
+	if (shlvl)
+		free(shlvl->value);
+	else
+	{
+		if (var_add(&myenv->lst_var, ft_strdup("PWD"), NULL))
+			return (-1);
+		shlvl = myenv->lst_var;
+	}
+	shlvl->value = getcwd(NULL, 0);
 	if (!var_get(myenv->lst_var, "OLDPWD"))
-		var_add(&myenv->lst_var, ft_strdup("OLDPWD"), NULL);
+		if (var_add(&myenv->lst_var, ft_strdup("OLDPWD"), NULL))
+			return (-1);
 	shlvl = var_get(myenv->lst_var, "SHLVL");
 	if (!shlvl)
 		return (var_add(&myenv->lst_var, ft_strdup("SHLVL"), ft_strdup("1")));
-	old = shlvl->value;
-	i = ft_atoi(old) + 1;
+	i = ft_atoi(shlvl->value) + 1;
 	if (i < 1)
 		i = 1;
+	free(shlvl->value);
 	shlvl->value = ft_itoa(i);
-	free(old);
 	return (0);
 }
 
