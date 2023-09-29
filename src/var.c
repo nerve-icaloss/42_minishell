@@ -6,7 +6,7 @@
 /*   By: hmelica <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/14 10:57:42 by hmelica           #+#    #+#             */
-/*   Updated: 2023/09/20 15:26:27 by hmelica          ###   ########.fr       */
+/*   Updated: 2023/09/28 10:28:15 by hmelica          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,13 +38,11 @@ int	var_parsing(t_lstvar *lst, char *str)
 		if (!value)
 			return (free(name), -1);
 	}
-	if (var_add(lst, name, value))
-	{
-		if (value)
-			free(value);
-		return (free(name), -1);
-	}
-	return (0);
+	if (!var_add(lst, name, value))
+		return (0);
+	if (value)
+		free(value);
+	return (free(name), -1);
 }
 
 /*
@@ -58,7 +56,7 @@ t_lstvar	var_get(t_lstvar lst, char *name)
 	len = ft_strlen(name);
 	while (lst)
 	{
-		if (!ft_strncmp(lst->name, name, len))
+		if (len == ft_strlen(lst->name) && !ft_strncmp(lst->name, name, len))
 			return (lst);
 		lst = lst->next;
 	}
@@ -66,9 +64,9 @@ t_lstvar	var_get(t_lstvar lst, char *name)
 }
 
 /*
- * if not found : return NULL
- * if unitialized : return const "\0"
- * t_done */
+ * if not found
+ * of if unitialized : return NULL
+ * * t_done */
 char	*var_get_value(t_lstvar lst, char *name)
 {
 	t_lstvar	found;
@@ -76,8 +74,6 @@ char	*var_get_value(t_lstvar lst, char *name)
 	found = var_get(lst, name);
 	if (!found)
 		return (NULL);
-	if (found->value == NULL)
-		return ("");
 	return (found->value);
 }
 

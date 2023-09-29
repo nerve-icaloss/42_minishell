@@ -1,25 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_memset.c                                        :+:      :+:    :+:   */
+/*   echo.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hmelica <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: hmelica <hmelica@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/11/07 17:02:31 by hmelica           #+#    #+#             */
-/*   Updated: 2023/09/28 10:19:41 by hmelica          ###   ########.fr       */
+/*   Created: 2023/09/27 15:27:35 by hmelica           #+#    #+#             */
+/*   Updated: 2023/09/27 15:41:48 by hmelica          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-void	*ft_memset(void *s, int c, unsigned int n);
+#ifndef ECHO_H
+# define ECHO_H
 
-void	*ft_memset(void *s, int c, unsigned int n)
-{
-	unsigned int	i;
+# include "libft.h"
+# include <stdio.h>
 
-	if (!s)
-		return (0);
-	i = 0;
-	while (++i <= n)
-		*(unsigned char *)(s + i - 1) = c;
-	return (s);
-}
+int	echo_builtin(char **argv);
+
+#endif

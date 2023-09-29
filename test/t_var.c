@@ -6,7 +6,7 @@
 /*   By: hmelica <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/15 18:10:09 by hmelica           #+#    #+#             */
-/*   Updated: 2023/09/20 15:09:03 by hmelica          ###   ########.fr       */
+/*   Updated: 2023/09/24 20:07:19 by hmelica          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -176,4 +176,28 @@ Test(var, get_value, .description="Testing var_get_value", .fini=clean_lst)
 	cr_expect(var_get_value(lst, "hello") == NULL, "returns something when name doesn't exists");
 	cr_expect(eq(str, var_get_value(lst, "coucou"), "jesuisheureux"), "returns wrong struct");
 	cr_expect(eq(str, var_get_value(lst, "eh"), ""), "returns something when value empty");
+}
+
+Test(var, pop, .description="Testing poping values out of a list")
+{
+	t_lstvar	a;
+	t_lstvar	b;
+
+	lst = NULL;
+	if (var_parsing(&lst, "hey=cestlajoie")
+			|| var_parsing(&lst, "eh=")
+			|| var_parsing(&lst, "coucou=jesuisheureux")
+			|| lst == NULL)
+		cr_fatal("init error");
+	a = lst->next;
+	cr_assert(eq(str, a->name, "eh"), "init error 2");
+	cr_assert(eq(int, 0, var_pop(&lst, lst)), "pop error");
+	cr_assert(eq(ptr, a, lst), "origin not correctly updated");
+	b = lst->next;
+	cr_assert(eq(int, 0, var_pop(&lst, b)), "pop error");
+	cr_assert(eq(ptr, a, lst), "origin updated but not wanted");
+	cr_assert(eq(int, 0, var_pop(&lst, lst)), "pop error");
+	cr_assert(eq(ptr, NULL, lst), "origin not set to NULL when empty");
+	cr_assert(eq(int, -1, var_pop(&lst, lst)), "pop did not fail");
+	cr_assert(eq(ptr, NULL, lst), "origin not set to NULL when empty and failed");
 }

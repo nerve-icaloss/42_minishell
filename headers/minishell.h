@@ -6,7 +6,7 @@
 /*   By: nserve & hmelica                           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/10 14:58:41 by hmelica           #+#    #+#             */
-/*   Updated: 2023/09/15 13:27:43 by hmelica          ###   ########.fr       */
+/*   Updated: 2023/09/28 10:33:57 by hmelica          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ typedef struct s_myenv {
 typedef struct s_myhistory {
 	char				*content;
 	struct s_myhistory	*next;
-} t_myhistory;
+}	t_myhistory;
 
 /*
 typedef struct myinput {

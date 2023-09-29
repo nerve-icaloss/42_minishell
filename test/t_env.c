@@ -6,12 +6,13 @@
 /*   By: hmelica <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/15 16:41:40 by hmelica           #+#    #+#             */
-/*   Updated: 2023/09/22 16:52:00 by hmelica          ###   ########.fr       */
+/*   Updated: 2023/09/29 10:26:11 by hmelica          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "env.h"
 #include "criterion/criterion.h"
+#include "criterion/new/assert.h"
 #include <stdio.h>
 
 char *envp[] = {
@@ -81,4 +82,71 @@ Test(env, clean, .description="Test of env_clean", .init = setup) {
 Test(env, builtin, .description="tests for env (builtin)")
 {
 	cr_log_warn("env_builtin cannot be tested there. Test should be done manually");
+}
+
+int	env_default(t_myenv *myenv);
+
+Test(env, default_values, .description="tests for env default")
+{
+	t_lstvar a;
+
+	env_clean(&myenv);
+	cr_assert(eq(int, 0, env_default(&myenv)));
+	a = var_get(myenv.lst_var, "PWD");
+	cr_assert(ne(ptr, NULL, a));
+	a = var_get(myenv.lst_var, "OLDPWD");
+	cr_assert(ne(ptr, NULL, a));
+	cr_assert(eq(ptr, NULL, a->value));
+	a = var_get(myenv.lst_var, "SHLVL");
+	cr_assert(ne(ptr, NULL, a));
+	cr_assert(eq(str, "1", a->value));
+	// nothing
+	env_clean(&myenv);
+	var_parsing(&myenv.lst_var, "coucou=je suis heureux");
+	var_parsing(&myenv.lst_var, "hello=je suis content");
+	cr_assert(ne(ptr, myenv.lst_var, NULL));
+	cr_assert(eq(str, myenv.lst_var->name, "hello"));
+	cr_assert(eq(str, myenv.lst_var->next->name, "coucou"));
+	cr_assert(eq(ptr, myenv.lst_var->next->next, NULL));
+	// no PWD, OLDPWD or SHLVL are defined
+	cr_assert(eq(int, 0, env_default(&myenv)));
+	a = var_get(myenv.lst_var, "PWD");
+	cr_assert(ne(ptr, NULL, a));
+	a = var_get(myenv.lst_var, "OLDPWD");
+	cr_assert(ne(ptr, NULL, a));
+	cr_assert(eq(ptr, NULL, a->value));
+	a = var_get(myenv.lst_var, "SHLVL");
+	cr_assert(ne(ptr, NULL, a));
+	cr_assert(eq(str, "1", a->value));
+	// only no PWD
+	env_clean(&myenv);
+	var_parsing(&myenv.lst_var, "coucou=je suis heureux");
+	var_parsing(&myenv.lst_var, "hello=je suis content");
+	var_parsing(&myenv.lst_var, "PWD=here");
+	cr_assert(eq(int, 0, env_default(&myenv)));
+	a = var_get(myenv.lst_var, "PWD");
+	cr_assert(ne(ptr, NULL, a));
+	cr_assert(eq(str, getcwd(NULL, 0), a->value), "pwd changed when already defined");
+	a = var_get(myenv.lst_var, "OLDPWD");
+	cr_assert(ne(ptr, NULL, a));
+	cr_assert(eq(ptr, NULL, a->value));
+	a = var_get(myenv.lst_var, "SHLVL");
+	cr_assert(ne(ptr, NULL, a));
+	cr_assert(eq(str, "1", a->value));
+	// only SHLVL
+	env_clean(&myenv);
+	var_parsing(&myenv.lst_var, "coucou=je suis heureux");
+	var_parsing(&myenv.lst_var, "hello=je suis content");
+	var_parsing(&myenv.lst_var, "SHLVL=2");
+	cr_assert(eq(int, 0, env_default(&myenv)));
+	a = var_get(myenv.lst_var, "PWD");
+	cr_assert(ne(ptr, NULL, a));
+	a = var_get(myenv.lst_var, "OLDPWD");
+	cr_assert(ne(ptr, NULL, a));
+	cr_assert(eq(ptr, NULL, a->value));
+	a = var_get(myenv.lst_var, "SHLVL");
+	cr_assert(ne(ptr, NULL, a));
+	cr_assert(eq(str, "3", a->value));
+	// only OLDPWD
+	cr_log_warn("Define OLDPWD alone expected behavoir");
 }

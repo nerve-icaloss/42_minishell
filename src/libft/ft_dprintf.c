@@ -6,7 +6,7 @@
 /*   By: hmelica <hmelica@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/24 10:40:40 by hmelica           #+#    #+#             */
-/*   Updated: 2023/09/24 19:36:54 by hmelica          ###   ########.fr       */
+/*   Updated: 2023/09/28 10:30:39 by hmelica          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int	handler(va_list act, t_insert ins, int fd);
 int	separation(const char **format, int ret[2],
-				va_list act, va_list ori);
+		va_list act, va_list ori);
 
 int	ft_dprintf(int fd, const char *format, ...)
 {
@@ -41,7 +41,5 @@ int	ft_dprintf(int fd, const char *format, ...)
 			write(fd, format, 1);
 		format++;
 	}
-	va_end(act);
-	va_end(origin);
-	return (ret[1]);
+	return (va_end(act), va_end(origin), ret[1]);
 }

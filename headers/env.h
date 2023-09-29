@@ -6,11 +6,11 @@
 /*   By: hmelica <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/14 10:33:59 by hmelica           #+#    #+#             */
-/*   Updated: 2023/09/16 22:17:31 by hmelica          ###   ########.fr       */
+/*   Updated: 2023/09/27 18:08:23 by hmelica          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef ENH_H
+#ifndef ENV_H
 # define ENV_H
 
 # include "minishell.h"
@@ -25,6 +25,9 @@ int			env_update_count(t_myenv *myenv);
 void		envp_clean(char ***envp);
 int			envp_update(t_myenv *myenv);
 
+// unset
+int			unset_builtin(char **argv, t_lstvar *lst);
+
 // var.c
 char		*var_get_string(t_lstvar var);
 char		*var_get_value(t_lstvar lst, char *name);
@@ -33,6 +36,7 @@ t_lstvar	var_get(t_lstvar lst, char *name);
 
 // var_utils.c
 int			var_add(t_lstvar *origin, char *name, char *value);
+int			var_pop(t_lstvar *origin, t_lstvar lst);
 void		var_clean(t_lstvar *lst);
 
 #endif
