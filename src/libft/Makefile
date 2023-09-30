@@ -19,7 +19,7 @@ SRCS = ft_atoi.c ft_bzero.c ft_calloc.c ft_isalnum.c ft_isalpha.c ft_isascii.c \
 	ft_strlcat.c ft_strlcpy.c ft_strlen.c ft_strmapi.c ft_strncmp.c \
 	ft_strnstr.c ft_strrchr.c ft_strtrim.c ft_substr.c ft_tolower.c \
 	ft_toupper.c gnl.c gnl_utils.c ft_printf.c is_something.c flags.c \
-	min_width.c digit.c char.c string.c pointer.c unsigned.c hexa.c ft_atol.c
+	min_width.c digit.c char.c string.c pointer.c unsigned.c hexa.c ft_atol.c ft_arrclear.c
 
 OBJS = ${SRCS:.c=.o}
 
