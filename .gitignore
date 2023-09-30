@@ -17,3 +17,6 @@ build
 test.out
 TAGS
 a.out
+# minishell tmp file
+*.log
+.inputrc

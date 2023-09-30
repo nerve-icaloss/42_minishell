@@ -92,6 +92,7 @@ void			ft_putendl_fd(char *s, int fd);
 void			ft_putnbr_fd(int n, int fd);
 void			ft_putstr_fd(char *s, int fd);
 void			ft_striteri(char *s, void (*f)(unsigned int, char*));
+void			ft_arrclear(char **tab);
 
 char			*treatment(t_buffer **b);
 t_buffer		*buffer_clean(t_buffer **b);

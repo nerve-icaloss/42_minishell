@@ -3,13 +3,17 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: hmelica <marvin@42.fr>                     +#+  +:+       +#+         #
+#    By: marvin <marvin@42.fr>                      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/04/13 14:06:13 by hmelica           #+#    #+#              #
+<<<<<<< HEAD
+#    Updated: 2023/09/15 12:15:51 by marvin           ###   ########.fr        #
+=======
 #    Updated: 2023/09/28 10:31:40 by hmelica          ###   ########.fr        #
+>>>>>>> main
 #                                                                              #
 # **************************************************************************** #
-#
+
 #    ____                _
 #   |  _ \ ___  __ _  __| |_ __ ___   ___
 #   | |_) / _ \/ _` |/ _` | '_ ` _ \ / _ \                   :)
@@ -76,7 +80,7 @@ SANITIZE_FLAG = -fsanitize=address
 # N'affiche pas le changement de directory lors du ${MAKE} -c
 MAKEFLAGS += --no-print-directory
 
-CC = gcc
+CC = cc
 
 LIBFT_DIR = ${SRCS_DIR}/libft
 LIBFT = ${SRCS_DIR}/libft/libft.a
@@ -115,7 +119,7 @@ all: ${NAME}
 
 ${NAME}: ${LIBFT} ${OBJS_DIR} ${OBJS}
 	@printf "$(DELETE)\033[1;33m...Building\033[0m %-23s" "${NAME}"
-	@${CC} ${CFLAGS} ${CFLAGS_NAME} ${HEADERS_DIR_FLAG} -o ${NAME} ${OBJS} ${LIBFT}
+	@${CC} ${CFLAGS} ${CFLAGS_NAME} ${HEADERS_DIR_FLAG} -o ${NAME} ${OBJS} ${LIBFT} -lreadline
 	@echo "${OK_PROMPT}"
 	@${MAKE} tags
 
