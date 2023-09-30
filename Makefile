@@ -6,7 +6,11 @@
 #    By: marvin <marvin@42.fr>                      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/04/13 14:06:13 by hmelica           #+#    #+#              #
+<<<<<<< HEAD
 #    Updated: 2023/09/15 12:15:51 by marvin           ###   ########.fr        #
+=======
+#    Updated: 2023/09/28 10:31:40 by hmelica          ###   ########.fr        #
+>>>>>>> main
 #                                                                              #
 # **************************************************************************** #
 
@@ -41,13 +45,23 @@ NAME_BONUS = ${NAME}_bonus
 #       main.c \       # oui
 #       src/main.c     # non
 SRCS_FILES = \
-				tester_prompt.c readline.c history.c \
+				env.c \
+				envp.c \
+				export.c \
+				main.c \
+				var.c \
+				var_utils.c \
+				unset.c \
+				echo.c \
 #
 # ^- (this comment line matters)
 #
 # If needed, use macro BONUS that will be set to 1 when bonus is compiled.
 # Every normal srcs_files are re-compiled with those additionnal files :
 SRCS_FILES_BONUS = \
+#
+# ^- (this comment line matters too)
+TEST_FILES = test/test.c \
 #
 # ^- (this comment line matters too)
 CFLAGS = -Wall -Werror -Wextra
@@ -72,8 +86,11 @@ LIBFT_DIR = ${SRCS_DIR}/libft
 LIBFT = ${SRCS_DIR}/libft/libft.a
 LIBFT_TARGET = $(if $(filter debug,$(MAKECMDGOALS)),debug,all)
 
-HEADERS_DIR = headers/
+HEADERS_DIR = headers/ src/libft/ criterion/include/
 HEADERS_DIR_FLAG = ${addprefix -I ,${HEADERS_DIR}}
+
+LIBRARY_SEARCH_PATH = -L test/lib/x86_64-linux-gnu/
+LIBRARY_TESTS = -lcriterion
 
 SRCS_DIR = src
 SRCS = ${addprefix ${SRCS_DIR}/,${SRCS_FILES}}
@@ -135,14 +152,8 @@ ${LIBFT}: force
 	@${MAKE} -C ${LIBFT_DIR} ${LIBFT_TARGET}
 
 norm:
-	#@printf "\033[1;33mChecking norm...\033[0m %-18s" " "
-	#@echo $$(a=$$(git ls-files | grep -E ".*\.[ch]$$" | grep -v "tests" |
-	#xargs -n 4 -P 4 norminette | grep --color=always Error) ; b=$$(printf "%s" "$$a" | wc -l) ;
-	#if [ $$b -eq 0 ]; then ${ECHO} "\033[1;32mdone\033[0m" ;
-	#else ${ECHO} "\033[1;31mERROR\033[0m" ; printf "%s\n" "$$a" ; fi ; ) | sed
-	#"s/Error/\nError/Ig"
 	@printf "\n\033[1;33mChecking norm...\033[0m %-18s" " "
-	@echo $$(a=$$(git ls-files | grep -E ".*\.[ch]$$" | grep -v "tests" | \
+	@echo $$(a=$$(git ls-files | grep -E ".*\.[ch]$$" | grep -v "test" | \
 	xargs -n 4 -P 4 norminette | grep --color=always Error) ; b=$$(printf "%s" "$$a" | wc -l) ; \
 	if [ $$b -eq 0 ]; then ${ECHO} "\033[1;32mdone\033[0m" ; \
 	else ${ECHO} "\033[1;31mERROR\033[0m" ; printf "%s\n" "$$a" ; fi ; ) | sed \
@@ -150,11 +161,13 @@ norm:
 
 clean:
 	@${MAKE} -C ${LIBFT_DIR} clean
+	@${MAKE} -C test fclean
 	@${RM} ${OBJS} ${OBJS_BONUS}
 	@${RMDIR} ${OBJS_DIR}
 	@printf "\033[1;34m%-34s\033[0m \033[1;32m%s\033[0m\n" "Cleaning" "done"
 
 fclean: clean
+	@${MAKE} -C test fclean
 	@${MAKE} -C ${LIBFT_DIR} fclean
 	@${RM} ${NAME} ${NAME_BONUS}
 	@${RM} tags
@@ -177,3 +190,20 @@ force:;
 # supprime les fichiers dupliqués sur mac
 mac_clean:
 	@find . -type f -name "* [2-9]*" -print -delete
+
+meson/meson.py:
+	git submodule init
+	git submodule update
+
+test/lib: meson/meson.py
+	cd criterion ; python3 ../meson/meson.py setup --prefix=$$(realpath ../test) build ; cd build ; \
+		python3 ../../meson/meson.py compile ; python3 ../../meson/meson.py test
+	cd criterion ; python3 ../meson/meson.py install -C build
+
+run_test: test/lib ${LIBFT} ${OBJS_DIR} ${OBJS}
+	@${MAKE} -C test
+	@#valgrind -q --leak-check=full --show-leak-kinds=all
+	@if [ $$(echo $$LD_LIBRARY_PATH | grep -c "test") -eq 0 ]; \
+		then export LD_LIBRARY_PATH=$$(realpath test/lib64):$$(realpath test/lib/x86_64-linux-gnu):$$LD_LIBRARY_PATH \
+		; fi ; ./test.out --verbose 2>&1 ; exit 0
+	@echo \'export LD_LIBRARY_PATH=$$(realpath test/lib64):$$(realpath test/lib/x86_64-linux-gnu):\$$LD_LIBRARY_PATH\' before running

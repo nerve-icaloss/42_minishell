@@ -1,27 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strchr.c                                        :+:      :+:    :+:   */
+/*   unset.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hmelica <hmelica@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/11/09 17:06:26 by hmelica           #+#    #+#             */
-/*   Updated: 2023/09/16 11:21:53 by hmelica          ###   ########.fr       */
+/*   Created: 2023/09/24 19:26:12 by hmelica           #+#    #+#             */
+/*   Updated: 2023/09/28 10:25:05 by hmelica          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-char	*ft_strchr(const char *s, int c);
+#include "env.h"
 
-char	*ft_strchr(const char *s, int c)
+/*
+ * cannot fail in minishell
+ * if not found, just goes to the next one
+ * */
+int	unset_builtin(char **argv, t_lstvar *lst)
 {
-	char	*p;
-
-	if (!s)
-		return (0);
-	p = (char *) s;
-	while (*p && *p != (unsigned char)c)
-		p++;
-	if (*p != (unsigned char)c)
-		return (0);
-	return (p);
+	if (!argv || !*argv || !lst)
+		return (-1);
+	while (*++argv)
+		var_pop(lst, var_get(*lst, *argv));
+	return (0);
 }

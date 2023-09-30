@@ -6,13 +6,14 @@
 /*   By: marvin <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/10 14:58:41 by hmelica           #+#    #+#             */
-/*   Updated: 2023/09/15 14:31:50 by marvin           ###   ########.fr       */
+/*   Updated: 2023/09/28 10:33:57 by hmelica          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
+<<<<<<< HEAD
 # include <stdlib.h>
 # include <unistd.h>
 # include <stdio.h>

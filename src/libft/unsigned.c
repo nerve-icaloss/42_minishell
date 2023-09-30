@@ -6,13 +6,13 @@
 /*   By: hmelica <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/14 18:39:28 by hmelica           #+#    #+#             */
-/*   Updated: 2023/04/21 15:46:11 by hmelica          ###   ########.fr       */
+/*   Updated: 2023/09/24 11:07:57 by hmelica          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-static int	write_u_number(unsigned int i, t_insert ins)
+static int	write_u_number(unsigned int i, t_insert ins, int fd)
 {
 	char	c;
 	int		ret;
@@ -24,15 +24,15 @@ static int	write_u_number(unsigned int i, t_insert ins)
 	if (ins.min_width > 0 && !check_flag(ins.flags, '-'))
 	{
 		while (ins.min_width-- > 0 && ++ret)
-			write(1, &c, 1);
+			write(fd, &c, 1);
 	}
 	while ((ins.prec-- > 0 || (ins.prec++ > 0)))
-		write(1, "0", 1);
-	dec_rec(i);
+		write(fd, "0", 1);
+	dec_rec(i, fd);
 	return (ret);
 }
 
-int	main_u(va_list act, t_insert ins)
+int	main_u(va_list act, t_insert ins, int fd)
 {
 	int				ret;
 	unsigned int	i;
@@ -42,11 +42,11 @@ int	main_u(va_list act, t_insert ins)
 	ins.prec = (ins.prec - int_len(i)) * !check_flag(ins.flags, '0');
 	ret += int_len(i) + (ins.prec * (ins.prec > 0));
 	ins.min_width -= ret;
-	ret += write_u_number(i, ins);
+	ret += write_u_number(i, ins, fd);
 	if (ins.min_width > 0 && check_flag(ins.flags, '-'))
 	{
 		while (ins.min_width-- > 0 && ++ret)
-			write(1, " ", 1);
+			write(fd, " ", 1);
 	}
 	return (ret);
 }

@@ -1,11 +1,6 @@
 minishell
 minishell_bonus
 *.gen
-test/**
-test
-test.out
-criterion
-meson
 *.swp
 NOT*
 *.o
@@ -13,5 +8,15 @@ NOT*
 tags
 .nfs*
 .DS_Store
+criterion/**
+meson/**
+lib
+lib64
+include
+build
+test.out
+TAGS
+a.out
+# minishell tmp file
 *.log
 .inputrc

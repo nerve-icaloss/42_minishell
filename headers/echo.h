@@ -1,24 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   char.c                                             :+:      :+:    :+:   */
+/*   echo.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hmelica <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: hmelica <hmelica@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/12/14 18:39:28 by hmelica           #+#    #+#             */
-/*   Updated: 2023/09/24 11:06:12 by hmelica          ###   ########.fr       */
+/*   Created: 2023/09/27 15:27:35 by hmelica           #+#    #+#             */
+/*   Updated: 2023/09/27 15:41:48 by hmelica          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#ifndef ECHO_H
+# define ECHO_H
 
-/*
-Write down a char
-*/
-int	main_c(va_list act, t_insert ins, int fd)
-{
-	unsigned char	c;
+# include "libft.h"
+# include <stdio.h>
 
-	c = va_arg(act, int);
-	return (display((char *)&c, ins, 1, fd));
-}
+int	echo_builtin(char **argv);
+
+#endif
