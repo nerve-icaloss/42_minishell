@@ -13,13 +13,6 @@
 #include "../headers/minishell.h"
 #include "history.h"
 
-void	init_shell(t_myshell *shell)
-{
-	shell->history = NULL;
-	shell->readline = NULL;
-	shell->exectree = NULL;
-}
-
 void	prompt_loop(t_myshell *shell)
 {
 	int	n;
@@ -30,8 +23,16 @@ void	prompt_loop(t_myshell *shell)
 	while (n < 5)
 	{
 		shell->readline = readline("minishell-1.0$ ");
-		ft_add_history(&shell->history, new_entry(shell->readline));
+		if (!shell->readline)
+		{
+			free(shell->readline);
+			break ;
+		}
+		add_entry(&shell->history, new_entry(shell->readline));
 		printf("--> %s\n", shell->readline);
+		//build_dexectree();
+		//shell.exit = run_exectree();
+		//clear_exectree();
 		free(shell->readline);
 		n++;
 	}
@@ -40,15 +41,15 @@ void	prompt_loop(t_myshell *shell)
 int	main(int argc, char *argv[])
 {
 	t_myshell	shell;
-	char	*args[2];
+	char		*args[2];
+	int			exit;
 
-	args[0] = "ls";
-	args[1] = "-l";
 	printf("Welcom to %s\n", argv[0]);
-	init_shell(&shell);
+	shell = new_shell();
 	if (argc)
 	{
 		prompt_loop(&shell);
 	}
-	return(register_history(&shell.history), 0);
+	exit = shell.exit;
+	return(register_history(&shell.history), clean_shell(&shell), exit);
 }

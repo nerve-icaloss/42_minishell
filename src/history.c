@@ -11,8 +11,7 @@
 /* ************************************************************************** */
 
 #include "history.h"
-#include "libft/libft.h"
-#include <stdio.h>
+#include "open_utils.h"
 
 void	load_history(void)
 {
@@ -42,7 +41,7 @@ void	register_history(t_history *history)
 	t_history	current;
 	char		*log;
 
-	fd = open(HISTORY_FILE, O_WRONLY | O_CREAT | O_APPEND, 000666);
+	fd = open_append(HISTORY_FILE);
 	if (fd == -1)
 		return (perror("register"));
 	current = *history;
@@ -53,7 +52,8 @@ void	register_history(t_history *history)
 		free(log);
 		current = current->next;
 	}
-	ft_clear_history(history);
+	rl_clear_history();
+	clean_history(history);
 	if (close(fd) == -1)
 		return ;
 }
