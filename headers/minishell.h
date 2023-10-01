@@ -6,29 +6,28 @@
 /*   By: marvin <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/10 14:58:41 by hmelica           #+#    #+#             */
-/*   Updated: 2023/09/28 10:33:57 by hmelica          ###   ########.fr       */
+/*   Updated: 2023/10/01 09:33:16 by hmelica          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
-<<<<<<< HEAD
-# include <stdlib.h>
-# include <unistd.h>
-# include <stdio.h>
-# include <fcntl.h>
-# include <stdbool.h>
 # include <errno.h>
-# include <readline/readline.h>
+# include <fcntl.h>
 # include <readline/history.h>
-# include <sys/types.h>
+# include <readline/readline.h>
+# include <stdbool.h>
+# include <stdio.h>
+# include <stdlib.h>
 # include <sys/stat.h>
+# include <sys/types.h>
 # include <sys/wait.h>
-# include "../src/libft/libft.h"
+# include <unistd.h>
 
 # define SYS_FAIL -1
 # define HISTORY_FILE ".inputrc"
+# include "libft.h"
 
 //----------------------------------------------------------------------------//
 
