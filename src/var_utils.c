@@ -6,7 +6,7 @@
 /*   By: hmelica <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/14 14:36:17 by hmelica           #+#    #+#             */
-/*   Updated: 2023/09/24 21:32:11 by hmelica          ###   ########.fr       */
+/*   Updated: 2023/10/01 14:12:45 by hmelica          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ void	var_update(t_lstvar var, char *name, char *value)
 int	var_add(t_lstvar *origin, char *name, char *value)
 {
 	t_myvar	*to_add;
-	int		len;
+	size_t		len;
 
 	if (!name || !origin)
 		return (-1);

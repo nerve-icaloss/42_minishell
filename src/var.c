@@ -6,7 +6,7 @@
 /*   By: hmelica <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/14 10:57:42 by hmelica           #+#    #+#             */
-/*   Updated: 2023/09/28 10:28:15 by hmelica          ###   ########.fr       */
+/*   Updated: 2023/10/01 14:11:50 by hmelica          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ int	var_parsing(t_lstvar *lst, char *str)
  * t_done */
 t_lstvar	var_get(t_lstvar lst, char *name)
 {
-	int	len;
+	size_t	len;
 
 	if (!name || !lst)
 		return (NULL);

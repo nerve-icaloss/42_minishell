@@ -6,60 +6,164 @@
 #    By: hmelica <marvin@42.fr>                     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/11/07 10:50:51 by hmelica           #+#    #+#              #
-#    Updated: 2023/09/24 19:34:36 by hmelica          ###   ########.fr        #
+#    Updated: 2023/10/01 14:28:53 by hmelica          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-SRCS = ft_atoi.c ft_bzero.c ft_calloc.c ft_isalnum.c ft_isalpha.c ft_isascii.c \
-	ft_isdigit.c ft_isprint.c ft_itoa.c ft_lstadd_back.c ft_lstadd_front.c \
-	ft_lstclear.c ft_lstdelone.c ft_lstiter.c ft_lstlast.c ft_lstmap.c \
-	ft_lstnew.c ft_lstsize.c ft_memchr.c ft_memcmp.c ft_memcpy.c ft_memmove.c \
-	ft_memset.c ft_putchar_fd.c ft_putendl_fd.c ft_putnbr_fd.c ft_putstr_fd.c \
-	ft_split.c ft_split_e.c ft_strchr.c ft_strdup.c ft_striteri.c ft_strjoin.c \
-	ft_strlcat.c ft_strlcpy.c ft_strlen.c ft_strmapi.c ft_strncmp.c \
-	ft_strnstr.c ft_strrchr.c ft_strtrim.c ft_substr.c ft_tolower.c \
-	ft_toupper.c gnl.c gnl_utils.c ft_printf.c is_something.c flags.c \
-	min_width.c digit.c char.c string.c pointer.c unsigned.c hexa.c ft_atol.c \
-	ft_dprintf.c ft_arrclear.c
+#Sources
+FTMA_DIR	=	ft_math/
+FTIS_DIR	=	ft_is/
+FTTO_DIR	=	ft_to/
+FTMEM_DIR	=	ft_mem/
+FTTRIM_DIR	=	ft_trim/
+FTSTR_DIR	=	ft_str/
+FTPUT_DIR	=	ft_put/
+FTLST_DIR	=	ft_lst/
+FTGNL_DIR	=	ft_gnl/
+FTPRF_DIR	=	ft_printf/
 
-OBJS = ${SRCS:.c=.o}
+FTMA		=	ft_abs.c
 
-CFLAGS = -Wall -Wextra -Werror
+FTIS		=	ft_isalnum.c \
+				ft_isalpha.c \
+				ft_isascii.c \
+				ft_isdigit.c \
+				ft_isplusminus.c \
+				ft_isprint.c \
+				ft_isspace.c \
+				ft_isstr_int.c
 
-CC = gcc
+FTTO		=	ft_atoi.c \
+				ft_atoi_base.c \
+				ft_atol.c \
+				ft_itoa.c \
+				ft_tolower.c \
+				ft_toupper.c
 
-RM = rm -f
+FTMEM		=	ft_bzero.c \
+				ft_calloc.c \
+				ft_memchr.c \
+				ft_memcmp.c \
+				ft_memcpy.c \
+				ft_memmove.c \
+				ft_memset.c
 
-NAME = libft.a
+FTTRIM		=	ft_trimleft.c \
+				ft_trimright.c
 
-INCLUDES = libft.h
+FTSTR		=	ft_arrclear.c \
+				ft_split.c \
+				ft_strchr.c \
+				ft_strdup.c \
+				ft_striteri.c \
+				ft_strjoin.c \
+				ft_strjoin2.c \
+				ft_strlcat.c \
+				ft_strlcpy.c \
+				ft_strlen.c \
+				ft_strmapi.c \
+				ft_strncmp.c \
+				ft_strnstr.c \
+				ft_strrchr.c \
+				ft_strtrim.c \
+				ft_substr.c \
+				ft_wordlen.c
 
-LIBC = ar
+FTPUT		=	ft_putchar_fd.c \
+				ft_putendl_fd.c \
+				ft_putnbr_fd.c \
+				ft_putstr_fd.c
 
-LIBFLAGS = rcs
+FTLST		=	ft_lstadd_back.c \
+				ft_lstadd_front.c \
+				ft_lstclear.c \
+				ft_lstdelone.c \
+				ft_lstiter.c \
+				ft_lstlast.c \
+				ft_lstmap.c \
+				ft_lstnew.c \
+				ft_lstsize.c
 
-OK_PROMPT = \033[1;32mdone\033[0m
-CFLAGS := ${CFLAGS} $(if $(filter debug,$(MAKECMDGOALS)),-g,)
-DEBUG_PROMPT = \033[1;35mdebug mode\033[0m
-OK_PROMPT = \033[1;32mdone \033[0m$(if $(filter debug,$(MAKECMDGOALS)),$(DEBUG_PROMPT),)
+FTGNL		=	get_next_line.c \
+				get_next_line_utils.c
 
-DELETE = \033[2K\r
+FTPRF		=	char.c \
+				digit.c \
+				flags.c \
+				ft_dprintf.c \
+				ft_printf.c \
+				hexa.c \
+				is_something.c \
+				min_width.c \
+				pointer.c \
+				string.c \
+				unsigned.c
+
+SRCS_DIR = src/
+SRCS_FILES	+= $(addprefix $(FTMA_DIR),$(FTMA))
+SRCS_FILES	+= $(addprefix $(FTIS_DIR),$(FTIS))
+SRCS_FILES	+= $(addprefix $(FTTO_DIR),$(FTTO))
+SRCS_FILES	+= $(addprefix $(FTMEM_DIR),$(FTMEM))
+SRCS_FILES	+= $(addprefix $(FTTRIM_DIR),$(FTTRIM))
+SRCS_FILES	+= $(addprefix $(FTSTR_DIR),$(FTSTR))
+SRCS_FILES	+= $(addprefix $(FTPUT_DIR),$(FTPUT))
+SRCS_FILES	+= $(addprefix $(FTLST_DIR),$(FTLST))
+SRCS_FILES	+= $(addprefix $(FTGNL_DIR),$(FTGNL))
+SRCS_FILES	+= $(addprefix $(FTPRF_DIR),$(FTPRF))
+SRCS = $(addprefix src/, $(SRCS_FILES))
+
+OBJS_DIR 	= obj/
+DIR_TODO	+= $(FTMA_DIR)
+DIR_TODO	+= $(FTIS_DIR)
+DIR_TODO	+= $(FTTO_DIR)
+DIR_TODO	+= $(FTMEM_DIR)
+DIR_TODO	+= $(FTTRIM_DIR)
+DIR_TODO	+= $(FTSTR_DIR)
+DIR_TODO	+= $(FTPUT_DIR)
+DIR_TODO	+= $(FTLST_DIR)
+DIR_TODO	+= $(FTGNL_DIR)
+DIR_TODO	+= $(FTPRF_DIR)
+DIR_TODO	:= $(addprefix $(OBJS_DIR), $(DIR_TODO))
+OBJS		= ${patsubst ${SRCS_DIR}%.c,${OBJS_DIR}%.o,$(SRCS)}
+
+NAME		= libft.a
+HEADERS		= libft.h
+INCLUDES	= -I .
+
+LIBC		= ar
+LIBFLAGS	= rcs
+CC			= gcc
+CFLAGS		= -Wall -Wextra -Werror
+RM			= rm -f
+MKDIR		= mkdir
+
+OK_PROMPT		= \033[1;32mdone\033[0m
+CFLAGS			:= ${CFLAGS} $(if $(filter debug,$(MAKECMDGOALS)),-g,)
+DEBUG_PROMPT	= \033[1;35mdebug mode\033[0m
+OK_PROMPT		= \033[1;32mdone \033[0m$(if $(filter debug,$(MAKECMDGOALS)),$(DEBUG_PROMPT),)
+DELETE			= \033[2K\r
 
 all: ${NAME}
 	@echo > /dev/null
 
-${NAME}:${OBJS}
-	@printf "$(DELETE)\033[1;33m...Building\033[0m %-23s" "libft"
-	@${LIBC} ${LIBFLAGS} ${NAME} ${OBJS}
+${NAME}: ${OBJS_DIR} ${OBJS}
+	@printf "$(DELETE)\033[1;33m...Building\033[0m %-33s" "libft"
+	@${LIBC} ${LIBFLAGS} ${NAME} ${OBJS} ${HEADERS}
 	@echo "${OK_PROMPT}"
 
-.c.o:
-	@printf "$(DELETE)\033[1;34mRecompiling\033[0m %-23s" $<
-	@${CC} ${CFLAGS} -c $< -o ${<:.c=.o}
+${OBJS_DIR}:
+	@printf "\033[1;34m...Creating\033[0m %-33s" "${OBJS_DIR} directory"
+	@${MKDIR} ${OBJS_DIR} ${DIR_TODO}
+	@printf "\033[1;32mdone\033[0m"
+
+${OBJS_DIR}%.o: ${SRCS_DIR}%.c
+	@printf "$(DELETE)\033[1;34mCompiling\033[0m %-35s" $<
+	@${CC} ${CFLAGS} ${INCLUDES} -c $< -o $@
 	@printf "${OK_PROMPT}"
 
 clean:
 	@${RM} ${OBJS} ${BONUS_OBJS}
+	@ rm -df ${DIR_TODO} ${OBJS_DIR}
 
 fclean: clean
 	@${RM} ${NAME}

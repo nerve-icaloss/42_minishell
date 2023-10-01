@@ -6,7 +6,7 @@
 #    By: marvin <marvin@42.fr>                      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/04/13 14:06:13 by hmelica           #+#    #+#              #
-#    Updated: 2023/10/01 09:35:13 by hmelica          ###   ########.fr        #
+#    Updated: 2023/10/01 14:30:18 by hmelica          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -29,8 +29,8 @@
 #
 # Stuff to edit :
 # -------------
-NAME = minishell
-NAME_BONUS = ${NAME}_bonus
+NAME		= minishell
+NAME_BONUS	= ${NAME}_bonus
 #
 # Mettre le nom des fichiers sans le dossier. Le dossier src est automatiquement
 # ajouté.
@@ -40,8 +40,7 @@ NAME_BONUS = ${NAME}_bonus
 # Exemple :
 #       main.c \       # oui
 #       src/main.c     # non
-SRCS_FILES = \
-				env.c \
+SRCS_FILES	=	env.c \
 				envp.c \
 				export.c \
 				main.c \
@@ -57,13 +56,13 @@ SRCS_FILES = \
 SRCS_FILES_BONUS = \
 #
 # ^- (this comment line matters too)
-CFLAGS = -Wall -Werror -Wextra
+CFLAGS	= -Wall -Werror -Wextra
 # Other useful flags : -O3 -Wno-unused-result
 #                           ^- flag de compilation sur mac (Apple Clang)
 #                        ^- flag d'optimisation maximum (peut entrainer des
 #                           comportements indéfinis)
-DEBUG_FLAG = -g
-SANITIZE_FLAG = -fsanitize=address
+DEBUG_FLAG		= -g
+SANITIZE_FLAG	= -fsanitize=address
 #
 # **************************************************************************** #
 #
@@ -75,35 +74,36 @@ MAKEFLAGS += --no-print-directory
 
 CC = cc
 
-LIBFT_DIR = ${SRCS_DIR}/libft
-LIBFT = ${SRCS_DIR}/libft/libft.a
-LIBFT_TARGET = $(if $(filter debug,$(MAKECMDGOALS)),debug,all)
+LIBFT_DIR		= ${SRCS_DIR}/libft
+LIBFT_FLAG		= -L $(LIBFT_DIR) -l:libft.a
+LIBFT			= ${SRCS_DIR}/libft/libft.a
+LIBFT_TARGET	= $(if $(filter debug,$(MAKECMDGOALS)),debug,all)
 
-HEADERS_DIR = headers/ src/libft/ criterion/include/
-HEADERS_DIR_FLAG = ${addprefix -I ,${HEADERS_DIR}}
+HEADERS_DIR			= headers/ src/libft/ criterion/include/
+HEADERS_DIR_FLAG	= ${addprefix -I ,${HEADERS_DIR}}
 
-LIBRARY_SEARCH_PATH = -L test/lib/x86_64-linux-gnu/
-LIBRARY_TESTS = -lcriterion
+LIBRARY_SEARCH_PATH	= -L test/lib/x86_64-linux-gnu/
+LIBRARY_TESTS		= -lcriterion
 
-SRCS_DIR = src
-SRCS = ${addprefix ${SRCS_DIR}/,${SRCS_FILES}}
-SRCS_FILES_BONUS := ${SRCS_FILES_BONUS} ${addprefix b_,${SRCS_FILES}}
-SRCS_BONUS = ${addprefix ${SRCS_DIR}/,${SRCS_FILES_BONUS}}
+SRCS_DIR			= src
+SRCS				= ${addprefix ${SRCS_DIR}/,${SRCS_FILES}}
+SRCS_FILES_BONUS	:= ${SRCS_FILES_BONUS} ${addprefix b_,${SRCS_FILES}}
+SRCS_BONUS			= ${addprefix ${SRCS_DIR}/,${SRCS_FILES_BONUS}}
 
-OBJS_DIR = obj
-OBJS = ${patsubst ${SRCS_DIR}%.c,${OBJS_DIR}%.o,$(SRCS)}
-OBJS_BONUS_VIRT = ${patsubst ${SRCS_DIR}%.c,${OBJS_DIR}%.o,$(SRCS_BONUS)}
-OBJS_BONUS = ${patsubst b_%,%,$(OBJS_BONUS_VIRT)}
+OBJS_DIR		= obj
+OBJS			= ${patsubst ${SRCS_DIR}%.c,${OBJS_DIR}%.o,$(SRCS)}
+OBJS_BONUS_VIRT	= ${patsubst ${SRCS_DIR}%.c,${OBJS_DIR}%.o,$(SRCS_BONUS)}
+OBJS_BONUS		= ${patsubst b_%,%,$(OBJS_BONUS_VIRT)}
 
-ECHO = echo
-RM = rm -f
-RMDIR = rm -df
-MKDIR = mkdir
+ECHO	= echo
+RM		= rm -f
+RMDIR	= rm -df
+MKDIR	= mkdir
 
-CFLAGS_NAME = $(if $(filter $(MAKECMDGOALS), sanitize),$(SANITIZE_FLAG),)
-CFLAGS := ${CFLAGS} $(if $(filter $(MAKECMDGOALS), debug test),$(DEBUG_FLAG),)
-DEBUG_PROMPT = \033[1;35mdebug mode\033[0m
-OK_PROMPT = \033[1;32mdone \033[0m$(if $(filter $(MAKECMDGOALS), debug test),$(DEBUG_PROMPT),)
+CFLAGS_NAME		= $(if $(filter $(MAKECMDGOALS), sanitize),$(SANITIZE_FLAG),)
+CFLAGS			:= ${CFLAGS} $(if $(filter $(MAKECMDGOALS), debug test),$(DEBUG_FLAG),)
+DEBUG_PROMPT	= \033[1;35mdebug mode\033[0m
+OK_PROMPT		= \033[1;32mdone \033[0m$(if $(filter $(MAKECMDGOALS), debug test),$(DEBUG_PROMPT),)
 
 DELETE = \033[2K\r
 
@@ -111,8 +111,8 @@ all: ${NAME}
 	@echo "\033[1;32mSuccess\033[0m"
 
 ${NAME}: ${LIBFT} ${OBJS_DIR} ${OBJS}
-	@printf "$(DELETE)\033[1;33m...Building\033[0m %-23s" "${NAME}"
-	@${CC} ${CFLAGS} ${CFLAGS_NAME} ${HEADERS_DIR_FLAG} -o ${NAME} ${OBJS} ${LIBFT} -lreadline
+	@printf "$(DELETE)\033[1;33m...Building\033[0m %-33s" "${NAME}"
+	@${CC} ${CFLAGS} ${CFLAGS_NAME} ${HEADERS_DIR_FLAG} -o ${NAME} ${OBJS} ${LIBFT_FLAG} -lreadline
 	@echo "${OK_PROMPT}"
 	@${MAKE} tags
 
@@ -120,24 +120,24 @@ bonus: ${NAME_BONUS}
 	@echo "\033[1;32mSuccess\033[0m \033[1;35mbonus\033[0m"
 
 ${NAME_BONUS}: ${NAME}
-	@printf "\033[1;33m...Building\033[0m %-23s" "${NAME_BONUS}"
+	@printf "\033[1;33m...Building\033[0m %-33s" "${NAME_BONUS}"
 	@cp ${NAME} ${NAME_BONUS}
 	@echo "${OK_PROMPT} \033[1;35mbonus\033[0m"
 
 ${OBJS_DIR}:
-	@printf "\033[1;34m...Creating\033[0m %-23s" "${OBJS_DIR} directory"
+	@printf "\033[1;34m...Creating\033[0m %-33s" "${OBJS_DIR} directory"
 	@${MKDIR} ${OBJS_DIR}
 	@printf "\033[1;32mdone\033[0m"
 
 ${OBJS_DIR}/%.o: ${SRCS_DIR}/%.c
-	@printf "$(DELETE)\033[1;34mCompiling\033[0m %-25s" $<
+	@printf "$(DELETE)\033[1;34mCompiling\033[0m %-35s" $<
 	@${CC} ${CFLAGS} ${HEADERS_DIR_FLAG} -c $< -o $@
 	@printf "${OK_PROMPT}"
 
 ${OBJS_BONUS}: OK_PROMPT += \033[1;35mbonus\033[0m
 
 ${OBJS_DIR}/b_%.o: ${SRCS_DIR}/%.c
-	@printf "\033[1;34mRecompiling\033[0m %-23s" $<
+	@printf "\033[1;34mRecompiling\033[0m %-33s" $<
 	@${CC} ${CFLAGS} ${HEADERS_DIR_FLAG} -D BONUS=1 -c $< -o $@
 	@echo "${OK_PROMPT}"
 
@@ -157,24 +157,24 @@ clean:
 	@${MAKE} -C test fclean
 	@${RM} ${OBJS} ${OBJS_BONUS}
 	@${RMDIR} ${OBJS_DIR}
-	@printf "\033[1;34m%-34s\033[0m \033[1;32m%s\033[0m\n" "Cleaning" "done"
+	@printf "\033[1;34m%-44s\033[0m \033[1;32m%s\033[0m\n" "Cleaning" "done"
 
 fclean: clean
 	@${MAKE} -C test fclean
 	@${MAKE} -C ${LIBFT_DIR} fclean
 	@${RM} ${NAME} ${NAME_BONUS}
 	@${RM} tags
-	@printf "\033[1;34m%-34s\033[0m \033[1;32m%s\033[0m\n" "File cleaning" "done"
+	@printf "\033[1;34m%-44s\033[0m \033[1;32m%s\033[0m\n" "File cleaning" "done"
 
 re: fclean all
 
 debug: all
 
 sanitize:
-	@printf "\033[1;34m%-34s\033[0m \033[1;32m%s\033[0m\n" "Output is sanitized" "done"
+	@printf "\033[1;34m%-44s\033[0m \033[1;32m%s\033[0m\n" "Output is sanitized" "done"
 
 tags:force
-	@printf "\033[1;33m.Generating\033[0m %-23s" "tags"
+	@printf "\033[1;33m.Generating\033[0m %-33s" "tags"
 	@ctags --options=.ctags
 	@echo "\033[1;32mdone\033[0m"
 
