@@ -6,7 +6,7 @@
 /*   By: nserve & hmelica                           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/10 14:57:45 by hmelica           #+#    #+#             */
-/*   Updated: 2023/09/10 14:58:30 by hmelica          ###   ########.fr       */
+/*   Updated: 2023/10/01 09:34:09 by hmelica          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,7 @@ int	main(int argc, char *argv[])
 	char		*args[2];
 	int			exit;
 
+	(void) args;
 	printf("Welcom to %s\n", argv[0]);
 	shell = new_shell();
 	if (argc)
