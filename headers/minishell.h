@@ -83,29 +83,26 @@ void		env_clean(t_myenv *env);
 //----------------------------------------------------------------------------//
 
 typedef enum e_lexer {
-	input = 1,
-	cmd,
-	redir_in,
-	redir_out,
-	name,
-	//flags
-	args,
+	t_input = 1,
+	t_pipe,
+	t_cmd,
+	t_in,
+	t_out,
 }	t_lexer;
 
 typedef struct s_mytoken {
-	struct s_myelement	*prev;
-	int					cmd_id;
 	t_lexer				type;
-	int					pos;
+	int					type_id;
 	char				*content;
-	struct s_mytoken	*next;
+	struct s_mytoken	*left;
+	struct s_mytoken	*right;
 }	t_mytoken;
 
 typedef t_mytoken *	t_tokentree;
 
-void		token_addleft(t_tokentree *tokentree, t_mytoken *token);
-void		token_addright(t_tokentree *tokentree, t_mytoken *token);
-void		token_insert(t_tokentree *tokentree, t_mytoken *token);
+t_mytoken	*token_init(char *str, t_lexer type);
+int			token_addleft(t_mytoken *origin, t_lexer type, int id, char *str);
+int			token_addright(t_mytoken *origin, t_lexer type, int id, char *str);
 void		tokentree_clean(t_tokentree *tokentree);
 
 //----------------------------------------------------------------------------//
