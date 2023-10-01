@@ -199,7 +199,7 @@ gen_gitignore() {
 }
 
 gen_source_template() {
-	echo -e "#include \"$(echo $1 | sed "s/\.c/\.h/")\"" >> $src_repo$1
+	echo -e "#include \"../headers/$(echo $1 | sed "s/\.c/\.h/")\"" >> $src_repo$1
 	echo -e "\n" >> $src_repo$1
 	vim + -c"Stdheader" $src_repo$1  #-c"wq"
 }
@@ -211,13 +211,13 @@ echo "#ifndef $upperstr
 # define $upperstr
 
 $(for include in $includes; do
-	echo -e "# include \"$(basename $include)\""
+	echo -e "# include \"../headers/$(basename $include)\""
 done)
 
 $(ctags -xu --fields=nP $src_repo$1 | grep -v "#define" | sed -e "s/^.*\.c\ *//g" -e "s/$/;/g" -e "s/^static.*//g")
 
 #endif" >> $src_repo$2
-	vim + -c"Stdheader" $src_repo$2 #-c"wq"
+	vim + -c"Stdheader" $inc_repo$2 #-c"wq"
 }
 
 # if I want to extract define from source file ?
