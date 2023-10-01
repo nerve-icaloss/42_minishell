@@ -6,7 +6,7 @@
 #    By: marvin <marvin@42.fr>                      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/04/13 14:06:13 by hmelica           #+#    #+#              #
-#    Updated: 2023/10/01 09:31:05 by hmelica          ###   ########.fr        #
+#    Updated: 2023/10/01 09:35:13 by hmelica          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -55,9 +55,6 @@ SRCS_FILES = \
 # If needed, use macro BONUS that will be set to 1 when bonus is compiled.
 # Every normal srcs_files are re-compiled with those additionnal files :
 SRCS_FILES_BONUS = \
-#
-# ^- (this comment line matters too)
-TEST_FILES = test/test.c \
 #
 # ^- (this comment line matters too)
 CFLAGS = -Wall -Werror -Wextra
