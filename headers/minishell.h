@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/10 14:58:41 by hmelica           #+#    #+#             */
-/*   Updated: 2023/10/01 09:33:16 by hmelica          ###   ########.fr       */
+/*   Updated: 2023/10/01 16:33:41 by hmelica          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,8 @@
 # include "../src/libft/libft.h"
 
 //----------------------------------------------------------------------------//
+
+typedef int t_parsing; // DELETE THAT
 
 typedef struct s_myentry {
 	char				*content;
