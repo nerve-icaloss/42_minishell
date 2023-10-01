@@ -10,7 +10,8 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "env.h"
+#include "../headers/minishell.h"
+#include "var_utils.h"
 
 char	*format_export(char *s)
 {
@@ -68,7 +69,7 @@ int	print_export(t_myenv *myenv)
 /*
  * export does check for numbers at first character of variable name
  * */
-int	export(char **av, t_myenv *myenv)
+int	export_builtin(char **av, t_myenv *myenv)
 {
 	int	len;
 

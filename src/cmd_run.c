@@ -43,9 +43,9 @@ int	single_builtin(t_mycmd *cmd, t_myshell *shell)
 void	single_child(t_mycmd *cmd, t_myshell *shell)
 {
 	if (input_redirection(cmd) == SYS_FAIL)
-		return (clean_shell(shell), exit(1));
+		return (shell_clean(shell), exit(1));
 	if (output_redirection(cmd) == SYS_FAIL)
-		return (clean_shell(shell), exit(1));
+		return (shell_clean(shell), exit(1));
 	run_cmd(cmd, shell);
 }
 
@@ -69,14 +69,14 @@ void	run_cmd(t_mycmd *cmd, t_myshell *shell)
 {
 	cmd->path = get_cmd_path(cmd->name, shell);
 	if (cmd->path == NULL && errno == EISDIR)
-		return (perror(cmd->name), clean_shell(shell), exit(126));
+		return (perror(cmd->name), shell_clean(shell), exit(126));
 	if (cmd->path == NULL)
-		return (cmd_notfound(cmd->name), clean_shell(shell), exit(127));
+		return (cmd_notfound(cmd->name), shell_clean(shell), exit(127));
 	if (execve(cmd->path, cmd->args, shell->env.envp) == SYS_FAIL)
 	{
 		perror(cmd->name);
 		if (errno == ENOENT)
-			return (clean_shell(shell), exit(127));
-		return (clean_shell(shell), exit(1));
+			return (shell_clean(shell), exit(127));
+		return (shell_clean(shell), exit(1));
 	}
 }

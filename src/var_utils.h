@@ -1,20 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   blt_exit.h                                         :+:      :+:    :+:   */
+/*   var_utils.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: nserve <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/09/28 17:18:17 by nserve            #+#    #+#             */
-/*   Updated: 2023/09/28 17:18:32 by nserve           ###   ########.fr       */
+/*   Created: 2023/09/30 15:10:47 by nserve            #+#    #+#             */
+/*   Updated: 2023/09/30 15:10:57 by nserve           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef BLT_EXIT_H
-# define BLT_EXIT_H
+#ifndef VAR_UTILS_H
+# define VAR_UTILS_H
 
 # include "../headers/minishell.h"
 
-int blt_exit(char *av[], t_myenv *env);
+int var_parsing(t_lstvar *lst, char *str);
+t_lstvar var_get(t_lstvar lst, char *name);
+char *var_get_value(t_lstvar lst, char *name);
+char *var_get_string(t_myvar *var);
 
 #endif

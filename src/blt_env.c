@@ -1,26 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   unset.c                                            :+:      :+:    :+:   */
+/*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hmelica <hmelica@student.42.fr>            +#+  +:+       +#+        */
+/*   By: hmelica <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/09/24 19:26:12 by hmelica           #+#    #+#             */
-/*   Updated: 2023/09/28 10:25:05 by hmelica          ###   ########.fr       */
+/*   Created: 2023/09/14 10:33:12 by hmelica           #+#    #+#             */
+/*   Updated: 2023/09/29 10:27:34 by hmelica          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "env.h"
+#include "../headers/minishell.h"
 
 /*
- * cannot fail in minishell
- * if not found, just goes to the next one
- * */
-int	unset_builtin(char **argv, t_lstvar *lst)
+ * there is no params needed
+ * T */
+int	env_builtin(t_myenv *myenv)
 {
-	if (!argv || !*argv || !lst)
-		return (-1);
-	while (*++argv)
-		var_pop(lst, var_get(*lst, *argv));
+	t_lstvar	var;
+
+	var = myenv->lst_var;
+	while (var)
+	{
+		if (var->value)
+			printf("%s=%s\n", var->name, var->value);
+		var = var->next;
+	}
 	return (0);
 }

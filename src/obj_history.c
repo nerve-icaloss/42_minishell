@@ -12,52 +12,37 @@
 
 #include "../headers/minishell.h"
 
-t_myentry	*new_entry(const char *str)
+int	entry_add(t_history *origin, char *str)
 {
-	t_myentry	*entry;
+	t_myentry	*to_add;
 
-entry = malloc(sizeof(*entry));
-	if (!entry)
-		return (NULL);
-	entry->content = ft_strdup(str);
-	entry->next = NULL;
-	return (entry);
+	if (!origin || !str)
+		return (-1);
+	add_history(str);
+	to_add = *origin;
+	while (to_add)
+		to_add = to_add->next;
+	to_add = malloc(sizeof(*to_add));
+	if (!to_add)
+		return (-1);
+	to_add->content = ft_strdup(str);
+	to_add->next = NULL;
+	return (0);
 }
 
-void	add_entry(t_history *history, t_myentry *entry)
+void	history_clean(t_history *origin)
 {
-	t_history	current;
+	t_myentry	*i;
 
-	current = NULL;
-	add_history(entry->content);
-	if (!*history)
-	{
-		*history = entry;
-	}
-	else
-	{
-		current = *history;
-		while (current->next)
-		{
-			current = current->next;
-		}
-		current->next = entry;
-	}
-}
-
-void	clean_history(t_history *history)
-{
-	t_history	current;
-	t_myentry	*todel;
-
-	if (!*history)
+	if (!*origin)
 		return ;
-	current = *history;
-	while (current)
+	i = *origin;
+	while (i)
 	{
-		todel = current;
-		current = current->next;
-		free(todel);
+		*origin = (*origin)->next;
+		free(i->content);
+		free(i);
+		i = *origin;
 	}
-	*history = NULL;
+	*origin = NULL;
 }

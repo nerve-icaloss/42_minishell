@@ -13,6 +13,11 @@
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
+# include <stdlib.h>
+# include <unistd.h>
+# include <stdio.h>
+# include <fcntl.h>
+# include <stdbool.h>
 # include <errno.h>
 # include <fcntl.h>
 # include <readline/history.h>
@@ -27,20 +32,19 @@
 
 # define SYS_FAIL -1
 # define HISTORY_FILE ".inputrc"
-# include "libft.h"
+# include "../src/libft/libft.h"
 
 //----------------------------------------------------------------------------//
 
 typedef struct s_myentry {
-	const char			*content;
+	char				*content;
 	struct s_myentry	*next;
 }	t_myentry;
 
 typedef t_myentry *	t_history;
 
-t_myentry *new_entry(const char *str);
-void add_entry(t_history *history, t_myentry *entry);
-void clean_history(t_history *history);
+int			entry_add(t_history *origin, char *str);
+void		history_clean(t_history *history);
 
 //----------------------------------------------------------------------------//
 
@@ -53,6 +57,12 @@ typedef struct s_myvar {
 
 typedef t_myvar *	t_lstvar;
 
+int			var_add(t_lstvar *origin, char *name, char *value);
+void		var_update(t_myvar *var, char *name, char *value);
+int			var_pop(t_lstvar *origin, t_myvar *var);
+void		var_clean(t_lstvar *lst);
+
+
 typedef struct s_myenv {
 	t_lstvar		lst_var;
 	unsigned int	count;
@@ -62,7 +72,13 @@ typedef struct s_myenv {
 	struct s_myvar	*home;
 	struct s_myvar	*path;
 	struct s_myvar	*shlvl;
+	bool			subsh;
 }	t_myenv;
+
+int			envp_update(t_myenv *env);
+void		envp_clean(char ***envp);
+int			env_init(t_myenv *env, char **envp);
+void		env_clean(t_myenv *env);
 
 //----------------------------------------------------------------------------//
 
@@ -76,22 +92,21 @@ typedef enum e_lexer {
 	args,
 }	t_lexer;
 
-typedef struct s_myelement {
+typedef struct s_mytoken {
 	struct s_myelement	*prev;
 	int					cmd_id;
 	t_lexer				type;
 	int					pos;
 	char				*content;
-	struct s_myelement	*next;
-}	t_myelement;
+	struct s_mytoken	*next;
+}	t_mytoken;
 
-typedef t_myelement *	t_parsing;
+typedef t_mytoken *	t_tokentree;
 
-t_myelement *new_element(char *input, t_lexer type);
-void addtop_element(t_parsing *parsing, t_myelement *element);
-void addbot_element(t_parsing *parsing, t_myelement *element);
-void insert_element(t_parsing *parsing, t_myelement *element);
-void clean_parsing(t_parsing *parsing);
+void		token_addleft(t_tokentree *tokentree, t_mytoken *token);
+void		token_addright(t_tokentree *tokentree, t_mytoken *token);
+void		token_insert(t_tokentree *tokentree, t_mytoken *token);
+void		tokentree_clean(t_tokentree *tokentree);
 
 //----------------------------------------------------------------------------//
 
@@ -108,13 +123,13 @@ typedef struct s_myredir {
 	bool		expand;
 	int			fd;
 	char		*file;
-} t_myredir;
+}	t_myredir;
 
 typedef t_myredir *	t_redirtab;
 
-t_myredir *new_redir();
-t_redirtab *new_redirtab();
-void clean_redirtab(t_redirtab *redirtab);
+t_myredir	*redir_init(void);
+int			redirtab_init(t_redirtab *tab, int redir_count);
+void		redirtab_clean(t_redirtab *tab);
 
 //----------------------------------------------------------------------------//
 
@@ -124,7 +139,7 @@ typedef struct s_mycmd
 	int			in_count;
 	t_redirtab	in;
 	int			in_fd;
-	char		*path; //exec_path
+	char		*path;
 	char		*name;
 	char		**args;
 	int			out_fd;
@@ -134,16 +149,16 @@ typedef struct s_mycmd
 
 typedef	t_mycmd *	t_cmdtab;
 
-t_mycmd *new_cmd();
-t_cmdtab *new_cmdtab();
-void clean_cmdtab(t_cmdtab *cmdtab);
+t_mycmd		*cmd_init(void);
+int			cmdtab_init(t_cmdtab *tab, int cmd_count);
+void		cmdtab_clean(t_cmdtab *tab);
 
 //----------------------------------------------------------------------------//
 
 typedef struct s_myexec {
 	pid_t			pid;
 	char			*input;
-	t_parsing		parsing;
+	t_tokentree		parsing;
 	int				cmd_count;
 	t_cmdtab		cmdtab;
 	int				exit;
@@ -153,10 +168,10 @@ typedef struct s_myexec {
 
 typedef t_myexec *	t_exectree;
 
-t_myexec *new_exec(char *input);
-void add_exec_left(t_exectree *exectree, t_myexec *exec);
-void add_exec_right(t_exectree *exectree, t_myexec *exec);
-void clean_exectree(t_exectree *exectree);
+t_myexec	*exec_init(char *input);
+void		exec_addleft(t_exectree *exectree, t_myexec *exec);
+void		exec_addright(t_exectree *exectree, t_myexec *exec);
+void		exectree_clean(t_exectree *exectree);
 
 //----------------------------------------------------------------------------//
 
@@ -168,7 +183,7 @@ typedef struct s_myshell {
 	int			exit;
 }	t_myshell;
 
-t_myshell new_shell();
-void clean_shell(t_myshell *shell);
+t_myshell	shell_init();
+void		shell_clean(t_myshell *shell);
 
 #endif

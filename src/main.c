@@ -28,7 +28,8 @@ void	prompt_loop(t_myshell *shell)
 			free(shell->readline);
 			break ;
 		}
-		add_entry(&shell->history, new_entry(shell->readline));
+		if (entry_add(&shell->history, shell->readline) == -1)
+			write(2, "error login history", 19);
 		printf("--> %s\n", shell->readline);
 		//build_dexectree();
 		//shell.exit = run_exectree();
@@ -46,11 +47,11 @@ int	main(int argc, char *argv[])
 
 	(void) args;
 	printf("Welcom to %s\n", argv[0]);
-	shell = new_shell();
+	shell = shell_init();
 	if (argc)
 	{
 		prompt_loop(&shell);
 	}
 	exit = shell.exit;
-	return(register_history(&shell.history), clean_shell(&shell), exit);
+	return(register_history(&shell.history), shell_clean(&shell), exit);
 }

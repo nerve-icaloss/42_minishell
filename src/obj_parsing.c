@@ -2,43 +2,43 @@
 
 #include "../headers/minishell.h"
 
-t_myelement	*new_element(char *str, t_lexer type)
+t_mytoken	*new_token(char *str, t_lexer type)
 {
-	t_myelement	*element;
+	t_mytoken	*token;
 
-	element = malloc(sizeof(*element));
-	if (!element)
+	token = malloc(sizeof(*token));
+	if (!token)
 		return (NULL);
-	element->prev = NULL;
-	element->cmd_id = -1;
-	element->type = type;
-	element->pos = -1;
-	element->content = ft_strdup(str);
-	element->next = NULL;
-	return (element);
+	token->prev = NULL;
+	token->cmd_id = -1;
+	token->type = type;
+	token->pos = -1;
+	token->content = ft_strdup(str);
+	token->next = NULL;
+	return (token);
 }
 
-void	addtop_element(t_parsing *parsing, t_myelement *element)
+void	token_addtop(t_tokentree *tokentree, t_mytoken *token)
 {
 
 }
 
-void	addbot_element(t_parsing *parsing, t_myelement *element)
+void	token_addbot(t_tokentree *tokentree, t_mytoken *token)
 {
 
 }
 
-void	insert_element(t_parsing *parsing, t_myelement *element)
+void	token_insert(t_tokentree *tokentree, t_mytoken *token)
 {
 
 }
 
-void	clear_parsing(t_parsing *parsing)
+void	tokentree_clean(t_tokentree *tokentree)
 {
-	t_myelement *current;
+	t_mytoken *current;
 
-	current = *parsing;
+	current = *tokentree;
 	free(current);
-	*parsing = NULL;
+	*tokentree = NULL;
 
 }
