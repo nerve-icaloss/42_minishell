@@ -49,14 +49,14 @@ void	pipex_child(t_cmdtab *cmdtab, int **pipe_fd, int id, t_myshell *shell)
 	while (cmdtab[cmd_count])
 		cmd_count++;
 	if (close_child_pipe(*pipe_fd, id, cmd_count) == SYS_FAIL)
-		return (free(*pipe_fd), clean_shell(shell), exit(1));
+		return (free(*pipe_fd), shell_clean(shell), exit(1));
 	if (input_redirection(cmdtab[id]) == SYS_FAIL)
-		return (free(*pipe_fd), clean_shell(shell), exit(1));
+		return (free(*pipe_fd), shell_clean(shell), exit(1));
 	free(*pipe_fd);
 	if (output_redirection(cmdtab[id]) == SYS_FAIL)
-		return (clean_shell(shell), exit(1));
+		return (shell_clean(shell), exit(1));
 	if (cmdtab[id]->args[0][0] == '\0')
-		return (clean_shell(shell), exit(0));
+		return (shell_clean(shell), exit(0));
 	if (is_builtin(cmdtab[id]->name))
 		exit(run_builtin(cmdtab[id], shell));
 	else

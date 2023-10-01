@@ -1,101 +1,96 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   var_utils.c                                        :+:      :+:    :+:   */
+/*   var.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hmelica <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/09/14 14:36:17 by hmelica           #+#    #+#             */
-/*   Updated: 2023/09/24 21:32:11 by hmelica          ###   ########.fr       */
+/*   Created: 2023/09/14 10:57:42 by hmelica           #+#    #+#             */
+/*   Updated: 2023/09/28 10:28:15 by hmelica          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "env.h"
+#include "var_utils.h"
 
 /*
+ * ft_strchr is secured in case str == NULL
+ * it SHOULD BE DEPENDING ON WHICH LIBFT
  * t_done */
-void	var_clean(t_lstvar *lst)
+int	var_parsing(t_lstvar *lst, char *str)
 {
-	t_lstvar	i;
+	char	*split;
+	char	*name;
+	char	*value;
 
-	if (!lst)
-		return ;
-	i = *lst;
-	while (i)
-	{
-		*lst = (*lst)->next;
-		free(i->name);
-		if (i->value)
-			free(i->value);
-		free(i);
-		i = *lst;
-	}
-	*lst = NULL;
-}
-
-void	var_update(t_lstvar var, char *name, char *value)
-{
-	if (var->name != name)
-		free(var->name);
-	if (value)
-		free(var->value);
-	var->name = name;
-	var->value = value;
-}
-
-/*
- * Description :
- * Add var name=value to origin.
- *   - Crash if no name
- *   - name and value should be malloc'd (or value can be NULL)
- *   - var_add DOES NOT free name nor value in case of crash
- * -1 means an error and programm should crash
- * t_done */
-int	var_add(t_lstvar *origin, char *name, char *value)
-{
-	t_myvar	*to_add;
-	int		len;
-
-	if (!name || !origin)
+	if (!lst || !str || !*str)
 		return (-1);
-	len = ft_strlen(name);
-	to_add = *origin;
-	while (to_add && (ft_strncmp(name, to_add->name, len) != 0 || len
-			!= ft_strlen(to_add->name)))
-		to_add = to_add->next;
-	if (!to_add)
-		to_add = malloc(sizeof(t_myvar));
+	split = ft_strchr(str, '=');
+	if (!split)
+		split = str + ft_strlen(str);
+	name = ft_substr(str, 0, split - str);
+	if (!name)
+		return (-1);
+	if (split[0] == '\0')
+		value = NULL;
 	else
-		return (var_update(to_add, name, value), 0);
-	if (!to_add)
-		return (-1);
-	to_add->name = name;
-	to_add->value = value;
-	if (*origin)
-		(*origin)->prev = to_add;
-	to_add->next = *origin;
-	to_add->prev = NULL;
-	*origin = to_add;
-	return (0);
+	{
+		value = ft_substr(str, split - str + 1, ft_strlen(split + 1));
+		if (!value)
+			return (free(name), -1);
+	}
+	if (!var_add(lst, name, value))
+		return (0);
+	if (value)
+		free(value);
+	return (free(name), -1);
 }
 
 /*
- * pop lst item and handle link between next and prev
- * origin is there to handle the case of lst being origin
- * origin can be set to NULL if not needed
- * */
-int	var_pop(t_lstvar *origin, t_lstvar lst)
+ * t_done */
+t_lstvar	var_get(t_lstvar lst, char *name)
 {
-	if (!lst)
-		return (-1);
-	if (origin && *origin == lst)
-		*origin = lst->next;
-	if (lst->prev)
-		lst->prev->next = lst->next;
-	if (lst->next)
-		lst->next->prev = lst->prev;
-	lst->next = NULL;
-	lst->prev = NULL;
-	var_clean(&lst);
-	return (0);
+	int	len;
+
+	if (!name || !lst)
+		return (NULL);
+	len = ft_strlen(name);
+	while (lst)
+	{
+		if (len == ft_strlen(lst->name) && !ft_strncmp(lst->name, name, len))
+			return (lst);
+		lst = lst->next;
+	}
+	return (NULL);
+}
+
+/*
+ * if not found
+ * of if unitialized : return NULL
+ * * t_done */
+char	*var_get_value(t_lstvar lst, char *name)
+{
+	t_lstvar	found;
+
+	found = var_get(lst, name);
+	if (!found)
+		return (NULL);
+	return (found->value);
+}
+
+/*
+ * return a malloc'd char NAME=VALUE
+ * NULL if error
+ * t_done */
+char	*var_get_string(t_myvar *var)
+{
+	char	*ret;
+	char	*part;
+
+	if (!var)
+		return (NULL);
+	part = ft_strjoin(var->name, "=");
+	if (!part)
+		return (NULL);
+	ret = ft_strjoin(part, var->value);
+	return (free(part), ret);
 }

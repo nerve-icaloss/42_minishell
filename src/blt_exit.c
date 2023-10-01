@@ -10,9 +10,9 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "blt_exit.h"
+#include "../headers/minishell.h"
 
-int	blt_exit(char *av[], t_myenv *env)
+int	exit_builtin(char *av[], t_myenv *env)
 {
 	return (0);
 }

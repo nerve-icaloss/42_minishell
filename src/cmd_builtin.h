@@ -14,14 +14,15 @@
 # define CMD_BUILTIN_H
 
 # include "../headers/minishell.h"
-//# include "blt_cd.h"
-//# include "blt_pwd.h"
-//# include "blt_env.h"
-//# include "blt_export.h"
-//# include "blt_unset.h"
-# include "blt_exit.h"
 
 int is_builtin(char *str);
 int run_builtin(t_mycmd *cmd, t_myshell *shell);
+
+int	unset_builtin(char **argv, t_lstvar *lst);
+int	export_builtin(char **argv, t_myenv *env);
+int	echo_builtin(char **argv);
+int	env_builtin(t_myenv *env);
+int	exit_builtin(char *argv[], t_myenv *env);
+int	cd_builtin(char **argv, t_myenv *env);
 
 #endif

@@ -12,11 +12,13 @@
 
 #include "../headers/minishell.h"
 
-t_myentry	*new_entry(const char *str)
+t_myentry	*entry_init(const char *str)
 {
 	t_myentry	*entry;
 
-entry = malloc(sizeof(*entry));
+	if (!str)
+		return (NULL);
+	entry = malloc(sizeof(*entry));
 	if (!entry)
 		return (NULL);
 	entry->content = ft_strdup(str);
@@ -24,11 +26,12 @@ entry = malloc(sizeof(*entry));
 	return (entry);
 }
 
-void	add_entry(t_history *history, t_myentry *entry)
+int	entry_add(t_history *history, t_myentry *entry)
 {
 	t_history	current;
 
-	current = NULL;
+	if (!history || !entry)
+		return ;
 	add_history(entry->content);
 	if (!*history)
 	{
@@ -45,7 +48,7 @@ void	add_entry(t_history *history, t_myentry *entry)
 	}
 }
 
-void	clean_history(t_history *history)
+void	history_clean(t_history *history)
 {
 	t_history	current;
 	t_myentry	*todel;

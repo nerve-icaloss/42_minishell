@@ -16,7 +16,7 @@ int	is_builtin(char *str)
 {
 	if (ft_strncmp("cd", str, 2) && ft_strlen(str) == 2)
 		return (1);
-	if (ft_strncmp("pwd", str, 3) && ft_strlen(str) == 3)
+	if (ft_strncmp("echo", str, 3) && ft_strlen(str) == 3)
 		return (1);
 	if (ft_strncmp("env", str, 3) && ft_strlen(str) == 3)
 		return (1);
@@ -31,23 +31,21 @@ int	is_builtin(char *str)
 
 int	run_builtin(t_mycmd *cmd, t_myshell *shell)
 {
-	int	(*builtin)(char **av, t_myenv *env);
 	int	exit;
 
 	if (ft_strncmp("cd", cmd->name, 2) && ft_strlen(cmd->name) == 2)
-		builtin = &cd;
-	if (ft_strncmp("pwd", cmd->name, 3) && ft_strlen(cmd->name) == 3)
-		builtin = &pwd;
+		exit = cd_builtin(cmd->args, &shell->env);
+	if (ft_strncmp("echo", cmd->name, 3) && ft_strlen(cmd->name) == 3)
+		exit = echo_builtin(cmd->args);
 	if (ft_strncmp("env", cmd->name, 3) && ft_strlen(cmd->name) == 3)
-		builtin = &env;
+		exit = env_builtin(&shell->env);
 	if (ft_strncmp("export", cmd->name, 6) && ft_strlen(cmd->name) == 6)
-		builtin = &export;
-	if (ft_strncmp("unset", cmd->name, 5) && ft_strlen(cmd->name) == 5)
-		builtin = &unset;
+		exit = export_builtin(cmd->args, &shell->env);
+	if (ft_strncmp("unset", cmd->name, 5) && ft_strlen(cmd->name) == 5) //TODO prendre env en argument
+		exit = unset_builtin(cmd->args, &shell->env.lst_var);
 	if (ft_strncmp("exit", cmd->name, 5) && ft_strlen(cmd->name) == 5)
-		builtin = &blt_exit;
-	exit = builtin(cmd->args, &shell->env);
-	if (ft_atoi(shell->env.shlvl->value) > 1)
-		clean_shell(shell);
+		exit = exit_builtin(cmd->args, &shell->env);
+	if (shell->env.subsh)
+		shell_clean(shell);
 	return (exit);
 }
