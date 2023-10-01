@@ -6,14 +6,16 @@
 /*   By: hmelica <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/15 16:41:40 by hmelica           #+#    #+#             */
-/*   Updated: 2023/09/29 10:26:11 by hmelica          ###   ########.fr       */
+/*   Updated: 2023/10/01 16:30:23 by hmelica          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "env.h"
+#include "universal.h"
 #include "criterion/criterion.h"
 #include "criterion/new/assert.h"
 #include <stdio.h>
+
+int	env_update_count(t_myenv *env);
 
 char *envp[] = {
 	"coucou=jesuisla",

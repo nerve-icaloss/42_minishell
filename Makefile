@@ -6,7 +6,7 @@
 #    By: marvin <marvin@42.fr>                      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/04/13 14:06:13 by hmelica           #+#    #+#              #
-#    Updated: 2023/10/01 14:30:18 by hmelica          ###   ########.fr        #
+#    Updated: 2023/10/01 16:37:47 by hmelica          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -40,14 +40,15 @@ NAME_BONUS	= ${NAME}_bonus
 # Exemple :
 #       main.c \       # oui
 #       src/main.c     # non
-SRCS_FILES	=	env.c \
-				envp.c \
-				export.c \
-				main.c \
-				var.c \
-				var_utils.c \
-				unset.c \
-				echo.c \
+SRCS_FILES	=	\
+				utils_var.c \
+				obj_varlst.c \
+				obj_env.c \
+				obj_env_envp.c \
+				blt_export.c \
+				blt_unset.c \
+				blt_echo.c \
+				blt_env.c
 #
 # ^- (this comment line matters)
 #
