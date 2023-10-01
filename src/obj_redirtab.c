@@ -41,7 +41,7 @@ int	redirtab_init(t_redirtab *tab, int redir_count)
 	{
 		tab[i] = redir_init();
 		if (!tab[i])
-			return (-1);
+			return (redirtab_clean(tab), -1);
 		i++;
 	}
 	tab[i] = NULL;

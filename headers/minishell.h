@@ -58,8 +58,8 @@ typedef struct s_myvar {
 typedef t_myvar *	t_lstvar;
 
 int			var_add(t_lstvar *origin, char *name, char *value);
-int			var_pop(t_lstvar *origin, t_myvar *var);
 void		var_update(t_myvar *var, char *name, char *value);
+int			var_pop(t_lstvar *origin, t_myvar *var);
 void		var_clean(t_lstvar *lst);
 
 
