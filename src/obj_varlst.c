@@ -14,23 +14,23 @@
 
 /*
  * t_done */
-void	var_clean(t_lstvar *lst)
+void	var_clean(t_lstvar *origin)
 {
-	t_lstvar	i;
+	t_myvar	*i;
 
-	if (!lst)
+	if (!origin)
 		return ;
-	i = *lst;
+	i = *origin;
 	while (i)
 	{
-		*lst = (*lst)->next;
+		*origin = (*origin)->next;
 		free(i->name);
 		if (i->value)
 			free(i->value);
 		free(i);
-		i = *lst;
+		i = *origin;
 	}
-	*lst = NULL;
+	*origin = NULL;
 }
 
 void	var_update(t_myvar *var, char *name, char *value)

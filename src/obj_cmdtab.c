@@ -32,36 +32,49 @@ t_mycmd	*cmd_init(void)
 	return (cmd);
 }
 
-t_cmdtab *cmdtab_init(int cmd_count)
+int	cmdtab_init(t_cmdtab *tab, int cmd_count)
 {
-	t_cmdtab	*cmdtab;
 	int			i;
 
-	if (cmd_count < 1)
-		return (NULL);
-	cmdtab = malloc(sizeof(*cmdtab) * (cmd_count + 1));
-	if (!cmdtab)
-		return (NULL);
+	if (!tab || cmd_count < 1)
+		return (-1);
+	tab = malloc(sizeof(*tab) * (cmd_count + 1));
+	if (!tab)
+		return (-1);
 	i = 0;
 	while (i < cmd_count)
 	{
-		cmdtab[i] = cmd_init();
+		tab[i] = cmd_init();
+		if (!tab[i])
+			return(cmdtab_clean(tab), -1);
 		i++;
 	}
-	cmdtab[i] = NULL;
-	return (cmdtab);
+	tab[i] = NULL;
+	return (0);
 }
 
-void	cmdtab_clean(t_cmdtab *cmdtab)
+void	cmdtab_clean(t_cmdtab *tab)
 {
 	int	i;
 
+	if (!tab)
+		return ;
 	i = 0;
-	while (cmdtab[i])
+	while (tab[i])
 	{
-		free(cmdtab[i]);
+		if (tab[i]->path)
+			free(tab[i]->path);
+		if (tab[i]->name)
+			free(tab[i]->name);
+		if (tab[i]->args)
+			ft_arrclear(tab[i]->args);
+		if (tab[i]->in)
+			redirtab_clean(&tab[i]->in);
+		if (tab[i]->out)
+			redirtab_clean(&tab[i]->out);
+		free(tab[i]);
 		i++;
 	}
-	free(cmdtab);
-	cmdtab = NULL;
+	free(tab);
+	tab = NULL;
 }

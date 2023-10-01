@@ -37,14 +37,13 @@
 //----------------------------------------------------------------------------//
 
 typedef struct s_myentry {
-	const char			*content;
+	char				*content;
 	struct s_myentry	*next;
 }	t_myentry;
 
 typedef t_myentry *	t_history;
 
-t_myentry	*entry_init(const char *str);
-void		entry_add(t_history *history, t_myentry *entry);
+int			entry_add(t_history *origin, char *str);
 void		history_clean(t_history *history);
 
 //----------------------------------------------------------------------------//
@@ -104,7 +103,6 @@ typedef struct s_mytoken {
 
 typedef t_mytoken *	t_tokentree;
 
-t_mytoken	*token_init(char *str, t_lexer type);
 void		token_addleft(t_tokentree *tokentree, t_mytoken *token);
 void		token_addright(t_tokentree *tokentree, t_mytoken *token);
 void		token_insert(t_tokentree *tokentree, t_mytoken *token);
@@ -129,9 +127,9 @@ typedef struct s_myredir {
 
 typedef t_myredir *	t_redirtab;
 
-t_myredir	*redir_init();
-t_redirtab	*redirtab_init();
-void		redirtab_clean(t_redirtab *redirtab);
+t_myredir	*redir_init(void);
+int			redirtab_init(t_redirtab *tab, int redir_count);
+void		redirtab_clean(t_redirtab *tab);
 
 //----------------------------------------------------------------------------//
 
@@ -152,8 +150,8 @@ typedef struct s_mycmd
 typedef	t_mycmd *	t_cmdtab;
 
 t_mycmd		*cmd_init(void);
-t_cmdtab	*cmdtab_init(int cmd_count);
-void		cmdtab_clean(t_cmdtab *cmdtab);
+int			cmdtab_init(t_cmdtab *tab, int cmd_count);
+void		cmdtab_clean(t_cmdtab *tab);
 
 //----------------------------------------------------------------------------//
 

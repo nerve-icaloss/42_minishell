@@ -12,55 +12,37 @@
 
 #include "../headers/minishell.h"
 
-t_myentry	*entry_init(const char *str)
+int	entry_add(t_history *origin, char *str)
 {
-	t_myentry	*entry;
+	t_myentry	*to_add;
 
-	if (!str)
-		return (NULL);
-	entry = malloc(sizeof(*entry));
-	if (!entry)
-		return (NULL);
-	entry->content = ft_strdup(str);
-	entry->next = NULL;
-	return (entry);
+	if (!origin || !str)
+		return (-1);
+	add_history(str);
+	to_add = *origin;
+	while (to_add)
+		to_add = to_add->next;
+	to_add = malloc(sizeof(*to_add));
+	if (!to_add)
+		return (-1);
+	to_add->content = ft_strdup(str);
+	to_add->next = NULL;
+	return (0);
 }
 
-int	entry_add(t_history *history, t_myentry *entry)
+void	history_clean(t_history *origin)
 {
-	t_history	current;
+	t_myentry	*i;
 
-	if (!history || !entry)
+	if (!*origin)
 		return ;
-	add_history(entry->content);
-	if (!*history)
+	i = *origin;
+	while (i)
 	{
-		*history = entry;
+		*origin = (*origin)->next;
+		free(i->content);
+		free(i);
+		i = *origin;
 	}
-	else
-	{
-		current = *history;
-		while (current->next)
-		{
-			current = current->next;
-		}
-		current->next = entry;
-	}
-}
-
-void	history_clean(t_history *history)
-{
-	t_history	current;
-	t_myentry	*todel;
-
-	if (!*history)
-		return ;
-	current = *history;
-	while (current)
-	{
-		todel = current;
-		current = current->next;
-		free(todel);
-	}
-	*history = NULL;
+	*origin = NULL;
 }
