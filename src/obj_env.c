@@ -6,12 +6,12 @@
 /*   By: nserve <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/30 14:41:30 by nserve            #+#    #+#             */
-/*   Updated: 2023/09/30 14:41:32 by nserve           ###   ########.fr       */
+/*   Updated: 2023/10/01 16:08:16 by hmelica          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../headers/minishell.h"
-#include "var_utils.h"
+#include "utils_var.h"
 
 /*
  * init PWD, OLDPWD and SHLVL

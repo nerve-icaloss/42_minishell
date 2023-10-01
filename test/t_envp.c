@@ -6,15 +6,17 @@
 /*   By: hmelica <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/16 11:38:19 by hmelica           #+#    #+#             */
-/*   Updated: 2023/09/16 12:51:47 by hmelica          ###   ########.fr       */
+/*   Updated: 2023/10/01 16:39:28 by hmelica          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "env.h"
+#include "universal.h"
 #include "criterion/criterion.h"
 #include "criterion/new/assert.h"
 #include <stdio.h>
 #include <string.h>
+
+int	env_update_count(t_myenv *env);
 
 t_myenv	myenv_p;
 
