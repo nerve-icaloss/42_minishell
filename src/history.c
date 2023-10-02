@@ -11,7 +11,7 @@
 /* ************************************************************************** */
 
 #include "history.h"
-#include "open_utils.h"
+#include "utils_open.h"
 
 void	load_history(void)
 {
@@ -53,7 +53,7 @@ void	register_history(t_history *history)
 		current = current->next;
 	}
 	rl_clear_history();
-	clean_history(history);
+	history_clean(history);
 	if (close(fd) == -1)
 		return ;
 }

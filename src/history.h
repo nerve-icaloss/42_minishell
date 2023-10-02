@@ -14,7 +14,6 @@
 # define HISTORY_H
 
 # include "../headers/minishell.h"
-# include <readline/history.h>
 
 t_myentry	*new_entry(const char *str);
 void		ft_add_history(t_history *history, t_myentry *new_entry);

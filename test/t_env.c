@@ -11,8 +11,8 @@
 /* ************************************************************************** */
 
 #include "universal.h"
-#include "criterion/criterion.h"
-#include "criterion/new/assert.h"
+#include "include/criterion/criterion.h"
+#include "include/criterion/new/assert.h"
 #include <stdio.h>
 
 int	env_update_count(t_myenv *env);

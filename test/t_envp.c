@@ -11,8 +11,8 @@
 /* ************************************************************************** */
 
 #include "universal.h"
-#include "criterion/criterion.h"
-#include "criterion/new/assert.h"
+#include "include/criterion/criterion.h"
+#include "include/criterion/new/assert.h"
 #include <stdio.h>
 #include <string.h>
 

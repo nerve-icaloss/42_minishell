@@ -11,9 +11,9 @@
 /* ************************************************************************** */
 
 #include "universal.h"
-#include "criterion/criterion.h"
-#include "criterion/parameterized.h"
-#include "criterion/new/assert.h"
+#include "include/criterion/criterion.h"
+#include "include/criterion/parameterized.h"
+#include "include/criterion/new/assert.h"
 #include <string.h>
 
 char	*format_export(char *s);
