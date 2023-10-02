@@ -156,7 +156,6 @@ void		cmdtab_clean(t_cmdtab *tab);
 
 typedef struct s_myexec {
 	pid_t			pid;
-	char			*input;
 	t_tokentree		parsing;
 	int				cmd_count;
 	t_cmdtab		cmdtab;

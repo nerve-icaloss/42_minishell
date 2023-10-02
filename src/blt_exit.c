@@ -12,7 +12,16 @@
 
 #include "../headers/minishell.h"
 
-int	exit_builtin(char *av[], t_myenv *env)
+int	exit_builtin(char *args[], t_myshell *shell)
 {
-	return (0);
+	int	ret;
+
+	ret = ft_atoi(args[1]);
+	if (shell->env.subsh)
+		return (ret);
+	else
+	{
+		shell_clean(shell);
+		exit(ret);
+	}
 }

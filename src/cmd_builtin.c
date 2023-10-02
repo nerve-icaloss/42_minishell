@@ -14,15 +14,17 @@
 
 int	is_builtin(char *str)
 {
-	if (ft_strncmp("cd", str, 2) && ft_strlen(str) == 2)
+	if (ft_strncmp("pwd", str, 3) && ft_strlen(str) == 3)
 		return (1);
-	if (ft_strncmp("echo", str, 3) && ft_strlen(str) == 3)
+	if (ft_strncmp("cd", str, 2) && ft_strlen(str) == 2)
 		return (1);
 	if (ft_strncmp("env", str, 3) && ft_strlen(str) == 3)
 		return (1);
 	if (ft_strncmp("export", str, 6) && ft_strlen(str) == 6)
 		return (1);
 	if (ft_strncmp("unset", str, 5) && ft_strlen(str) == 5)
+		return (1);
+	if (ft_strncmp("echo", str, 3) && ft_strlen(str) == 3)
 		return (1);
 	if (ft_strncmp("exit", str, 5) && ft_strlen(str) == 5)
 		return (1);
@@ -33,6 +35,8 @@ int	run_builtin(t_mycmd *cmd, t_myshell *shell)
 {
 	int	exit;
 
+	if (ft_strncmp("pwd", str, 3) && ft_strlen(str) == 3)
+		exit = pwd_builtin(cmd->args, &shell->env);
 	if (ft_strncmp("cd", cmd->name, 2) && ft_strlen(cmd->name) == 2)
 		exit = cd_builtin(cmd->args, &shell->env);
 	if (ft_strncmp("echo", cmd->name, 3) && ft_strlen(cmd->name) == 3)

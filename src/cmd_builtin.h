@@ -18,11 +18,12 @@
 int is_builtin(char *str);
 int run_builtin(t_mycmd *cmd, t_myshell *shell);
 
-int	unset_builtin(char **argv, t_lstvar *lst);
-int	export_builtin(char **argv, t_myenv *env);
-int	echo_builtin(char **argv);
+int	pwd_builtin(t_myenv *env);
+int	cd_builtin(char *args[], t_myenv *env);
 int	env_builtin(t_myenv *env);
-int	exit_builtin(char *argv[], t_myenv *env);
-int	cd_builtin(char **argv, t_myenv *env);
+int	export_builtin(char *args[], t_myenv *env);
+int	unset_builtin(char *args[], t_lstvar *lst);
+int	echo_builtin(char *args[]);
+int	exit_builtin(char *args[], t_myenv *env);
 
 #endif

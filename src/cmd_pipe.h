@@ -16,8 +16,8 @@
 # include "../headers/minishell.h"
 
 int	init_pipe(int **pipe_fd);
-int open_pipe(t_cmdtab *cmdtab, int *pipe_fd[2], int cmd_count, int id);
-int close_child_pipe(int pipe_fd[2], int cmd_id, int cmd_count);
-int close_parent_pipe(t_cmdtab *cmdtab, int pipe_fd[2], int id, int count);
+int open_pipe(t_cmdtab *cmdtab, int *pipe_fd[2], int i, int count);
+int close_child_pipe(int pipe_fd[2], int i, int count);
+int close_parent_pipe(t_cmdtab *cmdtab, int pipe_fd[2], int i, int count);
 
 #endif

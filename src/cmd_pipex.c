@@ -33,7 +33,7 @@ int	pipex_cmd(t_cmdtab *cmdtab, int cmd_count, t_myshell *shell)
 		if (cmdtab[i]->pid == SYS_FAIL)
 			return (perror("fork"), free(pipe_fd), pipex_parent(cmdtab, shell));
 		if (cmdtab[i]->pid == 0)
-			pipex_child(cmdtab, &pipe_fd, i, shell);
+			pipex_child(cmdtab, pipe_fd, i, shell);
 		if (close_parent_pipe(cmdtab, pipe_fd, i, cmd_count) == SYS_FAIL)
 			return (free(pipe_fd), pipex_parent(cmdtab, shell));
 		i++;
@@ -41,26 +41,27 @@ int	pipex_cmd(t_cmdtab *cmdtab, int cmd_count, t_myshell *shell)
 	return (free(pipe_fd), pipex_parent(cmdtab, shell));
 }
 
-void	pipex_child(t_cmdtab *cmdtab, int **pipe_fd, int id, t_myshell *shell)
+void	pipex_child(t_cmdtab *cmdtab, int pipe_fd[2], int i, t_myshell *shell)
 {
 	int	cmd_count;
 
+	shell->env.subsh = true;
 	cmd_count = 0;
 	while (cmdtab[cmd_count])
 		cmd_count++;
-	if (close_child_pipe(*pipe_fd, id, cmd_count) == SYS_FAIL)
-		return (free(*pipe_fd), shell_clean(shell), exit(1));
-	if (input_redirection(cmdtab[id]) == SYS_FAIL)
-		return (free(*pipe_fd), shell_clean(shell), exit(1));
-	free(*pipe_fd);
-	if (output_redirection(cmdtab[id]) == SYS_FAIL)
+	if (close_child_pipe(pipe_fd, i, cmd_count) == SYS_FAIL)
+		return (free(pipe_fd), shell_clean(shell), exit(1));
+	if (input_redirection(cmdtab[i]) == SYS_FAIL)
+		return (free(pipe_fd), shell_clean(shell), exit(1));
+	free(pipe_fd);
+	if (output_redirection(cmdtab[i]) == SYS_FAIL)
 		return (shell_clean(shell), exit(1));
-	if (cmdtab[id]->args[0][0] == '\0')
+	if (cmdtab[i]->args[0][0] == '\0')
 		return (shell_clean(shell), exit(0));
-	if (is_builtin(cmdtab[id]->name))
-		exit(run_builtin(cmdtab[id], shell));
+	if (is_builtin(cmdtab[i]->name))
+		exit(run_builtin(cmdtab[i], shell));
 	else
-		run_cmd(cmdtab[id], shell);
+		run_cmd(cmdtab[i], shell);
 }
 
 int	pipex_parent(t_cmdtab *cmdtab, t_myshell *shell)
