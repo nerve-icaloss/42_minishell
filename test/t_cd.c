@@ -399,5 +399,5 @@ ParameterizedTest(t_arg_t *arg, cd, arg_parser, .timeout = 1)
 
 Test(cd, builtin)
 {
-	cr_log_warn("cd builtin not tested, tests needs to be done manually")
+	cr_log_warn("cd builtin not tested, tests needs to be done manually");
 }

@@ -48,8 +48,15 @@ int	cd_builtin(char **argv, t_myenv *myenv)
 	path = getcwd(NULL, 0);
 	if (!path)
 		return (ft_dprintf(2, "cd: ERROR AFTER CHANGING DIRECTORY\n"), 1);
-	var_add(&myenv->lst_var, ft_strdup("OLDPWD"), ft_strdup(
-				var_get_value(myenv->lst_var, "PWD")));
-	var_add(&myenv->lst_var, ft_strdup("PWD"), path);
+	if (!var_get(myenv->lst_var, "OLDPWD"))
+		myenv->count++;
+	if (!var_get(myenv->lst_var, "PWD"))
+		myenv->count++;
+	if (var_add(&myenv->lst_var, ft_strdup("OLDPWD"), ft_strdup(
+			var_get_value(myenv->lst_var, "PWD"))) || var_add(&myenv->lst_var,
+			ft_strdup("PWD"), path))
+		return (-1);
+	if (envp_update(myenv))
+		return (ft_dprintf(2, "WARN: minor error while updating envp\n"), 0);
 	return (0);
 }

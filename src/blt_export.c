@@ -86,5 +86,11 @@ int	export_builtin(char **av, t_myenv *myenv)
 			return (-1);
 		len++;
 	}
+	if (len > 1)
+	{
+		if (env_update_count(myenv) || envp_update(myenv))
+			return (ft_dprintf(2, "WARN: minor error while updating envp\n"),
+					0);
+	}
 	return (0);
 }

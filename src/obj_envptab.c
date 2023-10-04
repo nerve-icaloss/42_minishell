@@ -29,6 +29,8 @@ void	envp_clean(char ***envp)
 }
 
 /*
+ * if env has been modified by something else than export and unset, 
+ * run env_update_count before this
  * t_done */
 int	envp_update(t_myenv *env)
 {
