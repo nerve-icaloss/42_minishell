@@ -5,7 +5,7 @@ OBJS_DIR = obj
 SRCS = $(shell find . -type f -name "*.c")
 OBJS = ${patsubst ./%.c,${OBJS_DIR}/%.o,$(SRCS)}
 LIBRARIES = -L ./lib64 -L ./lib/x86_64-linux-gnu -lcriterion -L ../src/libft -l:libft.a
-INCLUDES = -I ../headers -I ../src/libft/ -I ./include
+INCLUDES = -I ../headers -I ../src/libft/ -I ./include -I ../src
 
 #	${CC} -L . -lminishell ${HEADERS_DIR_FLAG} ${LIBRARY_SEARCH_PATH} \
 #		${LIBRARY_TESTS} -o test.out ${LIBFT} $(filter-out obj/main.o , $(OBJS))
