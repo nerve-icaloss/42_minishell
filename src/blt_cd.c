@@ -16,10 +16,14 @@ int	path_arg_parser(char **argv, t_myenv *myenv, char **path)
 {
 	if (!argv || !*argv)
 		return (-1);
-	if (!argv[1])
-		*path = myenv->home->value;
-	else if (argv[2])
+	else if (argv[1] && argv[2])
 		return (ft_dprintf(2, "cd: TOO MANY ARGUMENTS\n"), 1);
+	else if (!argv[1])
+	{
+		if (!myenv->home || !myenv->home->value)
+			return (ft_dprintf(2, "cd: HOME not set\n"), 1);
+		*path = myenv->home->value;
+	}
 	else if (ft_strlen(argv[1]) == 1 && *argv[1] == '-')
 	{
 		if (!myenv->oldpwd || !myenv->oldpwd->value)
@@ -28,12 +32,6 @@ int	path_arg_parser(char **argv, t_myenv *myenv, char **path)
 	}
 	else
 		*path = argv[1];
-	if (**path == '\0')
-	{
-		if (!myenv->home || !myenv->home->value)
-			return (ft_dprintf(2, "cd: HOME not set\n"), 1);
-		*path = myenv->home->value;
-	}
 	return (0);
 }
 

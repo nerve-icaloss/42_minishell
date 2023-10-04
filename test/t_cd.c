@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "universal.h"
+#include "./universal.h"
 #include "../criterion/include/criterion/criterion.h"
 #include "../criterion/include/criterion/parameterized.h"
 #include "../criterion/include/criterion/new/assert.h"
@@ -199,8 +199,146 @@ ParameterizedTestParameters(cd, arg_parser) {
 		{
 			{NULL, 0, NULL, NULL, NULL, NULL, NULL, NULL, 0}, // should stay init like this
 			0,
-			"expected",
-			{"VAR=value", NULL, "notanarg", "arg", NULL},
+			"/", // - with normal OLDPWD
+			{
+				"HOME=/usr",
+				"PWD=/tmp",
+				"OLDPWD=/",
+				"VAR=value",
+				NULL,
+				"with normal OLDPWD",
+				"-",
+				NULL
+			},
+		},
+		{
+			{NULL, 0, NULL, NULL, NULL, NULL, NULL, NULL, 0}, // should stay init like this
+			1,
+			"preset_str", // - with unset OLDPWD
+			{
+				"HOME=/usr",
+				"PWD=/tmp",
+				"VAR=value",
+				NULL,
+				"with unset OLDPWD",
+				"-",
+				NULL
+			},
+		},
+		{
+			{NULL, 0, NULL, NULL, NULL, NULL, NULL, NULL, 0}, // should stay init like this
+			1,
+			"preset_str", // - with empty OLDPWD
+			{
+				"HOME=/usr",
+				"PWD=/tmp",
+				"OLDPWD",
+				"VAR=value",
+				NULL,
+				"with empty OLDPWD",
+				"-",
+				NULL
+			},
+		},
+		{
+			{NULL, 0, NULL, NULL, NULL, NULL, NULL, NULL, 0}, // should stay init like this
+			0,
+			"/usr", // with no arg
+			{
+				"HOME=/usr",
+				"PWD=/tmp",
+				"OLDPWD=/",
+				"VAR=value",
+				NULL,
+				"with no arg",
+				NULL
+			},
+		},
+		{
+			{NULL, 0, NULL, NULL, NULL, NULL, NULL, NULL, 0}, // should stay init like this
+			1,
+			"preset_str", // with no arg but home unset
+			{
+				"PWD=/tmp",
+				"OLDPWD=/",
+				"VAR=value",
+				NULL,
+				"with no arg but home unset",
+				NULL
+			},
+		},
+		{
+			{NULL, 0, NULL, NULL, NULL, NULL, NULL, NULL, 0}, // should stay init like this
+			1,
+			"preset_str", // with no arg but no home
+			{
+				"HOME",
+				"PWD=/tmp",
+				"OLDPWD=/",
+				"VAR=value",
+				NULL,
+				"with no arg but no home",
+				NULL
+			},
+		},
+		{
+			{NULL, 0, NULL, NULL, NULL, NULL, NULL, NULL, 0}, // should stay init like this
+			-1,
+			"preset_str", // with an error
+			{
+				"HOME=/usr",
+				"PWD=/tmp",
+				"OLDPWD=/",
+				"VAR=value",
+				NULL,
+				NULL
+			},
+		},
+		{
+			{NULL, 0, NULL, NULL, NULL, NULL, NULL, NULL, 0}, // should stay init like this
+			0,
+			"/dev", // /dev
+			{
+				"HOME=/usr",
+				"PWD=/tmp",
+				"OLDPWD=/",
+				"VAR=value",
+				NULL,
+				"/dev normal arg",
+				"/dev",
+				NULL
+			},
+		},
+		{
+			{NULL, 0, NULL, NULL, NULL, NULL, NULL, NULL, 0}, // should stay init like this
+			0,
+			"--", // will raise an error later but shouldnt return oldpwd
+			{
+				"HOME=/usr",
+				"PWD=/tmp",
+				"OLDPWD=/",
+				"VAR=value",
+				NULL,
+				"will raise an error later but shouldnt return oldpwd",
+				"--",
+				NULL
+			},
+		},
+		{
+			{NULL, 0, NULL, NULL, NULL, NULL, NULL, NULL, 0}, // should stay init like this
+			1,
+			"preset_str", // to many arguments
+			{
+				"HOME=/usr",
+				"PWD=/tmp",
+				"OLDPWD=/",
+				"VAR=value",
+				NULL,
+				"to many arguments",
+				"-",
+				"Coucou je suis heureux",
+				NULL
+			},
 		},
 	};
 
@@ -247,13 +385,19 @@ ParameterizedTestParameters(cd, arg_parser) {
 	return (cr_make_param_array(t_arg_t, ret, count, free_arg));
 }
 
+int	path_arg_parser(char **argv, t_myenv *myenv, char **path);
+
 ParameterizedTest(t_arg_t *arg, cd, arg_parser, .timeout = 1)
 {
+	char *str = "preset_str";
 	if (!arg)
 		cr_fatal("no arg");
-	cr_log_info("%d %s", arg->ret_code, arg->expected);
-	cr_log_info(">> %p", arg->env.lst_var);
-	cr_log_info(" | %s = %s", arg->env.lst_var->name, arg->env.lst_var->value);
-	cr_log_info(" | %s = %s | %s", arg->env.lst_var->name,
-			arg->env.lst_var->value, arg->tab[0]);
+	cr_expect(eq(int, path_arg_parser(arg->tab, &arg->env, &str), arg->ret_code),
+			"return code wrong\n%s", *arg->tab);
+	cr_expect(eq(str, str, arg->expected), "Expected return path wrong\n%s", *arg->tab);
+}
+
+Test(cd, builtin)
+{
+	cr_log_warn("cd builtin not tested, tests needs to be done manually")
 }
