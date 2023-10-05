@@ -13,6 +13,8 @@
 #ifndef OPEN_UTILS_H
 # define OPEN_UTILS_H
 
+# include "../headers/minishell.h"
+
 int open_read(char *file);
 int open_append(char *file);
 int open_trunc(char *file);

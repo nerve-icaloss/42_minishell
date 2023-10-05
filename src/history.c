@@ -38,19 +38,21 @@ void	load_history(void)
 void	register_history(t_history *history)
 {
 	int			fd;
-	t_history	current;
+	t_history	i;
 	char		*log;
 
+	if (!history)
+		return ;
 	fd = open_append(HISTORY_FILE);
 	if (fd == -1)
-		return (perror("register"));
-	current = *history;
-	while (current)
+		return (perror(HISTORY_FILE));
+	i = *history;
+	while (i)
 	{
-		log = ft_strjoin(current->content, "\n");
+		log = ft_strjoin(i->content, "\n");
 		write(fd, log, ft_strlen(log));
 		free(log);
-		current = current->next;
+		i = i->next;
 	}
 	rl_clear_history();
 	history_clean(history);

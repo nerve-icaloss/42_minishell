@@ -69,7 +69,7 @@ t_lstvar	var_get(t_lstvar lst, char *name)
  * * t_done */
 char	*var_get_value(t_lstvar lst, char *name)
 {
-	t_lstvar	found;
+	t_myvar	*found;
 
 	found = var_get(lst, name);
 	if (!found)

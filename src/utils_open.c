@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "open_utils.h"
+#include "utils_open.h"
 
 int	open_read(char *file)
 {
@@ -19,10 +19,10 @@ int	open_read(char *file)
 
 int	open_append(char *file)
 {
-	return (open(file, O_CREAT | O_WRONLY | O_APPEND, 000666));
+	return (open(file, O_CREAT | O_WRONLY | O_APPEND, 0666));
 }
 
 int	open_trunc(char *file)
 {
-	return (open(file, O_CREAT | OWRONLY | O_TRUNC, 000666));
+	return (open(file, O_CREAT | O_WRONLY | O_TRUNC, 0666));
 }

@@ -13,28 +13,25 @@
 #include "../headers/minishell.h"
 #include "history.h"
 
-void	prompt_loop(t_myshell *shell)
+void	rpel_loop(t_myshell *shell)
 {
-	int	n;
-	//fct signal to put here
-	if (!shell->readline)
-		load_history();
-	n = 0;
-	while (n < 5)
+	char	*cmdline;
+
+	while (1)
 	{
-		shell->readline = readline("minishell-1.0$ ");
-		if (!shell->readline)
+		cmdline = readline("minishell-1.0$ ");
+		if (!cmdline || cmdline[0] == '\0' || ft_strncmp(cmdline, "\n", 1) == 0)
 		{
-			free(shell->readline);
-			break ;
+			free(cmdline);
+			continue ;
 		}
-		if (entry_add(&shell->history, shell->readline) == -1)
+		if (entry_add(&shell->history, cmdline) == -1)
 			write(2, "error login history", 19);
-		printf("--> %s\n", shell->readline);
+		printf("--> %s\n", cmdline);
 		//build_dexectree();
 		//shell.exit = run_exectree();
 		//clear_exectree();
-		free(shell->readline);
+		free(cmdline);
 		n++;
 	}
 }
@@ -47,10 +44,11 @@ int	main(int argc, char *argv[])
 
 	(void) args;
 	printf("Welcom to %s\n", argv[0]);
+	load_history();
 	shell = shell_init();
 	if (argc)
 	{
-		prompt_loop(&shell);
+		rpel_loop(&shell);
 	}
 	exit = shell.exit;
 	return(register_history(&shell.history), shell_clean(&shell), exit);
