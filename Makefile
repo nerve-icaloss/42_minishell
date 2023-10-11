@@ -44,11 +44,12 @@ SRCS_FILES	=	\
 				utils_var.c \
 				obj_varlst.c \
 				obj_env.c \
-				obj_env_envp.c \
+				obj_envptab.c \
 				blt_export.c \
 				blt_unset.c \
 				blt_echo.c \
-				blt_env.c
+				blt_env.c \
+				blt_cd.c \
 #
 # ^- (this comment line matters)
 #
@@ -200,4 +201,7 @@ run_test: test/lib ${LIBFT} ${OBJS_DIR} ${OBJS}
 	@if [ $$(echo $$LD_LIBRARY_PATH | grep -c "test") -eq 0 ]; \
 		then export LD_LIBRARY_PATH=$$(realpath test/lib64):$$(realpath test/lib/x86_64-linux-gnu):$$LD_LIBRARY_PATH \
 		; fi ; ./test.out --verbose 2>&1 ; exit 0
+	@echo \'export LD_LIBRARY_PATH=$$(realpath test/lib64):$$(realpath test/lib/x86_64-linux-gnu):\$$LD_LIBRARY_PATH\' before running
+testing: test/lib ${LIBFT} ${OBJS_DIR} ${OBJS}
+	@${MAKE} -C test
 	@echo \'export LD_LIBRARY_PATH=$$(realpath test/lib64):$$(realpath test/lib/x86_64-linux-gnu):\$$LD_LIBRARY_PATH\' before running

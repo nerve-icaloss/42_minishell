@@ -17,11 +17,16 @@
  * cannot fail in minishell
  * if not found, just goes to the next one
  * */
-int	unset_builtin(char **argv, t_lstvar *lst)
+int	unset_builtin(char **argv, t_myenv *env)
 {
-	if (!argv || !*argv || !lst)
+	t_lstvar	*lst;
+
+	if (!argv || !*argv || !env)
 		return (-1);
+	lst = &env->lst_var;
 	while (*++argv)
 		var_pop(lst, var_get(*lst, *argv));
+	if (env_update_count(env) || envp_update(env))
+		return (ft_dprintf(2, "WARN: minor error while updating envp\n"), 0);
 	return (0);
 }

@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "universal.h"
+#include "./universal.h"
 #include "include/criterion/criterion.h"
 #include "include/criterion/new/assert.h"
 #include <stdio.h>
@@ -149,6 +149,4 @@ Test(env, default_values, .description="tests for env default")
 	a = var_get(myenv.lst_var, "SHLVL");
 	cr_assert(ne(ptr, NULL, a));
 	cr_assert(eq(str, "3", a->value));
-	// only OLDPWD
-	cr_log_warn("Define OLDPWD alone expected behavoir");
 }
