@@ -22,21 +22,16 @@
 # include <fcntl.h>
 # include <readline/history.h>
 # include <readline/readline.h>
-# include <stdbool.h>
-# include <stdio.h>
-# include <stdlib.h>
 # include <sys/stat.h>
 # include <sys/types.h>
 # include <sys/wait.h>
-# include <unistd.h>
-
-# define SYS_FAIL -1
-# define HISTORY_FILE ".inputrc"
 # include "../src/libft/libft.h"
+
+# define SYS_FAIL (-1)
 
 //----------------------------------------------------------------------------//
 
-typedef int t_parsing; // DELETE THAT
+# define HISTORY_FILE ".inputrc"
 
 typedef struct s_myentry {
 	char				*content;
@@ -63,7 +58,12 @@ int			var_add(t_lstvar *origin, char *name, char *value);
 void		var_update(t_myvar *var, char *name, char *value);
 int			var_pop(t_lstvar *origin, t_myvar *var);
 void		var_clean(t_lstvar *lst);
+int			var_parsing(t_lstvar *lst, char *str);
+t_lstvar	var_get(t_lstvar lst, char *name);
+char		*var_get_value(t_lstvar lst, char *name);
+char		*var_get_string(t_myvar *var);
 
+//----------------------------------------------------------------------------//
 
 typedef struct s_myenv {
 	t_lstvar		lst_var;
@@ -84,100 +84,93 @@ void		env_clean(t_myenv *env);
 
 //----------------------------------------------------------------------------//
 
-typedef enum e_lexer {
-	t_input = 1,
-	t_pipe,
-	t_cmd,
-	t_in,
-	t_out,
-}	t_lexer;
+# define EOF             (-1)
+# define ERRCHAR         ( 0)
+# define INIT_SRC_POS    (-2)
+# define ENDLOOP         (-1)
 
-typedef struct s_mytoken {
-	t_lexer				type;
-	int					type_id;
-	char				*content;
-	struct s_mytoken	*left;
-	struct s_mytoken	*right;
-}	t_mytoken;
+typedef enum e_tok_type {
+	TOK_BRACKET = 0,
+	TOK_WORD = 1,
+	TOK_PIPE = 2,
+	TOK_OR = 3,
+	TOK_AND = 4,
+	TOK_EOB = 5,
+	TOK_EOF = 6,
+	TOK_SYNTAX = 7,
+}	t_tok_type;
 
-typedef t_mytoken *	t_tokentree;
-
-t_mytoken	*token_init(char *str, t_lexer type);
-int			token_addleft(t_mytoken *origin, t_lexer type, int id, char *str);
-int			token_addright(t_mytoken *origin, t_lexer type, int id, char *str);
-void		tokentree_clean(t_tokentree *tokentree);
-
-//----------------------------------------------------------------------------//
-
-typedef enum e_symbol {
-	o_read = 60,
-	o_doc = 6060,
-	o_trunc = 62,
-	o_append = 6262,
-}	t_symbol;
-
-typedef struct s_myredir {
-	t_symbol	redir;
-	char		*limiter;
-	bool		expand;
-	int			fd;
-	char		*file;
-}	t_myredir;
-
-typedef t_myredir *	t_redirtab;
-
-t_myredir	*redir_init(void);
-int			redirtab_init(t_redirtab *tab, int redir_count);
-void		redirtab_clean(t_redirtab *tab);
-
-//----------------------------------------------------------------------------//
-
-typedef struct s_mycmd
+typedef struct s_source
 {
-	pid_t		pid;
-	int			in_count;
-	t_redirtab	in;
-	int			in_fd;
-	char		*path;
-	char		*name;
-	char		**args;
-	int			out_fd;
-	int			out_count;
-	t_redirtab	out;
-}	t_mycmd;
+    char		*buf;       /* the input text */
+    long		bufsize;       /* size of the input text */
+    long		curpos;       /* absolute char position in source */
+    char		*tok_buf;
+    int			tok_bufsize;
+    int			tok_bufindex;
+    t_tok_type	tok_type;
+}	t_source;
 
-typedef	t_mycmd *	t_cmdtab;
+char		next_char(t_source *src);
+void		unget_char(t_source *src);
+char		peek_char(t_source *src);
+void		skip_spaces(t_source *src);
+int			tok_buf_init(t_source *src);
+void		tok_buf_reset(t_source *src);
+void		tok_buf_add(t_source *src, char c);
 
-t_mycmd		*cmd_init(void);
-int			cmdtab_init(t_cmdtab *tab, int cmd_count);
-void		cmdtab_clean(t_cmdtab *tab);
+typedef struct s_token {
+	t_tok_type	type;
+	t_source	*src;
+	int			len;
+	char		*txt;
+}	t_token;
+
+t_token		*token_word_new(char *str);
+t_token		*token_ops_new(t_tok_type type);
+void		token_clean(t_token *tok);
+t_token		*tokenize(t_source *src);
+void		untokenize(t_source *src);
 
 //----------------------------------------------------------------------------//
 
-typedef struct s_myexec {
-	pid_t			pid;
-	t_tokentree		parsing;
-	int				cmd_count;
-	t_cmdtab		cmdtab;
+typedef enum e_node_type {
+	NODE_BRACKET = 0,
+	NODE_CMD = 1,
+	NODE_PIPE = 2,
+	NODE_OR = 3,
+	NODE_AND = 4,
+	NODE_IN = 5,
+	NODE_OUT = 6,
+	NODE_VAR = 7,
+}	t_node_type;
+
+typedef struct s_node {
+	t_node_type		type;
+	int				in_fd;
+	int				out_fd;
+	char			*val;
 	int				exit;
-	struct s_myexec	*left;
-	struct s_myexec	*right;
-}	t_myexec;
+	int				children;
+	struct s_node	*parent;
+	struct s_node	*first_child;
+	struct s_node	*prev_sibling;
+	struct s_node	*next_sibling;
+}	t_node;
 
-typedef t_myexec *	t_exectree;
-
-t_myexec	*exec_init(char *input);
-void		exec_addleft(t_exectree *exectree, t_myexec *exec);
-void		exec_addright(t_exectree *exectree, t_myexec *exec);
-void		exectree_clean(t_exectree *exectree);
+t_node		*node_new(t_node_type type);
+int			node_val_set(t_node *node, char *val);
+void		node_parent_add(t_node *child, t_node *parent);
+void		node_last_retrieve(t_node *parent, t_node *child);
+void		node_child_add(t_node *parent, t_node *child);
+void		node_tree_clean(t_node *node);
 
 //----------------------------------------------------------------------------//
 
 typedef struct s_myshell {
-	t_history	history;
+	t_history	hist;
 	t_myenv		env;
-	char		*readline;
-	t_exectree	exectree;
+	t_node		*root;
 	int			exit;
 }	t_myshell;
 
@@ -185,3 +178,5 @@ t_myshell	shell_init();
 void		shell_clean(t_myshell *shell);
 
 #endif
+
+

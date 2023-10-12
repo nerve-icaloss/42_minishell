@@ -1,21 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   blt_cd.h                                           :+:      :+:    :+:   */
+/*   blt_exit.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hmelica <hmelica@student.42.fr>            +#+  +:+       +#+        */
+/*   By: nserve <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/10/04 14:21:29 by hmelica           #+#    #+#             */
-/*   Updated: 2023/10/04 14:21:30 by hmelica          ###   ########.fr       */
+/*   Created: 2023/09/26 15:53:24 by nserve            #+#    #+#             */
+/*   Updated: 2023/09/26 15:53:26 by nserve           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef BLT_CD_H
-# define BLT_CD_H
+#include "../../headers/minishell.h"
 
-# include <fcntl.h>
+int	exit_builtin(char *args[], t_myshell *shell)
+{
+	int	ret;
 
-# include "../headers/minishell.h"
-# include "utils_var.h"
-
-#endif
+	ret = ft_atoi(args[1]);
+	if (shell->env.subsh)
+		return (ret);
+	else
+	{
+		shell_clean(shell);
+		exit(ret);
+	}
+}

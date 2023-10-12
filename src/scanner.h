@@ -1,27 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   blt_exit.c                                         :+:      :+:    :+:   */
+/*   scanner.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: nserve <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/09/26 15:53:24 by nserve            #+#    #+#             */
-/*   Updated: 2023/09/26 15:53:26 by nserve           ###   ########.fr       */
+/*   Created: 2023/10/05 15:26:48 by nserve            #+#    #+#             */
+/*   Updated: 2023/10/05 15:26:51 by nserve           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../headers/minishell.h"
+#ifndef SCANNER_H
+# define SCANNER_H
 
-int	exit_builtin(char *args[], t_myshell *shell)
-{
-	int	ret;
+# include "../headers/minishell.h"
 
-	ret = ft_atoi(args[1]);
-	if (shell->env.subsh)
-		return (ret);
-	else
-	{
-		shell_clean(shell);
-		exit(ret);
-	}
-}
+t_token	*tokenize(t_source *src);
+
+#endif

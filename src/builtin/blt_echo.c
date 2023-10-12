@@ -10,8 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../headers/minishell.h"
-#include "libft.h"
+#include "../../headers/minishell.h"
 
 /*
 #include <stdlib.h>

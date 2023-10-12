@@ -1,31 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   obj_shell.c                                        :+:      :+:    :+:   */
+/*   scanner_utils.h                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: nserve <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/09/28 19:32:32 by nserve            #+#    #+#             */
-/*   Updated: 2023/09/28 19:33:57 by nserve           ###   ########.fr       */
+/*   Created: 2023/10/06 12:59:30 by nserve            #+#    #+#             */
+/*   Updated: 2023/10/06 12:59:32 by nserve           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../headers/minishell.h"
+#ifndef SCANNER_UTILS_H
+# define SCANNER_UTILS_H
 
+# include "../headers/minishell.h"
 
-t_myshell shell_init(void)
-{
-	t_myshell shell;
+int	scan_quote(t_source *src, char nc);
+int scan_verticalbar(t_source *src, char nc);
+int scan_ampersand(t_source *src, char nc);
+int scan_lessthan(t_source *src, char nc);
+int scan_morethan(t_source *src, char nc);
+int	scan_bracket(t_source *src, char nc);
 
-	shell.history = NULL;
-	shell.readline = NULL;
-	return (shell);
-}
-
-void	shell_clean(t_myshell *shell)
-{
-	free(shell->readline);
-	history_clean(&shell->history);
-	env_clean(&shell->env);
-	exectree_clean(&shell->exectree);
-}
+#endif

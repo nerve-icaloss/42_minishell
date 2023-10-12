@@ -1,24 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   var_utils.h                                        :+:      :+:    :+:   */
+/*   parser.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: nserve <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/09/30 15:10:47 by nserve            #+#    #+#             */
-/*   Updated: 2023/09/30 15:10:57 by nserve           ###   ########.fr       */
+/*   Created: 2023/10/10 18:24:09 by nserve            #+#    #+#             */
+/*   Updated: 2023/10/10 18:24:13 by nserve           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef VAR_UTILS_H
-# define VAR_UTILS_H
+#ifndef PARSER_H
+# define PARSER_H
 
 # include "../headers/minishell.h"
 
-int			var_parsing(t_lstvar *lst, char *str);
-t_lstvar	var_get(t_lstvar lst, char *name);
-char		*var_get_value(t_lstvar lst, char *name);
-char		*var_get_string(t_myvar *var);
-int			env_update_count(t_myenv *env);
+t_node *parse_arg(t_token *tok);
+t_node *parse_command(t_token *tok);
+t_node	*parse_bracket(t_token *tok);
+t_node *parse_lvl(t_node *parent, t_token *tok, size_t node_type);
+int parse_source(t_node **root, t_source *src);
 
 #endif

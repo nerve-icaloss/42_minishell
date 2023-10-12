@@ -1,30 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   env.c                                              :+:      :+:    :+:   */
+/*   blt_pwd.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hmelica <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: hmelica <hmelica@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/09/14 10:33:12 by hmelica           #+#    #+#             */
-/*   Updated: 2023/09/29 10:27:34 by hmelica          ###   ########.fr       */
+/*   Created: 2023/10/04 21:35:07 by hmelica           #+#    #+#             */
+/*   Updated: 2023/10/04 21:35:08 by hmelica          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../headers/minishell.h"
+#include "../../headers/minishell.h"
 
-/*
- * there is no params needed
- * T */
-int	env_builtin(t_myenv *myenv)
+int	blt_pwd(char **argv, t_myenv env)
 {
-	t_lstvar	var;
+	char	str[4097];
 
-	var = myenv->lst_var;
-	while (var)
-	{
-		if (var->value)
-			printf("%s=%s\n", var->name, var->value);
-		var = var->next;
-	}
+	(void) argv;
+	ft_bzero(str, 4097 * sizeof(char));
+	if (!getcwd(str, 4097))
+		return (ft_dprintf(2, "pwd: ERROR getting pwd\n"), 1);
+	ft_printf("%s\n", str);
 	return (0);
 }

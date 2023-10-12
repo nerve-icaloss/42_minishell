@@ -1,25 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   blt_pwd.c                                          :+:      :+:    :+:   */
+/*   obj_shell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hmelica <hmelica@student.42.fr>            +#+  +:+       +#+        */
+/*   By: nserve <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/10/04 21:35:07 by hmelica           #+#    #+#             */
-/*   Updated: 2023/10/04 21:35:08 by hmelica          ###   ########.fr       */
+/*   Created: 2023/09/28 19:32:32 by nserve            #+#    #+#             */
+/*   Updated: 2023/09/28 19:33:57 by nserve           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "./blt_cd.h"
+#include "../headers/minishell.h"
 
-int	blt_pwd(char **argv, t_myenv env)
+void	shell_clean(t_myshell *shell)
 {
-	char	str[4097];
-
-	(void) argv;
-	ft_bzero(str, 4097 * sizeof(char));
-	if (!getcwd(str, 4097))
-		return (ft_dprintf(2, "pwd: ERROR getting pwd\n"), 1);
-	ft_printf("%s\n", str);
-	return (0);
+	history_clean(&shell->hist);
+	env_clean(&shell->env);
+	node_tree_clean(shell->root);
 }

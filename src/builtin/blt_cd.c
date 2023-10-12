@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "blt_cd.h"
+#include "../../headers/minishell.h"
 
 int	path_arg_parser(char **argv, t_myenv *myenv, char **path)
 {
