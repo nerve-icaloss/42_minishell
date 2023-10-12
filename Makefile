@@ -41,13 +41,13 @@ NAME_BONUS	= ${NAME}_bonus
 #       main.c \       # oui
 #       src/main.c     # non
 SRCS_FILES	=	\
-				builtin/blt_export.c \
-				builtin/blt_unset.c \
+				builtin/blt_cd.c \
 				builtin/blt_echo.c \
 				builtin/blt_env.c \
 				builtin/blt_exit.c \
+				builtin/blt_export.c \
 				builtin/blt_pwd.c \
-				builtin/blt_cd.c \
+				builtin/blt_unset.c \
 				data/env.c \
 				data/envp.c \
 				data/history.c \
@@ -58,8 +58,8 @@ SRCS_FILES	=	\
 				data/token.c \
 				data/var.c \
 				data/var2.c \
-				main.c \
 				history.c \
+				main.c \
 				open_utils.c \
 				parser.c \
 				parser_utils.c \

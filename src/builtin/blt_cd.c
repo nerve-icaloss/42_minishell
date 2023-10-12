@@ -12,6 +12,9 @@
 
 #include "../../headers/minishell.h"
 
+/*
+ * Controle les arguments pour cd
+ * */
 int	path_arg_parser(char **argv, t_myenv *myenv, char **path)
 {
 	if (!argv || !*argv)
