@@ -17,6 +17,7 @@ int	blt_pwd(char **argv, t_myenv env)
 	char	str[4097];
 
 	(void) argv;
+	(void) env; // TODO let's think about turning this function func(void)
 	ft_bzero(str, 4097 * sizeof(char));
 	if (!getcwd(str, 4097))
 		return (ft_dprintf(2, "pwd: ERROR getting pwd\n"), 1);

@@ -77,10 +77,11 @@ typedef struct s_myenv {
 	bool			subsh;
 }	t_myenv;
 
-int			envp_update(t_myenv *env);
-void		envp_clean(char ***envp);
 int			env_init(t_myenv *env, char **envp);
+int			env_update_count(t_myenv *env);
+int			envp_update(t_myenv *env);
 void		env_clean(t_myenv *env);
+void		envp_clean(char ***envp);
 
 //----------------------------------------------------------------------------//
 

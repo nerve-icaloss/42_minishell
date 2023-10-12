@@ -174,7 +174,7 @@ clean:
 	@${MAKE} -C ${LIBFT_DIR} clean
 	@${MAKE} -C test fclean
 	@${RM} ${OBJS} ${OBJS_BONUS}
-	@${RMDIR} ${OBJS_DIR} ${OBJS_DIR}/data ${OBJS_DIR}/builtin
+	@${RMDIR} ${OBJS_DIR}/data ${OBJS_DIR}/builtin ${OBJS_DIR}
 	@printf "\033[1;34m%-44s\033[0m \033[1;32m%s\033[0m\n" "Cleaning" "done"
 
 fclean: clean

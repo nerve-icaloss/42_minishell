@@ -10,8 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../headers/minishell.h"
-#include "utils_var.h"
+#include "../../headers/minishell.h"
 
 /*
  * init PWD, OLDPWD and SHLVL

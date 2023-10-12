@@ -10,8 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../headers/minishell.h"
-#include "utils_var.h"
+#include "../../headers/minishell.h"
 
 /*
  * t_done */

@@ -11,7 +11,7 @@
 /* ************************************************************************** */
 
 #include "history.h"
-#include "utils_open.h"
+#include "open_utils.h"
 
 void	load_history(void)
 {

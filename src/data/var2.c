@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "utils_var.h"
+#include "../../headers/minishell.h"
 
 /*
  * ft_strchr is secured in case str == NULL
