@@ -80,7 +80,7 @@ void	rpel_loop(t_myshell *shell)
 		//write(1, "$", 1);
 		//cmdline = get_next_line(0);
 		cmdline = readline("minishell-1.0$ ");
-		if (!cmdline || cmdline[0] == '\0' || ft_strncmp(cmdline, "\n", 1) == 0)
+		if (!cmdline || cmdline[0] == '\0' || cmdline[0] == '\n' == 0)
 		{
 			free(cmdline);
 			continue ;

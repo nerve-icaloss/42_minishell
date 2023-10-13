@@ -15,18 +15,23 @@
 int	entry_add(t_history *origin, char *str)
 {
 	t_myentry	*to_add;
+	t_myentry	*e;
 
 	if (!origin || !str)
 		return (-1);
 	add_history(str);
-	to_add = *origin;
-	while (to_add)
-		to_add = to_add->next;
 	to_add = malloc(sizeof(*to_add));
 	if (!to_add)
 		return (-1);
 	to_add->content = ft_strdup(str);
 	to_add->next = NULL;
+	e = *origin;
+	while (e && e->next)
+		e = e->next;
+	if (!e)
+		*origin = to_add;
+	else
+		e->next = to_add;
 	return (0);
 }
 
