@@ -135,6 +135,11 @@ void		untokenize(t_source *src);
 
 //----------------------------------------------------------------------------//
 
+int			here_doc(char *eof, t_myenv *myenv);
+void		var_expansion(char **line, t_myenv *myenv);
+
+//----------------------------------------------------------------------------//
+
 typedef enum e_node_type {
 	NODE_BRACKET = 0,
 	NODE_CMD = 1,
