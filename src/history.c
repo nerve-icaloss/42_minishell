@@ -17,7 +17,7 @@ void	load_history(void)
 {
 	int		fd;
 	char	*buffer;
-	char	*history;
+	char	*nl;
 
 	fd = open(HISTORY_FILE, O_RDONLY, 000666);
 	if (fd == -1)
@@ -25,9 +25,10 @@ void	load_history(void)
 	buffer = get_next_line(fd);
 	while (buffer)
 	{
-		history = ft_substr(buffer, 0, ft_strlen(buffer) - 1);
-		add_history(history);
-		free(history);
+		nl = ft_strchr(buffer, '\n');
+		if (nl)
+			*nl = '\0';
+		add_history(buffer);
 		free(buffer);
 		buffer = get_next_line(fd);
 	}
