@@ -18,7 +18,7 @@
 t_node *parse_arg(t_token *tok);
 t_node *parse_command(t_token *tok);
 t_node	*parse_bracket(t_token *tok);
-t_node *parse_lvl(t_node *parent, t_token *tok, size_t node_type);
+t_node *parse_lvl(t_node *parent, t_token *tok, int node_type);
 int parse_source(t_node **root, t_source *src);
 
 #endif

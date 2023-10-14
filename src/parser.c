@@ -39,13 +39,12 @@ t_node	*parse_arg(t_token *tok)
 
 t_node	*parse_command(t_token *tok)
 {
+	t_source	*src;
 	t_node		*cmd;
 	t_node		*word;
-	t_source	*src;
 
 	if (!tok)
 	    return (errno = ENODATA, NULL);
-	printf("welcome to cmd\n");
 	cmd = node_new(NODE_CMD);
 	if (!cmd)
 		return (token_clean(tok), NULL);
@@ -62,67 +61,51 @@ t_node	*parse_command(t_token *tok)
 		untokenize(src);
 	if (tok->type == TOK_SYNTAX || tok->type == TOK_BRACKET)
 		cmd->exit = 2;
-	printf("print cmd:%p\n", cmd); //
-	node_tree_print(cmd); //
-	write(1, "\n", 1); //
 	return (token_clean(tok), cmd);
 }
 
-t_node	*parse_lvl(t_node *parent, t_token *tok, size_t node_type)
+t_node	*parse_lvl(t_node *parent, t_token *tok, int node_type)
 {
-	t_node		*cmd;
 	t_source	*src;
+	t_node		*cmd;
 
 	if (!parent || parent->exit || !tok)
 		return (errno = ENODATA, NULL);
 	src = tok->src;
-	printf("welcome to lvl:%ld\n", node_type);
 	while((tok->type <= node_type || tok->type == TOK_BRACKET))
 	{
 		if (tok->type == node_type)
-		{
 			parent = insert_lvl_parent(parent, tok, node_type);
-			printf("after: parent=%p | parent_type=%d | parent_parent=%p | parent_fchild=%p\n", parent, parent->type, parent->parent, parent->first_child);
-		}
 		else
 		{
 			cmd = choose_next_lvl(parent, tok, node_type);
 			if (!cmd)
 				return (node_tree_clean(parent), NULL);
-			printf("insert child lvl:%ld\n", node_type);
 			parent = insert_lvl_child(parent, cmd);
-			printf("after: parent=%p | parent_type=%d | parent_parent=%p | parent_fchild=%p\n", parent, parent->type, parent->parent, parent->first_child);
 		}
 		if (!parent)
 			return (NULL);
 		tok = tokenize(src);
 	}
 	handle_error_and_clean(parent, tok, node_type);
-	printf("print parent at lvl:%ld\n", node_type); //
-	node_tree_print(parent); //
-	write(1, "\n", 1); //
-	printf("quit lvl:%ld\n", node_type);
 	return (parent);
 }
 
 t_node	*parse_bracket(t_token *tok)
 {
+	t_source	*src;
 	t_node		*bracket;
 	t_node		*cmd;
-	t_source	*src;
 
 	if (!tok)
 		return (errno = ENODATA, NULL);
 	src = tok->src;
-	printf("welcome to bracket\n");
 	bracket = node_new(NODE_BRACKET);
 	if (!bracket)
-		return (NULL);
-	token_clean(tok);
-	cmd = choose_first_child(src);
+		return (token_clean(tok), NULL);
+	cmd = choose_first_child(tok);
 	if (!cmd)
 		return (NULL);
-	printf("print first cmd in bracket:%d\n", cmd->type); //
 	tok = tokenize(src);
 	while (!cmd->exit && tok->type < TOK_EOB)
 	{
@@ -131,7 +114,6 @@ t_node	*parse_bracket(t_token *tok)
 			return (NULL);
 		tok = tokenize(src);
 	}
-	printf("endwhile bracket tok_type=%d | tok_val=%s\n", tok->type, tok->txt);
 	handle_error_and_clean(bracket, tok, NODE_BRACKET);
 	bracket->exit = cmd->exit;
 	node_child_add(bracket, cmd);
@@ -145,15 +127,13 @@ int	parse_source(t_node **root, t_source *src)
 
 	if (!src)
 		return (errno = ENODATA, 1);
-	skip_spaces(src);
-	cmd = choose_first_child(src);
+	tok = tokenize(src);
+	cmd = choose_first_child(tok);
 	if (!cmd)
 		return (1);
-	printf("print parent at root:%d\n", cmd->type); //
 	node_tree_print(cmd); //
 	write(1, "\n", 1); //
 	tok = tokenize(src);
-	printf("before parse_lvl tok_type=%d | tok_txt=%s\n", tok->type, tok->txt);
 	while (!cmd->exit && tok->type != TOK_EOF)
 	{
 		cmd = parse_lvl(cmd, tok, TOK_AND);

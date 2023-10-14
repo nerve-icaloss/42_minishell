@@ -24,11 +24,11 @@ public slots:
 
 # include "../headers/minishell.h"
 
-t_node *choose_first_child(t_source *src);
-t_node *insert_lvl_parent(t_node *parent, t_token *tok, size_t type);
-t_node *choose_next_lvl(t_node *parent, t_token *tok, size_t node_type);
+t_node *choose_first_child(t_token *tok);
+t_node *insert_lvl_parent(t_node *parent, t_token *tok, int type);
+t_node *choose_next_lvl(t_node *parent, t_token *tok, int node_type);
 t_node *insert_lvl_child(t_node *parent, t_node *child);
-void handle_error_and_clean(t_node *parent, t_token *tok, size_t type);
+void handle_error_and_clean(t_node *parent, t_token *tok, int type);
 t_node	*parse_bracket(t_token *tok);
 
 #endif
