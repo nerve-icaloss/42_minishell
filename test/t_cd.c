@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "./universal.h"
+#include "../headers/minishell.h"
 #include "../criterion/include/criterion/criterion.h"
 #include "../criterion/include/criterion/parameterized.h"
 #include "../criterion/include/criterion/new/assert.h"
