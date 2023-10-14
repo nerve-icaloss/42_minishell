@@ -6,7 +6,7 @@
 /*   By: nserve & hmelica                           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/10 14:57:45 by hmelica           #+#    #+#             */
-/*   Updated: 2023/10/11 12:00:09 by nserve           ###   ########.fr       */
+/*   Updated: 2023/10/14 11:40:40 by hmelica          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,7 @@ void	rpel_loop(t_myshell *shell)
 		//write(1, "$", 1);
 		//cmdline = get_next_line(0);
 		cmdline = readline("minishell-1.0$ ");
-		if (!cmdline || cmdline[0] == '\0' || cmdline[0] == '\n' == 0)
+		if (!cmdline || cmdline[0] == '\0' || cmdline[0] == '\n')
 		{
 			free(cmdline);
 			continue ;
