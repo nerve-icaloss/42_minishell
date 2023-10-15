@@ -137,9 +137,6 @@ void		untokenize(t_source *src);
 
 //----------------------------------------------------------------------------//
 
-int			here_doc(char *eof, t_myenv *myenv);
-void		var_expansion(char **line, t_myenv *myenv);
-
 typedef struct s_expand {
 	char	*pstart;
 	char	*p;
@@ -148,7 +145,6 @@ typedef struct s_expand {
 }	t_expand;
 
 int			expand_init(t_expand *expd, char *word);
-size_t		find_closing_quote(char *data);
 
 //----------------------------------------------------------------------------//
 
@@ -159,8 +155,6 @@ typedef enum e_node_type {
 	NODE_PIPE = 2,
 	NODE_OR = 3,
 	NODE_AND = 4,
-	NODE_IN = 5,
-	NODE_OUT = 6,
 	NODE_WORD = 7,
 }	t_node_type;
 
@@ -193,10 +187,6 @@ void		node_child_add(t_node *parent, t_node *child);
 void		node_sibling_add(t_node **origin, t_node *child);
 void		node_tree_clean(t_node *node);
 void		node_sibling_clean(t_node **origin);
-
-//----------------------------------------------------------------------------//
-
-int			run_doc(t_node *root, t_myenv *myenv);
 
 //----------------------------------------------------------------------------//
 

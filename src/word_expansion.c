@@ -83,7 +83,7 @@ void	find_expansion(t_expand *expd, t_myenv *env)
 				expd->p += find_closing_quote(expd->p);
 		if (*expd->p == '$')
 		{
-			var_expand(&expd->p, env);
+			var_expansion(&expd->p, env);
 			expd->expanded = 1;
 		}
 		if (ft_isspace(*expd->p))

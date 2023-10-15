@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../headers/minishell.h"
+#include "expand_var.h"
 
 char	*extract_value(char **line, int *i, t_lstvar lst)
 {

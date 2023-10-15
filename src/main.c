@@ -43,29 +43,26 @@ void	node_tree_print(t_node *root)
 			write(1, ") ", 2);
 		child = i;
 	}
-	if((root->type == NODE_WORD || root->type == NODE_IN || root->type == NODE_OUT) && root->val)
+	if(root->type == NODE_WORD && root->val)
 	{
+		if (root->redir == READ)
+			write(1, "< ", 2);
+		if (root->redir == HEREDOC)
+			write(1, "<< ", 3);
+		if (root->redir == TRUNC)
+			write(1, "> ", 2);
+		if (root->redir == APPEND)
+			write(1, ">> ", 3);
 		write(1, root->val, ft_strlen(root->val));
 		write(1, " ", 1);
 	}
 }
 
-void	struct_print(t_node *root)
+void	parse_and_execute(t_myshell *shell, t_source *src)
 {
-	t_node	*child;
-	t_node	*i;
-
-	if(!root)
-		return (errno = ENODATA, (void)NULL);
-	child = root->first_child;
-	while(child)
-	{
-		i = child->next_sibling;
-		node_tree_print(child);
-		printf("\n");
-		child = i;
-	}
-	printf("node=%d | \n",  root->type);
+		shell->exit = parse_source(&shell->root, src, &shell->env);
+		node_tree_print(shell->root);
+		write(1, "\n", 1);
 }
 
 void	rpel_loop(t_myshell *shell)
@@ -77,8 +74,6 @@ void	rpel_loop(t_myshell *shell)
 		return ;
 	while (1)
 	{
-		//write(1, "$", 1);
-		//cmdline = get_next_line(0);
 		cmdline = readline("minishell-1.0$ ");
 		if (!cmdline || cmdline[0] == '\0' || cmdline[0] == '\n')
 		{
@@ -90,9 +85,7 @@ void	rpel_loop(t_myshell *shell)
 		src.buf = cmdline;
 		src.curpos = INIT_SRC_POS;
 		src.bufsize = ft_strlen(cmdline);
-		shell->exit = parse_source(&shell->root, &src);
-		node_tree_print(shell->root);
-		write(1, "\n", 1);
+		parse_and_execute(shell, &src);
 		free(cmdline);
 	}
 }
