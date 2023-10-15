@@ -6,7 +6,7 @@
 /*   By: hmelica <hmelica@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/14 16:08:57 by hmelica           #+#    #+#             */
-/*   Updated: 2023/10/15 16:46:50 by hmelica          ###   ########.fr       */
+/*   Updated: 2023/10/15 16:54:06 by hmelica          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,9 +49,6 @@ int	run_doc(t_node *root, t_myenv *myenv)
 	if(!root)
 		return (errno = ENODATA, -1);
 	child = root->first_child;
-	if (root->type == NODE_IN)
-		if (this_doc(&root->val, &root->fd, myenv))
-			return (-1);
 	while(child)
 	{
 		i = child->next_sibling;
@@ -59,6 +56,9 @@ int	run_doc(t_node *root, t_myenv *myenv)
 			return (-1);
 		child = i;
 	}
+	if (root->redir == HEREDOC)
+		if (this_doc(&root->val, &root->fd, myenv))
+			return (-1);
 	return (0);
 }
 
