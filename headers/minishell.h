@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/10 14:58:41 by hmelica           #+#    #+#             */
-/*   Updated: 2023/10/15 16:22:08 by hmelica          ###   ########.fr       */
+/*   Updated: 2023/10/15 16:40:30 by hmelica          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -138,6 +138,7 @@ void		untokenize(t_source *src);
 //----------------------------------------------------------------------------//
 
 int			here_doc(char *eof, t_myenv *myenv);
+int			run_doc(t_node *root, t_myenv *myenv);
 void		var_expansion(char **line, t_myenv *myenv);
 
 typedef struct s_expand {

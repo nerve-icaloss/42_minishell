@@ -6,20 +6,41 @@
 /*   By: hmelica <hmelica@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/14 16:08:57 by hmelica           #+#    #+#             */
-/*   Updated: 2023/10/15 16:18:35 by hmelica          ###   ########.fr       */
+/*   Updated: 2023/10/15 16:40:16 by hmelica          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../headers/minishell.h"
 
-char
-
-int	this_doc(char **val, int *fd)
+/*
+ * Do not call this directly
+ * It's static anyway
+ * */
+static int	this_doc(char **val, int *fd, t_myenv *myenv)
 {
-	
+	char	*a;
+	int		i;
+
+	*fd = -1;
+	a = *val;
+	i = -1;
+	if (*a == '\'' || *a == '"')
+	{
+		i = find_closing_quote(a);
+		a[i] = '\0';
+	}
+	*fd = here_doc(a + (i >= 0), myenv * (t_myenv *)(i < 0));
+	free(*val);
+	*val = NULL;
+	if (*fd < 0)
+		return (-1);
+	return (0);
 }
 
-int	run_doc(t_node *root)
+/*
+ * use THIS
+ * */
+int	run_doc(t_node *root, t_myenv *myenv)
 {
 	t_node	*child;
 	t_node	*i;
@@ -28,13 +49,16 @@ int	run_doc(t_node *root)
 		return (errno = ENODATA, -1);
 	child = root->first_child;
 	if (root->type == NODE_IN)
-		this_doc(&root->val, &root->fd);
+		if (this_doc(&root->val, &root->fd, myenv))
+			return (-1);
 	while(child)
 	{
 		i = child->next_sibling;
-		run_doc(child);
+		if (run_doc(child))
+			return (-1);
 		child = i;
 	}
+	return (0);
 }
 
 /*
