@@ -64,7 +64,7 @@ void	node_parent_add(t_node *child, t_node *parent)
 	parent->children++;
 }
 
-void	node_last_retrieve(t_node *parent, t_node *child)
+void	node_parent_insert(t_node *parent, t_node *child)
 {
 	t_node	*last_child;
 
@@ -83,6 +83,7 @@ void	node_last_retrieve(t_node *parent, t_node *child)
 void	node_child_add(t_node *parent, t_node *child)
 {
 	t_node	*sibling;
+	t_node	*i;
 
 	if(!parent || !child)
 		return (errno = ENODATA, (void)NULL);
@@ -94,24 +95,16 @@ void	node_child_add(t_node *parent, t_node *child)
 		sibling = parent->first_child;
 		while(sibling->next_sibling)
 			sibling = sibling->next_sibling;
-		/*if (child->type > sibling->type)
-		{
-			sibling->prev_sibling->next_sibling = child;
-			child->prev_sibling = sibling->prev_sibling;
-
-			child->first_child = sibling;
-			child->next_sibling = NULL;
-
-			sibling->parent = child;
-			sibling->prev_sibling = NULL;
-		}*/
-		//else 
-		//{
 		sibling->next_sibling = child;
 		child->prev_sibling = sibling;
-		//}
 	}
-	parent->children++;
+	i = child->next_sibling;
+	while (i)
+	{
+		i->parent = parent;
+		parent->children++;
+		i = i->next_sibling;
+	}
 }
 
 void	node_tree_clean(t_node *node)

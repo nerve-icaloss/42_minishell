@@ -13,7 +13,7 @@
 #include "parser_utils.h"
 #include "parser.h"
 
-t_node *choose_first_child(t_token *tok)
+t_node *choose_first_child(t_token *tok, t_myenv *env)
 {
 	t_source	*src;
 	t_node	*cmd;
@@ -21,13 +21,13 @@ t_node *choose_first_child(t_token *tok)
 	if (!tok)
 		return (errno = ENODATA, NULL);
 	if (tok->type == TOK_WORD)
-		cmd = parse_command(tok);
+		cmd = parse_command(tok, env);
 	else if (tok->type == TOK_BRACKET)
 	{
 		src = tok->src;
 		token_clean(tok);
 		tok = tokenize(src);
-		cmd = parse_bracket(tok);
+		cmd = parse_bracket(tok, env);
 	}
 	else
 	{
@@ -54,12 +54,12 @@ t_node *insert_lvl_parent(t_node *parent, t_token *tok, int type)
 	if ((parent)->type < type)
 		node_parent_add(parent, lvl);
 	if (parent->type > type)
-		node_last_retrieve(parent, lvl);
+		node_parent_insert(parent, lvl);
 	parent = lvl;
 	return (token_clean(tok), parent);
 }
 
-t_node *choose_next_lvl(t_node *parent, t_token *tok, int node_type)
+t_node *choose_lvl(t_node *parent, t_token *tok, int node_type, t_myenv *env)
 {
 	t_source	*src;
 	t_node		*cmd;
@@ -71,12 +71,12 @@ t_node *choose_next_lvl(t_node *parent, t_token *tok, int node_type)
 		src = tok->src;
 		token_clean(tok);
 		tok = tokenize(src);
-		cmd = parse_bracket(tok);
+		cmd = parse_bracket(tok, env);
 	}
 	else if (tok->type == TOK_WORD)
-		cmd = parse_command(tok);
+		cmd = parse_command(tok, env);
 	else if (tok->type <= node_type)
-		cmd = parse_lvl(parent, tok, (node_type - 1));
+		cmd = parse_lvl(parent, tok, (node_type - 1), env);
 	else
 		cmd = NULL;
 	if (cmd && cmd->exit)

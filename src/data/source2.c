@@ -14,6 +14,7 @@
 
 int	tok_buf_init(t_source *src)
 {
+	ft_memset(src, 0, sizeof(*src));
 	src->tok_bufsize = 1024;
 	src->tok_buf = malloc(sizeof(char) * src->tok_bufsize);
 	if (!src->tok_buf)

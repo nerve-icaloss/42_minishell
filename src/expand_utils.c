@@ -1,24 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parser.h                                           :+:      :+:    :+:   */
+/*   expand_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: nserve <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/10/10 18:24:09 by nserve            #+#    #+#             */
-/*   Updated: 2023/10/10 18:24:13 by nserve           ###   ########.fr       */
+/*   Created: 2023/10/14 18:55:54 by nserve            #+#    #+#             */
+/*   Updated: 2023/10/14 18:56:01 by nserve           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PARSER_H
-# define PARSER_H
+#include "expand_utils.h"
+#include "libft/libft.h"
 
-# include "../headers/minishell.h"
+int	expand_init(t_expand *expd, char *word)
+{
+	ft_memset(expd, 0, sizeof(*expd));
+	expd->pstart = ft_strdup(word);
+	if (!expd->pstart)
+		return (errno = ENOMEM, -1);
+	expd->p = expd->pstart;
+	expd->in_double_quote = false;
+	expd->expanded = false;
+	return (0);
+}
 
-t_node *parse_word(t_token *tok, t_myenv *env);
-t_node *parse_command(t_token *tok, t_myenv *env);
-t_node	*parse_bracket(t_token *tok, t_myenv *env);
-t_node *parse_lvl(t_node *parent, t_token *tok, int node_type, t_myenv *env);
-int parse_source(t_node **root, t_source *src, t_myenv *env);
+void	remove_quotes(t_node *args)
+{
 
-#endif
+}

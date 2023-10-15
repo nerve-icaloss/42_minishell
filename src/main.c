@@ -43,7 +43,7 @@ void	node_tree_print(t_node *root)
 			write(1, ") ", 2);
 		child = i;
 	}
-	if((root->type == NODE_VAR || root->type == NODE_IN || root->type == NODE_OUT) && root->val)
+	if((root->type == NODE_WORD || root->type == NODE_IN || root->type == NODE_OUT) && root->val)
 	{
 		write(1, root->val, ft_strlen(root->val));
 		write(1, " ", 1);

@@ -1,51 +1,44 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   obj_entry.c                                        :+:      :+:    :+:   */
+/*   node2.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: nserve <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/09/27 10:59:24 by nserve            #+#    #+#             */
-/*   Updated: 2023/09/27 10:59:25 by nserve           ###   ########.fr       */
+/*   Created: 2023/10/15 13:33:28 by nserve            #+#    #+#             */
+/*   Updated: 2023/10/15 13:33:43 by nserve           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../headers/minishell.h"
+#include <asm-generic/errno.h>
 
-int	entry_add(t_history *origin, char *str)
+void	node_sibling_add(t_node **origin, t_node *child)
 {
-	t_myentry	*to_add;
-	t_myentry	*i;
+	t_node	*i;
 
-	if (!origin || !str)
-		return (-1);
-	add_history(str);
-	to_add = malloc(sizeof(*to_add));
-	if (!to_add)
-		return (-1);
-	to_add->content = ft_strdup(str);
-	to_add->next = NULL;
+	if (!origin || !child)
+		return (errno = ENODATA, (void)NULL);
+	if (!*origin)
+		*origin = child;
 	i = *origin;
-	while (i && i->next)
-		i = i->next;
-	if (!i)
-		*origin = to_add;
-	else
-		i->next = to_add;
-	return (0);
+	while (i->next_sibling)
+		i = i->next_sibling;
+	i->next_sibling = child;
+	child->prev_sibling = i;
 }
 
-void	history_clean(t_history *origin)
+void	node_sibling_clean(t_node **origin)
 {
-	t_myentry	*i;
+	t_node	*i;
 
-	if (!*origin)
-		return ;
+	if (!origin)
+		return (errno = ENODATA, (void)NULL);
 	i = *origin;
 	while (i)
 	{
-		*origin = (*origin)->next;
-		free(i->content);
+		*origin = (*origin)->next_sibling;
+		free(i->val);
 		free(i);
 		i = *origin;
 	}
