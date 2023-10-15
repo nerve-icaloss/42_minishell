@@ -6,27 +6,29 @@
 /*   By: nserve <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/06 15:10:03 by nserve            #+#    #+#             */
-/*   Updated: 2023/10/06 15:10:12 by nserve           ###   ########.fr       */
+/*   Updated: 2023/10/14 14:28:06 by nserve           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parser_utils.h"
 #include "parser.h"
 
-t_node *choose_first_child(t_source *src)
+t_node *choose_first_child(t_token *tok)
 {
-	t_token	*tok;
+	t_source	*src;
 	t_node	*cmd;
 
-	if (!src)
+	if (!tok)
 		return (errno = ENODATA, NULL);
-	printf("welcome to first child\n");
-	tok = tokenize(src);
-	printf("tok_type=%u\n", tok->type);
 	if (tok->type == TOK_WORD)
 		cmd = parse_command(tok);
 	else if (tok->type == TOK_BRACKET)
+	{
+		src = tok->src;
+		token_clean(tok);
+		tok = tokenize(src);
 		cmd = parse_bracket(tok);
+	}
 	else
 	{
 		token_clean(tok);
@@ -38,12 +40,10 @@ t_node *choose_first_child(t_source *src)
 	return (cmd);
 }
 
-t_node *insert_lvl_parent(t_node *parent, t_token *tok, size_t type)
+t_node *insert_lvl_parent(t_node *parent, t_token *tok, int type)
 {
 	t_node		*lvl;
 
-	printf("insert parent lvl:%ld\n", type);
-	printf("before: parent=%p | parent_type=%d | parent_parent=%p | parent_fchild=%p\n", parent, parent->type, parent->parent, parent->first_child);
 	if (!parent || !tok)
 		return (errno = ENODATA, NULL);
 	if (parent->type == type && tok->type == type)
@@ -59,14 +59,20 @@ t_node *insert_lvl_parent(t_node *parent, t_token *tok, size_t type)
 	return (token_clean(tok), parent);
 }
 
-t_node *choose_next_lvl(t_node *parent, t_token *tok, size_t node_type)
+t_node *choose_next_lvl(t_node *parent, t_token *tok, int node_type)
 {
+	t_source	*src;
 	t_node		*cmd;
 
 	if (!parent || !tok)
 		return (errno = ENODATA, NULL);
 	if (tok->type == TOK_BRACKET)
+	{
+		src = tok->src;
+		token_clean(tok);
+		tok = tokenize(src);
 		cmd = parse_bracket(tok);
+	}
 	else if (tok->type == TOK_WORD)
 		cmd = parse_command(tok);
 	else if (tok->type <= node_type)
@@ -82,7 +88,6 @@ t_node *insert_lvl_child(t_node *parent, t_node *child)
 {
 	if (!parent || !child)
 		return (errno = ENODATA, NULL);
-	printf("before: parent=%p | parent_type=%d | parent_parent=%p | parent_fchild=%p\n", parent, parent->type, parent->parent, parent->first_child);
 	if (parent->type > child->type)
 	{
 		node_child_add(parent, child);
@@ -92,16 +97,29 @@ t_node *insert_lvl_child(t_node *parent, t_node *child)
 		return (child);
 }
 
-void	handle_error_and_clean(t_node *parent, t_token *tok, size_t type)
+void	handle_error_and_clean(t_node *parent, t_token *tok, int type)
 {
 	t_source	*src;
 
 	if (!parent || !tok)
 		return (errno = ENODATA, (void)NULL);
 	src = tok->src;
-	if (type < tok->type && tok->type < TOK_EOB)
-		untokenize(src);
+	if (type != NODE_BRACKET)
+		if (type < tok->type && tok->type < TOK_EOF)
+			untokenize(src);
 	if (tok->type == TOK_SYNTAX)
 		parent->exit = 2;
+	if (parent->children == 0 && type == NODE_PIPE)
+	{
+		if (type == NODE_PIPE)
+			write(2, "bash: syntax error near unexpected token `|'", 44);
+		if (type == NODE_OR)
+			write(2, "bash: syntax error near unexpected token `||'", 44);
+		if (type == NODE_AND)
+			write(2, "bash: syntax error near unexpected token `&&'", 44);
+		if (type == NODE_BRACKET)
+			write(2, "bash: syntax error near unexpected token `('", 44);
+		parent->exit = 2;
+	}
 	token_clean(tok);
 }

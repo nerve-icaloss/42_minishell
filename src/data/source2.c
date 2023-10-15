@@ -27,7 +27,7 @@ void	tok_buf_reset(t_source *src)
 	src->tok_bufindex = 0;
 	ft_memset(src->tok_buf, '\0', src->tok_bufsize);
 	//src->tok_buf[0] = '\0';
-	src->tok_type = -1;
+	src->tok_type = 1;
 }
 
 void	tok_buf_add(t_source *src, char c)
@@ -43,4 +43,9 @@ void	tok_buf_add(t_source *src, char c)
 		src->tok_buf = tmp;
 		src->tok_bufsize *= 2;
 	}
+}
+
+void	tok_buf_pop(t_source *src)
+{
+	src->tok_buf[src->tok_bufindex--] = '\0';
 }

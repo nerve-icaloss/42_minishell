@@ -6,7 +6,7 @@
 /*   By: nserve <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 12:26:12 by nserve            #+#    #+#             */
-/*   Updated: 2023/10/05 12:26:21 by nserve           ###   ########.fr       */
+/*   Updated: 2023/10/14 14:48:30 by nserve           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 
 int	scan_space(t_source *src)
 {
-	if (src->tok_bufindex > 0)
+	if (src->tok_bufindex > 1)
 	{
 		if (src->tok_type == (t_tok_type)-1)
 			src->tok_type = TOK_WORD;
@@ -28,9 +28,8 @@ int	scan_space(t_source *src)
 
 int	scan_bracket(t_source *src, char nc)
 {
-	if (src->tok_bufindex > 0)
-		return (unget_char(src), ENDLOOP);
-	tok_buf_add(src, nc);
+	if (src->tok_bufindex > 1)
+		return (tok_buf_pop(src), unget_char(src), ENDLOOP);
 	if (nc == '(')
 		src->tok_type = TOK_BRACKET;
 	if (nc == ')')
@@ -42,10 +41,12 @@ static void	get_token_from_source(t_source *src)
 {
 	char	nc;
 
+	skip_spaces(src);
 	nc = next_char(src);
 	while (nc != EOF)
 	{
-		printf("while token: nc=%c | tok_buf=%s | tok_type=%d | index=%d | pos=%c\n", nc, src->tok_buf, src->tok_type, src->tok_bufindex, src->buf[src->curpos]);
+		if (!ft_isspace(nc))
+			tok_buf_add(src, nc);
 		if ((nc == '"' || nc == '\'') && scan_quote(src, nc) == ENDLOOP)
 			break ;
 		else if ((nc == '(' || nc == ')') && scan_bracket(src, nc) == ENDLOOP)
@@ -58,17 +59,12 @@ static void	get_token_from_source(t_source *src)
 			break ;
 		else if (nc == '>' && scan_morethan(src, nc) == ENDLOOP)
 			break ;
-		if (ft_isspace(nc) && scan_space(src) == ENDLOOP)
+		else if (ft_isspace(nc) && scan_space(src) == ENDLOOP)
 			break ;
-		else
-		{
-			printf("add to buf nc=|%c|\n", nc);
-			tok_buf_add(src, nc);
-		}
 		nc = next_char(src);
 	}
-	if (src->tok_bufindex > 0 && ft_isspace(src->tok_buf[0]) && src->tok_type == (t_tok_type)-1)
-		src->tok_type = TOK_WORD;
+	//if (src->tok_bufindex > 0 && src->tok_type == (t_tok_type)-1)
+	//	src->tok_type = TOK_WORD;
 }
 
 
@@ -84,9 +80,7 @@ t_token	*tokenize(t_source *src)
 	if (!src->tok_buf)
 		return (tok_eof);
 	tok_buf_reset(src);
-	printf("before token: tok_buf=%s | tok_type=%d | index=%d | pos=%c\n", src->tok_buf, src->tok_type, src->tok_bufindex, src->buf[src->curpos]);
 	get_token_from_source(src);
-	printf("check token: tok_buf=%s | tok_type=%d | index=%d | pos=%c\n", src->tok_buf, src->tok_type, src->tok_bufindex, src->buf[src->curpos]);
 	if (src->tok_bufindex == 0)
 		return (tok_eof);
 	if (src->tok_bufindex >= src->tok_bufsize)

@@ -91,6 +91,7 @@ void		envp_clean(char ***envp);
 # define ENDLOOP         (-1)
 
 typedef enum e_tok_type {
+	TOK_INIT = -1,
 	TOK_BRACKET = 0,
 	TOK_WORD = 1,
 	TOK_PIPE = 2,
@@ -119,6 +120,7 @@ void		skip_spaces(t_source *src);
 int			tok_buf_init(t_source *src);
 void		tok_buf_reset(t_source *src);
 void		tok_buf_add(t_source *src, char c);
+void		tok_buf_pop(t_source *src);
 
 typedef struct s_token {
 	t_tok_type	type;
@@ -141,6 +143,7 @@ void		var_expansion(char **line, t_myenv *myenv);
 //----------------------------------------------------------------------------//
 
 typedef enum e_node_type {
+	NODE_INIT = -1,
 	NODE_BRACKET = 0,
 	NODE_CMD = 1,
 	NODE_PIPE = 2,

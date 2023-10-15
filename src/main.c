@@ -6,7 +6,7 @@
 /*   By: nserve & hmelica                           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/10 14:57:45 by hmelica           #+#    #+#             */
-/*   Updated: 2023/10/14 11:40:40 by hmelica          ###   ########.fr       */
+/*   Updated: 2023/10/14 14:43:19 by nserve           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,10 +39,10 @@ void	node_tree_print(t_node *root)
 			if (root->type == NODE_PIPE)
 				write(1, "| ", 2);
 		}
+		if (root->type == NODE_BRACKET)
+			write(1, ") ", 2);
 		child = i;
 	}
-	if (root->type == NODE_BRACKET)
-		write(1, ") ", 2);
 	if((root->type == NODE_VAR || root->type == NODE_IN || root->type == NODE_OUT) && root->val)
 	{
 		write(1, root->val, ft_strlen(root->val));
@@ -102,7 +102,8 @@ int	main(int argc, char *argv[])
 	t_myshell	shell;
 	int			exit;
 
-	printf("Welcom to %s\n", argv[0]);
+	printf("Welcome to %s\n", argv[0]);
+	ft_memset(&shell, 0, sizeof(shell));
 	load_history();
 	//if (!envp)
 	//	return (write(2, "error envp unset\n", 16), 1);
