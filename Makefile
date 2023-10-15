@@ -6,7 +6,7 @@
 #    By: marvin <marvin@42.fr>                      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/04/13 14:06:13 by hmelica           #+#    #+#              #
-#    Updated: 2023/10/01 16:37:47 by hmelica          ###   ########.fr        #
+#    Updated: 2023/10/15 12:15:39 by hmelica          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -58,6 +58,7 @@ SRCS_FILES	=	\
 				data/token.c \
 				data/var.c \
 				data/var2.c \
+				expand_var.c \
 				history.c \
 				main.c \
 				open_utils.c \
