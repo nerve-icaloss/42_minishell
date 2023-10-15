@@ -6,13 +6,36 @@
 /*   By: hmelica <hmelica@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/14 16:08:57 by hmelica           #+#    #+#             */
-/*   Updated: 2023/10/15 15:20:10 by hmelica          ###   ########.fr       */
+/*   Updated: 2023/10/15 16:18:35 by hmelica          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../headers/minishell.h"
 
-// apply heredoc here
+char
+
+int	this_doc(char **val, int *fd)
+{
+	
+}
+
+int	run_doc(t_node *root)
+{
+	t_node	*child;
+	t_node	*i;
+
+	if(!root)
+		return (errno = ENODATA, -1);
+	child = root->first_child;
+	if (root->type == NODE_IN)
+		this_doc(&root->val, &root->fd);
+	while(child)
+	{
+		i = child->next_sibling;
+		run_doc(child);
+		child = i;
+	}
+}
 
 /*
  * Use myenv == NULL to disable var_expansion

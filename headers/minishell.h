@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/10 14:58:41 by hmelica           #+#    #+#             */
-/*   Updated: 2023/10/01 16:33:41 by hmelica          ###   ########.fr       */
+/*   Updated: 2023/10/15 16:02:16 by hmelica          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -156,8 +156,7 @@ typedef enum e_node_type {
 
 typedef struct s_node {
 	t_node_type		type;
-	int				in_fd;
-	int				out_fd;
+	int				fd;
 	char			*val;
 	int				exit;
 	int				children;
