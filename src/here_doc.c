@@ -6,7 +6,7 @@
 /*   By: hmelica <hmelica@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/14 16:08:57 by hmelica           #+#    #+#             */
-/*   Updated: 2023/10/15 16:40:16 by hmelica          ###   ########.fr       */
+/*   Updated: 2023/10/15 16:46:50 by hmelica          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@
 static int	this_doc(char **val, int *fd, t_myenv *myenv)
 {
 	char	*a;
-	int		i;
+	size_t	i;
 
 	*fd = -1;
 	a = *val;
@@ -28,8 +28,9 @@ static int	this_doc(char **val, int *fd, t_myenv *myenv)
 	{
 		i = find_closing_quote(a);
 		a[i] = '\0';
+		myenv = NULL;
 	}
-	*fd = here_doc(a + (i >= 0), myenv * (t_myenv *)(i < 0));
+	*fd = here_doc(a + (i >= 0), myenv);
 	free(*val);
 	*val = NULL;
 	if (*fd < 0)
@@ -54,7 +55,7 @@ int	run_doc(t_node *root, t_myenv *myenv)
 	while(child)
 	{
 		i = child->next_sibling;
-		if (run_doc(child))
+		if (run_doc(child, myenv))
 			return (-1);
 		child = i;
 	}

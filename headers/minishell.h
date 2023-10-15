@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/10 14:58:41 by hmelica           #+#    #+#             */
-/*   Updated: 2023/10/15 16:40:30 by hmelica          ###   ########.fr       */
+/*   Updated: 2023/10/15 16:46:38 by hmelica          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -138,7 +138,6 @@ void		untokenize(t_source *src);
 //----------------------------------------------------------------------------//
 
 int			here_doc(char *eof, t_myenv *myenv);
-int			run_doc(t_node *root, t_myenv *myenv);
 void		var_expansion(char **line, t_myenv *myenv);
 
 typedef struct s_expand {
@@ -149,6 +148,7 @@ typedef struct s_expand {
 }	t_expand;
 
 int			expand_init(t_expand *expd, char *word);
+size_t		find_closing_quote(char *data);
 
 //----------------------------------------------------------------------------//
 
@@ -193,6 +193,10 @@ void		node_child_add(t_node *parent, t_node *child);
 void		node_sibling_add(t_node **origin, t_node *child);
 void		node_tree_clean(t_node *node);
 void		node_sibling_clean(t_node **origin);
+
+//----------------------------------------------------------------------------//
+
+int			run_doc(t_node *root, t_myenv *myenv);
 
 //----------------------------------------------------------------------------//
 
