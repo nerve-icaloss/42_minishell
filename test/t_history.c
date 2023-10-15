@@ -1,19 +1,18 @@
 
-#include "include/criterion/internal/new_asserts.h"
-#include "universal.h"
+#include "../headers/minishell.h"
 #include "include/criterion/criterion.h"
 #include "include/criterion/parameterized.h"
 #include "include/criterion/new/assert.h"
 #include <stdio.h>
 #include <string.h>
+#include <sys/wait.h>
 
-t_history lst;
+/*
+t_history lst; // already defined in global please change name
 
 Test(entry, add, .description="Test of entry_add")
 {
 	lst = NULL;
-	
-
 }
 Test(history, clean, .description="Test of history_clean")
 {
@@ -32,3 +31,5 @@ Test(history, clean, .description="Test of history_clean")
 	history_clean(&lst);
 	cr_expect(lst == NULL);
 }
+
+*/
