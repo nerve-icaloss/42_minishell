@@ -137,6 +137,17 @@ void		untokenize(t_source *src);
 
 //----------------------------------------------------------------------------//
 
+typedef struct s_expand {
+	char	*pstart;
+	char	*p;
+	bool	in_double_quote;
+	bool	expanded;
+}	t_expand;
+
+int			expand_init(t_expand *expd, char *word);
+
+//----------------------------------------------------------------------------//
+
 typedef enum e_node_type {
 	NODE_INIT = -1,
 	NODE_BRACKET = 0,
@@ -146,13 +157,21 @@ typedef enum e_node_type {
 	NODE_AND = 4,
 	NODE_IN = 5,
 	NODE_OUT = 6,
-	NODE_VAR = 7,
+	NODE_WORD = 7,
 }	t_node_type;
+
+typedef enum e_redir_type {
+	INIT = -1,
+	READ,
+	HEREDOC,
+	TRUNC,
+	APPEND,
+}	t_redir_type;
 
 typedef struct s_node {
 	t_node_type		type;
-	int				in_fd;
-	int				out_fd;
+	t_redir_type	redir;
+	int				fd;
 	char			*val;
 	int				exit;
 	int				children;
@@ -165,9 +184,11 @@ typedef struct s_node {
 t_node		*node_new(t_node_type type);
 int			node_val_set(t_node *node, char *val);
 void		node_parent_add(t_node *child, t_node *parent);
-void		node_last_retrieve(t_node *parent, t_node *child);
+void		node_parent_insert(t_node *parent, t_node *child);
 void		node_child_add(t_node *parent, t_node *child);
+void		node_sibling_add(t_node **origin, t_node *child);
 void		node_tree_clean(t_node *node);
+void		node_sibling_clean(t_node **origin);
 
 //----------------------------------------------------------------------------//
 
