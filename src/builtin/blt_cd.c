@@ -6,7 +6,7 @@
 /*   By: hmelica <hmelica@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/03 16:05:03 by hmelica           #+#    #+#             */
-/*   Updated: 2023/10/03 21:42:15 by hmelica          ###   ########.fr       */
+/*   Updated: 2023/10/15 15:25:24 by hmelica          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,8 +56,8 @@ int	cd_builtin(char **argv, t_myenv *myenv)
 	if (!var_get(myenv->lst_var, "PWD"))
 		myenv->count++;
 	if (var_add(&myenv->lst_var, ft_strdup("OLDPWD"), ft_strdup(
-			var_get_value(myenv->lst_var, "PWD"))) || var_add(&myenv->lst_var,
-			ft_strdup("PWD"), path))
+				var_get_value(myenv->lst_var, "PWD")))
+		|| var_add(&myenv->lst_var, ft_strdup("PWD"), path))
 		return (-1);
 	if (envp_update(myenv))
 		return (ft_dprintf(2, "WARN: minor error while updating envp\n"), 0);

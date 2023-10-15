@@ -6,11 +6,13 @@
 /*   By: hmelica <hmelica@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/14 16:08:57 by hmelica           #+#    #+#             */
-/*   Updated: 2023/10/14 16:08:58 by hmelica          ###   ########.fr       */
+/*   Updated: 2023/10/15 15:20:10 by hmelica          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../headers/minishell.h"
+
+// apply heredoc here
 
 /*
  * Use myenv == NULL to disable var_expansion

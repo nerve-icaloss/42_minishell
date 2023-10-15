@@ -6,7 +6,7 @@
 /*   By: hmelica <hmelica@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/16 21:32:35 by hmelica           #+#    #+#             */
-/*   Updated: 2023/10/01 16:08:53 by hmelica          ###   ########.fr       */
+/*   Updated: 2023/10/15 15:25:57 by hmelica          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,7 @@ int	export_builtin(char **av, t_myenv *myenv)
 	{
 		if (env_update_count(myenv) || envp_update(myenv))
 			return (ft_dprintf(2, "WARN: minor error while updating envp\n"),
-					0);
+				0);
 	}
 	return (0);
 }
