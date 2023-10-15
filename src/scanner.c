@@ -37,7 +37,7 @@ int	scan_bracket(t_source *src, char nc)
 	return (ENDLOOP);
 }
 
-static void	get_token_from_source(t_source *src)
+static void	find_token_from_source(t_source *src)
 {
 	char	nc;
 
@@ -80,7 +80,7 @@ t_token	*tokenize(t_source *src)
 	if (!src->tok_buf)
 		return (tok_eof);
 	tok_buf_reset(src);
-	get_token_from_source(src);
+	find_token_from_source(src);
 	if (src->tok_bufindex == 0)
 		return (tok_eof);
 	if (src->tok_bufindex >= src->tok_bufsize)

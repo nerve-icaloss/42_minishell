@@ -161,7 +161,7 @@ typedef enum e_node_type {
 }	t_node_type;
 
 typedef enum e_redir_type {
-	INIT = -1,
+	WORD = -1,
 	READ,
 	HEREDOC,
 	TRUNC,

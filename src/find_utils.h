@@ -1,24 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parser.h                                           :+:      :+:    :+:   */
+/*   find_utils.h                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: nserve <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/10/10 18:24:09 by nserve            #+#    #+#             */
-/*   Updated: 2023/10/10 18:24:13 by nserve           ###   ########.fr       */
+/*   Created: 2023/10/15 09:46:53 by nserve            #+#    #+#             */
+/*   Updated: 2023/10/15 09:46:56 by nserve           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PARSER_H
-# define PARSER_H
+#ifndef FIND_UTILS_H
+# define FIND_UTILS_H
 
 # include "../headers/minishell.h"
 
-t_node *parse_word(t_token *tok, t_myenv *env);
-t_node *parse_command(t_token *tok, t_myenv *env);
-t_node	*parse_bracket(t_token *tok, t_myenv *env);
-t_node *parse_lvl(t_node *parent, t_token *tok, int node_type, t_myenv *env);
-int parse_source(t_node **root, t_source *src, t_myenv *env);
+t_redir_type find_word_type(char *data);
+size_t find_closing_quote(char *data);
+size_t find_closing_brace(char *data);
 
 #endif
