@@ -104,4 +104,5 @@ Test(unset, builtin, .description="Testing unset builtin", .init=unset_init, .fi
 	i = m.lst_var->next;
 	cr_assert(eq(int, 0, unset_builtin(e, &m)), "fail with e");
 	cr_assert(eq(ptr, i, m.lst_var), "t not updated when first is poped");
+	t = m.lst_var;
 }
