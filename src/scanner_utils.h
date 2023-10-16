@@ -15,7 +15,7 @@
 
 # include "../headers/minishell.h"
 
-int	scan_quote(t_source *src, char nc);
+int	scan_quote(t_source *src);
 int scan_verticalbar(t_source *src, char nc);
 int scan_ampersand(t_source *src, char nc);
 int scan_lessthan(t_source *src, char nc);

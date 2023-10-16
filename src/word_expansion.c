@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   word_expansion.c                                      :+:      :+:    :+:   */
+/*   word_expansion.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: nserve <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/14 17:10:43 by nserve            #+#    #+#             */
-/*   Updated: 2023/10/14 17:10:50 by nserve           ###   ########.fr       */
+/*   Updated: 2023/10/16 11:08:58 by nserve           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ void	split_word(t_node **origin, char *data)
 	if (!origin || !data)
 		return (errno = ENODATA, (void)NULL);
 	word = 	find_word(data);
-	while (word != NULL)
+	while (*word)
 	{
 		new = new_word(word);
 		if (!new)
@@ -76,7 +76,7 @@ t_node	*word_expansion(char *data, t_myenv *env)
 	
 	if (!data || !*data || !env)
 		return (errno = ENODATA, NULL);
-	if (!expand_init(&expd, data))
+	if (expand_init(&expd, data))
 		return (NULL);
 	find_expansion(&expd, env);
 	word = NULL;

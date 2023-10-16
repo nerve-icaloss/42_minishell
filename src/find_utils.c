@@ -6,7 +6,7 @@
 /*   By: nserve <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/14 18:56:44 by nserve            #+#    #+#             */
-/*   Updated: 2023/10/14 18:56:51 by nserve           ###   ########.fr       */
+/*   Updated: 2023/10/16 11:05:53 by nserve           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ t_redir_type find_word_type(char *data)
 		return (READ);
 	else if (data[0] == '<' && data[1] == '<' && data[2] == '\0')
 		return (HEREDOC);
-	else if (data[0] == '>' && data[1] == ' ')
+	else if (data[0] == '>' && data[1] == '\0')
 		return (TRUNC);
 	else if (data[0] == '>' && data[1] == '<' && data[2] == '\0')
 		return (APPEND);
@@ -42,6 +42,7 @@ void	find_expansion(t_expand *expd, t_myenv *env)
 		if (*expd->p == '$')
 		{
 			var_expansion(&expd->p, env);
+			expd->pstart = expd->p;
 			expd->expanded = 1;
 		}
 		if (ft_isspace(*expd->p))

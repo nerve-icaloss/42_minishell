@@ -47,7 +47,7 @@ static void	scan_token_from_source(t_source *src)
 	{
 		if (!ft_isspace(nc))
 			tok_buf_add(src, nc);
-		if ((nc == '"' || nc == '\'') && scan_quote(src, nc) == ENDLOOP)
+		if ((nc == '"' || nc == '\'') && scan_quote(src) == ENDLOOP)
 			break ;
 		else if ((nc == '(' || nc == ')') && scan_bracket(src, nc) == ENDLOOP)
 			break ;

@@ -46,13 +46,13 @@ void	node_tree_print(t_node *root)
 	if(root->type == NODE_WORD && root->val)
 	{
 		if (root->redir == READ)
-			write(1, "< ", 2);
+			write(1, "< ", ft_strlen("< "));
 		if (root->redir == HEREDOC)
-			write(1, "<< ", 3);
+			write(1, "<< ", 4);
 		if (root->redir == TRUNC)
-			write(1, "> ", 2);
+			write(1, "> ", 3);
 		if (root->redir == APPEND)
-			write(1, ">> ", 3);
+			write(1, ">> ", 4);
 		write(1, root->val, ft_strlen(root->val));
 		write(1, " ", 1);
 	}
@@ -90,7 +90,7 @@ void	rpel_loop(t_myshell *shell)
 	}
 }
 
-int	main(int argc, char *argv[])
+int	main(int argc, char *argv[], char *envp[])
 {
 	t_myshell	shell;
 	int			exit;
@@ -98,10 +98,10 @@ int	main(int argc, char *argv[])
 	printf("Welcome to %s\n", argv[0]);
 	ft_memset(&shell, 0, sizeof(shell));
 	load_history();
-	//if (!envp)
-	//	return (write(2, "error envp unset\n", 16), 1);
-	//if (!env_init(&shell.env, envp))
-	//	return (write(2, "error env init\n", 15), 1);
+	if (!envp)
+		return (write(2, "error envp unset\n", 16), 1);
+	if (env_init(&shell.env, envp))
+		return (write(2, "error env init\n", 15), 1);
 	if (argc == 1)
 	{
 		rpel_loop(&shell);

@@ -11,26 +11,22 @@
 /* ************************************************************************** */
 
 #include "scanner_utils.h"
+#include "find_utils.h"
 
-int	scan_quote(t_source *src, char nc)
+int	scan_quote(t_source *src)
 {
 	int	i;
 
-	if (src->tok_bufindex > 1)
-		return (tok_buf_pop(src), unget_char(src), ENDLOOP);
-	i = 0; //find_closing_quote(src->buf + src->curpos);
-	if (nc == '\'')
-		i = 0;
-	else
-		i = 1;
+	i = find_closing_quote(src->buf + src->curpos);
 	if (!i)
 	{
 		src->tok_type = TOK_SYNTAX;
-		return (write(2, "syntax error", 12), ENDLOOP);
+		write(2, "syntax error", 12);
+		return (ENDLOOP);
 	}
 	while (i--)
 		tok_buf_add(src, next_char(src));
-	return (ENDLOOP);
+	return (0);
 }
 
 int	scan_verticalbar(t_source *src, char nc)
@@ -44,21 +40,19 @@ int	scan_verticalbar(t_source *src, char nc)
 	if (nc == '|' && nc2 == '|')
 	{
 		src->tok_type = TOK_SYNTAX;
-		return (write(2, "syntax error", 12), ENDLOOP);
+		write(2, "syntax error", 12);
 	}
 	if (nc == '|')
 	{
 		tok_buf_add(src, nc);
 		src->tok_type = TOK_OR;
-		return (ENDLOOP);
 	}
 	else
 	{
 		unget_char(src);
 		src->tok_type = TOK_PIPE;
-		return (ENDLOOP);
 	}
-	return (0);
+	return (ENDLOOP);
 }
 
 int	scan_ampersand(t_source *src, char nc)
@@ -72,15 +66,14 @@ int	scan_ampersand(t_source *src, char nc)
 	if (nc == '&' && nc2 == '&')
 	{
 		src->tok_type = TOK_SYNTAX;
-		return (write(2, "syntax error", 12), ENDLOOP);
+		write(2, "syntax error", 12);
 	}
 	if (nc == '&')
 	{
 		tok_buf_add(src, nc);
 		src->tok_type = TOK_AND;
-		return (ENDLOOP);
 	}
-	return (0);
+	return (ENDLOOP);
 }
 
 int	scan_lessthan(t_source *src, char nc)
@@ -95,18 +88,13 @@ int	scan_lessthan(t_source *src, char nc)
 	if (nc == '<' && nc2 == '<')
 	{
 		src->tok_type = TOK_SYNTAX;
-		return (write(2, "syntax error", 12), ENDLOOP);
+		write(2, "syntax error", 12);
 	}
 	if (nc == '<')
-	{
-		tok_buf_add(src, nc);
-		nc = next_char(src);
-	}
-	if (nc == ' ')
 		tok_buf_add(src, nc);
 	else
 		unget_char(src);
-	return (0);
+	return (ENDLOOP);
 }
 
 int	scan_morethan(t_source *src, char nc)
@@ -121,16 +109,11 @@ int	scan_morethan(t_source *src, char nc)
 	if (nc == '>' && nc2 == '>')
 	{
 		src->tok_type = TOK_SYNTAX;
-		return (write(2, "syntax error", 12), ENDLOOP);
+		write(2, "syntax error", 12);
 	}
 	if (nc == '>')
-	{
-		tok_buf_add(src, nc);
-		nc = next_char(src);
-	}
-	if (nc == ' ')
 		tok_buf_add(src, nc);
 	else
 		unget_char(src);
-	return (0);
+	return (ENDLOOP);
 }

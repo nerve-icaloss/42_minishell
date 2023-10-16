@@ -36,7 +36,7 @@ t_node	*redir_expansion(char *data, t_redir_type type, t_myenv *env)
 	
 	if (!data || !*data || !env)
 		return (errno = ENODATA, NULL);
-	if (!expand_init(&expd, data))
+	if (expand_init(&expd, data))
 		return (NULL);
 	find_expansion(&expd, env);
 	redir = new_redir(expd.pstart, type);
