@@ -16,6 +16,7 @@
 # include "../headers/minishell.h"
 
 t_redir_type find_word_type(char *data);
+void	find_expansion(t_expand *expd, t_myenv *env);
 size_t find_closing_quote(char *data);
 size_t find_closing_brace(char *data);
 
