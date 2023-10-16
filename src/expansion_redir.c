@@ -10,8 +10,8 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "redir_expansion.h"
-#include "expand_utils.h"
+#include "expansion_redir.h"
+#include "expansion_utils.h"
 #include "find_utils.h"
 
 t_node	*new_redir(char *data, t_redir_type type)
