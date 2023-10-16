@@ -17,6 +17,8 @@
 #include <stdio.h>
 #include <string.h>
 
+int	unset_builtin(char **argv, t_myenv *env);
+
 t_lstvar t;
 
 void lstprint(t_lstvar i, char *a)
@@ -70,32 +72,36 @@ Test(unset, builtin, .description="Testing unset builtin", .init=unset_init, .fi
 	char *d[] = {"filepath", "hello", "notthere", NULL};
 	char *e[] = {"filepath", "coucou", NULL};
 	t_lstvar i;
+	t_myenv m;
 
-	cr_assert(ne(ptr, t, NULL), "init failed");
-	cr_assert(eq(int, -1, unset_builtin(NULL, &t)), "Doesnt fail when no arg");
+	m.count = 0;
+	m.envp = NULL;
+	m.lst_var = t;
+	cr_assert(ne(ptr, m.lst_var, NULL), "init failed");
+	cr_assert(eq(int, -1, unset_builtin(NULL, &m)), "Doesnt fail when no arg");
 	cr_assert(eq(int, -1, unset_builtin(c, NULL)), "Doesnt fail when no *lst");
 	// a
-	i = t;
-	cr_assert(eq(int, -1, unset_builtin(a, &t)), "doesnt fail with a");
-	cr_assert(eq(ptr, i, t), "lst edited with empty arg");
-	cr_assert(eq(int, 0, unset_builtin(aa, &t)), "fail with aa");
-	cr_assert(eq(ptr, i, t), "lst edited with no arg");
+	i = m.lst_var;
+	cr_assert(eq(int, -1, unset_builtin(a, &m)), "doesnt fail with a");
+	cr_assert(eq(ptr, i, m.lst_var), "lst edited with empty arg");
+	cr_assert(eq(int, 0, unset_builtin(aa, &m)), "fail with aa");
+	cr_assert(eq(ptr, i, m.lst_var), "lst edited with no arg");
 	// b
-	i = t->next;
-	cr_assert(eq(int, 0, unset_builtin(b, &t)), "fail with b");
-	cr_assert(ne(ptr, i, t), "lst->next not updated");
+	i = m.lst_var->next;
+	cr_assert(eq(int, 0, unset_builtin(b, &m)), "fail with b");
+	cr_assert(ne(ptr, i, m.lst_var), "lst->next not updated");
 	// c
-	i = t->next;
-	cr_assert(eq(int, 0, unset_builtin(c, &t)), "fail with c");
-	cr_assert(ne(ptr, i, t->next), "lst->next not updated with unset var");
+	i = m.lst_var->next;
+	cr_assert(eq(int, 0, unset_builtin(c, &m)), "fail with c");
+	cr_assert(ne(ptr, i, m.lst_var->next), "lst->next not updated with unset var");
 	// d
-	cr_assert(ne(ptr, NULL, var_get(t, "hello")), "hello not found");
-	cr_assert(ne(ptr, NULL, var_get(t, "notthere")), "notthere not found");
-	cr_assert(eq(int, 0, unset_builtin(d, &t)), "fail with d");
-	cr_assert(eq(ptr, NULL, var_get(t, "notthere")), "notthere found");
-	cr_assert(eq(ptr, NULL, var_get(t, "hello")), "hello found");
+	cr_assert(ne(ptr, NULL, var_get(m.lst_var, "hello")), "hello not found");
+	cr_assert(ne(ptr, NULL, var_get(m.lst_var, "notthere")), "notthere not found");
+	cr_assert(eq(int, 0, unset_builtin(d, &m)), "fail with d");
+	cr_assert(eq(ptr, NULL, var_get(m.lst_var, "notthere")), "notthere found");
+	cr_assert(eq(ptr, NULL, var_get(m.lst_var, "hello")), "hello found");
 	// e
-	i = t->next;
-	cr_assert(eq(int, 0, unset_builtin(e, &t)), "fail with e");
-	cr_assert(eq(ptr, i, t), "t not updated when first is poped");
+	i = m.lst_var->next;
+	cr_assert(eq(int, 0, unset_builtin(e, &m)), "fail with e");
+	cr_assert(eq(ptr, i, m.lst_var), "t not updated when first is poped");
 }

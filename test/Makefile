@@ -5,7 +5,8 @@ OBJ_UP = $(filter-out $(TO_NOT_GET), $(shell find ../obj/ -type f -name "*.o"))
 OBJS_DIR = obj
 SRCS = $(shell find . -type f -name "*.c")
 OBJS = ${patsubst ./%.c,${OBJS_DIR}/%.o,$(SRCS)}
-LIBRARIES = -L ./lib64 -L ./lib/x86_64-linux-gnu -lcriterion -L ../src/libft -l:libft.a
+LIBRARIES = -L ./lib64 -L ./lib/x86_64-linux-gnu -lcriterion -L ../src/libft \
+			-l:libft.a -L/usr/local/lib -I/usr/local/include -lreadline
 INCLUDES = -I ../headers -I ../src/libft/ -I ./include -I ../src
 
 #	${CC} -L . -lminishell ${HEADERS_DIR_FLAG} ${LIBRARY_SEARCH_PATH} \
@@ -16,7 +17,7 @@ RMDIR = rm -df
 MKDIR = mkdir
 
 all: universal.h ${OBJS_DIR} ${OBJS}
-	@${CC} ${LIBRARIES} ${INCLUDES} -o ${NAME} ${OBJS} ${OBJ_UP} ../src/libft/libft.a
+	@${CC} ${INCLUDES} -o ${NAME} ${OBJS} ${OBJ_UP} ../src/libft/libft.a ${LIBRARIES}
 
 ${OBJS_DIR}:
 	@${MKDIR} ${OBJS_DIR}

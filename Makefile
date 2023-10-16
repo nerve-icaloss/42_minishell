@@ -59,8 +59,10 @@ SRCS_FILES	=	\
 				data/token.c \
 				data/var.c \
 				data/var2.c \
-				expand_utils.c \
-				expand_var.c \
+				expansion_redir.c \
+				expansion_utils.c \
+				expansion_var.c \
+				expansion_word.c \
 				find_utils.c \
 				here_doc.c \
 				history.c \
@@ -68,10 +70,8 @@ SRCS_FILES	=	\
 				open_utils.c \
 				parser.c \
 				parser_utils.c \
-				redir_expansion.c \
 				scanner.c \
 				scanner_utils.c \
-				word_expansion.c \
 #
 # ^- (this comment line matters)
 #
