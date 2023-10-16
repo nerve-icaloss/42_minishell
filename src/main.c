@@ -58,13 +58,17 @@ void	node_tree_print(t_node *root)
 	}
 }
 
+// REMOVE THIS !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+int	execute_tree(t_node *root, t_myshell *shell); // DEFINED HERE FOR DEBUG PURPOSES
+// REMOVE THIS !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
 void	parse_and_execute(t_myshell *shell, t_source *src)
 {
 		shell->exit = parse_source(&shell->root, src, &shell->env);
 		node_tree_print(shell->root);
 		if (shell->exit > 0)
 			return ;
-		shell->exit = execute_tree(shell->root, &shell);
+		shell->exit = execute_tree(shell->root, shell); // shell have been edited to match the execute_tree definition. Was *shell.
 		write(1, "\n", 1);
 }
 

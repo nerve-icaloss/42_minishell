@@ -12,7 +12,7 @@
 
 #include "here_doc.h"
 #include "find_utils.h"
-#include "expand_var.h"
+#include "expansion_var.h"
 
 /*
  * Do not call this directly
@@ -21,7 +21,7 @@
 static int	this_doc(char **val, int *fd, t_myenv *myenv)
 {
 	char	*a;
-	size_t	i;
+	long	i;
 
 	*fd = -1;
 	a = *val;

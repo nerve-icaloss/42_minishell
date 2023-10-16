@@ -15,10 +15,10 @@
 
 # include "../headers/minishell.h"
 
-int expand_init(t_expand *expd, char *word);
-void substitute_word();
-t_node *word_split(char *str);
-t_node *pathname_expand(t_node *args);
-void remove_quotes(t_node *args);
+int		expand_init(t_expand *expd, char *word);
+void	substitute_word();
+t_node	*word_split(char *str);
+t_node	*pathname_expand(t_node *args);
+int		remove_quotes(t_node *args);
 
 #endif

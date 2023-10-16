@@ -11,7 +11,7 @@
 /* ************************************************************************** */
 
 #include "find_utils.h"
-#include "expand_var.h"
+#include "expansion_var.h"
 
 t_redir_type find_word_type(char *data)
 {

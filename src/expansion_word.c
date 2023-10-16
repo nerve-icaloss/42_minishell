@@ -73,7 +73,7 @@ t_node	*word_expansion(char *data, t_myenv *env)
 {
 	t_node		*word;
 	t_expand	expd;
-	
+
 	if (!data || !*data || !env)
 		return (errno = ENODATA, NULL);
 	if (expand_init(&expd, data))

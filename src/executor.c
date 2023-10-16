@@ -36,7 +36,7 @@ int	execute_tree(t_node *root, t_myshell *shell)
 {
 	t_node	*child;
 	t_node	*i;
-	
+
 	if (!root || !shell)
 		return (errno = ENODATA, 1);
 	if (root->type == NODE_PIPE)
