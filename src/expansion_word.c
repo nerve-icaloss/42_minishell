@@ -10,8 +10,8 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "word_expansion.h"
-#include "expand_utils.h"
+#include "expansion_word.h"
+#include "expansion_utils.h"
 #include "find_utils.h"
 
 t_node	*new_word(char *data)

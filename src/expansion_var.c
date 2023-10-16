@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "expand_var.h"
+#include "expansion_var.h"
 
 char	*extract_value(char **line, int *i, t_lstvar lst)
 {

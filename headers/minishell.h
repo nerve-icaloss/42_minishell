@@ -190,6 +190,15 @@ void		node_sibling_clean(t_node **origin);
 
 //----------------------------------------------------------------------------//
 
+typedef struct s_execute {
+	int		argc;
+	char	**argv;
+	int		cmd_fd[2];
+	int		pipe[2];
+}	t_execute;
+
+//----------------------------------------------------------------------------//
+
 typedef struct s_myshell {
 	t_history	hist;
 	t_myenv		env;

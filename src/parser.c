@@ -13,8 +13,8 @@
 #include "parser.h"
 #include "parser_utils.h"
 #include "find_utils.h"
-#include "word_expansion.h"
-#include "redir_expansion.h"
+#include "expansion_word.h"
+#include "expansion_redir.h"
 
 t_node	*parse_word(t_token *tok, t_myenv *env)
 {
