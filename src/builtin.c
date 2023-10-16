@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cmd_builtin.h"
+#include "builtin.h"
 
 int	is_builtin(char *str)
 {
@@ -31,7 +31,7 @@ int	is_builtin(char *str)
 	return (0);
 }
 
-int	run_builtin(t_mycmd *cmd, t_myshell *shell)
+int	choose_function(t_execute *exec, t_myshell *shell)
 {
 	int	exit;
 

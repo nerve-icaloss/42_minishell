@@ -1,29 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_arrclear.c                                      :+:      :+:    :+:   */
+/*   redirection.h                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: nserve <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/02/01 15:10:50 by nserve            #+#    #+#             */
-/*   Updated: 2023/02/01 15:10:57 by nserve           ###   ########.fr       */
+/*   Created: 2023/10/16 17:56:40 by nserve            #+#    #+#             */
+/*   Updated: 2023/10/16 17:56:42 by nserve           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#ifndef REDIRECTION_H
+# define REDIRECTION_H
 
-void	ft_arrclear(char **array)
-{
-	int	i;
+# include "../headers/minishell.h"
 
-	if (!array)
-		return ;
-	i = 0;
-	while (array[i])
-	{
-		free(array[i]);
-		i++;
-	}
-	free(array);
-	return ;
-}
+void	reset_redirection(t_execute *exec);
+int apply_redirection(t_execute *exec);
+int infile_redirection(t_execute *exec, t_node *cmd);
+int outfile_redirection(t_execute *exec, t_node *cmd);
+void close_prev_redirection(t_execute *exec, int fd);
+
+#endif

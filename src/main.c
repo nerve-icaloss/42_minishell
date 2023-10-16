@@ -65,6 +65,8 @@ void	parse_and_execute(t_myshell *shell, t_source *src)
 		if (shell->exit > 0)
 			return ;
 		shell->exit = execute_tree(shell->root, &shell);
+		if (shell->exit > 0)
+			node_tree_clean(shell->root);
 		write(1, "\n", 1);
 }
 

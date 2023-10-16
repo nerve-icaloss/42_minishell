@@ -11,20 +11,71 @@
 /* ************************************************************************** */
 
 #include "executor.h"
-#include <asm-generic/errno.h>
+#include "builtin.h"
+#include "redirection.h"
+#include "child.h"
+#include "path.h"
 
 int	execute_cmd(t_node *cmd, t_myshell *shell)
 {
-	return (cmd->exit);
+	t_execute	exec;
+
+	if (!cmd || !shell)
+		return (errno = ENODATA, 1);
+	ft_memset(&exec, 0, sizeof(exec));
+	if (execute_cmd_init(&exec, cmd))
+		return (exec.exit);
+	if (apply_redirection(&exec))
+		return (exec.exit);
+	if (search_command(&exec))
+		return (exec.exit);
+	if (is_builtin(exec.argv[0]))
+		return (choose_builtin(&exec, shell));
+	else
+	{
+		cmd->pid = fork();
+		if (cmd->pid == SYS_FAIL)
+			break ;
+		if (cmd->pid == 0)
+			child_cmd(exec, shell);
+	}
+	reset_redirection(&exec);
+	wait_cmd(cmd);
+	return (ft_arrclear(exec.argv), cmd->exit);
 }
 
-int	execute_pipe(t_node *pipe, t_myshell *shell)
+int	execute_pipe(t_node *pipex, t_myshell *shell)
 {
-	return (pipe->exit);
+	t_node		*cmd;
+	t_execute	exec;
+
+	if (!pipex || !shell)
+		return (errno = ENODATA, 1);
+	ft_memset(&exec, 0, sizeof(exec));
+	cmd = pipex->first_child;
+	while (cmd)
+	{
+		if (execute_pipe_init(&exec, cmd))
+			continue ;
+		if (apply_redirection(&exec))
+			continue ;
+		if (search_command(&exec))
+			continue ;
+		cmd->pid = fork();
+		if (cmd->pid == SYS_FAIL)
+			continue ;
+		if (cmd->pid == 0)
+			child_pipe(exec, shell);
+		reset_redirection(&exec);
+	}
+	wait_pipe(pipex);
+	return (ft_arrclear(exec.argv), pipex->exit);
 }
 
-int	stop_execute(t_node *node)
+int	stop_execute(t_node *node, int exit)
 {
+	if (!node)
+		return (errno = ENODATA, 1);
 	if (node->type == NODE_AND && node->exit > 0)
 		return (1);
 	if (node->type == NODE_OR && node->exit == 0)
@@ -36,6 +87,7 @@ int	execute_tree(t_node *root, t_myshell *shell)
 {
 	t_node	*child;
 	t_node	*i;
+	int		exit;
 	
 	if (!root || !shell)
 		return (errno = ENODATA, 1);
@@ -47,10 +99,15 @@ int	execute_tree(t_node *root, t_myshell *shell)
 	while(child)
 	{
 		i = child->next_sibling;
-		root->exit = execute_tree(child, shell);
-		if (stop_execute(root))
-			return (root->exit);
+		exit = execute_tree(child, shell);
+		node_tree_clean(child);
+		if (stop_execute(root, exit))
+		{
+			node_sibling_clean(&child);
+			break ;
+		}
 		child = i;
 	}
-	return (root->exit);
+	root->first_child = NULL;
+	return (node_tree_clean(root), exit);
 }

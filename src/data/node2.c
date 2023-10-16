@@ -31,6 +31,14 @@ void	node_sibling_add(t_node **origin, t_node *child)
 	}
 }
 
+void	node_sibling_pop(t_node *node)
+{
+	node->parent->children--;
+	node->prev_sibling->next_sibling = node->next_sibling;
+	node->next_sibling->prev_sibling = node->prev_sibling;
+	node_tree_clean(node);
+}
+
 void	node_sibling_clean(t_node **origin)
 {
 	t_node	*i;
@@ -41,8 +49,14 @@ void	node_sibling_clean(t_node **origin)
 	while (i)
 	{
 		*origin = (*origin)->next_sibling;
-		free(i->val);
-		free(i);
+		if (i->first_child)
+			node_tree_clean(i);
+		else
+		{
+			if (i->val)
+				free(i->val);
+			free(i);
+		}
 		i = *origin;
 	}
 	*origin = NULL;

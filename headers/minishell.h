@@ -167,6 +167,7 @@ typedef enum e_redir_type {
 }	t_redir_type;
 
 typedef struct s_node {
+	pid_t			pid;
 	t_node_type		type;
 	t_redir_type	redir;
 	int				fd;
@@ -185,16 +186,21 @@ void		node_parent_add(t_node *child, t_node *parent);
 void		node_parent_insert(t_node *parent, t_node *child);
 void		node_child_add(t_node *parent, t_node *child);
 void		node_sibling_add(t_node **origin, t_node *child);
+void		node_sibling_pop(t_node *node);
 void		node_tree_clean(t_node *node);
 void		node_sibling_clean(t_node **origin);
 
 //----------------------------------------------------------------------------//
 
+# define IN 0
+# define OUT 1
+
 typedef struct s_execute {
-	int		argc;
+	int		exit;
 	char	**argv;
-	int		cmd_fd[2];
+	int		redir[2];
 	int		pipe[2];
+	int		pipe_in;
 }	t_execute;
 
 //----------------------------------------------------------------------------//

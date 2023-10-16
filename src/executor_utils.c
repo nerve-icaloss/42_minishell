@@ -11,5 +11,19 @@
 /* ************************************************************************** */
 
 #include "executor_utils.h"
+#include "redirection.h"
 
+int	execute_pipe_init(t_execute *exec, int pipe[2], t_node *cmd)
+{
 
+	return (0);
+}
+
+int	execute_cmd_init(t_execute *exec, t_node *cmd)
+{
+	int	pipe_fd[2];
+
+	if (pipe(pipe_fd) == SYS_FAIL)
+		return (1);
+	return (0);
+}

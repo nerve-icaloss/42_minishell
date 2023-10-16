@@ -74,7 +74,7 @@ char		*ft_trimleft(const char *str);
 char		*ft_trimright(const char *str);
 
 /* ft_str */
-void		ft_arrclear(void **array);
+void		ft_arrclear(char **array);
 size_t		ft_strlen(const char *s);
 size_t		ft_wordlen(const char *str);
 size_t		ft_strlcpy(char *dst, const char *src, size_t size);
