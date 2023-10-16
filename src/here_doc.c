@@ -11,6 +11,8 @@
 /* ************************************************************************** */
 
 #include "here_doc.h"
+#include "find_utils.h"
+#include "expand_var.h"
 
 /*
  * Do not call this directly

@@ -55,7 +55,6 @@ void	split_word(t_node **origin, char *data)
 {
 	t_node	*new;
 	char	*word;
-	int		i;
 
 	if (!origin || !data)
 		return (errno = ENODATA, (void)NULL);

@@ -11,7 +11,6 @@
 /* ************************************************************************** */
 
 #include "expand_utils.h"
-#include "libft/libft.h"
 
 int	expand_init(t_expand *expd, char *word)
 {
@@ -27,5 +26,6 @@ int	expand_init(t_expand *expd, char *word)
 
 void	remove_quotes(t_node *args)
 {
-
+	if (!args)
+		return (errno = ENODATA, (void)NULL);
 }
