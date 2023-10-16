@@ -19,13 +19,16 @@ void	node_sibling_add(t_node **origin, t_node *child)
 
 	if (!origin || !child)
 		return (errno = ENODATA, (void)NULL);
-	if (!*origin)
-		*origin = child;
 	i = *origin;
-	while (i->next_sibling)
+	while (i && i->next_sibling)
 		i = i->next_sibling;
-	i->next_sibling = child;
-	child->prev_sibling = i;
+	if (!i)
+		*origin = child;
+	else
+	{
+		i->next_sibling = child;
+		child->prev_sibling = i;
+	}
 }
 
 void	node_sibling_clean(t_node **origin)

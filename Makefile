@@ -52,21 +52,26 @@ SRCS_FILES	=	\
 				data/envp.c \
 				data/history.c \
 				data/node.c \
+				data/node2.c \
 				data/shell.c \
 				data/source.c \
 				data/source2.c \
 				data/token.c \
 				data/var.c \
 				data/var2.c \
+				expand_utils.c \
 				expand_var.c \
+				find_utils.c \
 				here_doc.c \
 				history.c \
 				main.c \
 				open_utils.c \
 				parser.c \
 				parser_utils.c \
+				redir_expansion.c \
 				scanner.c \
 				scanner_utils.c \
+				word_expansion.c \
 #
 # ^- (this comment line matters)
 #

@@ -1,18 +1,17 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   word_expansion.c                                      :+:      :+:    :+:   */
+/*   word_expansion.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: nserve <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/14 17:10:43 by nserve            #+#    #+#             */
-/*   Updated: 2023/10/14 17:10:50 by nserve           ###   ########.fr       */
+/*   Updated: 2023/10/16 11:08:58 by nserve           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "word_expansion.h"
 #include "expand_utils.h"
-#include "expand_var.h"
 #include "find_utils.h"
 
 t_node	*new_word(char *data)
@@ -26,6 +25,7 @@ t_node	*new_word(char *data)
 		return (errno = ENOMEM, NULL);
 	if (node_val_set(word, data) == -1)
 		return (node_tree_clean(word), NULL);
+	word->redir = WORD;
 	return (word);
 }
 
@@ -55,12 +55,11 @@ void	split_word(t_node **origin, char *data)
 {
 	t_node	*new;
 	char	*word;
-	int		i;
 
 	if (!origin || !data)
 		return (errno = ENODATA, (void)NULL);
 	word = 	find_word(data);
-	while (word != NULL)
+	while (*word)
 	{
 		new = new_word(word);
 		if (!new)
@@ -70,36 +69,14 @@ void	split_word(t_node **origin, char *data)
 	}
 }
 
-void	find_expansion(t_expand *expd, t_myenv *env)
-{
-	if (!expd || !env)
-		return (errno = ENODATA, (void)NULL);
-	while (*expd->p)
-	{
-		if (*expd->p == '"')
-			expd->in_double_quote = !expd->in_double_quote;
-		if (*expd->p == '\'')
-			if (!expd->in_double_quote)
-				expd->p += find_closing_quote(expd->p);
-		if (*expd->p == '$')
-		{
-			var_expansion(&expd->p, env);
-			expd->expanded = 1;
-		}
-		if (ft_isspace(*expd->p))
-			expd->expanded = 1;
-		expd->p++;
-	}
-}
-
-t_node	*word_expansion(char *orig_arg, t_myenv *env)
+t_node	*word_expansion(char *data, t_myenv *env)
 {
 	t_node		*word;
 	t_expand	expd;
 	
-	if (!orig_arg || !*orig_arg)
+	if (!data || !*data || !env)
 		return (errno = ENODATA, NULL);
-	if (!expand_init(&expd, orig_arg))
+	if (expand_init(&expd, data))
 		return (NULL);
 	find_expansion(&expd, env);
 	word = NULL;
@@ -109,7 +86,7 @@ t_node	*word_expansion(char *orig_arg, t_myenv *env)
 	{
 		word = new_word(expd.pstart);
 		if (!word)
-			return (errno = ENOMEM, NULL);
+			return (NULL);
 	}
 	free(expd.pstart);
 	//remove_quotes(word);

@@ -14,6 +14,7 @@
 #include "parser_utils.h"
 #include "find_utils.h"
 #include "word_expansion.h"
+#include "redir_expansion.h"
 
 t_node	*parse_word(t_token *tok, t_myenv *env)
 {
@@ -29,7 +30,7 @@ t_node	*parse_word(t_token *tok, t_myenv *env)
 	{
 		token_clean(tok);
 		tok = tokenize(src);
-		word = redir_expansion(tok->txt, env);
+		word = redir_expansion(tok->txt, type, env);
 	}
 	else
 		word = word_expansion(tok->txt, env);

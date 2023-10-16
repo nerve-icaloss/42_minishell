@@ -37,7 +37,7 @@ int	scan_bracket(t_source *src, char nc)
 	return (ENDLOOP);
 }
 
-static void	find_token_from_source(t_source *src)
+static void	scan_token_from_source(t_source *src)
 {
 	char	nc;
 
@@ -47,7 +47,7 @@ static void	find_token_from_source(t_source *src)
 	{
 		if (!ft_isspace(nc))
 			tok_buf_add(src, nc);
-		if ((nc == '"' || nc == '\'') && scan_quote(src, nc) == ENDLOOP)
+		if ((nc == '"' || nc == '\'') && scan_quote(src) == ENDLOOP)
 			break ;
 		else if ((nc == '(' || nc == ')') && scan_bracket(src, nc) == ENDLOOP)
 			break ;
@@ -80,7 +80,7 @@ t_token	*tokenize(t_source *src)
 	if (!src->tok_buf)
 		return (tok_eof);
 	tok_buf_reset(src);
-	find_token_from_source(src);
+	scan_token_from_source(src);
 	if (src->tok_bufindex == 0)
 		return (tok_eof);
 	if (src->tok_bufindex >= src->tok_bufsize)
