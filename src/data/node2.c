@@ -34,8 +34,12 @@ void	node_sibling_add(t_node **origin, t_node *child)
 void	node_sibling_pop(t_node *node)
 {
 	node->parent->children--;
-	node->prev_sibling->next_sibling = node->next_sibling;
-	node->next_sibling->prev_sibling = node->prev_sibling;
+	if (node->prev_sibling == NULL)
+		node->parent->first_child = node->next_sibling;
+	else
+		node->prev_sibling->next_sibling = node->next_sibling;
+	if (node->next_sibling)
+		node->next_sibling->prev_sibling = node->prev_sibling;
 	node_tree_clean(node);
 }
 

@@ -12,9 +12,10 @@
 
 #include "../headers/minishell.h"
 #include "history.h"
-#include "libft/libft.h"
 #include "scanner.h"
 #include "parser.h"
+#include "here_doc.h"
+#include "executor.h"
 
 void	node_tree_print(t_node *root)
 {
@@ -45,13 +46,13 @@ void	node_tree_print(t_node *root)
 	}
 	if(root->type == NODE_WORD && root->val)
 	{
-		if (root->redir == READ)
+		if (root->rtype == READ)
 			write(1, "< ", ft_strlen("< "));
-		if (root->redir == HEREDOC)
+		if (root->rtype == HEREDOC)
 			write(1, "<< ", 4);
-		if (root->redir == TRUNC)
+		if (root->rtype == TRUNC)
 			write(1, "> ", 3);
-		if (root->redir == APPEND)
+		if (root->rtype == APPEND)
 			write(1, ">> ", 4);
 		write(1, root->val, ft_strlen(root->val));
 		write(1, " ", 1);
@@ -60,21 +61,27 @@ void	node_tree_print(t_node *root)
 
 void	parse_and_execute(t_myshell *shell, t_source *src)
 {
-		shell->exit = parse_source(&shell->root, src, &shell->env);
-		node_tree_print(shell->root);
-		if (shell->exit > 0)
-			return ;
-		shell->exit = execute_tree(shell->root, &shell);
-		if (shell->exit > 0)
-			node_tree_clean(shell->root);
-		write(1, "\n", 1);
+	if (!shell || !src)
+		return (errno = ENODATA, (void)NULL);
+	shell->exit = parse_source(&shell->root, src, &shell->env);
+	//clean source
+	node_tree_print(shell->root); //
+	write(1, "\n", 1);
+	shell->exit = run_tree_doc(shell->root, &shell->env);
+	if (shell->exit > 0)
+		return (node_tree_clean(shell->root), (void)NULL);
+	shell->exit = execute_tree(shell->root, shell);
+	if (shell->exit > 0)
+		node_tree_clean(shell->root);
 }
 
-void	rpel_loop(t_myshell *shell)
+void	rpel(t_myshell *shell)
 {
 	char		*cmdline;
 	t_source	src;
 
+	if (!shell)
+		return (errno = ENODATA, (void)NULL);
 	if (tok_buf_init(&src) == -1)
 		return ;
 	while (1)
@@ -109,7 +116,7 @@ int	main(int argc, char *argv[], char *envp[])
 		return (write(2, "error env init\n", 15), 1);
 	if (argc == 1)
 	{
-		rpel_loop(&shell);
+		rpel(&shell);
 	}
 	exit = shell.exit;
 	return(register_history(&shell.hist), shell_clean(&shell), exit);

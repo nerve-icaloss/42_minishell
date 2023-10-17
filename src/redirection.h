@@ -15,10 +15,9 @@
 
 # include "../headers/minishell.h"
 
-void	reset_redirection(t_execute *exec);
-int apply_redirection(t_execute *exec);
-int infile_redirection(t_execute *exec, t_node *cmd);
-int outfile_redirection(t_execute *exec, t_node *cmd);
-void close_prev_redirection(t_execute *exec, int fd);
+int		apply_redirection(t_execute *exec, t_node *cmd);
+int		reset_redirection(t_execute *exec, t_node *cmd);
+int		infile_redirection(t_node *cmd);
+int		outfile_redirection(t_node *cmd);
 
 #endif

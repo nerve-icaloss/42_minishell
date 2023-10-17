@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   cmd_search.c                                       :+:      :+:    :+:   */
+/*   path.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: nserve <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -10,8 +10,8 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cmd_path.h"
-#include "cmd_error.h"
+#include "path.h"
+#include "error.h"
 
 char	*get_cmd_path(char *name, t_myshell *shell)
 {
@@ -51,4 +51,9 @@ char	*find_cmd_path(char *name, char *paths[])
 	}
 	free(file);
 	return (path);
+}
+
+int	search_path(t_execute *exec)
+{
+	return (0);
 }

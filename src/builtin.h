@@ -16,7 +16,7 @@
 # include "../headers/minishell.h"
 
 int is_builtin(char *str);
-int run_builtin(t_execute *exec, t_myshell *shell);
+int builtin_cmd(t_execute *exec, t_myshell *shell);
 
 int	pwd_builtin(t_myenv *env);
 int	cd_builtin(char *args[], t_myenv *env);

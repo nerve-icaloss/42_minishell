@@ -1,31 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   cmd_error.c                                        :+:      :+:    :+:   */
+/*   child.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: nserve <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/09/27 14:22:11 by nserve            #+#    #+#             */
-/*   Updated: 2023/09/27 14:22:13 by nserve           ###   ########.fr       */
+/*   Created: 2023/10/17 18:15:32 by nserve            #+#    #+#             */
+/*   Updated: 2023/10/17 18:15:35 by nserve           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cmd_error.h"
-#include "libft/libft.h"
-#include <string.h>
+#ifndef CHILD_H
+# define CHILD_H
 
-void	cmd_notfound(char *str)
-{
-	char	*strerror;
-	char	*not_found;
+# include "../headers/minishell.h"
 
-	not_found = ": command not found";
-	strerror = ft_strjoin(str, not_found);
-	write(2, strerror, ft_strlen(strerror));
-	free(strerror);
-}
+void child_cmd(t_execute *exec, t_myshell *shell);
+void child_pipex_cmd(t_execute *exec, t_myshell *shell);
 
-void	path_notfound(void)
-{
-	write(2, "env: path not found", 19);
-}
+#endif

@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "parser.h"
+#include "libft/libft.h"
 #include "parser_utils.h"
 #include "find_utils.h"
 #include "expansion_word.h"
@@ -51,6 +52,8 @@ t_node	*parse_command(t_token *tok, t_myenv *env)
 	cmd = node_new(NODE_CMD);
 	if (!cmd)
 		return (token_clean(tok), NULL);
+	cmd->fd[IN] = -1;
+	cmd->fd[OUT] = -1;
 	src = tok->src;
 	while(tok->type == TOK_WORD)
 	{

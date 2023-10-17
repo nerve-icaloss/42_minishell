@@ -31,7 +31,7 @@ int	is_builtin(char *str)
 	return (0);
 }
 
-int	choose_function(t_execute *exec, t_myshell *shell)
+int	builtin_cmd(t_execute *exec, t_myshell *shell)
 {
 	int	exit;
 

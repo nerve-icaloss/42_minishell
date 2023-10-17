@@ -1,21 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   cmd_error.h                                        :+:      :+:    :+:   */
+/*   path.h                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: nserve <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/09/27 18:54:08 by nserve            #+#    #+#             */
-/*   Updated: 2023/09/27 18:54:16 by nserve           ###   ########.fr       */
+/*   Created: 2023/09/27 16:50:15 by nserve            #+#    #+#             */
+/*   Updated: 2023/09/27 16:50:23 by nserve           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef CMD_ERROR_H
-# define CMD_ERROR_H
+#ifndef CMD_SEARCH_H
+# define CMD_SEARCH_H
 
 # include "../headers/minishell.h"
 
-void cmd_notfound(char *s1);
-void	path_notfound(void);
+char *get_cmd_path(char *name, t_myshell *shell);
+char *find_cmd_path(char *name, char *paths[]);
+int	search_path(t_execute *exec);
 
 #endif

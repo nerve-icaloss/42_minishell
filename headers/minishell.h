@@ -169,8 +169,8 @@ typedef enum e_redir_type {
 typedef struct s_node {
 	pid_t			pid;
 	t_node_type		type;
-	t_redir_type	redir;
-	int				fd;
+	t_redir_type	rtype;
+	int				fd[2];
 	char			*val;
 	int				exit;
 	int				children;
@@ -198,9 +198,8 @@ void		node_sibling_clean(t_node **origin);
 typedef struct s_execute {
 	int		exit;
 	char	**argv;
-	int		redir[2];
-	int		pipe[2];
-	int		pipe_in;
+	int		std_fd[2];
+	int		toclose_child;
 }	t_execute;
 
 //----------------------------------------------------------------------------//

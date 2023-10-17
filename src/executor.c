@@ -11,10 +11,11 @@
 /* ************************************************************************** */
 
 #include "executor.h"
-#include "builtin.h"
+#include "executor_utils.h"
 #include "redirection.h"
-#include "child.h"
 #include "path.h"
+#include "builtin.h"
+#include "child.h"
 
 int	execute_cmd(t_node *cmd, t_myshell *shell)
 {
@@ -25,26 +26,26 @@ int	execute_cmd(t_node *cmd, t_myshell *shell)
 	ft_memset(&exec, 0, sizeof(exec));
 	if (execute_cmd_init(&exec, cmd))
 		return (exec.exit);
-	if (apply_redirection(&exec))
+	if (apply_redirection(&exec, cmd))
 		return (exec.exit);
-	if (search_command(&exec))
+	if (search_path(&exec))
 		return (exec.exit);
 	if (is_builtin(exec.argv[0]))
-		return (choose_builtin(&exec, shell));
+		return (builtin_cmd(&exec, shell));
 	else
 	{
 		cmd->pid = fork();
 		if (cmd->pid == SYS_FAIL)
-			break ;
+			return (ft_arrclear(exec.argv), 1);
 		if (cmd->pid == 0)
-			child_cmd(exec, shell);
+			child_cmd(&exec, shell);
 	}
-	reset_redirection(&exec);
-	wait_cmd(cmd);
+	reset_redirection(&exec, cmd);
+	wait_cmd(&exec, cmd);
 	return (ft_arrclear(exec.argv), cmd->exit);
 }
 
-int	execute_pipe(t_node *pipex, t_myshell *shell)
+int	execute_pipex(t_node *pipex, t_myshell *shell)
 {
 	t_node		*cmd;
 	t_execute	exec;
@@ -55,20 +56,21 @@ int	execute_pipe(t_node *pipex, t_myshell *shell)
 	cmd = pipex->first_child;
 	while (cmd)
 	{
-		if (execute_pipe_init(&exec, cmd))
+		if (execute_pipex_init(&exec, pipex, cmd))
 			continue ;
-		if (apply_redirection(&exec))
+		if (apply_redirection(&exec, cmd))
 			continue ;
-		if (search_command(&exec))
+		if (search_path(&exec))
 			continue ;
 		cmd->pid = fork();
 		if (cmd->pid == SYS_FAIL)
-			continue ;
+			cmd->exit = 1;
 		if (cmd->pid == 0)
-			child_pipe(exec, shell);
-		reset_redirection(&exec);
+			child_pipex_cmd(&exec, shell);
+		reset_redirection(&exec, cmd);
+		ft_arrclear(exec.argv);
 	}
-	wait_pipe(pipex);
+	wait_pipex(&exec, pipex);
 	return (ft_arrclear(exec.argv), pipex->exit);
 }
 
@@ -92,7 +94,7 @@ int	execute_tree(t_node *root, t_myshell *shell)
 	if (!root || !shell)
 		return (errno = ENODATA, 1);
 	if (root->type == NODE_PIPE)
-		return (execute_pipe(root, shell));
+		return (execute_pipex(root, shell));
 	if (root->type == NODE_CMD)
 		return (execute_cmd(root, shell));
 	child = root->first_child;

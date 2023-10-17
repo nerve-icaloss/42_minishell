@@ -51,6 +51,8 @@ t_node *insert_lvl_parent(t_node *parent, t_token *tok, int type)
 	lvl = node_new(type);
 	if (!lvl)
 		return (NULL);
+	lvl->fd[IN] = -1;
+	lvl->fd[OUT] = -1;
 	if ((parent)->type < type)
 		node_parent_add(parent, lvl);
 	if (parent->type > type)
