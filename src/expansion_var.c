@@ -27,7 +27,10 @@ char	*extract_value(char **line, int *i, t_lstvar lst)
 		return (ft_substr(*line, *i - 1, 1));
 	}
 	name = ft_substr(*line, *i, j);
-	ret = var_get_value(lst, name);
+	if (ft_strlen(name) == 1 && *name == '?')
+		; // ret = ft_itoa(last return code)
+	else
+		ret = var_get_value(lst, name);
 	if (name)
 		free(name);
 	*i += j;
