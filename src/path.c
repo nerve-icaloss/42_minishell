@@ -11,49 +11,102 @@
 /* ************************************************************************** */
 
 #include "path.h"
-#include "error.h"
 
-char	*get_cmd_path(char *name, t_myshell *shell)
+char	*scan_dirs(char *data)
 {
-	char	**paths;
-	char	*cmd_path;
+	static char	*buf;
+	char		*ret;
 
-	if (name[0] == '/' || name[0] == '.')
-		return (name);
-	paths = ft_split(shell->env.path->value, ':');
-	if (!paths)
-		return (path_notfound(), NULL);
-	cmd_path = find_cmd_path(name, paths);
-	return (ft_arrclear(paths), cmd_path);
+	if (data)
+		buf = data;
+	while (*buf == ':')
+		buf++;
+	ret = buf;
+	while (*buf)
+	{
+		if (*buf == ':')
+		{
+			*buf = '\0';
+			return (ret);
+		}
+		buf++;
+	}
+	return (ret);
 }
 
-char	*find_cmd_path(char *name, char *paths[])
+void	split_dirs(char ***dirs, char *data)
 {
 	char	*path;
-	char	*file;
 	int		i;
 
+	if (!dirs || !data)
+		return (errno = ENODATA, (void)NULL);
+	path = 	scan_dirs(data);
 	i = 0;
-	path = NULL;
-	if (name[0] == '\0')
-		return (path);
-	file = ft_strjoin("/", name);
-	while (paths[i])
+	while (*path)
 	{
-		path = ft_strjoin(paths[i++], file);
-		if (access(path, F_OK | X_OK) == -1)
-		{
-			free(path);
-			path = NULL;
-		}
-		else
-			break ;
+		*dirs[i] = malloc(sizeof(char) * (ft_strlen(path) +1));
+		if (!*dirs[i])
+			return (ft_arrclear(*dirs), *dirs = NULL, (void)NULL);
+		*dirs[i] = ft_strjoin(*dirs[i], path);
+		*dirs[i] = ft_strjoin(*dirs[i], "/");
+		path = scan_dirs(NULL);
+		i++;
 	}
-	free(file);
-	return (path);
 }
 
-int	search_path(t_execute *exec)
+char	*scan_dirs_cmdfile(char *name, char *dirs[])
 {
-	return (0);
+	char		*path;
+	char		*cwd;
+	struct stat	sb;
+	int			i;
+
+	path = NULL;
+	cwd = getcwd(NULL, 0);
+	i = 0;
+	while (dirs[i])
+	{
+		if (chdir(dirs[i]) == SYS_FAIL)
+		{
+			perror("dirs[i]");
+			continue ;
+		}
+		if (stat(name, &sb) && sb.st_mode && S_ISREG(sb.st_mode))
+		{
+			path = ft_strjoin(dirs[i], name);
+			break ;
+		}
+	}
+	if (chdir(cwd) == SYS_FAIL)
+		perror(cwd);
+	return (free(cwd), path);
+}
+
+char	*search_cmd_path(char *name, t_myenv *env)
+{
+	char	**dirs;
+	char	*cmd_path;
+	int		size;
+	int		i;
+
+	if (!name || !env)
+		return (errno = ENODATA, NULL);
+	i = 0;
+	size = 0;
+	while (env->path->value[i])
+	{
+		if (env->path->value[i] == ':')
+			size++;
+		i++;
+	}
+	dirs = malloc(sizeof(*dirs) * (size + 1));
+	if (!dirs)
+		return (errno = ENOMEM, NULL);
+	ft_memset(dirs, 0, sizeof(char *));
+	split_dirs(&dirs, name);
+	if (!dirs)
+		return (NULL);
+	cmd_path = scan_dirs_cmdfile(name, dirs);
+	return (ft_arrclear(dirs), cmd_path);
 }

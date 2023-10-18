@@ -198,9 +198,15 @@ void		node_sibling_clean(t_node **origin);
 typedef struct s_execute {
 	int		exit;
 	char	**argv;
+	int		(*builtin_f)(char **, t_myenv *);
 	int		std_fd[2];
 	int		toclose_child;
 }	t_execute;
+
+typedef struct s_builtin {
+	char	*name;
+	int		(*f)(char **, t_myenv *);
+}	t_builtin;
 
 //----------------------------------------------------------------------------//
 

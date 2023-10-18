@@ -16,6 +16,29 @@
 #include "path.h"
 #include "builtin.h"
 #include "child.h"
+#include "error.h"
+
+int	search_exec_path(t_execute *exec, t_myenv *env)
+{
+	char	*path;
+
+	if (!exec)
+		return (errno = ENODATA, 1);
+	path = exec->argv[0];
+	if (find_builtin_f(exec))
+		return (exec->exit = 1, 1);
+	if (exec->builtin_f)
+		return (exec->exit = 0, 0);
+	if (path[0] != '/' || path[0] != '.')
+		path = search_cmd_path(exec->argv[0], env);
+	if (!path)
+		return (cmd_notfound(exec->argv[0]), exec->exit = 127, 1);
+	if (access(path, F_OK | X_OK) == SYS_FAIL)
+		return (perror(path), free(path), exec->exit = 126, 1);
+	free(exec->argv[0]);
+	exec->argv[0] = path;
+	return (0);
+}
 
 int	execute_cmd(t_node *cmd, t_myshell *shell)
 {
@@ -27,11 +50,11 @@ int	execute_cmd(t_node *cmd, t_myshell *shell)
 	if (execute_cmd_init(&exec, cmd))
 		return (exec.exit);
 	if (apply_redirection(&exec, cmd))
-		return (exec.exit);
-	if (search_path(&exec))
-		return (exec.exit);
-	if (is_builtin(exec.argv[0]))
-		return (builtin_cmd(&exec, shell));
+		return (ft_arrclear(exec.argv), exec.exit);
+	if (search_exec_path(&exec, &shell->env))
+		return (ft_arrclear(exec.argv), exec.exit);
+	if (exec.builtin_f)
+		return (exec.builtin_f(exec.argv, &shell->env));
 	else
 	{
 		cmd->pid = fork();
@@ -56,6 +79,7 @@ int	execute_pipex(t_node *pipex, t_myshell *shell)
 	cmd = pipex->first_child;
 	while (cmd)
 	{
+		ft_arrclear(exec.argv);
 		if (execute_pipex_init(&exec, pipex, cmd))
 			continue ;
 		if (apply_redirection(&exec, cmd))
@@ -68,7 +92,6 @@ int	execute_pipex(t_node *pipex, t_myshell *shell)
 		if (cmd->pid == 0)
 			child_pipex_cmd(&exec, shell);
 		reset_redirection(&exec, cmd);
-		ft_arrclear(exec.argv);
 	}
 	wait_pipex(&exec, pipex);
 	return (ft_arrclear(exec.argv), pipex->exit);
@@ -98,18 +121,17 @@ int	execute_tree(t_node *root, t_myshell *shell)
 	if (root->type == NODE_CMD)
 		return (execute_cmd(root, shell));
 	child = root->first_child;
-	while(child)
+	while (child)
 	{
 		i = child->next_sibling;
 		exit = execute_tree(child, shell);
-		node_tree_clean(child);
+		node_sibling_pop(child);
 		if (stop_execute(root, exit))
 		{
-			node_sibling_clean(&child);
+			node_sibling_clean(&i);
 			break ;
 		}
 		child = i;
 	}
-	root->first_child = NULL;
 	return (node_tree_clean(root), exit);
 }

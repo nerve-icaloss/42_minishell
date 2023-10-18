@@ -40,6 +40,8 @@ void	node_sibling_pop(t_node *node)
 		node->prev_sibling->next_sibling = node->next_sibling;
 	if (node->next_sibling)
 		node->next_sibling->prev_sibling = node->prev_sibling;
+	if (!node->prev_sibling && !node->next_sibling)
+		node->parent->first_child = NULL;
 	node_tree_clean(node);
 }
 

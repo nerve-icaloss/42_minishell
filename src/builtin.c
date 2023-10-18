@@ -12,44 +12,45 @@
 
 #include "builtin.h"
 
-int	is_builtin(char *str)
+void	return_builtin_lst(t_builtin **builtin)
 {
-	if (ft_strncmp("pwd", str, 3) && ft_strlen(str) == 3)
-		return (1);
-	if (ft_strncmp("cd", str, 2) && ft_strlen(str) == 2)
-		return (1);
-	if (ft_strncmp("env", str, 3) && ft_strlen(str) == 3)
-		return (1);
-	if (ft_strncmp("export", str, 6) && ft_strlen(str) == 6)
-		return (1);
-	if (ft_strncmp("unset", str, 5) && ft_strlen(str) == 5)
-		return (1);
-	if (ft_strncmp("echo", str, 3) && ft_strlen(str) == 3)
-		return (1);
-	if (ft_strncmp("exit", str, 5) && ft_strlen(str) == 5)
-		return (1);
-	return (0);
+	ft_memset(*builtin, 0, 8 * sizeof(*builtin));
+	builtin[0]->name = "exit";
+	builtin[0]->f = exit_builtin;
+	builtin[1]->name = "cd";
+	builtin[1]->f = cd_builtin;
+	builtin[2]->name = "pwd";
+	builtin[2]->f = pwd_builtin;
+	builtin[3]->name = "env";
+	builtin[3]->f = env_builtin;
+	builtin[4]->name = "export";
+	builtin[4]->f = export_builtin;
+	builtin[5]->name = "unset";
+	builtin[5]->f = unset_builtin;
+	builtin[6]->name = "echo";
+	builtin[6]->f = echo_builtin;
+	builtin[7]->name = NULL;
+	builtin[7]->f = NULL;
 }
 
-int	builtin_cmd(t_execute *exec, t_myshell *shell)
+int	find_builtin_f(t_execute *exec)
 {
-	int	exit;
+	t_builtin	*builtins;
+	int			i;
 
-	if (ft_strncmp("pwd", str, 3) && ft_strlen(str) == 3)
-		exit = pwd_builtin(cmd->args, &shell->env);
-	if (ft_strncmp("cd", cmd->name, 2) && ft_strlen(cmd->name) == 2)
-		exit = cd_builtin(cmd->args, &shell->env);
-	if (ft_strncmp("echo", cmd->name, 3) && ft_strlen(cmd->name) == 3)
-		exit = echo_builtin(cmd->args);
-	if (ft_strncmp("env", cmd->name, 3) && ft_strlen(cmd->name) == 3)
-		exit = env_builtin(&shell->env);
-	if (ft_strncmp("export", cmd->name, 6) && ft_strlen(cmd->name) == 6)
-		exit = export_builtin(cmd->args, &shell->env);
-	if (ft_strncmp("unset", cmd->name, 5) && ft_strlen(cmd->name) == 5) //TODO prendre env en argument
-		exit = unset_builtin(cmd->args, &shell->env.lst_var);
-	if (ft_strncmp("exit", cmd->name, 5) && ft_strlen(cmd->name) == 5)
-		exit = exit_builtin(cmd->args, &shell->env);
-	if (shell->env.subsh)
-		shell_clean(shell);
-	return (exit);
+	builtins = malloc(sizeof(*builtins) * 8);
+	if (!builtins)
+		return (errno = ENOMEM, exec->exit = 1, 1);
+	return_builtin_lst(&builtins);
+	i = 0;
+	while (builtins[i].name != NULL)
+	{
+		if (strcmp(exec->argv[0], builtins[i].name) == 0)
+		{
+			exec->blt = builtins[i].f;
+			return (free(builtins), 0);
+		}
+		i++;
+	}
+	return (free(builtins), 0);
 }

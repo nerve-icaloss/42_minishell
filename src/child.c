@@ -28,14 +28,12 @@ void	child_pipex_cmd(t_execute *exec, t_myshell *shell)
 {
 	close_tree_doc(shell->root);
 	close(exec->toclose_child);
-	if (is_builtin(exec->argv[0]))
+	if (exec->builtin_f)
 	{
-		exec->exit = builtin_cmd(exec->argv, shell->env);
-		shell_clean(shell);
+		exec->exit = exec->builtin_f(exec->argv, &shell->env);
 		ft_arrclear(exec->argv);
 		exit(exec->exit);
 	}
-		exit(builtin_cmd(exec, shell));
 	if (execve(exec->argv[0], exec->argv, shell->env.envp) == SYS_FAIL)
 	{
 		perror(exec->argv[0]);

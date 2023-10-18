@@ -15,8 +15,6 @@
 
 # include "../headers/minishell.h"
 
-char *get_cmd_path(char *name, t_myshell *shell);
-char *find_cmd_path(char *name, char *paths[]);
-int	search_path(t_execute *exec);
+char	*search_cmd_path(char *name, t_myenv *env);
 
 #endif

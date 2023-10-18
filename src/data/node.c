@@ -114,6 +114,13 @@ void	node_tree_clean(t_node *node)
 
 	if (!node)
 		return (errno = ENODATA, (void)NULL);
+	if (node->parent->first_child == node)
+	{
+		if (node->next_sibling)
+			node->parent->first_child = node->next_sibling;
+		else
+			node->parent->first_child = NULL;
+	}
 	child = node->first_child;
 	while (child)
 	{

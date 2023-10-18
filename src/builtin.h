@@ -15,15 +15,14 @@
 
 # include "../headers/minishell.h"
 
-int is_builtin(char *str);
-int builtin_cmd(t_execute *exec, t_myshell *shell);
+int find_builtin_f(t_execute *exec);
 
-int	pwd_builtin(t_myenv *env);
-int	cd_builtin(char *args[], t_myenv *env);
+int	pwd_builtin(char *argv[],t_myenv *env);
+int	cd_builtin(char *argv[], t_myenv *env);
 int	env_builtin(t_myenv *env);
-int	export_builtin(char *args[], t_myenv *env);
-int	unset_builtin(char *args[], t_lstvar *lst);
-int	echo_builtin(char *args[]);
-int	exit_builtin(char *args[], t_myenv *env);
+int	export_builtin(char *argv[], t_myenv *env);
+int	unset_builtin(char *argv[], t_lstvar *lst);
+int	echo_builtin(char *argv[]);
+int	exit_builtin(char *argv[], t_myenv *env);
 
 #endif

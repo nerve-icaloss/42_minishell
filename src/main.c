@@ -27,7 +27,7 @@ void	node_tree_print(t_node *root)
 	if (root->type == NODE_BRACKET)
 		write(1, "( ", 2);
 	child = root->first_child;
-	while(child)
+	while (child)
 	{
 		i = child->next_sibling;
 		node_tree_print(child);

@@ -92,7 +92,7 @@ void	wait_cmd(t_execute *exec, t_node *cmd)
 
 void	wait_pipex(t_execute *exec, t_node *pipex)
 {
-	int	status;
+	int		status;
 	t_node	*cmd;
 	t_node	*i;
 
