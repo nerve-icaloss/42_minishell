@@ -401,3 +401,125 @@ Test(cd, builtin)
 {
 	cr_log_warn("cd builtin not tested, tests needs to be done manually");
 }
+
+typedef struct s_arg_home {
+	int	ret; // expected return code
+	char	*in;
+	char	*out;
+}	t_arg_home;
+
+void	free_home_arg(struct criterion_test_params *crp)
+{
+	t_arg_home *c;
+
+	c = crp->params;
+	for (size_t i = 0; i < crp->length; ++i)
+	{
+		if (c)
+		{
+			if (c->in)
+				cr_free(c->in);
+			if (c->out)
+				cr_free(c->out);
+		}
+		c++;
+	}
+	cr_free((t_arg_home *)crp->params);
+}
+
+ParameterizedTestParameters(cd, home_expand) {
+	t_arg_home setting[] = {
+		{
+			0,
+			"~",
+			"HOME"
+		},
+		{
+			0,
+			"Coucou je suis heureux",
+			"Coucou je suis heureux"
+		},
+		{
+			0,
+			"Coucou je suis heureux~",
+			"Coucou je suis heureuxHOME"
+		},
+		{
+			0,
+			"Coucou ~ je suis heureux",
+			"Coucou HOME je suis heureux"
+		},
+		{
+			3,
+			"Coucou ~ je suis ~ heureux ~",
+			"Coucou HOME je suis HOME heureux HOME"
+		},
+		{
+			2,
+			"~~",
+			"HOMEHOME"
+		},
+		{
+			3,
+			"Coucou ~~~ je suis heureux",
+			"Coucou HOMEHOMEHOME je suis heureux"
+		},
+		{
+			0,
+			"~eh coucou",
+			"HOMEeh coucou"
+		},
+		{
+			0,
+			"",
+			""
+		},
+		{
+			-1,
+			NULL,
+			NULL
+		},
+	};
+
+	char		**tab;
+	t_arg_home	*ret;
+	int			len;
+	int			i;
+
+	int count = sizeof(setting) / sizeof(t_arg_home);
+	ret = cr_malloc(sizeof(t_arg_home) * count);
+	i = 0;
+	while (i < count)
+	{
+		ret[i].ret = setting[i].ret;
+		ret[i].in = NULL;
+		ret[i].out = NULL;
+		if (setting[i].in)
+			ret[i].in = cr_strdup(setting[i].in);
+		if (setting[i].out)
+			ret[i].out = cr_strdup(setting[i].out);
+		i++;
+	}
+	cr_log_info("%d tests on cd home expand", count);
+	return (cr_make_param_array(t_arg_home, ret, count, free_home_arg));
+}
+
+int	home_expand(const char *s, char **ret, t_myenv *myenv);
+
+ParameterizedTest(t_arg_home *arg, cd, home_expand, .timeout = 1)
+{
+	t_myenv myenv;
+	t_myvar home;
+	char	*s;
+
+	home.value = "HOME";
+	myenv.home = &home;
+	s = NULL;
+	cr_expect(eq(int, home_expand(arg->in, &s, &myenv), arg->ret));
+	if (arg->out && s)
+		cr_expect(eq(str, arg->out, s));
+	else
+		cr_expect(eq(ptr, arg->out, s));
+	if (s)
+		free(s);
+}
