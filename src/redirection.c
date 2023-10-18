@@ -89,14 +89,16 @@ int	infile_redirection(t_node *cmd)
 	{
 		i = child->next_sibling;
 		if (child->rtype == READ || child->rtype == HEREDOC)
+		{
 			close_redirection(cmd, IN);
-		if (child->rtype == READ)
-			cmd->fd[IN] = open_read(child->val);
-		if (child->rtype == HEREDOC)
-			cmd->fd[IN] = child->fd[IN];
-		if (cmd->fd[IN] == SYS_FAIL)
-			return (perror(child->val), 1);
-		node_sibling_pop(child);
+			if (child->rtype == READ)
+				cmd->fd[IN] = open_read(child->val);
+			if (child->rtype == HEREDOC)
+				cmd->fd[IN] = child->fd[IN];
+			if (cmd->fd[IN] == SYS_FAIL)
+				return (perror(child->val), 1);
+			node_sibling_pop(child);
+		}
 		child = i;
 	}
 	return (0);
@@ -115,14 +117,16 @@ int	outfile_redirection(t_node *cmd)
 	{
 		i = child->next_sibling;
 		if (child->rtype == TRUNC || child->rtype == APPEND)
+		{
 			close_redirection(cmd, OUT);
-		if (child->rtype == TRUNC)
-			cmd->fd[OUT] = open_trunc(child->val);
-		if (child->rtype == APPEND)
-			cmd->fd[OUT] = open_append(child->val);
-		if (cmd->fd[OUT] == SYS_FAIL)
-			return (perror(child->val), 1);
-		node_sibling_pop(child);
+			if (child->rtype == TRUNC)
+				cmd->fd[OUT] = open_trunc(child->val);
+			if (child->rtype == APPEND)
+				cmd->fd[OUT] = open_append(child->val);
+			if (cmd->fd[OUT] == SYS_FAIL)
+				return (perror(child->val), 1);
+			node_sibling_pop(child);
+		}
 		child = i;
 	}
 	return (0);

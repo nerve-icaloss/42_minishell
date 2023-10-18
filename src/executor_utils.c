@@ -12,7 +12,6 @@
 
 #include "executor_utils.h"
 #include "redirection.h"
-#include <asm-generic/errno.h>
 
 char	**build_argv(t_node *cmd)
 {

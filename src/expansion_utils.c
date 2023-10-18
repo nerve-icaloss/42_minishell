@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "expand_utils.h"
+#include "expansion_utils.h"
 
 int	expand_init(t_expand *expd, char *word)
 {

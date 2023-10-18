@@ -33,7 +33,6 @@ void	node_sibling_add(t_node **origin, t_node *child)
 
 void	node_sibling_pop(t_node *node)
 {
-	node->parent->children--;
 	if (node->prev_sibling == NULL)
 		node->parent->first_child = node->next_sibling;
 	else

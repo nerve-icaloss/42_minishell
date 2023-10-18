@@ -84,7 +84,7 @@ int	execute_pipex(t_node *pipex, t_myshell *shell)
 			continue ;
 		if (apply_redirection(&exec, cmd))
 			continue ;
-		if (search_path(&exec))
+		if (search_exec_path(&exec, &shell->env))
 			continue ;
 		cmd->pid = fork();
 		if (cmd->pid == SYS_FAIL)
@@ -101,9 +101,9 @@ int	stop_execute(t_node *node, int exit)
 {
 	if (!node)
 		return (errno = ENODATA, 1);
-	if (node->type == NODE_AND && node->exit > 0)
+	if (node->type == NODE_AND && exit > 0)
 		return (1);
-	if (node->type == NODE_OR && node->exit == 0)
+	if (node->type == NODE_OR && exit == 0)
 		return (1);
 	return (0);
 }

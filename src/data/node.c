@@ -66,17 +66,18 @@ void	node_parent_add(t_node *child, t_node *parent)
 
 void	node_parent_insert(t_node *parent, t_node *child)
 {
-	t_node	*last_child;
+	t_node	*parent_last_child;
 
 	if (!parent || !child)
 		return (errno = ENODATA, (void)NULL);
-	last_child = parent->first_child;
-	while (last_child->next_sibling)
-		last_child = last_child->next_sibling;
-	child->first_child = last_child;
-	last_child->parent = child;
-	last_child->prev_sibling->next_sibling = 0;
-	last_child->prev_sibling = 0;
+	child->parent = parent;
+	parent_last_child = parent->first_child;
+	while (parent_last_child->next_sibling)
+		parent_last_child = parent_last_child->next_sibling;
+	child->first_child = parent_last_child;
+	parent_last_child->parent = child;
+	parent_last_child->prev_sibling->next_sibling = child;
+	parent_last_child->prev_sibling = 0;
 	child->children++;
 }
 
@@ -98,6 +99,7 @@ void	node_child_add(t_node *parent, t_node *child)
 		sibling->next_sibling = child;
 		child->prev_sibling = sibling;
 	}
+	parent->children++;
 	i = child->next_sibling;
 	while (i)
 	{
