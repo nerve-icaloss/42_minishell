@@ -59,6 +59,14 @@ SRCS_FILES	=	\
 				data/token.c \
 				data/var.c \
 				data/var2.c \
+<<<<<<< HEAD
+=======
+				builtin.c \
+				child.c \
+				error.c \
+				executor.c \
+				executor_utils.c \
+>>>>>>> main
 				expansion_redir.c \
 				expansion_utils.c \
 				expansion_var.c \
@@ -70,6 +78,11 @@ SRCS_FILES	=	\
 				open_utils.c \
 				parser.c \
 				parser_utils.c \
+<<<<<<< HEAD
+=======
+				path.c \
+				redirection.c \
+>>>>>>> main
 				scanner.c \
 				scanner_utils.c \
 #
@@ -178,8 +191,8 @@ norm:
 	"s/Error/\nError/Ig"
 
 clean:
-	@${MAKE} -C ${LIBFT_DIR} clean
 	@${MAKE} -C test fclean
+	@${MAKE} -C ${LIBFT_DIR} clean
 	@${RM} ${OBJS} ${OBJS_BONUS}
 	@${RMDIR} ${OBJS_DIR}/data ${OBJS_DIR}/builtin ${OBJS_DIR}
 	@printf "\033[1;34m%-44s\033[0m \033[1;32m%s\033[0m\n" "Cleaning" "done"

@@ -6,7 +6,7 @@
 /*   By: hmelica <hmelica@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/14 16:08:57 by hmelica           #+#    #+#             */
-/*   Updated: 2023/10/15 16:54:06 by hmelica          ###   ########.fr       */
+/*   Updated: 2023/10/19 17:44:14 by hmelica          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,41 +41,17 @@ static int	this_doc(char **val, int *fd, t_myenv *myenv)
 }
 
 /*
- * use THIS
- * */
-int	run_doc(t_node *root, t_myenv *myenv)
-{
-	t_node	*child;
-	t_node	*i;
-
-	if(!root)
-		return (errno = ENODATA, -1);
-	child = root->first_child;
-	while(child)
-	{
-		i = child->next_sibling;
-		if (run_doc(child, myenv))
-			return (-1);
-		child = i;
-	}
-	if (root->redir == HEREDOC)
-		if (this_doc(&root->val, &root->fd, myenv))
-			return (-1);
-	return (0);
-}
-
-/*
  * Use myenv == NULL to disable var_expansion
  * multiply by 1 or 0 if needed
  * line[1] is the line just readed and line[0] is all concatened lines.
  * */
-int	here_doc(char *eof, t_myenv *myenv)
+int	here_doc(char *eof, t_myenv *env)
 {
 	int		len[2];
 	int		fd[2];
 	char	*line;
 
-	(void) myenv;
+	(void) env;
 	if (!eof || pipe(fd))
 		return (-1);
 	len[0] = ft_strlen(eof);
@@ -83,8 +59,8 @@ int	here_doc(char *eof, t_myenv *myenv)
 	len[1] = ft_strlen(line);
 	while (line && (len[1] != len[0] || ft_strncmp(line, eof, len[0]) != 0))
 	{
-		if (myenv)
-			var_expansion(&line, myenv);
+		if (env)
+			var_expansion(&line, env);
 		if (!line)
 			break ;
 		write(fd[1], line, len[1]);
@@ -96,4 +72,74 @@ int	here_doc(char *eof, t_myenv *myenv)
 	if (!line)
 		return (close(fd[0]), -1);
 	return (fd[0]);
+}
+
+static int	run_cmd_doc(t_node *cmd, t_myenv *env)
+{
+	t_node	*prev_doc;
+	t_node	*child;
+	t_node	*i;
+
+	prev_doc = NULL;
+	child = cmd->first_child;
+	while(child)
+	{
+		i = child->next_sibling;
+		if (prev_doc)
+		{
+			if (close(prev_doc->fd[IN]) == SYS_FAIL)
+				perror("close_doc");
+			node_sibling_pop(prev_doc);
+		}
+		if (child->rtype == HEREDOC)
+		{
+			child->fd[IN] = this_doc(&child->val, env);
+			if (child->fd[IN] == SYS_FAIL)
+				return (1);
+			prev_doc = child;
+		}
+		child = i;
+	}
+	return (0);
+}
+
+/*
+ * use THIS
+ * */
+int	run_tree_doc(t_node *root, t_myenv *env)
+{
+	t_node	*child;
+	t_node	*i;
+
+	if(!root || !env)
+		return (errno = ENODATA, 1);
+	if (root->type == NODE_CMD)
+		return (run_cmd_doc(root, env));
+	child = root->first_child;
+	while(child)
+	{
+		i = child->next_sibling;
+		if (run_cmd_doc(child, env))
+			return (1);
+		child = i;
+	}
+	return (0);
+}
+
+void	close_tree_doc(t_node *root)
+{
+	t_node	*child;
+	t_node	*i;
+
+	if(!root)
+		return (errno = ENODATA, (void)NULL);
+	child = root->first_child;
+	while(child)
+	{
+		i = child->next_sibling;
+		child = i;
+	}
+	if (root->rtype == HEREDOC)
+		if (close(root->fd[IN]) == SYS_FAIL)
+			perror("close_doc");
 }

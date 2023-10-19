@@ -25,7 +25,7 @@ t_node	*new_redir(char *data, t_redir_type type)
 		return (errno = ENOMEM, NULL);
 	if (node_val_set(redir, data) == -1)
 		return (node_tree_clean(redir), NULL);
-	redir->redir = type;
+	redir->rtype = type;
 	return (redir);
 }
 

@@ -1,29 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   cmd_builtin.h                                      :+:      :+:    :+:   */
+/*   error.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: nserve <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/09/28 17:13:52 by nserve            #+#    #+#             */
-/*   Updated: 2023/09/28 17:15:25 by nserve           ###   ########.fr       */
+/*   Created: 2023/09/27 18:54:08 by nserve            #+#    #+#             */
+/*   Updated: 2023/09/27 18:54:16 by nserve           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef CMD_BUILTIN_H
-# define CMD_BUILTIN_H
+#ifndef CMD_ERROR_H
+# define CMD_ERROR_H
 
 # include "../headers/minishell.h"
 
-int is_builtin(char *str);
-int run_builtin(t_mycmd *cmd, t_myshell *shell);
-
-int	pwd_builtin(t_myenv *env);
-int	cd_builtin(char *args[], t_myenv *env);
-int	env_builtin(t_myenv *env);
-int	export_builtin(char *args[], t_myenv *env);
-int	unset_builtin(char *args[], t_lstvar *lst);
-int	echo_builtin(char *args[]);
-int	exit_builtin(char *args[], t_myenv *env);
+void	syntax_error_token(t_tok_type tok_type);
+void	cmd_notfound(char *str);
+void	path_notfound(void);
 
 #endif
