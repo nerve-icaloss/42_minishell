@@ -135,3 +135,89 @@ ParameterizedTest(t_arg_wc *arg, wildcard, prev, .timeout = 2)
 	if (wc.glob_prev)
 		free(wc.glob_prev);
 }
+
+ParameterizedTestParameters(wildcard, next) {
+	t_arg_wc setting[] = {
+		{
+			0,
+			"coucou/hello*trop/super",
+			"trop",
+			"/super"
+		},
+		{
+			0,
+			"*",
+			"",
+			""
+		},
+		{
+			0,
+			"coucou/genial*/super",
+			"",
+			"/super"
+		},
+		{
+			0,
+			"coucou/hello*trop/super/metropbien",
+			"trop",
+			"/super/metropbien"
+		},
+	};
+
+	t_arg_wc	*ret;
+	int			len;
+	int			i;
+
+	int count = sizeof(setting) / sizeof(t_arg_wc);
+	ret = cr_malloc(sizeof(t_arg_wc) * count);
+	i = 0;
+	while (i < count)
+	{
+		bzero(ret + i, sizeof(t_arg_wc));
+		ret[i].ret = setting[i].ret;
+		if (setting[i].s)
+			ret[i].s = cr_strdup(setting[i].s);
+		if (setting[i].close)
+			ret[i].close = cr_strdup(setting[i].close);
+		if (setting[i].path)
+			ret[i].path = cr_strdup(setting[i].path);
+		i++;
+	}
+	cr_log_info("%d tests on wildcard prev", count);
+	return (cr_make_param_array(t_arg_wc, ret, count, free_wc_arg));
+}
+
+ParameterizedTest(t_arg_wc *arg, wildcard, next, .timeout = 2)
+{
+	t_wildcard wc;
+
+	wc.following = NULL;
+	wc.glob_next = NULL;
+	wc.s = strdup(arg->s);
+	wc.wc = ft_strchr(wc.s, '*');
+	cr_expect(eq(int, wc_init_next(&wc), arg->ret));
+	if (arg->path && wc.following)
+		cr_expect(eq(str, arg->path, wc.following));
+	else
+	{
+		if (wc.following)
+			cr_expect(eq(ptr, arg->path, wc.following), "%s", wc.following);
+		else
+			cr_expect(eq(ptr, arg->path, wc.following));
+	}
+	if (arg->close && wc.glob_next)
+		cr_expect(eq(str, arg->close, wc.glob_next));
+	else
+	{
+		if (wc.glob_next)
+			cr_expect(eq(ptr, arg->close, wc.glob_next), "%s", wc.glob_next);
+		else
+			cr_expect(eq(ptr, arg->close, wc.glob_next));
+	}
+	if (wc.s)
+		free(wc.s);
+	if (wc.following)
+		free(wc.following);
+	if (wc.glob_next)
+		free(wc.glob_next);
+}

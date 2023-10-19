@@ -44,20 +44,21 @@ int	wc_init_next(t_wildcard *wc)
 	char	*i;
 	char	*j;
 
-	if (!*wc->wc || !(wc->wc[1]))
+	if (!*wc->wc)
 		return (0);
 	i = wc->wc + 1;
 	j = ft_strchr(i, '/');
-	if (j)
+	if (j && j != i)
 	{
 		wc->glob_next = ft_substr(i, 0, j - i);
 		wc->following = ft_strdup(j);
 	}
 	else
 	{
+		wc->glob_next = ft_strdup("");
 		wc->following = ft_strdup(i);
 	}
-	if (!wc->following)
+	if (!wc->following || !wc->glob_next)
 		return (errno = ENOMEM, -1);
 	return (0);
 }
