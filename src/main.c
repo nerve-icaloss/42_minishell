@@ -6,7 +6,7 @@
 /*   By: nserve & hmelica                           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/10 14:57:45 by hmelica           #+#    #+#             */
-/*   Updated: 2023/10/14 14:43:19 by nserve           ###   ########.fr       */
+/*   Updated: 2023/10/19 12:45:46 by nserve           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,8 +71,8 @@ void	parse_and_execute(t_myshell *shell, t_source *src)
 	if (shell->exit > 0)
 		return (node_tree_clean(shell->root), (void)NULL);
 	shell->exit = execute_tree(shell->root, shell);
-	if (shell->exit > 0)
-		node_tree_clean(shell->root);
+	//if (shell->exit > 0)
+	node_tree_clean(shell->root);
 }
 
 void	rpel(t_myshell *shell)

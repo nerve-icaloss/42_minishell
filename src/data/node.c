@@ -6,7 +6,7 @@
 /*   By: nserve <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 18:23:00 by nserve            #+#    #+#             */
-/*   Updated: 2023/10/05 18:23:20 by nserve           ###   ########.fr       */
+/*   Updated: 2023/10/19 11:42:21 by nserve           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,7 +116,7 @@ void	node_tree_clean(t_node *node)
 
 	if (!node)
 		return (errno = ENODATA, (void)NULL);
-	if (node->parent->first_child == node)
+	if (node->parent && node->parent->first_child == node)
 	{
 		if (node->next_sibling)
 			node->parent->first_child = node->next_sibling;

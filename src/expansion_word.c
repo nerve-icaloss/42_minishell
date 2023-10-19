@@ -44,6 +44,7 @@ char	*scan_word(char *data)
 		if (ft_isspace(*buf))
 		{
 			*buf = '\0';
+			buf++;
 			return (ret);
 		}
 		buf++;
