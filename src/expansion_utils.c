@@ -29,6 +29,8 @@ int	handle_quotes(char **ret, t_node *args, int *i, int *j)
 	static const char	quotes[3] = "'\"";
 	int					k;
 
+	if (!ret || !args || !i || !j)
+		return (1);
 	while (args->val[*i + *j] && !strchr(quotes, args->val[*i + *j]))
 		(*j)++;
 	*ret = ft_strjoin2(*ret, ft_substr(args->val, *i, *j), 1, 1);
@@ -68,5 +70,23 @@ int	remove_quotes(t_node *args)
 	if (args->val)
 		free(args->val);
 	args->val = ret;
+	return (0);
+}
+
+int	run_remove_quotes(t_node *root)
+{
+	t_node	*child;
+
+	if(!root)
+		return (errno = ENODATA, -1);
+	child = root->first_child;
+	while (child)
+	{
+		if (run_remove_quotes(child))
+			return (-1);
+		child = child->next_sibling;
+	}
+	if(root->type == NODE_WORD && root->val)
+		return (remove_quotes(root));
 	return (0);
 }
