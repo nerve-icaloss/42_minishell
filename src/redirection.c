@@ -65,6 +65,7 @@ int	reset_redirection(t_execute *exec, t_node *cmd)
 			return (perror("dup2"), 1);
 		if (close(exec->std_fd[IN]) == SYS_FAIL)
 			perror("close");
+		exec->std_fd[IN] = -1;
 	}
 	if (cmd->fd[OUT] > -1)
 	{
@@ -74,6 +75,7 @@ int	reset_redirection(t_execute *exec, t_node *cmd)
 			return (perror("dup2"), 1);
 		if (close(exec->std_fd[OUT]) == SYS_FAIL)
 			perror("close");
+		exec->std_fd[OUT] = -1;
 	}
 	return (0);
 }
@@ -85,7 +87,6 @@ int	infile_redirection(t_node *cmd)
 	
 	if (!cmd)
 		return (errno =ENODATA, 1);
-	cmd->fd[IN] = -1;
 	child = cmd->first_child;
 	while (child)
 	{
@@ -113,7 +114,6 @@ int	outfile_redirection(t_node *cmd)
 	
 	if (!cmd)
 		return (errno =ENODATA, 1);
-	cmd->fd[OUT] = -1;
 	child = cmd->first_child;
 	while (child)
 	{

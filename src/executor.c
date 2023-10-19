@@ -64,8 +64,7 @@ int	execute_cmd(t_node *cmd, t_myshell *shell)
 			child_cmd(&exec, shell);
 	}
 	reset_redirection(&exec, cmd);
-	wait_cmd(&exec, cmd);
-	return (ft_arrclear(exec.argv), cmd->exit);
+	return (wait_cmd(&exec, cmd), ft_arrclear(exec.argv), cmd->exit);
 }
 
 int	execute_pipex(t_node *pipex, t_myshell *shell)
@@ -92,9 +91,9 @@ int	execute_pipex(t_node *pipex, t_myshell *shell)
 		if (cmd->pid == 0)
 			child_pipex_cmd(&exec, shell);
 		reset_redirection(&exec, cmd);
+		cmd = cmd->next_sibling;
 	}
-	wait_pipex(&exec, pipex);
-	return (ft_arrclear(exec.argv), pipex->exit);
+	return (wait_pipex(&exec, pipex), ft_arrclear(exec.argv), pipex->exit);
 }
 
 int	stop_execute(t_node *node, int exit)

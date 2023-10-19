@@ -4,3 +4,19 @@
     ...
     obj:*/libreadline.so.*
 }
+
+{
+    ignore_libreadline_leaks
+    Memcheck:Leak
+    ...
+    obj:*/libreadline.so.*
+    obj:/usr/bin/*
+}
+
+{
+    ignore_bash_leaks
+    Memcheck:Leak
+    ...
+    obj:/usr/bin/*
+    ...
+}

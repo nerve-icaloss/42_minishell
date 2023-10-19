@@ -15,6 +15,7 @@
 
 # include "../headers/minishell.h"
 
+void	syntax_error_token(t_tok_type tok_type);
 void	cmd_notfound(char *str);
 void	path_notfound(void);
 

@@ -6,7 +6,7 @@
 /*   By: nserve <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/16 12:27:03 by nserve            #+#    #+#             */
-/*   Updated: 2023/10/19 12:51:48 by nserve           ###   ########.fr       */
+/*   Updated: 2023/10/19 15:32:23 by nserve           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ int	execute_pipex_init(t_execute *exec, t_node *pipex, t_node *cmd)
 	exec->exit = 1;
 	if (!exec || !pipex || !cmd)
 		return (errno =ENODATA, 1);
-	if (cmd->prev_sibling && cmd->next_sibling)
+	if (cmd->next_sibling)
 	{
 		if (pipe(pipex->fd) == SYS_FAIL)
 			return (perror("pipe"), 1);
@@ -93,17 +93,15 @@ void	wait_pipex(t_execute *exec, t_node *pipex)
 {
 	int		status;
 	t_node	*cmd;
-	t_node	*i;
 
 	if (!exec || !pipex)
 		return (errno = ENODATA, (void)NULL);
 	cmd = pipex->first_child;
 	while (cmd->next_sibling)
 	{
-		i = cmd->next_sibling;
 		if (cmd->pid != -1)
 			waitpid(cmd->pid, &status, 0);
-		i++;
+		cmd = cmd->next_sibling;
 	}
 	if (waitpid(cmd->pid, &status, 0) == cmd->pid && WIFEXITED(status))
 		pipex->exit = WEXITSTATUS(status);

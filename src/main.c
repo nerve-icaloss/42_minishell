@@ -6,7 +6,7 @@
 /*   By: nserve & hmelica                           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/10 14:57:45 by hmelica           #+#    #+#             */
-/*   Updated: 2023/10/19 12:45:46 by nserve           ###   ########.fr       */
+/*   Updated: 2023/10/19 16:35:24 by nserve           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,11 +65,14 @@ void	parse_and_execute(t_myshell *shell, t_source *src)
 		return (errno = ENODATA, (void)NULL);
 	shell->exit = parse_source(&shell->root, src, &shell->env);
 	//clean source
-	node_tree_print(shell->root); //
-	write(1, "\n", 1);
-	shell->exit = run_tree_doc(shell->root, &shell->env);
+	if (shell->exit == 2)
+		run_tree_doc(shell->root, &shell->env);
+	else
+		shell->exit = run_tree_doc(shell->root, &shell->env);
 	if (shell->exit > 0)
 		return (node_tree_clean(shell->root), (void)NULL);
+	node_tree_print(shell->root); //
+	write(1, "\n", 1);
 	shell->exit = execute_tree(shell->root, shell);
 	//if (shell->exit > 0)
 	node_tree_clean(shell->root);
