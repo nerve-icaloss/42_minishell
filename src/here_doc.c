@@ -6,7 +6,7 @@
 /*   By: hmelica <hmelica@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/14 16:08:57 by hmelica           #+#    #+#             */
-/*   Updated: 2023/10/19 17:44:14 by hmelica          ###   ########.fr       */
+/*   Updated: 2023/10/19 17:55:28 by hmelica          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,12 +18,13 @@
  * Do not call this directly
  * It's static anyway
  * */
-static int	this_doc(char **val, int *fd, t_myenv *myenv)
+static int	this_doc(char **val, t_myenv *myenv)
 {
 	char	*a;
 	long	i;
+	int		fd;
 
-	*fd = -1;
+	fd = -1;
 	a = *val;
 	i = -1;
 	if (*a == '\'' || *a == '"')
@@ -32,12 +33,10 @@ static int	this_doc(char **val, int *fd, t_myenv *myenv)
 		a[i] = '\0';
 		myenv = NULL;
 	}
-	*fd = here_doc(a + (i >= 0), myenv);
+	fd = here_doc(a + (i >= 0), myenv);
 	free(*val);
 	*val = NULL;
-	if (*fd < 0)
-		return (-1);
-	return (0);
+	return (fd);
 }
 
 /*
