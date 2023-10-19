@@ -20,7 +20,11 @@
  * is done is 0 if thers still wildcard in s
  * */
 typedef struct s_wildcard {
-	int					is_done;
+	char				*path;
+	char				*glob_prev;
+	char				*wc;
+	char				*glob_next;
+	char				*following;
 	char				*s;
 	struct s_wildcard	*next;
 	struct s_wildcard	*child;
@@ -30,6 +34,8 @@ typedef struct s_wildcard {
 typedef struct dirent	t_dirent;
 
 char	*generate_wildcard(char *s, t_myenv *env);
+
+int		wc_add(t_wildcard **origin, char *s);
 void	wc_clean(t_wildcard **i);
 
 #endif

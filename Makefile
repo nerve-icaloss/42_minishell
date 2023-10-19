@@ -79,6 +79,8 @@ SRCS_FILES	=	\
 				redirection.c \
 				scanner.c \
 				scanner_utils.c \
+				wildcard.c \
+				wildcard_utils.c \
 #
 # ^- (this comment line matters)
 #
