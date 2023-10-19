@@ -16,6 +16,8 @@
 #include "include/criterion/new/assert.h"
 #include <string.h>
 
+void	var_expansion(char **line, t_myenv *myenv);
+
 // test var expansion there
 char *cr_strdup(const char *str);
 
@@ -107,4 +109,72 @@ ParameterizedTest(t_doublestr *set, expansion, var_expansion, .timeout = 2.)
 		free(s);
 	}
 	var_clean(&env.lst_var);
+}
+
+ParameterizedTestParameters(expansion, remove_quotes) {
+	int len;
+	t_doublestr	setting[] = {
+		{
+			NULL,
+			NULL,
+		},
+		{
+			"coucou je suis heureux $ $ $ ",
+			"coucou je suis heureux $ $ $ ",
+		},
+		{
+			"'coucou je suis heureux'",
+			"coucou je suis heureux",
+		},
+		{
+			"\"$non\"",
+			"$non",
+		},
+		{
+			"coucou 'j\"e suis' heureux",
+			"coucou j\"e suis heureux",
+		},
+		{
+			"coucou \"j'e suis\" heureux",
+			"coucou j'e suis heureux",
+		},
+	};
+	t_doublestr *strings;
+
+	cr_log_info("Counting tests for var_expansion");
+	len = sizeof(setting) / sizeof(t_doublestr);
+	cr_log_info("Generating %d tests for var_expansion", len);
+	strings = cr_malloc(sizeof(setting));
+	for (size_t i = 0; i < len; i++)
+	{
+		strings[i].in = NULL;
+		strings[i].out = NULL;
+		if (setting[i].in)
+			strings[i].in = cr_strdup(setting[i].in);
+		if (setting[i].out)
+			strings[i].out = cr_strdup(setting[i].out);
+	}
+	cr_log_info("Tests generated for var_expansion");
+	return (cr_make_param_array(t_doublestr, strings, len, free_doublestr));
+}
+
+int	remove_quotes(t_node *args);
+
+ParameterizedTest(t_doublestr *set, expansion, remove_quotes, .timeout = 2.)
+{
+	t_node	n;
+
+	if (!set)
+		cr_fatal("No arg");
+	n.val = NULL;
+	if (set->in)
+		n.val = ft_strdup(set->in);
+	remove_quotes(&n);
+	if (n.val == NULL)
+		cr_expect(eq(ptr, n.val, set->out), "str not unset when supposed to");
+	else
+	{
+		cr_expect(eq(str, n.val, set->out), "str does not match");
+		free(n.val);
+	}
 }

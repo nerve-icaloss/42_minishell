@@ -6,7 +6,7 @@
 /*   By: nserve <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/16 11:49:35 by nserve            #+#    #+#             */
-/*   Updated: 2023/10/16 11:49:45 by nserve           ###   ########.fr       */
+/*   Updated: 2023/10/19 17:49:13 by hmelica          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,7 +112,7 @@ int	execute_tree(t_node *root, t_myshell *shell)
 	t_node	*child;
 	t_node	*i;
 	int		exit;
-	
+
 	if (!root || !shell)
 		return (errno = ENODATA, 1);
 	if (root->type == NODE_PIPE)
