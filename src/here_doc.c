@@ -6,38 +6,13 @@
 /*   By: hmelica <hmelica@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/14 16:08:57 by hmelica           #+#    #+#             */
-/*   Updated: 2023/10/19 17:55:28 by hmelica          ###   ########.fr       */
+/*   Updated: 2023/10/19 18:51:09 by hmelica          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "here_doc.h"
 #include "find_utils.h"
 #include "expansion_var.h"
-
-/*
- * Do not call this directly
- * It's static anyway
- * */
-static int	this_doc(char **val, t_myenv *myenv)
-{
-	char	*a;
-	long	i;
-	int		fd;
-
-	fd = -1;
-	a = *val;
-	i = -1;
-	if (*a == '\'' || *a == '"')
-	{
-		i = find_closing_quote(a);
-		a[i] = '\0';
-		myenv = NULL;
-	}
-	fd = here_doc(a + (i >= 0), myenv);
-	free(*val);
-	*val = NULL;
-	return (fd);
-}
 
 /*
  * Use myenv == NULL to disable var_expansion
@@ -71,6 +46,31 @@ int	here_doc(char *eof, t_myenv *env)
 	if (!line)
 		return (close(fd[0]), -1);
 	return (fd[0]);
+}
+
+/*
+ * Do not call this directly
+ * It's static anyway
+ * */
+static int	this_doc(char **val, t_myenv *myenv)
+{
+	char	*a;
+	long	i;
+	int		fd;
+
+	fd = -1;
+	a = *val;
+	i = -1;
+	if (*a == '\'' || *a == '"')
+	{
+		i = find_closing_quote(a);
+		a[i] = '\0';
+		myenv = NULL;
+	}
+	fd = here_doc(a + (i >= 0), myenv);
+	free(*val);
+	*val = NULL;
+	return (fd);
 }
 
 static int	run_cmd_doc(t_node *cmd, t_myenv *env)
