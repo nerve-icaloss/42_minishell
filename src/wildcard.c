@@ -12,6 +12,27 @@
 
 #include "./wildcard.h"
 
+int	glob_name(char name[256], char *prev, char *next)
+{
+	size_t	len;
+	char	*s;
+
+	if (prev && *prev)
+	{
+		len = ft_strlen(prev);
+		if (ft_strncmp(name, prev, len))
+			return (0);
+	}
+	if (next && *next)
+	{
+		s = ft_strnstr(name, next, ft_strlen(name));
+		len = ft_strlen(next);
+		if (!s || ft_strlen(s) != len || ft_strncmp(s, next, len))
+			return (0);
+	}
+	return (1);
+}
+
 int	wc_rec_expand(t_wildcard *wc)
 {
 	char		*path;
@@ -20,14 +41,16 @@ int	wc_rec_expand(t_wildcard *wc)
 
 	if (!wc->wc)
 		return (0);
-	if (wc->wc - wc->s == 0)
-		path = ft_strdup("./");
-	else
-		path = ft_substr(wc->s, 0, wc->wc - wc->s);
-	if (!path)
-		return (errno = ENODATA, -1);
-	(void) dir;
-	(void) elem;
+	dir = opendir(wc->path);
+	if (!dir)
+		return (errno = ENOENT, -1);
+	elem = readdir(dir);
+	while (elem)
+	{
+		if (!glob_name(elem->d_name, wc->glob_prev, wc->glob_next))
+			continue ;
+		path = ft_strjoin(wc->path, elem->d_name);
+	}
 	return (0);
 }
 
