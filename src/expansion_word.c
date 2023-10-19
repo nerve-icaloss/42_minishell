@@ -25,11 +25,11 @@ t_node	*new_word(char *data)
 		return (errno = ENOMEM, NULL);
 	if (node_val_set(word, data) == -1)
 		return (node_tree_clean(word), NULL);
-	word->redir = WORD;
+	word->rtype = WORD;
 	return (word);
 }
 
-char	*find_word(char *data)
+char	*scan_word(char *data)
 {
 	static char	*buf;
 	char		*ret;
@@ -44,6 +44,7 @@ char	*find_word(char *data)
 		if (ft_isspace(*buf))
 		{
 			*buf = '\0';
+			buf++;
 			return (ret);
 		}
 		buf++;
@@ -58,14 +59,14 @@ void	split_word(t_node **origin, char *data)
 
 	if (!origin || !data)
 		return (errno = ENODATA, (void)NULL);
-	word = 	find_word(data);
+	word = 	scan_word(data);
 	while (*word)
 	{
 		new = new_word(word);
 		if (!new)
 			return (node_sibling_clean(origin));
 		node_sibling_add(origin, new);
-		word = find_word(NULL);
+		word = scan_word(NULL);
 	}
 }
 

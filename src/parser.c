@@ -6,11 +6,12 @@
 /*   By: nserve <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/06 09:38:10 by nserve            #+#    #+#             */
-/*   Updated: 2023/10/06 09:38:20 by nserve           ###   ########.fr       */
+/*   Updated: 2023/10/19 16:24:33 by nserve           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parser.h"
+#include "libft/libft.h"
 #include "parser_utils.h"
 #include "find_utils.h"
 #include "expansion_word.h"
@@ -51,6 +52,8 @@ t_node	*parse_command(t_token *tok, t_myenv *env)
 	cmd = node_new(NODE_CMD);
 	if (!cmd)
 		return (token_clean(tok), NULL);
+	cmd->fd[IN] = -1;
+	cmd->fd[OUT] = -1;
 	src = tok->src;
 	while(tok->type == TOK_WORD)
 	{

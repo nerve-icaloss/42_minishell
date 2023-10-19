@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   cmd_search.h                                       :+:      :+:    :+:   */
+/*   path.h                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: nserve <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -15,7 +15,6 @@
 
 # include "../headers/minishell.h"
 
-char *get_cmd_path(char *name, t_myshell *shell);
-char *find_cmd_path(char *name, char *paths[]);
+char	*search_cmd_path(char *name, t_myenv *env);
 
 #endif

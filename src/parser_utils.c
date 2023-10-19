@@ -12,6 +12,7 @@
 
 #include "parser_utils.h"
 #include "parser.h"
+#include "error.h"
 
 t_node *choose_first_child(t_token *tok, t_myenv *env)
 {
@@ -20,17 +21,18 @@ t_node *choose_first_child(t_token *tok, t_myenv *env)
 
 	if (!tok)
 		return (errno = ENODATA, NULL);
+	src = tok->src;
 	if (tok->type == TOK_WORD)
 		cmd = parse_command(tok, env);
 	else if (tok->type == TOK_BRACKET)
 	{
-		src = tok->src;
 		token_clean(tok);
 		tok = tokenize(src);
 		cmd = parse_bracket(tok, env);
 	}
 	else
 	{
+		syntax_error_token(tok->type);
 		token_clean(tok);
 		cmd = node_new(NODE_CMD);
 		if (!cmd)
@@ -51,6 +53,8 @@ t_node *insert_lvl_parent(t_node *parent, t_token *tok, int type)
 	lvl = node_new(type);
 	if (!lvl)
 		return (NULL);
+	lvl->fd[IN] = -1;
+	lvl->fd[OUT] = -1;
 	if ((parent)->type < type)
 		node_parent_add(parent, lvl);
 	if (parent->type > type)

@@ -1,21 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   cmd_error.h                                        :+:      :+:    :+:   */
+/*   cmd_builtin.h                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: nserve <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/09/27 18:54:08 by nserve            #+#    #+#             */
-/*   Updated: 2023/09/27 18:54:16 by nserve           ###   ########.fr       */
+/*   Created: 2023/09/28 17:13:52 by nserve            #+#    #+#             */
+/*   Updated: 2023/09/28 17:15:25 by nserve           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef CMD_ERROR_H
-# define CMD_ERROR_H
+#ifndef CMD_BUILTIN_H
+# define CMD_BUILTIN_H
 
 # include "../headers/minishell.h"
 
-void cmd_notfound(char *s1);
-void	path_notfound(void);
+int find_builtin_f(t_execute *exec);
+
+int	pwd_builtin(char *argv[],t_myenv *env);
+int	cd_builtin(char *argv[], t_myenv *env);
+int	env_builtin(t_myenv *env);
+int	export_builtin(char *argv[], t_myenv *env);
+int	unset_builtin(char *argv[], t_lstvar *lst);
+int	echo_builtin(char *argv[]);
+int	exit_builtin(char *argv[], t_myenv *env);
 
 #endif

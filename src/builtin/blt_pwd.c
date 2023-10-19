@@ -13,7 +13,7 @@
 #include "../../headers/minishell.h"
 
 // TODO let's think about turning this function func(void)
-int	blt_pwd(char **argv, t_myenv env)
+int	pwd_builtin(char **argv, t_myenv env)
 {
 	char	str[4097];
 
