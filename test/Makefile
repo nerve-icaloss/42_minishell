@@ -1,6 +1,6 @@
 NAME = ../test.out
 CC = gcc -g
-TO_NOT_GET = ../obj/main.o ../obj/data/history.o ../obj/data/shell.o ../obj/history.o ../obj/parser.o ../obj/builtin/blt_exit.o ../obj/parser_utils.o # if wanna debug this, please fix all headers problem first AND please keep main.o in there
+TO_NOT_GET = ../obj/main.o# ../obj/data/history.o ../obj/data/shell.o ../obj/history.o ../obj/parser.o ../obj/builtin/blt_exit.o ../obj/parser_utils.o # if wanna debug this, please fix all headers problem first AND please keep main.o in there
 OBJ_UP = $(filter-out $(TO_NOT_GET), $(shell find ../obj/ -type f -name "*.o"))
 OBJS_DIR = obj
 SRCS = $(shell find . -type f -name "*.c")
@@ -17,7 +17,7 @@ RMDIR = rm -df
 MKDIR = mkdir
 
 all: universal.h ${OBJS_DIR} ${OBJS}
-	@${CC} ${INCLUDES} -o ${NAME} ${OBJS} ${OBJ_UP} ../src/libft/libft.a ${LIBRARIES}
+	@${CC} ${INCLUDES} -no-pie -o ${NAME} ${OBJS} ${OBJ_UP} ../src/libft/libft.a ${LIBRARIES}
 
 ${OBJS_DIR}:
 	@${MKDIR} ${OBJS_DIR}
