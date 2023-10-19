@@ -12,6 +12,7 @@
 
 #include "executor.h"
 #include "executor_utils.h"
+#include "libft/libft.h"
 #include "redirection.h"
 #include "path.h"
 #include "builtin.h"
@@ -24,13 +25,14 @@ int	search_exec_path(t_execute *exec, t_myenv *env)
 
 	if (!exec)
 		return (errno = ENODATA, 1);
-	path = exec->argv[0];
 	if (find_builtin_f(exec))
 		return (exec->exit = 1, 1);
 	if (exec->builtin_f)
 		return (exec->exit = 0, 0);
-	if (path[0] != '/' || path[0] != '.')
+	if (!(exec->argv[0][0] == '/' || exec->argv[0][0] == '.'))
 		path = search_cmd_path(exec->argv[0], env);
+	else
+		path = ft_strdup(exec->argv[0]);
 	if (!path)
 		return (cmd_notfound(exec->argv[0]), exec->exit = 127, 1);
 	if (access(path, F_OK | X_OK) == SYS_FAIL)
