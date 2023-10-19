@@ -59,14 +59,11 @@ SRCS_FILES	=	\
 				data/token.c \
 				data/var.c \
 				data/var2.c \
-<<<<<<< HEAD
-=======
 				builtin.c \
 				child.c \
 				error.c \
 				executor.c \
 				executor_utils.c \
->>>>>>> main
 				expansion_redir.c \
 				expansion_utils.c \
 				expansion_var.c \
@@ -78,11 +75,8 @@ SRCS_FILES	=	\
 				open_utils.c \
 				parser.c \
 				parser_utils.c \
-<<<<<<< HEAD
-=======
 				path.c \
 				redirection.c \
->>>>>>> main
 				scanner.c \
 				scanner_utils.c \
 #
