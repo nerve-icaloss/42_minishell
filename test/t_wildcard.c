@@ -238,6 +238,12 @@ ParameterizedTestParameters(wildcard, glob_name) {
 		},
 		{
 			1,
+			"blt_export.c",
+			"",
+			".c"
+		},
+		{
+			1,
 			"wildcard.c",
 			"w",
 			"c"

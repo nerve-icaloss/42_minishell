@@ -94,6 +94,7 @@ int	wc_add(t_wildcard **origin, char *s)
 
 	if (!s)
 		return (errno = ENODATA, -1);
+	ft_dprintf(2, "adding->%s\n", s);
 	ret = malloc(sizeof(t_wildcard));
 	if (!ret)
 		return (free(s), errno = ENOMEM, -1);
