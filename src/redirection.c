@@ -12,9 +12,6 @@
 
 #include "redirection.h"
 #include "open_utils.h"
-#include <asm-generic/errno.h>
-#include <stdio.h>
-#include <unistd.h>
 
 static void	close_redirection(t_node *cmd, int fd)
 {

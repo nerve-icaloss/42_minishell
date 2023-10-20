@@ -19,30 +19,6 @@
 #include "child.h"
 #include "error.h"
 
-int	search_exec_path(t_execute *exec, t_myenv *env)
-{
-	if (!exec)
-		return (errno = ENODATA, 1);
-	if (exec->cmd_path)
-	{
-		free(exec->cmd_path);
-		exec->cmd_path = NULL;
-	}
-	if (find_builtin_f(exec))
-		return (exec->exit = 1, 1);
-	if (exec->builtin_f)
-		return (exec->exit = 0, 0);
-	if (!(exec->argv[0][0] == '/' || exec->argv[0][0] == '.'))
-		exec->cmd_path = search_cmd_path(exec->argv[0], env);
-	else
-		exec->cmd_path = ft_strdup(exec->argv[0]);
-	if (!exec->cmd_path)
-		return (cmd_notfound(exec->argv[0]), exec->exit = 127, 1);
-	if (access(exec->cmd_path, F_OK | X_OK) == SYS_FAIL)
-		return (perror(exec->cmd_path), exec->exit = 126, 1);
-	return (0);
-}
-
 int	execute_cmd(t_node *cmd, t_myshell *shell)
 {
 	t_execute	exec;
@@ -86,7 +62,7 @@ int	execute_pipex(t_node *pipex, t_myshell *shell)
 			continue ;
 		if (apply_redirection(&exec, cmd))
 			continue ;
-		if (search_exec_path(&exec, &shell->env))
+		if (!exec.bracket_first_child && search_exec_path(&exec, &shell->env))
 			continue ;
 		cmd->pid = fork();
 		if (cmd->pid == SYS_FAIL)
@@ -119,9 +95,11 @@ int	execute_tree(t_node *root, t_myshell *shell)
 	if (!root || !shell)
 		return (errno = ENODATA, 1);
 	if (root->type == NODE_PIPE)
-		return (execute_pipex(root, shell));
+		exit = execute_pipex(root, shell);
 	if (root->type == NODE_CMD)
-		return (execute_cmd(root, shell));
+		exit = execute_cmd(root, shell);
+	if (!root->parent && (root->type == NODE_PIPE || root->type == NODE_CMD))
+		return (node_tree_clean(root), exit);
 	child = root->first_child;
 	while (child)
 	{

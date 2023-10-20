@@ -24,6 +24,7 @@ void	builtin_clean(t_builtin **builtins)
 		free(builtins[x]);
 		x++;
 	}
+	free(builtins[x]);
 	free(builtins);
 }
 
@@ -60,9 +61,11 @@ t_builtin **builtin_init(void)
 	{
 		builtins[i] = malloc(sizeof(t_builtin));
 		if (!builtins[i])
-			return (errno = ENOMEM, builtin_clean(builtins), NULL);
+			errno = ENOMEM; 
 		i++;
 	}
+	if (errno == ENOMEM)
+		return (builtin_clean(builtins), NULL);
 	return_builtin_lst(builtins);
 	return (builtins);
 }

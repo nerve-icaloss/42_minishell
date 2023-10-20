@@ -196,8 +196,8 @@ void		node_sibling_clean(t_node **origin);
 # define OUT 1
 
 typedef struct s_execute {
+	t_node	*bracket_first_child;
 	int		(*builtin_f)(char **, t_myenv *);
-	char	*cmd_path;
 	char	**argv;
 	int		exit;
 	int		std_fd[2];

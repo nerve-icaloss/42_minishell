@@ -21,6 +21,10 @@ t_node	*node_new(t_node_type type)
 		return (errno = ENOMEM, perror("node_init"), NULL);
 	ft_memset(node, 0, sizeof(t_node));
 	node->type = type;
+	node->fd[IN] = -1;
+	node->fd[OUT] = -1;
+	node->pid = -1;
+	node->rtype = -1;
 	return (node);
 }
 
