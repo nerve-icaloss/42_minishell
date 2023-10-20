@@ -6,7 +6,7 @@
 /*   By: nserve & hmelica                           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/10 14:57:45 by hmelica           #+#    #+#             */
-/*   Updated: 2023/10/20 12:42:33 by hmelica          ###   ########.fr       */
+/*   Updated: 2023/10/19 16:35:24 by nserve           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,14 +99,6 @@ void	rpel(t_myshell *shell)
 			free(cmdline);
 			continue ;
 		}
-		char *s;
-		s = generate_wildcard(cmdline);
-		free(cmdline);
-		ft_printf("%s\n", s);
-		free(s);
-		register_history(&shell->hist);
-		shell_clean(shell);
-		exit(0);
 		if (entry_add(&shell->hist, cmdline) == -1)
 			write(2, "error login history\n", 20);
 		src.buf = cmdline;
