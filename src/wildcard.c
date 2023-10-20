@@ -33,6 +33,16 @@ int	glob_name(char name[256], char *prev, char *next)
 	return (1);
 }
 
+char	*insert_name(t_wildcard *wc, char name[256])
+{
+	char	*ret;
+
+	ret = NULL;
+	ret = ft_strjoin2(wc->path, name, 0, 0);
+	ret = ft_strjoin2(ret, wc->following, 1, 0);
+	return (ret);
+}
+
 int	wc_rec_expand(t_wildcard *wc)
 {
 	char		*path;
@@ -49,8 +59,13 @@ int	wc_rec_expand(t_wildcard *wc)
 	{
 		if (!glob_name(elem->d_name, wc->glob_prev, wc->glob_next))
 			continue ;
-		path = ft_strjoin(wc->path, elem->d_name);
+		if (wc->following && *wc->following && elem->d_type != DT_DIR)
+			continue ;
+		path = insert_name(wc, elem->d_name);
+		if (wc_add(&wc->child, path))
+			return (-1);
 	}
+	// run itself on every child
 	return (0);
 }
 
