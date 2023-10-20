@@ -33,9 +33,12 @@ typedef struct s_wildcard {
 
 typedef struct dirent	t_dirent;
 
-char	*generate_wildcard(char *s, t_myenv *env);
+char	*generate_wildcard(char *s);
 
 int		wc_add(t_wildcard **origin, char *s);
 void	wc_clean(t_wildcard **i);
+char	*wc_to_str(t_wildcard *wc);
+
+int		glob_name(char name[256], char *prev, char *next);
 
 #endif

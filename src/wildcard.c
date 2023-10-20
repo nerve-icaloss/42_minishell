@@ -14,27 +14,6 @@
 
 int	wc_rec_expand(t_wildcard *wc);
 
-int	glob_name(char name[256], char *prev, char *next)
-{
-	size_t	len;
-	char	*s;
-
-	if (prev && *prev)
-	{
-		len = ft_strlen(prev);
-		if (ft_strncmp(name, prev, len))
-			return (0);
-	}
-	if (next && *next)
-	{
-		s = ft_strnstr(name, next, ft_strlen(name));
-		len = ft_strlen(next);
-		if (!s || ft_strlen(s) != len || ft_strncmp(s, next, len))
-			return (0);
-	}
-	return (1);
-}
-
 char	*insert_name(t_wildcard *wc, char name[256])
 {
 	char	*ret;
@@ -88,15 +67,15 @@ int	wc_rec_expand(t_wildcard *wc)
 }
 
 /*
- * s should be one single path
+ * s should be one single path, with only alphanum and / and *
  * s will not be freed inside this function
  * */
-char	*generate_wildcard(char *s, t_myenv *env)
+char	*generate_wildcard(char *s)
 {
 	char		*string;
 	t_wildcard	*wc;
 
-	if (!s || !env)
+	if (!s)
 		return (errno = ENODATA, NULL);
 	wc = NULL;
 	string = ft_strdup(s);
@@ -104,6 +83,7 @@ char	*generate_wildcard(char *s, t_myenv *env)
 		return (free(string), NULL);
 	if (wc_rec_expand(wc))
 		return (wc_clean(&wc), NULL);
-	(void) env;
-	return (0);
+	string = wc_to_str(wc);
+	wc_clean(&wc);
+	return (string);
 }

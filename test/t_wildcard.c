@@ -221,3 +221,108 @@ ParameterizedTest(t_arg_wc *arg, wildcard, next, .timeout = 2)
 	if (wc.glob_next)
 		free(wc.glob_next);
 }
+
+ParameterizedTestParameters(wildcard, glob_name) {
+	t_arg_wc setting[] = {
+		{
+			0,
+			"wildcard.c",
+			"w",
+			"d"
+		},
+		{
+			1,
+			"wildcard.c",
+			"w",
+			"c"
+		},
+		{
+			1,
+			"coucou je suis heureux",
+			"coucou",
+			" je * heureux"
+		},
+		{
+			1,
+			"wildcard.c",
+			"w",
+			"card.*"
+		},
+		{
+			1,
+			"wildcard.c",
+			"",
+			"c"
+		},
+		{
+			1,
+			"wildcard.c",
+			"w",
+			""
+		},
+		{
+			1,
+			"coucou je suis heureux",
+			"coucou",
+			" * * *"
+		},
+		{
+			1,
+			"coucouhehe je suis heureux",
+			"coucou",
+			" * * *"
+		},
+		{
+			0,
+			"coucou je suis heureux",
+			"coucou",
+			" je* triste"
+		},
+		{
+			1,
+			"coucou je suis heureux",
+			"",
+			"*"
+		},
+		{
+			1,
+			"coucou je suis heureux",
+			"",
+			""
+		},
+		{
+			0,
+			"coucou je suis heureux",
+			"coucou",
+			"*  *"
+		},
+	};
+
+	t_arg_wc	*ret;
+	int			len;
+	int			i;
+
+	int count = sizeof(setting) / sizeof(t_arg_wc);
+	ret = cr_malloc(sizeof(t_arg_wc) * count);
+	i = 0;
+	while (i < count)
+	{
+		bzero(ret + i, sizeof(t_arg_wc));
+		ret[i].ret = setting[i].ret;
+		if (setting[i].s)
+			ret[i].s = cr_strdup(setting[i].s);
+		if (setting[i].close)
+			ret[i].close = cr_strdup(setting[i].close);
+		if (setting[i].path)
+			ret[i].path = cr_strdup(setting[i].path);
+		i++;
+	}
+	cr_log_info("%d tests on wildcard glob_name", count);
+	return (cr_make_param_array(t_arg_wc, ret, count, free_wc_arg));
+}
+
+ParameterizedTest(t_arg_wc *arg, wildcard, glob_name, .timeout = 2)
+{
+	cr_expect(eq(int, glob_name(arg->s, arg->close, arg->path), arg->ret),
+			"(%s)%s(%s)", arg->close, arg->s, arg->path);
+}
