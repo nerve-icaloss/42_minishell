@@ -15,6 +15,7 @@
 char	*wc_to_str(t_wildcard *wc)
 {
 	char		*s;
+	char		*a;
 	t_wildcard	*child;
 
 	if (!wc)
@@ -23,15 +24,19 @@ char	*wc_to_str(t_wildcard *wc)
 	child = wc->child;
 	while (child)
 	{
-		s = wc_to_str(child);
+		a = wc_to_str(child);
+		if (s && a)
+			s = ft_strjoin2(s, " ", 1, 0);
+		s = ft_strjoin2(s, a, 1, 0);
 		child = child->next;
 	}
 	child = wc;
-	while (child && !child->wc)
+	if (child && !child->wc )
 	{
 		if (s)
 			s = ft_strjoin2(s, " ", 1, 0);
-		s = ft_strjoin2(s, wc->s, 1, 0);
+		s = ft_strjoin2(s, child->s, 1, 0);
+		child = child->next;
 	}
 	return (s);
 }

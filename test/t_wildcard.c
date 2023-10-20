@@ -162,6 +162,12 @@ ParameterizedTestParameters(wildcard, next) {
 			"trop",
 			"/super/metropbien"
 		},
+		{
+			0,
+			"coucou/hello*.c",
+			".c",
+			""
+		},
 	};
 
 	t_arg_wc	*ret;

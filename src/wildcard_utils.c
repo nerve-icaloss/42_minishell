@@ -53,10 +53,15 @@ int	wc_init_next(t_wildcard *wc)
 		wc->glob_next = ft_substr(i, 0, j - i);
 		wc->following = ft_strdup(j);
 	}
-	else
+	else if (j == i)
 	{
 		wc->glob_next = ft_strdup("");
 		wc->following = ft_strdup(i);
+	}
+	else
+	{
+		wc->following = ft_strdup("");
+		wc->glob_next = ft_strdup(i);
 	}
 	if (!wc->following || !wc->glob_next)
 		return (errno = ENOMEM, -1);

@@ -31,7 +31,7 @@ int	wc_run_child(t_wildcard *wc)
 	if (!wc || !wc->child)
 		return (0);
 	child = wc->child;
-	while(child)
+	while (child)
 	{
 		if (wc_rec_expand(child))
 			return (-1);
@@ -54,13 +54,18 @@ int	wc_rec_expand(t_wildcard *wc)
 	elem = readdir(dir);
 	while (elem)
 	{
-		if (!glob_name(elem->d_name, wc->glob_prev, wc->glob_next))
+		if (ft_memcmp(elem->d_name, "..", 3) == 0 || ft_memcmp(elem->d_name,
+				".", 2) == 0 || !glob_name(elem->d_name, wc->glob_prev,
+				wc->glob_next) || (wc->following && *wc->following
+				&& elem->d_type != DT_DIR))
+		{
+			elem = readdir(dir);
 			continue ;
-		if (wc->following && *wc->following && elem->d_type != DT_DIR)
-			continue ;
+		}
 		path = insert_name(wc, elem->d_name);
 		if (wc_add(&wc->child, path))
 			return (closedir(dir), free(path), errno = ENOMEM, -1);
+		elem = readdir(dir);
 	}
 	(void) closedir(dir);
 	return (wc_run_child(wc));
