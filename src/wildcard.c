@@ -12,6 +12,8 @@
 
 #include "./wildcard.h"
 
+int	wc_rec_expand(t_wildcard *wc);
+
 int	glob_name(char name[256], char *prev, char *next)
 {
 	size_t	len;
@@ -43,13 +45,29 @@ char	*insert_name(t_wildcard *wc, char name[256])
 	return (ret);
 }
 
+int	wc_run_child(t_wildcard *wc)
+{
+	t_wildcard	*child;
+
+	if (!wc || !wc->child)
+		return (0);
+	child = wc->child;
+	while(child)
+	{
+		if (wc_rec_expand(child))
+			return (-1);
+		child = child->next;
+	}
+	return (0);
+}
+
 int	wc_rec_expand(t_wildcard *wc)
 {
 	char		*path;
 	DIR			*dir;
 	t_dirent	*elem;
 
-	if (!wc->wc)
+	if (!wc || !wc->wc)
 		return (0);
 	dir = opendir(wc->path);
 	if (!dir)
@@ -63,10 +81,10 @@ int	wc_rec_expand(t_wildcard *wc)
 			continue ;
 		path = insert_name(wc, elem->d_name);
 		if (wc_add(&wc->child, path))
-			return (-1);
+			return (closedir(dir), free(path), errno = ENOMEM, -1);
 	}
-	// run itself on every child
-	return (0);
+	(void) closedir(dir);
+	return (wc_run_child(wc));
 }
 
 /*
