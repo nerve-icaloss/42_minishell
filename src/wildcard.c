@@ -80,7 +80,7 @@ char	*generate_wildcard(char *s)
 	wc = NULL;
 	string = ft_strdup(s);
 	if (wc_add(&wc, string))
-		return (free(string), NULL);
+		return (NULL);
 	if (wc_rec_expand(wc))
 		return (wc_clean(&wc), NULL);
 	string = wc_to_str(wc);

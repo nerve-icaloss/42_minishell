@@ -80,6 +80,7 @@ int	wc_init(t_wildcard *wc, char *s)
 
 /*
  * s should be malloc'd
+ * s is free'd in case of problem
  * */
 int	wc_add(t_wildcard **origin, char *s)
 {
@@ -90,9 +91,9 @@ int	wc_add(t_wildcard **origin, char *s)
 		return (errno = ENODATA, -1);
 	ret = malloc(sizeof(t_wildcard));
 	if (!ret)
-		return (errno = ENOMEM, -1);
+		return (free(s), errno = ENOMEM, -1);
 	ft_bzero(ret, sizeof(t_wildcard));
-	if (!wc_init(ret, s))
+	if (wc_init(ret, s))
 		return (errno = ENOMEM, wc_clean(&ret), -1);
 	if (!*origin)
 		return (*origin = ret, 0);
