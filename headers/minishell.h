@@ -145,6 +145,7 @@ typedef struct s_expand {
 }	t_expand;
 
 int			expand_init(t_expand *expd, char *word);
+char		*generate_wildcard(char *s);
 
 //----------------------------------------------------------------------------//
 
