@@ -46,6 +46,8 @@ int	execute_cmd_init(t_execute *exec, t_node *cmd)
 	exec->exit = 1;
 	if (!exec || !cmd)
 		return (errno =ENODATA, 1);
+	exec->std_fd[IN] = -1;
+	exec->std_fd[OUT] = -1;
 	if (infile_redirection(cmd))
 		return (1);
 	if (outfile_redirection(cmd))

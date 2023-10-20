@@ -6,7 +6,7 @@
 /*   By: nserve <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/16 11:49:35 by nserve            #+#    #+#             */
-/*   Updated: 2023/10/16 11:49:45 by nserve           ###   ########.fr       */
+/*   Updated: 2023/10/20 14:36:33 by nserve           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,24 +21,25 @@
 
 int	search_exec_path(t_execute *exec, t_myenv *env)
 {
-	char	*path;
-
 	if (!exec)
 		return (errno = ENODATA, 1);
+	if (exec->cmd_path)
+	{
+		free(exec->cmd_path);
+		exec->cmd_path = NULL;
+	}
 	if (find_builtin_f(exec))
 		return (exec->exit = 1, 1);
 	if (exec->builtin_f)
 		return (exec->exit = 0, 0);
 	if (!(exec->argv[0][0] == '/' || exec->argv[0][0] == '.'))
-		path = search_cmd_path(exec->argv[0], env);
+		exec->cmd_path = search_cmd_path(exec->argv[0], env);
 	else
-		path = ft_strdup(exec->argv[0]);
-	if (!path)
+		exec->cmd_path = ft_strdup(exec->argv[0]);
+	if (!exec->cmd_path)
 		return (cmd_notfound(exec->argv[0]), exec->exit = 127, 1);
-	if (access(path, F_OK | X_OK) == SYS_FAIL)
-		return (perror(path), free(path), exec->exit = 126, 1);
-	free(exec->argv[0]);
-	exec->argv[0] = path;
+	if (access(exec->cmd_path, F_OK | X_OK) == SYS_FAIL)
+		return (perror(exec->cmd_path), exec->exit = 126, 1);
 	return (0);
 }
 
@@ -128,11 +129,10 @@ int	execute_tree(t_node *root, t_myshell *shell)
 		exit = execute_tree(child, shell);
 		node_sibling_pop(child);
 		if (stop_execute(root, exit))
-		{
-			node_sibling_clean(&i);
 			break ;
-		}
 		child = i;
 	}
-	return (node_tree_clean(root), exit);
+	if (!root->parent)
+		node_tree_clean(root);
+	return (exit);
 }
