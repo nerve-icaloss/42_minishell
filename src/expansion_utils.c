@@ -24,45 +24,69 @@ int	expand_init(t_expand *expd, char *word)
 	return (0);
 }
 
+int	handle_quotes(char **ret, t_node *args, int *i, int *j)
+{
+	static const char	quotes[3] = "'\"";
+	int					k;
+
+	if (!ret || !args || !i || !j)
+		return (1);
+	while (args->val[*i + *j] && !strchr(quotes, args->val[*i + *j]))
+		(*j)++;
+	*ret = ft_strjoin2(*ret, ft_substr(args->val, *i, *j), 1, 1);
+	if (!args->val[*i + *j])
+		return (1);
+	k = strchr(quotes, args->val[*i + *j]) - quotes;
+	*i += *j + 1;
+	*j = 0;
+	while (args->val[*i + *j] && args->val[*i + *j] != quotes[k])
+		(*j)++;
+	*ret = ft_strjoin2(*ret, ft_substr(args->val, *i, *j), 1, 1);
+	if (!args->val[*i + *j])
+		return (1);
+	*i += *j + 1;
+	*j = 0;
+	return (0);
+}
+
 /*
  * k == 0 means '
  * k == 1 means "
  * */
 int	remove_quotes(t_node *args)
 {
-	static const char	quotes[3] = "'\"";
-	char				*s;
 	char				*ret;
 	int					i;
 	int					j;
-	int					k;
 
 	if (!args)
 		return (errno = ENODATA, -1);
-	s = args->val;
 	ret = NULL;
 	i = 0;
 	j = 0;
-	while (s && s[i + j])
-	{
-		while (s[i + j] && !strchr(quotes, s[i + j]))
-			j++;
-		k = strchr(quotes, s[i + j]) - quotes;
-		ret = ft_strjoin2(ret, ft_substr(s, i, j), 1, 1);
-		if (!s[i + j])
+	while (args->val && args->val[i + j])
+		if (handle_quotes(&ret, args, &i, &j))
 			break ;
-		i += j + 1;
-		j = 0;
-		while (s[i + j] && s[i + j] != quotes[k])
-			j++;
-		ret = ft_strjoin2(ret, ft_substr(s, i, j), 1, 1);
-		if (!s[i + j])
-			break ;
-		i += j + 1;
-		j = 0;
-	}
 	if (args->val)
 		free(args->val);
 	args->val = ret;
+	return (0);
+}
+
+int	run_remove_quotes(t_node *root)
+{
+	t_node	*child;
+
+	if(!root)
+		return (errno = ENODATA, -1);
+	child = root->first_child;
+	while (child)
+	{
+		if (run_remove_quotes(child))
+			return (-1);
+		child = child->next_sibling;
+	}
+	if(root->type == NODE_WORD && root->val)
+		return (remove_quotes(root));
 	return (0);
 }
