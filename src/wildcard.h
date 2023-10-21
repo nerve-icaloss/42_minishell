@@ -43,5 +43,6 @@ char	*insert_name(t_wildcard *wc, char name[256]);
 
 int		glob_name(char name[256], char *prev, char *next);
 int		is_dir(t_wildcard *wc, t_dirent *elem);
+int		wc_pregnant(t_wildcard *wc, t_dirent *elem);
 
 #endif

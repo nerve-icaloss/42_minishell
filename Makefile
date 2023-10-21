@@ -69,6 +69,7 @@ SRCS_FILES	=	\
 				expansion_var.c \
 				expansion_word.c \
 				find_utils.c \
+				glob.c \
 				here_doc.c \
 				history.c \
 				main.c \
