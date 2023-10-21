@@ -83,11 +83,6 @@ int	env_init(t_myenv *env, char **envp)
 		envp++;
 	}
 	env_default(env);
-	env->pwd = var_get(env->lst_var, "PWD");
-	env->oldpwd = var_get(env->lst_var, "OLDPWD");
-	env->home = var_get(env->lst_var, "HOME");
-	env->shlvl = var_get(env->lst_var, "SHLVL");
-	env->path = var_get(env->lst_var, "PATH");
 	if (env_update_count(env) || envp_update(env))
 		return (var_clean(&env->lst_var), -1);
 	return (0);
@@ -100,9 +95,4 @@ void	env_clean(t_myenv *env)
 	var_clean(&env->lst_var);
 	envp_clean(&env->envp);
 	env->count = 0;
-	env->pwd = NULL;
-	env->oldpwd = NULL;
-	env->home = NULL;
-	env->shlvl = NULL;
-	env->path = NULL;
 }

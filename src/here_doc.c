@@ -52,7 +52,7 @@ int	here_doc(char *eof, t_myenv *env)
  * Do not call this directly
  * It's static anyway
  * */
-static int	this_doc(char **val, t_myenv *myenv)
+static int	this_doc(char **val, t_myenv *env)
 {
 	char	*a;
 	long	i;
@@ -65,9 +65,9 @@ static int	this_doc(char **val, t_myenv *myenv)
 	{
 		i = find_closing_quote(a);
 		a[i] = '\0';
-		myenv = NULL;
+		env = NULL;
 	}
-	fd = here_doc(a + (i >= 0), myenv);
+	fd = here_doc(a + (i >= 0), env);
 	free(*val);
 	*val = NULL;
 	return (fd);

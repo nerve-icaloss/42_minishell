@@ -128,11 +128,6 @@ static int	cr_env_init(t_myenv *env, char **envp)
 			return (var_clean(&env->lst_var), -1);
 		envp++;
 	}
-	env->pwd = var_get(env->lst_var, "PWD");
-	env->oldpwd = var_get(env->lst_var, "OLDPWD");
-	env->home = var_get(env->lst_var, "HOME");
-	env->shlvl = var_get(env->lst_var, "SHLVL");
-	env->path = var_get(env->lst_var, "PATH");
 	return (0);
 }
 
@@ -197,7 +192,7 @@ void	free_arg(struct criterion_test_params *crp)
 ParameterizedTestParameters(cd, arg_parser) {
 	t_arg_test setting[] = {
 		{
-			{NULL, 0, NULL, NULL, NULL, NULL, NULL, NULL, 0}, // should stay init like this
+			{NULL, 0, NULL, 0}, // should stay init like this
 			0,
 			"/", // - with normal OLDPWD
 			{
@@ -212,7 +207,7 @@ ParameterizedTestParameters(cd, arg_parser) {
 			},
 		},
 		{
-			{NULL, 0, NULL, NULL, NULL, NULL, NULL, NULL, 0}, // should stay init like this
+			{NULL, 0, NULL, 0}, // should stay init like this
 			1,
 			"preset_str", // - with unset OLDPWD
 			{
@@ -226,7 +221,7 @@ ParameterizedTestParameters(cd, arg_parser) {
 			},
 		},
 		{
-			{NULL, 0, NULL, NULL, NULL, NULL, NULL, NULL, 0}, // should stay init like this
+			{NULL, 0, NULL, 0}, // should stay init like this
 			1,
 			"preset_str", // - with empty OLDPWD
 			{
@@ -241,7 +236,7 @@ ParameterizedTestParameters(cd, arg_parser) {
 			},
 		},
 		{
-			{NULL, 0, NULL, NULL, NULL, NULL, NULL, NULL, 0}, // should stay init like this
+			{NULL, 0, NULL, 0}, // should stay init like this
 			0,
 			"/usr", // with no arg
 			{
@@ -255,7 +250,7 @@ ParameterizedTestParameters(cd, arg_parser) {
 			},
 		},
 		{
-			{NULL, 0, NULL, NULL, NULL, NULL, NULL, NULL, 0}, // should stay init like this
+			{NULL, 0, NULL, 0}, // should stay init like this
 			1,
 			"preset_str", // with no arg but home unset
 			{
@@ -268,7 +263,7 @@ ParameterizedTestParameters(cd, arg_parser) {
 			},
 		},
 		{
-			{NULL, 0, NULL, NULL, NULL, NULL, NULL, NULL, 0}, // should stay init like this
+			{NULL, 0, NULL, 0}, // should stay init like this
 			1,
 			"preset_str", // with no arg but no home
 			{
@@ -282,7 +277,7 @@ ParameterizedTestParameters(cd, arg_parser) {
 			},
 		},
 		{
-			{NULL, 0, NULL, NULL, NULL, NULL, NULL, NULL, 0}, // should stay init like this
+			{NULL, 0, NULL, 0}, // should stay init like this
 			-1,
 			"preset_str", // with an error
 			{
@@ -295,7 +290,7 @@ ParameterizedTestParameters(cd, arg_parser) {
 			},
 		},
 		{
-			{NULL, 0, NULL, NULL, NULL, NULL, NULL, NULL, 0}, // should stay init like this
+			{NULL, 0, NULL, 0}, // should stay init like this
 			0,
 			"/dev", // /dev
 			{
@@ -310,7 +305,7 @@ ParameterizedTestParameters(cd, arg_parser) {
 			},
 		},
 		{
-			{NULL, 0, NULL, NULL, NULL, NULL, NULL, NULL, 0}, // should stay init like this
+			{NULL, 0, NULL, 0}, // should stay init like this
 			0,
 			"--", // will raise an error later but shouldnt return oldpwd
 			{
@@ -325,7 +320,7 @@ ParameterizedTestParameters(cd, arg_parser) {
 			},
 		},
 		{
-			{NULL, 0, NULL, NULL, NULL, NULL, NULL, NULL, 0}, // should stay init like this
+			{NULL, 0, NULL, 0}, // should stay init like this
 			1,
 			"preset_str", // to many arguments
 			{
@@ -504,7 +499,7 @@ ParameterizedTestParameters(cd, home_expand) {
 	return (cr_make_param_array(t_arg_home, ret, count, free_home_arg));
 }
 
-int	home_expand(const char *s, char **ret, t_myenv *myenv);
+int	home_expand(const char *s, char **ret, t_myvar *var);
 
 ParameterizedTest(t_arg_home *arg, cd, home_expand, .timeout = 1)
 {
@@ -512,10 +507,12 @@ ParameterizedTest(t_arg_home *arg, cd, home_expand, .timeout = 1)
 	t_myvar home;
 	char	*s;
 
+	home.name = "HOME";
 	home.value = "HOME";
-	myenv.home = &home;
+	home.next = NULL;
+	home.prev = NULL;
 	s = NULL;
-	cr_expect(eq(int, home_expand(arg->in, &s, &myenv), arg->ret));
+	cr_expect(eq(int, home_expand(arg->in, &s, &home), arg->ret));
 	if (arg->out && s)
 		cr_expect(eq(str, arg->out, s));
 	else

@@ -37,7 +37,7 @@ char	*extract_value(char **line, int *i, t_lstvar lst)
 	return (ret);
 }
 
-void	var_expansion(char **line, t_myenv *myenv)
+void	var_expansion(char **line, t_myenv *env)
 {
 	char	*ret;
 	int		i;
@@ -55,7 +55,7 @@ void	var_expansion(char **line, t_myenv *myenv)
 		ret = ft_strjoin2(ret, ft_substr(*line, i, j), 1, 1);
 		i += j;
 		if ((*line)[i] && (*line)[i] == '$' && ++i)
-			ret = ft_strjoin2(ret, extract_value(line, &i, myenv->lst_var),
+			ret = ft_strjoin2(ret, extract_value(line, &i, env->lst_var),
 					1, 0);
 		j = 0;
 	}
