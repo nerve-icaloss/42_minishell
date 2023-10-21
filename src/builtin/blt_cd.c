@@ -74,7 +74,7 @@ int	arg_parser_oldpwd(t_myenv *env, char **path)
 /*
  * Controle les arguments pour cd
  * */
-int	path_arg_parser(char **argv, t_myenv *myenv, char **path)
+int	path_arg_parser(char **argv, t_myenv *env, char **path)
 {
 	char	*s;
 
@@ -83,21 +83,21 @@ int	path_arg_parser(char **argv, t_myenv *myenv, char **path)
 	else if (argv[1] && argv[2])
 		return (ft_dprintf(2, "cd: TOO MANY ARGUMENTS\n"), 1);
 	else if (!argv[1])
-		return (arg_parser_home(myenv, path));
+		return (arg_parser_home(env, path));
 	else if (ft_strlen(argv[1]) == 1 && *argv[1] == '-')
-		return (arg_parser_oldpwd(myenv, path));
+		return (arg_parser_oldpwd(env, path));
 	s = NULL;
-	if (home_expand(argv[1], &s, var_get(myenv->lst_var, "HOME")) < 0)
+	if (home_expand(argv[1], &s, var_get(env->lst_var, "HOME")) < 0)
 		return (ft_dprintf(2, "cd: HOME not set\n"), 1);
 	*path = s;
 	return (0);
 }
 
-int	cd_builtin(char **argv, t_myenv *myenv)
+int	cd_builtin(char **argv, t_myenv *env)
 {
 	char	*path;
 
-	if (path_arg_parser(argv, myenv, &path))
+	if (path_arg_parser(argv, env, &path))
 		return (1);
 	if (access(path, F_OK))
 		return (ft_dprintf(2, "cd: NO SUCH DIRECTORY"), 1);
@@ -106,15 +106,15 @@ int	cd_builtin(char **argv, t_myenv *myenv)
 	path = getcwd(NULL, 0);
 	if (!path)
 		return (ft_dprintf(2, "cd: ERROR AFTER CHANGING DIRECTORY\n"), 1);
-	if (!var_get(myenv->lst_var, "OLDPWD"))
-		myenv->count++;
-	if (!var_get(myenv->lst_var, "PWD"))
-		myenv->count++;
-	if (var_add(&myenv->lst_var, ft_strdup("OLDPWD"), ft_strdup(
-				var_get_value(myenv->lst_var, "PWD")))
-		|| var_add(&myenv->lst_var, ft_strdup("PWD"), path))
+	if (!var_get(env->lst_var, "OLDPWD"))
+		env->count++;
+	if (!var_get(env->lst_var, "PWD"))
+		env->count++;
+	if (var_add(&env->lst_var, ft_strdup("OLDPWD"), ft_strdup(
+				var_get_value(env->lst_var, "PWD")))
+		|| var_add(&env->lst_var, ft_strdup("PWD"), path))
 		return (-1);
-	if (envp_update(myenv))
+	if (envp_update(env))
 		return (ft_dprintf(2, "WARN: minor error while updating envp\n"), 0);
 	return (0);
 }

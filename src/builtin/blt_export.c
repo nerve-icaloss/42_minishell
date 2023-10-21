@@ -41,12 +41,12 @@ char	*format_export(char *s)
 	return (ret);
 }
 
-int	print_export(t_myenv *myenv)
+int	print_export(t_myenv *env)
 {
 	t_lstvar	var;
 	char		*s;
 
-	var = myenv->lst_var;
+	var = env->lst_var;
 	while (var)
 	{
 		if (var->value)
@@ -68,26 +68,26 @@ int	print_export(t_myenv *myenv)
 /*
  * export does check for numbers at first character of variable name
  * */
-int	export_builtin(char **av, t_myenv *myenv)
+int	export_builtin(char **av, t_myenv *env)
 {
 	int	len;
 
-	if (!av || !av[0] || !myenv)
+	if (!av || !av[0] || !env)
 		return (-1);
 	if (!av[1])
-		return (print_export(myenv));
+		return (print_export(env));
 	len = 1;
 	while (av[len])
 	{
 		if (ft_isdigit(*av[len]))
 			ft_dprintf(2, "export: '%s' : not a valid identifier\n", av[len]);
-		else if (var_parsing(&myenv->lst_var, av[len]))
+		else if (var_parsing(&env->lst_var, av[len]))
 			return (-1);
 		len++;
 	}
 	if (len > 1)
 	{
-		if (env_update_count(myenv) || envp_update(myenv))
+		if (env_update_count(env) || envp_update(env))
 			return (ft_dprintf(2, "WARN: minor error while updating envp\n"),
 				0);
 	}

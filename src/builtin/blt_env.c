@@ -15,11 +15,11 @@
 /*
  * there is no params needed
  * T */
-int	env_builtin(t_myenv *myenv)
+int	env_builtin(t_myenv *env)
 {
 	t_lstvar	var;
 
-	var = myenv->lst_var;
+	var = env->lst_var;
 	while (var)
 	{
 		if (var->value)
