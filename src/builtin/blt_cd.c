@@ -21,13 +21,13 @@
  *    expand more than one tilde)
  * ret should be set to NULL or to be malloc'd
  * */
-int	home_expand(const char *s, char **ret, t_myenv *myenv)
+int	home_expand(const char *s, char **ret, t_myvar *var)
 {
 	int		count;
 	int		i;
 	int		j;
 
-	if (!s || !ret || !myenv || !myenv->home || !myenv->home->value)
+	if (!s || !ret || !var || !var->value)
 		return (-1);
 	i = 0;
 	j = 0;
@@ -38,7 +38,7 @@ int	home_expand(const char *s, char **ret, t_myenv *myenv)
 			j++;
 		*ret = ft_strjoin2(*ret, ft_substr(s, i, j), 1, 1);
 		if (s[i + j] == '~' && ++i && ++count)
-			*ret = ft_strjoin2(*ret, myenv->home->value, 1, 0);
+			*ret = ft_strjoin2(*ret, var->value, 1, 0);
 		i += j;
 		j = 0;
 	}
@@ -47,6 +47,28 @@ int	home_expand(const char *s, char **ret, t_myenv *myenv)
 	if (count == 0 || count == 1 || !*ret)
 		return (errno = ENOMEM * !*ret, -!*ret);
 	return (count);
+}
+
+int	arg_parser_home(t_myenv *env, char **path)
+{
+	t_myvar	*var;
+
+	var = var_get(env->lst_var, "HOME");
+	if (!var || !var->value)
+		return (ft_dprintf(2, "cd: HOME not set\n"), 1);
+	*path = var->value;
+	return (0);
+}
+
+int	arg_parser_oldpwd(t_myenv *env, char **path)
+{
+	t_myvar	*var;
+
+	var = var_get(env->lst_var, "OLDPWD");
+	if (!var || !var->value)
+		return (ft_dprintf(2, "cd: OLDPWD not set\n"), 1);
+	*path = var->value;
+	return (0);
 }
 
 /*
@@ -61,21 +83,11 @@ int	path_arg_parser(char **argv, t_myenv *myenv, char **path)
 	else if (argv[1] && argv[2])
 		return (ft_dprintf(2, "cd: TOO MANY ARGUMENTS\n"), 1);
 	else if (!argv[1])
-	{
-		if (!myenv->home || !myenv->home->value)
-			return (ft_dprintf(2, "cd: HOME not set\n"), 1);
-		*path = myenv->home->value;
-		return (0);
-	}
+		return (arg_parser_home(myenv, path));
 	else if (ft_strlen(argv[1]) == 1 && *argv[1] == '-')
-	{
-		if (!myenv->oldpwd || !myenv->oldpwd->value)
-			return (ft_dprintf(2, "cd: OLDPWD not set\n"), 1);
-		*path = myenv->oldpwd->value;
-		return (0);
-	}
+		return (arg_parser_oldpwd(myenv, path));
 	s = NULL;
-	if (home_expand(argv[1], &s, myenv) < 0)
+	if (home_expand(argv[1], &s, var_get(myenv->lst_var, "HOME")) < 0)
 		return (ft_dprintf(2, "cd: HOME not set\n"), 1);
 	*path = s;
 	return (0);
