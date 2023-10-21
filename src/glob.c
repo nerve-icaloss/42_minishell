@@ -26,11 +26,15 @@ int	set_next_star(char **next_star, char **next, char **to_find)
 
 void	find_last(char **next_star, char **found, char **to_find)
 {
+	size_t	len;
+
+	len = ft_strlen(*found);
 	*next_star = ft_strnstr(*found, *to_find, ft_strlen(*found));
-	while (*next_star)
+	while (*next_star && len)
 	{
 		*found = *next_star + 1;
-		*next_star = ft_strnstr(*found, *to_find, ft_strlen(*found));
+		len = ft_strlen(*found);
+		*next_star = ft_strnstr(*found, *to_find, len);
 	}
 }
 
@@ -49,7 +53,7 @@ int	glob_name_next(char name[256], char *next, size_t i)
 			return (0);
 		found = ft_strnstr(name + i, to_find, len[0]);
 		if (!next_star && found)
-			find_last(&next_star, &next, &to_find);
+			find_last(&next_star, &found, &to_find);
 		if (!found)
 			return (free(to_find), 0);
 		len[1] = ft_strlen(to_find);
@@ -57,9 +61,13 @@ int	glob_name_next(char name[256], char *next, size_t i)
 		next += len[1] + (next_star != NULL);
 		free(to_find);
 	}
-	if ((i > len[0]) && *(next - 1) == '*')
+	//if ((i > len[0]) && *(next - 1) == '*')
+	//	return (1);
+	//return (i > len[0]);
+	if (name[i] && *(next - 1) == '*')
 		return (1);
-	return (i > len[0]);
+	ft_dprintf(2, ">> '%s'[%d] : (%c)\n", name, i, name[i]);
+	return (name[i] == '\0');
 }
 
 /*
