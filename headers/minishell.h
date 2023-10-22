@@ -42,6 +42,8 @@ typedef t_myentry *	t_history;
 
 int			entry_add(t_history *origin, char *str);
 void		history_clean(t_history *history);
+void		load_history(void);
+void		register_history(t_history *history);
 
 //----------------------------------------------------------------------------//
 
