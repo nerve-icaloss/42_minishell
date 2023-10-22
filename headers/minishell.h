@@ -192,9 +192,10 @@ void		node_sibling_clean(t_node **origin);
 # define OUT 1
 
 typedef struct s_execute {
-	int		exit;
-	char	**argv;
+	t_node	*bracket_first_child;
 	int		(*builtin_f)(char **, t_myenv *);
+	char	**argv;
+	int		exit;
 	int		std_fd[2];
 	int		toclose_child;
 }	t_execute;

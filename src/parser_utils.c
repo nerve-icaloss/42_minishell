@@ -6,7 +6,7 @@
 /*   By: nserve <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/06 15:10:03 by nserve            #+#    #+#             */
-/*   Updated: 2023/10/14 14:28:06 by nserve           ###   ########.fr       */
+/*   Updated: 2023/10/20 15:33:21 by nserve           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,8 +53,6 @@ t_node *insert_lvl_parent(t_node *parent, t_token *tok, int type)
 	lvl = node_new(type);
 	if (!lvl)
 		return (NULL);
-	lvl->fd[IN] = -1;
-	lvl->fd[OUT] = -1;
 	if ((parent)->type < type)
 		node_parent_add(parent, lvl);
 	if (parent->type > type)
@@ -90,10 +88,19 @@ t_node *choose_lvl(t_node *parent, t_token *tok, int node_type, t_myenv *env)
 
 t_node *insert_lvl_child(t_node *parent, t_node *child)
 {
+	t_node	*parent_child;
+
 	if (!parent || !child)
 		return (errno = ENODATA, NULL);
 	if (parent->type > child->type)
 	{
+		parent_child = parent->first_child;
+		while (parent_child)
+		{
+			if (parent_child == child)
+				return (parent);
+			parent_child = parent_child->next_sibling;
+		}
 		node_child_add(parent, child);
 		return (parent);
 	}

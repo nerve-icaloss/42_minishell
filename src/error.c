@@ -32,10 +32,12 @@ void	cmd_notfound(char *str)
 	not_found = ": command not found";
 	strerror = ft_strjoin(str, not_found);
 	write(2, strerror, ft_strlen(strerror));
+	write(2, "\n", 1);
 	free(strerror);
 }
 
 void	path_notfound(void)
 {
 	write(2, "env: path not found", 19);
+	write(2, "\n", 1);
 }

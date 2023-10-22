@@ -43,9 +43,12 @@ char	**build_argv(t_node *cmd)
 
 int	execute_cmd_init(t_execute *exec, t_node *cmd)
 {
-	exec->exit = 1;
 	if (!exec || !cmd)
 		return (errno =ENODATA, 1);
+	exec->exit = 1;
+	exec->argv = NULL;
+	exec->std_fd[IN] = -1;
+	exec->std_fd[OUT] = -1;
 	if (infile_redirection(cmd))
 		return (1);
 	if (outfile_redirection(cmd))
@@ -59,9 +62,10 @@ int	execute_cmd_init(t_execute *exec, t_node *cmd)
 
 int	execute_pipex_init(t_execute *exec, t_node *pipex, t_node *cmd)
 {
-	exec->exit = 1;
 	if (!exec || !pipex || !cmd)
 		return (errno =ENODATA, 1);
+	exec->exit = 1;
+	exec->argv = NULL;
 	if (cmd->next_sibling)
 	{
 		if (pipe(pipex->fd) == SYS_FAIL)
@@ -69,6 +73,11 @@ int	execute_pipex_init(t_execute *exec, t_node *pipex, t_node *cmd)
 		cmd->fd[OUT] = pipex->fd[OUT];
 		cmd->next_sibling->fd[IN] = pipex->fd[IN];
 		exec->toclose_child = pipex->fd[IN];
+	}
+	if (cmd->type == NODE_BRACKET)
+	{
+		exec->bracket_first_child = cmd->first_child;
+		return (0);
 	}
 	if (execute_cmd_init(exec, cmd))
 		return (1);
