@@ -10,9 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "parser_utils.h"
-#include "parser.h"
-#include "error.h"
+#include "../../headers/parser.h"
 
 t_node *choose_first_child(t_token *tok, t_myenv *env)
 {

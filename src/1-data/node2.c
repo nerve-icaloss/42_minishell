@@ -11,7 +11,36 @@
 /* ************************************************************************** */
 
 #include "../../headers/minishell.h"
-#include <asm-generic/errno.h>
+
+t_node	*word_new(char *data)
+{
+	t_node	*word;
+
+	if (!data)
+		return (errno = ENODATA, NULL);
+	word = node_new(NODE_WORD);
+	if (!word)
+		return (errno = ENOMEM, NULL);
+	if (node_val_set(word, data) == -1)
+		return (node_tree_clean(word), NULL);
+	word->rtype = WORD;
+	return (word);
+}
+
+t_node	*redir_new(char *data, t_redir_type type)
+{
+	t_node	*redir;
+
+	if (!data)
+		return (errno = ENODATA, NULL);
+	redir = node_new(NODE_WORD);
+	if (!redir)
+		return (errno = ENOMEM, NULL);
+	if (node_val_set(redir, data) == -1)
+		return (node_tree_clean(redir), NULL);
+	redir->rtype = type;
+	return (redir);
+}
 
 void	node_sibling_add(t_node **origin, t_node *child)
 {

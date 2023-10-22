@@ -11,8 +11,7 @@
 /* ************************************************************************** */
 
 #include "../headers/minishell.h"
-#include "history.h"
-#include "scanner.h"
+#include "front/parser.h"
 #include "parser.h"
 #include "here_doc.h"
 #include "executor.h"
@@ -58,10 +57,6 @@ void	node_tree_print(t_node *root)
 		write(1, " ", 1);
 	}
 }
-
-// REMOVE THIS !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-int	execute_tree(t_node *root, t_myshell *shell); // DEFINED HERE FOR DEBUG PURPOSES
-// REMOVE THIS !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
 void	parse_and_execute(t_myshell *shell, t_source *src)
 {

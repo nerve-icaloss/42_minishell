@@ -10,9 +10,9 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "path.h"
+#include "../../headers/minishell.h"
 
-char	*scan_dirs(char *data)
+static char	*scan_dirs(char *data)
 {
 	static char	*buf;
 	char		*ret;
@@ -35,7 +35,7 @@ char	*scan_dirs(char *data)
 	return (ret);
 }
 
-char	**split_dirs(char *data, int size)
+static char	**split_dirs(char *data, int size)
 {
 	char	**dirs;
 	char	*path;
@@ -64,7 +64,7 @@ char	**split_dirs(char *data, int size)
 	return (dirs);
 }
 
-char	*scan_dirs_cmdfile(char *name, char *dirs[])
+static char	*scan_dirs_cmdfile(char *name, char *dirs[])
 {
 	char		*path;
 	char		*cwd;

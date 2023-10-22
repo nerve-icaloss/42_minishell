@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   wildcard_utils.c                                   :+:      :+:    :+:   */
+/*   wildcard.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hmelica <hmelica@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -10,9 +10,9 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "./wildcard.h"
+#include "../../headers/minishell.h"
 
-int	wc_init_prev(t_wildcard *wc, char *s)
+static int	wc_init_prev(t_wildcard *wc, char *s)
 {
 	char	*i;
 	char	*j;
@@ -39,7 +39,7 @@ int	wc_init_prev(t_wildcard *wc, char *s)
 	return (0);
 }
 
-int	wc_init_next(t_wildcard *wc)
+static int	wc_init_next(t_wildcard *wc)
 {
 	char	*i;
 	char	*j;

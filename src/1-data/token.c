@@ -11,7 +11,6 @@
 /* ************************************************************************** */
 
 #include "../../headers/minishell.h"
-#include <asm-generic/errno-base.h>
 
 t_token *token_word_new(char *str)
 {

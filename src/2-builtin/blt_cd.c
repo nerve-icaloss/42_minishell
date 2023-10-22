@@ -21,7 +21,7 @@
  *    expand more than one tilde)
  * ret should be set to NULL or to be malloc'd
  * */
-int	home_expand(const char *s, char **ret, t_myvar *var)
+static int	home_expand(const char *s, char **ret, t_myvar *var)
 {
 	int		count;
 	int		i;
@@ -49,7 +49,7 @@ int	home_expand(const char *s, char **ret, t_myvar *var)
 	return (count);
 }
 
-int	arg_parser_home(t_myenv *env, char **path)
+static int	arg_parser_home(t_myenv *env, char **path)
 {
 	t_myvar	*var;
 
@@ -60,7 +60,7 @@ int	arg_parser_home(t_myenv *env, char **path)
 	return (0);
 }
 
-int	arg_parser_oldpwd(t_myenv *env, char **path)
+static int	arg_parser_oldpwd(t_myenv *env, char **path)
 {
 	t_myvar	*var;
 
@@ -74,7 +74,7 @@ int	arg_parser_oldpwd(t_myenv *env, char **path)
 /*
  * Controle les arguments pour cd
  * */
-int	path_arg_parser(char **argv, t_myenv *env, char **path)
+static int	path_arg_parser(char **argv, t_myenv *env, char **path)
 {
 	char	*s;
 

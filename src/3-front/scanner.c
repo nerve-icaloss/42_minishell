@@ -10,10 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "scanner.h"
-#include "libft/libft.h"
-#include "scanner_utils.h"
-
+#include "../../headers/scanner.h"
 
 int	scan_space(t_source *src)
 {

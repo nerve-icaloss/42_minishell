@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   expand_utils.c                                     :+:      :+:    :+:   */
+/*   expander_quote.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: nserve <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -10,21 +10,9 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "./expansion_utils.h"
+#include "../../headers/minishell.h"
 
-int	expand_init(t_expand *expd, char *word)
-{
-	ft_memset(expd, 0, sizeof(*expd));
-	expd->pstart = ft_strdup(word);
-	if (!expd->pstart)
-		return (errno = ENOMEM, -1);
-	expd->p = expd->pstart;
-	expd->in_double_quote = false;
-	expd->expanded = false;
-	return (0);
-}
-
-int	handle_quotes(char **ret, t_node *args, int *i, int *j)
+static int	handle_quotes(char **ret, t_node *args, int *i, int *j)
 {
 	static const char	quotes[3] = "'\"";
 	int					k;
@@ -53,40 +41,37 @@ int	handle_quotes(char **ret, t_node *args, int *i, int *j)
  * k == 0 means '
  * k == 1 means "
  * */
-int	remove_quotes(t_node *args)
+static int	word_remove_quotes(t_node *word)
 {
 	char				*ret;
 	int					i;
 	int					j;
 
-	if (!args)
-		return (errno = ENODATA, -1);
+	if (!word)
+		return (errno = ENODATA, 1);
 	ret = NULL;
 	i = 0;
 	j = 0;
-	while (args->val && args->val[i + j])
-		if (handle_quotes(&ret, args, &i, &j))
+	while (word->val && word->val[i + j])
+		if (handle_quotes(&ret, word, &i, &j))
 			break ;
-	if (args->val)
-		free(args->val);
-	args->val = ret;
+	if (word->val)
+		free(word->val);
+	word->val = ret;
 	return (0);
 }
 
-int	run_remove_quotes(t_node *root)
+int	remove_quotes(t_node *word)
 {
 	t_node	*child;
 
-	if(!root)
-		return (errno = ENODATA, -1);
-	child = root->first_child;
-	while (child)
+	if(!word)
+		return (errno = ENODATA, 1);
+	while (word)
 	{
-		if (run_remove_quotes(child))
-			return (-1);
-		child = child->next_sibling;
+		if (word_remove_quotes(word))
+			return (1);
+		word = word->next_sibling;
 	}
-	if(root->type == NODE_WORD && root->val)
-		return (remove_quotes(root));
 	return (0);
 }

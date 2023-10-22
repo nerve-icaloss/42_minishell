@@ -1,23 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   word_expansion.h                                   :+:      :+:    :+:   */
+/*   scanner.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: nserve <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/10/15 17:33:58 by nserve            #+#    #+#             */
-/*   Updated: 2023/10/15 17:34:00 by nserve           ###   ########.fr       */
+/*   Created: 2023/10/05 15:26:48 by nserve            #+#    #+#             */
+/*   Updated: 2023/10/05 15:26:51 by nserve           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef WORD_EXPANSION_H
-# define WORD_EXPANSION_H
+#ifndef SCANNER_H
+# define SCANNER_H
 
-# include "../headers/minishell.h"
+# include "minishell.h"
 
-t_node *new_word(char *data);
-char *find_word(char *data);
-void split_word(t_node **origin, char *data);
-t_node *word_expansion(char *data, t_myenv *env);
+int	scan_quote(t_source *src);
+int	scan_verticalbar(t_source *src, char nc);
+int	scan_ampersand(t_source *src, char nc);
+int	scan_lessthan(t_source *src, char nc);
+int	scan_morethan(t_source *src, char nc);
+int	scan_space(t_source *src);
+int	scan_bracket(t_source *src, char nc);
+
+t_token	*tokenize(t_source *src);
 
 #endif

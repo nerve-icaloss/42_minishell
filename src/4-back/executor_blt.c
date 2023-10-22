@@ -10,25 +10,9 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "builtin.h"
-#include <stdlib.h>
+#include "../../headers/executor.h"
 
-void	builtin_clean(t_builtin **builtins)
-{
-	int	x;
-
-	x = 0;
-	while (builtins[x]->name)
-	{
-		free(builtins[x]->name);
-		free(builtins[x]);
-		x++;
-	}
-	free(builtins[x]);
-	free(builtins);
-}
-
-void	return_builtin_lst(t_builtin **builtins)
+static void	return_builtin_lst(t_builtin **builtins)
 {
 	builtins[0]->name = ft_strdup("exit");
 	builtins[0]->f = exit_builtin;
@@ -48,28 +32,6 @@ void	return_builtin_lst(t_builtin **builtins)
 	builtins[7]->f = NULL;
 }
 
-t_builtin **builtin_init(void)
-{
-	t_builtin	**builtins;
-	int			i;
-
-	builtins = malloc(sizeof(t_builtin *) * 8);
-	if (!builtins)
-		return (errno = ENOMEM, NULL);
-	i = 0;
-	while (i < 8)
-	{
-		builtins[i] = malloc(sizeof(t_builtin));
-		if (!builtins[i])
-			errno = ENOMEM; 
-		i++;
-	}
-	if (errno == ENOMEM)
-		return (builtin_clean(builtins), NULL);
-	return_builtin_lst(builtins);
-	return (builtins);
-}
-
 int	find_builtin_f(t_execute *exec)
 {
 	t_builtin	**builtins;
@@ -78,6 +40,7 @@ int	find_builtin_f(t_execute *exec)
 	builtins = builtin_init();
 	if (!exec || !builtins)
 		return (errno = ENODATA, 1);
+	return_builtin_lst(builtins);
 	i = 0;
 	while (builtins[i]->name != NULL)
 	{

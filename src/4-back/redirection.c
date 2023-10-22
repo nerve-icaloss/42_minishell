@@ -10,8 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "redirection.h"
-#include "open_utils.h"
+#include "../../headers/redirection.h"
 
 static void	close_redirection(t_node *cmd, int fd)
 {

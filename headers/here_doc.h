@@ -1,20 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   path.h                                       :+:      :+:    :+:   */
+/*   here_doc.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: nserve <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/09/27 16:50:15 by nserve            #+#    #+#             */
-/*   Updated: 2023/09/27 16:50:23 by nserve           ###   ########.fr       */
+/*   Created: 2023/10/15 18:16:35 by nserve            #+#    #+#             */
+/*   Updated: 2023/10/15 18:16:42 by nserve           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef CMD_SEARCH_H
-# define CMD_SEARCH_H
+#ifndef HERE_DOC_H
+# define HERE_DOC_H
 
-# include "../headers/minishell.h"
+# include "minishell.h"
 
-char	*search_cmd_path(char *name, t_myenv *env);
+int		run_tree_doc(t_node *root, t_myenv *myenv);
+int		here_doc(char *eof, t_myenv *myenv);
+void	close_tree_doc(t_node *root);
 
 #endif

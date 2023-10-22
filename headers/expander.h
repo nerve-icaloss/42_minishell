@@ -1,22 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   here_doc.h                                         :+:      :+:    :+:   */
+/*   expander.h                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: nserve <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/10/15 18:16:35 by nserve            #+#    #+#             */
-/*   Updated: 2023/10/15 18:16:42 by nserve           ###   ########.fr       */
+/*   Created: 2023/10/15 17:33:58 by nserve            #+#    #+#             */
+/*   Updated: 2023/10/15 17:34:00 by nserve           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef HERE_DOC_H
-# define HERE_DOC_H
+#ifndef EXPANDER_H
+# define EXPANDER_H
 
-# include "../headers/minishell.h"
+# include "minishell.h"
 
-int	run_tree_doc(t_node *root, t_myenv *myenv);
-int	here_doc(char *eof, t_myenv *myenv);
-void	close_tree_doc(t_node *root);
+int	var_expansion(char **line, t_myenv *myenv);
+t_node	*pathname_expansion(t_node *word);
+int		remove_quotes(t_node *args);
+
+t_node	*word_expansion(char *data, t_myenv *env);
+t_node	*redir_expansion(char *data, t_redir_type type, t_myenv *env);
 
 #endif

@@ -1,21 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   child.h                                            :+:      :+:    :+:   */
+/*   redirection.h                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: nserve <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/10/17 18:15:32 by nserve            #+#    #+#             */
-/*   Updated: 2023/10/17 18:15:35 by nserve           ###   ########.fr       */
+/*   Created: 2023/10/16 17:56:40 by nserve            #+#    #+#             */
+/*   Updated: 2023/10/16 17:56:42 by nserve           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef CHILD_H
-# define CHILD_H
+#ifndef REDIRECTION_H
+# define REDIRECTION_H
 
-# include "../headers/minishell.h"
+# include "minishell.h"
 
-void child_cmd(t_execute *exec, t_myshell *shell);
-void child_pipex_cmd(t_execute *exec, t_myshell *shell);
+int	apply_redirection(t_execute *exec, t_node *cmd);
+int	reset_redirection(t_execute *exec, t_node *cmd);
+int	infile_redirection(t_node *cmd);
+int	outfile_redirection(t_node *cmd);
 
 #endif

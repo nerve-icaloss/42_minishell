@@ -10,9 +10,8 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "here_doc.h"
-#include "find_utils.h"
-#include "expansion_var.h"
+#include "../../headers/here_doc.h"
+#include "../../headers/expander.h"
 
 /*
  * Use myenv == NULL to disable var_expansion

@@ -10,14 +10,8 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "executor.h"
-#include "executor_utils.h"
-#include "libft/libft.h"
-#include "redirection.h"
-#include "path.h"
-#include "builtin.h"
-#include "child.h"
-#include "error.h"
+#include "../../headers/executor.h"
+#include "../../headers/redirection.h"
 
 int	search_exec_path(t_execute *exec, t_myenv *env)
 {

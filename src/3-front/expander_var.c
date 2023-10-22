@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   expansion_var.c                                    :+:      :+:    :+:   */
+/*   expander_var.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hmelica <hmelica@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -10,9 +10,9 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "expansion_var.h"
+#include "../../headers/minishell.h"
 
-char	*extract_value(char **line, int *i, t_lstvar lst)
+static char	*extract_value(char **line, int *i, t_lstvar lst)
 {
 	int		j;
 	char	*name;
@@ -23,9 +23,7 @@ char	*extract_value(char **line, int *i, t_lstvar lst)
 			&& (*line)[*i + j] != '$')
 		j++;
 	if (j == 0)
-	{
 		return (ft_substr(*line, *i - 1, 1));
-	}
 	name = ft_substr(*line, *i, j);
 	if (ft_strlen(name) == 1 && *name == '?')
 		ret = ft_itoa(0); // CHANGE TO LAST EXIT CODE
@@ -37,14 +35,14 @@ char	*extract_value(char **line, int *i, t_lstvar lst)
 	return (ret);
 }
 
-void	var_expansion(char **line, t_myenv *env)
+int	var_expansion(char **line, t_myenv *env)
 {
 	char	*ret;
 	int		i;
 	int		j;
 
 	if (!line || !*line)
-		return ;
+		return (errno = ENODATA, 1);
 	ret = NULL;
 	i = 0;
 	j = 0;
@@ -59,6 +57,10 @@ void	var_expansion(char **line, t_myenv *env)
 					1, 0);
 		j = 0;
 	}
-	free(*line);
-	*line = ret;
+	if (ret)
+	{
+		free(*line);
+		*line = ret;
+	}
+	return (0);
 }

@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "./wildcard.h"
+#include "../../headers/minishell.h"
 
 int	set_next_star(char **next_star, char **next, char **to_find)
 {

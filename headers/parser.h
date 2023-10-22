@@ -13,7 +13,15 @@
 #ifndef PARSER_H
 # define PARSER_H
 
-# include "../headers/minishell.h"
+# include "minishell.h"
+# include "expander.h"
+# include "scanner.h"
+
+t_node *choose_first_child(t_token *tok, t_myenv *env);
+t_node *insert_lvl_parent(t_node *parent, t_token *tok, int type);
+t_node *choose_lvl(t_node *parent, t_token *tok, int node_type, t_myenv *env);
+t_node *insert_lvl_child(t_node *parent, t_node *child);
+void handle_error_and_clean(t_node *parent, t_token *tok, int type);
 
 t_node *parse_word(t_token *tok, t_myenv *env);
 t_node *parse_command(t_token *tok, t_myenv *env);

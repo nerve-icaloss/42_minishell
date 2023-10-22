@@ -10,8 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "scanner_utils.h"
-#include "find_utils.h"
+#include "../../headers/scanner.h"
 
 int	scan_quote(t_source *src)
 {

@@ -1,18 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   wildcard.c                                         :+:      :+:    :+:   */
+/*   wildcard2.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hmelica <hmelica@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/10/19 22:41:38 by hmelica           #+#    #+#             */
-/*   Updated: 2023/10/19 22:41:40 by hmelica          ###   ########.fr       */
+/*   Created: 2023/10/20 11:11:00 by hmelica           #+#    #+#             */
+/*   Updated: 2023/10/20 11:11:03 by hmelica          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "./wildcard.h"
-
-int	wc_rec_expand(t_wildcard *wc);
+#include "../../headers/minishell.h"
 
 char	*insert_name(t_wildcard *wc, char name[256])
 {
@@ -22,6 +20,31 @@ char	*insert_name(t_wildcard *wc, char name[256])
 	ret = ft_strjoin2(wc->path, name, 0, 0);
 	ret = ft_strjoin2(ret, wc->following, 1, 0);
 	return (ret);
+}
+
+/*
+ * returns 1 if elem is is dir
+ * */
+int	is_dir(t_wildcard *wc, t_dirent *elem)
+{
+	char	*path;
+	t_stat	stbuff;
+
+	if (!elem || !wc)
+		return (0);
+	path = ft_strjoin2(wc->path, elem->d_name, 0, 0);
+	if (stat(path, &stbuff))
+		return (free(path), 0);
+	free(path);
+	return (S_ISDIR(stbuff.st_mode));
+}
+
+int	wc_pregnant(t_wildcard *wc, t_dirent *elem)
+{
+	return (ft_memcmp(elem->d_name, "..", 3) == 0 || ft_memcmp(elem->d_name,
+			".", 2) == 0 || !glob_name(elem->d_name, wc->glob_prev,
+			wc->glob_next) || (wc->following && *wc->following
+			&& !is_dir(wc, elem)));
 }
 
 int	wc_run_child(t_wildcard *wc)
@@ -66,26 +89,4 @@ int	wc_rec_expand(t_wildcard *wc)
 	}
 	(void) closedir(dir);
 	return (wc_run_child(wc));
-}
-
-/*
- * s should be one single path, with only alphanum and / and *
- * s will not be freed inside this function
- * */
-char	*generate_wildcard(char *s)
-{
-	char		*string;
-	t_wildcard	*wc;
-
-	if (!s)
-		return (errno = ENODATA, NULL);
-	wc = NULL;
-	string = ft_strdup(s);
-	if (wc_add(&wc, string))
-		return (NULL);
-	if (wc_rec_expand(wc))
-		return (wc_clean(&wc), NULL);
-	string = wc_to_str(wc);
-	wc_clean(&wc);
-	return (string);
 }

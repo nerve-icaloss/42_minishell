@@ -10,12 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "parser.h"
-#include "libft/libft.h"
-#include "parser_utils.h"
-#include "find_utils.h"
-#include "expansion_word.h"
-#include "expansion_redir.h"
+#include "../../headers/parser.h"
 
 t_node	*parse_word(t_token *tok, t_myenv *env)
 {

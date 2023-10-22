@@ -41,48 +41,47 @@ NAME_BONUS	= ${NAME}_bonus
 #       main.c \       # oui
 #       src/main.c     # non
 SRCS_FILES	=	\
-				builtin/blt_cd.c \
-				builtin/blt_echo.c \
-				builtin/blt_env.c \
-				builtin/blt_exit.c \
-				builtin/blt_export.c \
-				builtin/blt_pwd.c \
-				builtin/blt_unset.c \
-				data/env.c \
-				data/envp.c \
-				data/history.c \
-				data/node.c \
-				data/node2.c \
-				data/shell.c \
-				data/source.c \
-				data/source2.c \
-				data/token.c \
-				data/var.c \
-				data/var2.c \
-				builtin.c \
-				child.c \
-				error.c \
-				executor.c \
-				executor_utils.c \
-				expansion_redir.c \
-				expansion_utils.c \
-				expansion_var.c \
-				expansion_word.c \
-				find_utils.c \
-				glob.c \
-				here_doc.c \
-				history.c \
+				1-data/env.c \
+				1-data/envp.c \
+				1-data/history.c \
+				1-data/node.c \
+				1-data/node2.c \
+				1-data/shell.c \
+				1-data/source.c \
+				1-data/source2.c \
+				1-data/token.c \
+				1-data/var.c \
+				1-data/var2.c \
+				2-builtin/blt_cd.c \
+				2-builtin/blt_echo.c \
+				2-builtin/blt_env.c \
+				2-builtin/blt_exit.c \
+				2-builtin/blt_export.c \
+				2-builtin/blt_pwd.c \
+				2-builtin/blt_unset.c \
+				3-front/expansion_redir.c \
+				3-front/expansion_utils.c \
+				3-front/expansion_var.c \
+				3-front/expansion_word.c \
+				3-front/parser.c \
+				3-front/parser_utils.c \
+				3-front/scanner.c \
+				3-front/scanner_utils.c \
+				3-front/wildcard.c \
+				3-front/wildcard_glob.c \
+				3-front/wildcard_utils.c \
+				3-front/wildcard_utils2.c \
+				4-back/builtin.c \
+				4-back/child.c \
+				4-back/error.c \
+				4-back/executor.c \
+				4-back/executor_utils.c \
+				4-back/here_doc.c \
+				4-back/path.c \
+				4-back/redirection.c \
+				5-utils/utl_find.c \
+				5-utils/utl_open.c \
 				main.c \
-				open_utils.c \
-				parser.c \
-				parser_utils.c \
-				path.c \
-				redirection.c \
-				scanner.c \
-				scanner_utils.c \
-				wildcard.c \
-				wildcard_utils.c \
-				wildcard_utils2.c \
 #
 # ^- (this comment line matters)
 #
@@ -162,7 +161,7 @@ ${NAME_BONUS}: ${NAME}
 ${OBJS_DIR}:
 	@printf "\033[1;34m...Creating\033[0m %-33s" "${OBJS_DIR} directory"
 	@${MKDIR} ${OBJS_DIR}
-	@${MKDIR} ${OBJS_DIR}/data ${OBJS_DIR}/builtin
+	@${MKDIR} ${OBJS_DIR}/1-data ${OBJS_DIR}/2-builtin ${OBJS_DIR}/3-front ${OBJS_DIR}/4-back ${OBJS_DIR}/5-utils
 	@printf "\033[1;32mdone\033[0m"
 
 ${OBJS_DIR}/%.o: ${SRCS_DIR}/%.c
@@ -192,7 +191,7 @@ clean:
 	@${MAKE} -C test fclean
 	@${MAKE} -C ${LIBFT_DIR} clean
 	@${RM} ${OBJS} ${OBJS_BONUS}
-	@${RMDIR} ${OBJS_DIR}/data ${OBJS_DIR}/builtin ${OBJS_DIR}
+	@${RMDIR} ${OBJS_DIR}/1-data ${OBJS_DIR}/2-builtin ${OBJS_DIR}/3-front ${OBJS_DIR}/4-back ${OBJS_DIR}/5-utils ${OBJS_DIR}
 	@printf "\033[1;34m%-44s\033[0m \033[1;32m%s\033[0m\n" "Cleaning" "done"
 
 fclean: clean

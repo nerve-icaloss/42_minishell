@@ -10,10 +10,8 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "executor.h"
-#include "child.h"
-#include "builtin.h"
-#include "here_doc.h"
+#include "../../headers/executor.h"
+#include "../../headers/here_doc.h"
 
 void	child_cmd(t_execute *exec, t_myshell *shell)
 {

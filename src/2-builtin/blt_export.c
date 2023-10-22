@@ -12,7 +12,7 @@
 
 #include "../../headers/minishell.h"
 
-char	*format_export(char *s)
+static char	*format_export(char *s)
 {
 	char	*ret;
 	char	*origin;
@@ -41,7 +41,7 @@ char	*format_export(char *s)
 	return (ret);
 }
 
-int	print_export(t_myenv *env)
+static int	print_export(t_myenv *env)
 {
 	t_lstvar	var;
 	char		*s;
