@@ -69,11 +69,6 @@ typedef struct s_myenv {
 	t_lstvar		lst_var;
 	unsigned int	count;
 	char			**envp;
-	struct s_myvar	*pwd;
-	struct s_myvar	*oldpwd;
-	struct s_myvar	*home;
-	struct s_myvar	*path;
-	struct s_myvar	*shlvl;
 	bool			subsh;
 }	t_myenv;
 
@@ -145,6 +140,7 @@ typedef struct s_expand {
 }	t_expand;
 
 int			expand_init(t_expand *expd, char *word);
+char		*generate_wildcard(char *s);
 
 //----------------------------------------------------------------------------//
 

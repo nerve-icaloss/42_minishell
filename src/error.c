@@ -15,13 +15,13 @@
 void	syntax_error_token(t_tok_type tok_type)
 {
 	if (tok_type == TOK_PIPE)
-		write(2, "minishell: syntax error near unexpected token `|'\n", 51);
+		write(2, "minishell: syntax error near unexpected token `|'\n", 50);
 	if (tok_type == TOK_OR)
-		write(2, "minishell: syntax error near unexpected token `||'\n", 52);
+		write(2, "minishell: syntax error near unexpected token `||'\n", 51);
 	if (tok_type == TOK_AND)
-		write(2, "minishell: syntax error near unexpected token `&&\n", 52);
+		write(2, "minishell: syntax error near unexpected token `&&\n", 51);
 	if (tok_type == TOK_BRACKET)
-		write(2, "minishell: syntax error near unexpected token `('\n", 51);
+		write(2, "minishell: syntax error near unexpected token `('\n", 50);
 }
 
 void	cmd_notfound(char *str)

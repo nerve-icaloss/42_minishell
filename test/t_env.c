@@ -67,17 +67,11 @@ Test(env, clean, .description="Test of env_clean", .init = setup) {
 	env_clean(&myenv);
 	cr_expect(myenv.lst_var == NULL, "lst_var wasn't unset");
 	cr_expect(myenv.envp == NULL, "envp wasn't unset");
-	cr_expect(myenv.pwd == NULL, "pwd wasn't unset");
-	cr_expect(myenv.oldpwd == NULL, "oldpwd wasn't unset");
-	cr_expect(myenv.home == NULL, "home wasn't unset");
 	cr_expect(myenv.count == 0, "count wasn't set to 0");
 	//cleaning something clean
 	env_clean(&myenv);
 	cr_expect(myenv.lst_var == NULL, "lst_var wasn't unset");
 	cr_expect(myenv.envp == NULL, "envp wasn't unset");
-	cr_expect(myenv.pwd == NULL, "pwd wasn't unset");
-	cr_expect(myenv.oldpwd == NULL, "oldpwd wasn't unset");
-	cr_expect(myenv.home == NULL, "home wasn't unset");
 	cr_expect(myenv.count == 0, "count wasn't set to 0");
 }
 

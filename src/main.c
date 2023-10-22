@@ -59,6 +59,10 @@ void	node_tree_print(t_node *root)
 	}
 }
 
+// REMOVE THIS !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+int	execute_tree(t_node *root, t_myshell *shell); // DEFINED HERE FOR DEBUG PURPOSES
+// REMOVE THIS !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
 void	parse_and_execute(t_myshell *shell, t_source *src)
 {
 	if (!shell || !src)

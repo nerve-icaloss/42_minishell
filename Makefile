@@ -69,6 +69,7 @@ SRCS_FILES	=	\
 				expansion_var.c \
 				expansion_word.c \
 				find_utils.c \
+				glob.c \
 				here_doc.c \
 				history.c \
 				main.c \
@@ -79,6 +80,9 @@ SRCS_FILES	=	\
 				redirection.c \
 				scanner.c \
 				scanner_utils.c \
+				wildcard.c \
+				wildcard_utils.c \
+				wildcard_utils2.c \
 #
 # ^- (this comment line matters)
 #
@@ -145,7 +149,7 @@ ${NAME}: ${LIBFT} ${OBJS_DIR} ${OBJS}
 	@printf "$(DELETE)\033[1;33m...Building\033[0m %-33s" "${NAME}"
 	@${CC} ${CFLAGS} ${CFLAGS_NAME} ${HEADERS_DIR_FLAG} -o ${NAME} ${OBJS} ${LIBFT_FLAG} -lreadline
 	@echo "${OK_PROMPT}"
-	@${MAKE} tags
+	@#${MAKE} tags
 
 bonus: ${NAME_BONUS}
 	@echo "\033[1;32mSuccess\033[0m \033[1;35mbonus\033[0m"

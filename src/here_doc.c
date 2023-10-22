@@ -6,14 +6,13 @@
 /*   By: hmelica <hmelica@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/14 16:08:57 by hmelica           #+#    #+#             */
-/*   Updated: 2023/10/15 16:54:06 by hmelica          ###   ########.fr       */
+/*   Updated: 2023/10/19 18:51:09 by hmelica          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "here_doc.h"
 #include "find_utils.h"
 #include "expansion_var.h"
-#include <stdio.h>
 
 /*
  * Use myenv == NULL to disable var_expansion
@@ -55,9 +54,9 @@ int	here_doc(char *eof, t_myenv *env)
  * */
 static int	this_doc(char **val, t_myenv *env)
 {
-	int		fd;
 	char	*a;
-	size_t	i;
+	long	i;
+	int		fd;
 
 	fd = -1;
 	a = *val;

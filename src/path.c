@@ -95,22 +95,26 @@ char	*search_cmd_path(char *name, t_myenv *env)
 	char	*cmd_path;
 	int		size;
 	int		i;
+	t_myvar	*path;
 
 	if (!name || !env)
 		return (errno = ENODATA, NULL);
+	path = var_get(env->lst_var, "PATH");
+	if (!path)
+		return (errno = ENODATA, NULL);
 	i = 0;
 	size = 1;
-	while (env->path->value[i])
+	while (path->value[i])
 	{
-		if (env->path->value[i] == ':')
+		if (path->value[i] == ':')
 			size++;
 		i++;
 	}
-	cmd_path = ft_strdup(env->path->value);
+	cmd_path = ft_strdup(path->value);
 	dirs = split_dirs(cmd_path, size);
 	free(cmd_path);
 	if (!dirs)
-		return (NULL);
+		return (free(cmd_path), NULL);
 	cmd_path = scan_dirs_cmdfile(name, dirs);
-	return (ft_arrclear(dirs), cmd_path);
+	return (free(cmd_path), ft_arrclear(dirs), cmd_path);
 }
