@@ -19,6 +19,29 @@
 #include "child.h"
 #include "error.h"
 
+int	search_exec_path(t_execute *exec, t_myenv *env)
+{
+	char	*cmd_path;
+
+	if (!exec)
+		return (errno = ENODATA, 1);
+	if (find_builtin_f(exec))
+		return (exec->exit = 1, 1);
+	if (exec->builtin_f)
+		return (exec->exit = 0, 0);
+	if (!(exec->argv[0][0] == '/' || exec->argv[0][0] == '.'))
+		cmd_path = search_cmd_path(exec->argv[0], env);
+	else
+		cmd_path = ft_strdup(exec->argv[0]);
+	if (!cmd_path)
+		return (cmd_notfound(exec->argv[0]), exec->exit = 127, 1);
+	if (access(cmd_path, F_OK | X_OK) == SYS_FAIL)
+		return (perror(cmd_path), exec->exit = 126, 1);
+	free(exec->argv[0]);
+	exec->argv[0] = cmd_path;
+	return (0);
+}
+
 int	execute_cmd(t_node *cmd, t_myshell *shell)
 {
 	t_execute	exec;
