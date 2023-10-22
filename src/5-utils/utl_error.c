@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "error.h"
+#include "../../headers/minishell.h"
 
 void	syntax_error_token(t_tok_type tok_type)
 {

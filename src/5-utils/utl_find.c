@@ -10,8 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "find_utils.h"
-#include "expansion_var.h"
+#include "../../headers/minishell.h"
 
 t_redir_type	find_word_type(char *data)
 {
@@ -25,29 +24,6 @@ t_redir_type	find_word_type(char *data)
 		return (APPEND);
 	else
 		return (WORD);
-}
-
-void	find_expansion(t_expand *expd, t_myenv *env)
-{
-	if (!expd || !env)
-		return (errno = ENODATA, (void) NULL);
-	while (*expd->p)
-	{
-		if (*expd->p == '"')
-			expd->in_double_quote = !expd->in_double_quote;
-		if (*expd->p == '\'')
-			if (!expd->in_double_quote)
-				expd->p += find_closing_quote(expd->p);
-		if (*expd->p == '$')
-		{
-			var_expansion(&expd->p, env);
-			expd->pstart = expd->p;
-			expd->expanded = 1;
-		}
-		if (ft_isspace(*expd->p))
-			expd->expanded = 1;
-		expd->p++;
-	}
 }
 
 size_t	find_closing_quote(char *data)

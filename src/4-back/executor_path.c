@@ -115,5 +115,5 @@ char	*search_cmd_path(char *name, t_myenv *env)
 	if (!dirs)
 		return (free(cmd_path), NULL);
 	cmd_path = scan_dirs_cmdfile(name, dirs);
-	return (free(cmd_path), ft_arrclear(dirs), cmd_path);
+	return (ft_arrclear(dirs), cmd_path);
 }

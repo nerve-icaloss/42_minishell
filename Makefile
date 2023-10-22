@@ -41,17 +41,22 @@ NAME_BONUS	= ${NAME}_bonus
 #       main.c \       # oui
 #       src/main.c     # non
 SRCS_FILES	=	\
+				1-data/builtin.c \
 				1-data/env.c \
-				1-data/envp.c \
+				1-data/env_envp.c \
+				1-data/execute.c \
+				1-data/expand.c \
 				1-data/history.c \
 				1-data/node.c \
-				1-data/node2.c \
+				1-data/node_sibling.c \
+				1-data/node_tree.c \
 				1-data/shell.c \
 				1-data/source.c \
-				1-data/source2.c \
+				1-data/source_tokbuf.c \
 				1-data/token.c \
 				1-data/var.c \
-				1-data/var2.c \
+				1-data/wildcard.c \
+				1-data/wildcard_glob.c \
 				2-builtin/blt_cd.c \
 				2-builtin/blt_echo.c \
 				2-builtin/blt_env.c \
@@ -59,28 +64,26 @@ SRCS_FILES	=	\
 				2-builtin/blt_export.c \
 				2-builtin/blt_pwd.c \
 				2-builtin/blt_unset.c \
-				3-front/expansion_redir.c \
-				3-front/expansion_utils.c \
-				3-front/expansion_var.c \
-				3-front/expansion_word.c \
+				3-front/expander.c \
+				3-front/expander_quote.c \
+				3-front/expander_var.c \
+				3-front/expander_wc.c \
 				3-front/parser.c \
 				3-front/parser_utils.c \
 				3-front/scanner.c \
 				3-front/scanner_utils.c \
-				3-front/wildcard.c \
-				3-front/wildcard_glob.c \
-				3-front/wildcard_utils.c \
-				3-front/wildcard_utils2.c \
-				4-back/builtin.c \
-				4-back/child.c \
-				4-back/error.c \
 				4-back/executor.c \
+				4-back/executor_blt.c \
+				4-back/executor_child.c \
+				4-back/executor_path.c \
 				4-back/executor_utils.c \
 				4-back/here_doc.c \
-				4-back/path.c \
 				4-back/redirection.c \
+				5-utils/utl_error.c \
 				5-utils/utl_find.c \
 				5-utils/utl_open.c \
+				5-utils/utl_var.c \
+				5-utils/utl_wildcard.c \
 				main.c \
 #
 # ^- (this comment line matters)

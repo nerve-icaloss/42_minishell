@@ -41,7 +41,7 @@ static int	handle_quotes(char **ret, t_node *args, int *i, int *j)
  * k == 0 means '
  * k == 1 means "
  * */
-static int	word_remove_quotes(t_node *word)
+static int	remove_quotes_word(t_node *word)
 {
 	char				*ret;
 	int					i;
@@ -63,13 +63,11 @@ static int	word_remove_quotes(t_node *word)
 
 int	remove_quotes(t_node *word)
 {
-	t_node	*child;
-
 	if (!word)
 		return (errno = ENODATA, 1);
 	while (word)
 	{
-		if (word_remove_quotes(word))
+		if (remove_quotes_word(word))
 			return (1);
 		word = word->next_sibling;
 	}

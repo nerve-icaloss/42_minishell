@@ -11,10 +11,9 @@
 /* ************************************************************************** */
 
 #include "../headers/minishell.h"
-#include "front/parser.h"
-#include "parser.h"
-#include "here_doc.h"
-#include "executor.h"
+#include "../headers/parser.h"
+#include "../headers/here_doc.h"
+#include "../headers/executor.h"
 
 void	node_tree_print(t_node *root)
 {

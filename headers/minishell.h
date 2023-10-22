@@ -37,6 +37,9 @@ int				open_read(char *file);
 int				open_append(char *file);
 int				open_trunc(char *file);
 
+size_t			find_closing_quote(char *data);
+size_t			find_closing_brace(char *data);
+
 //----------------------------------------------------------------------------//
 
 # define HISTORY_FILE ".inputrc"
@@ -170,9 +173,7 @@ typedef struct s_expand {
 	bool	expanded;
 }	t_expand;
 
-void			find_expansion(t_expand *expd, t_myenv *env);
-size_t			find_closing_quote(char *data);
-size_t			find_closing_brace(char *data);
+int				expand_init(t_expand *expd, char *word);
 
 //----------------------------------------------------------------------------//
 

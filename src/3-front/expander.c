@@ -12,18 +12,6 @@
 
 #include "../../headers/expander.h"
 
-static int	expand_init(t_expand *expd, char *word)
-{
-	ft_memset(expd, 0, sizeof(*expd));
-	expd->pstart = ft_strdup(word);
-	if (!expd->pstart)
-		return (errno = ENOMEM, -1);
-	expd->p = expd->pstart;
-	expd->in_double_quote = false;
-	expd->expanded = false;
-	return (0);
-}
-
 static char	*scan_word(char *data)
 {
 	static char	*buf;
@@ -62,6 +50,29 @@ static void	split_word(t_node **origin, char *data)
 			return (node_sibling_clean(origin));
 		node_sibling_add(origin, new);
 		word = scan_word(NULL);
+	}
+}
+
+static void	find_expansion(t_expand *expd, t_myenv *env)
+{
+	if (!expd || !env)
+		return (errno = ENODATA, (void) NULL);
+	while (*expd->p)
+	{
+		if (*expd->p == '"')
+			expd->in_double_quote = !expd->in_double_quote;
+		if (*expd->p == '\'')
+			if (!expd->in_double_quote)
+				expd->p += find_closing_quote(expd->p);
+		if (*expd->p == '$')
+		{
+			var_expansion(&expd->p, env);
+			expd->pstart = expd->p;
+			expd->expanded = 1;
+		}
+		if (ft_isspace(*expd->p))
+			expd->expanded = 1;
+		expd->p++;
 	}
 }
 

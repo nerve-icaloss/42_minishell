@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "open_utils.h"
+#include "../../headers/minishell.h"
 
 int	open_read(char *file)
 {
