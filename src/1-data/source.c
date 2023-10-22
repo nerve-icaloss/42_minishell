@@ -6,7 +6,7 @@
 /*   By: nserve <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 11:32:20 by nserve            #+#    #+#             */
-/*   Updated: 2023/10/05 11:44:37 by nserve           ###   ########.fr       */
+/*   Updated: 2023/10/22 17:02:09 by nserve           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ void	skip_spaces(t_source *src)
 		return ;
 	}
 	c = peek_char(src);
-	while((c != EOF) && (c == ' ' || c == '\t'))
+	while ((c != EOF) && (c == ' ' || c == '\t'))
 	{
 		next_char(src);
 		c = peek_char(src);

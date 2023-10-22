@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/10 14:58:41 by hmelica           #+#    #+#             */
-/*   Updated: 2023/10/15 16:46:38 by hmelica          ###   ########.fr       */
+/*   Updated: 2023/10/22 17:22:21 by nserve           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ typedef struct s_myentry {
 	struct s_myentry	*next;
 }	t_myentry;
 
-typedef t_myentry *	t_history;
+typedef t_myentry *		t_history;
 
 int				entry_add(t_history *origin, char *str);
 void			history_clean(t_history *history);
@@ -62,7 +62,7 @@ typedef struct s_myvar {
 	struct s_myvar	*prev;
 }	t_myvar;
 
-typedef t_myvar *	t_lstvar;
+typedef t_myvar *		t_lstvar;
 
 int				var_add(t_lstvar *origin, char *name, char *value);
 void			var_update(t_myvar *var, char *name, char *value);
@@ -107,15 +107,14 @@ typedef enum e_tok_type {
 	TOK_SYNTAX = 7,
 }	t_tok_type;
 
-typedef struct s_source
-{
-    char		*buf;       /* the input text */
-    long		bufsize;       /* size of the input text */
-    long		curpos;       /* absolute char position in source */
-    char		*tok_buf;
-    int			tok_bufsize;
-    int			tok_bufindex;
-    t_tok_type	tok_type;
+typedef struct s_source {
+	char		*buf;
+	long		bufsize;
+	long		curpos;
+	char		*tok_buf;
+	int			tok_bufsize;
+	int			tok_bufindex;
+	t_tok_type	tok_type;
 }	t_source;
 
 char			next_char(t_source *src);
@@ -256,7 +255,7 @@ typedef struct s_myshell {
 	int			exit;
 }	t_myshell;
 
-t_myshell		shell_init();
+t_myshell		shell_init(void);
 void			shell_clean(t_myshell *shell);
 
 void			syntax_error_token(t_tok_type tok_type);

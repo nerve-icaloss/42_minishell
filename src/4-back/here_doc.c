@@ -6,7 +6,7 @@
 /*   By: hmelica <hmelica@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/14 16:08:57 by hmelica           #+#    #+#             */
-/*   Updated: 2023/10/19 18:51:09 by hmelica          ###   ########.fr       */
+/*   Updated: 2023/10/22 17:16:13 by nserve           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,7 @@ static int	run_cmd_doc(t_node *cmd, t_myenv *env)
 
 	prev_doc = NULL;
 	child = cmd->first_child;
-	while(child)
+	while (child)
 	{
 		i = child->next_sibling;
 		if (prev_doc)
@@ -109,12 +109,12 @@ int	run_tree_doc(t_node *root, t_myenv *env)
 	t_node	*child;
 	t_node	*i;
 
-	if(!root || !env)
+	if (!root || !env)
 		return (errno = ENODATA, 1);
 	if (root->type == NODE_CMD)
 		return (run_cmd_doc(root, env));
 	child = root->first_child;
-	while(child)
+	while (child)
 	{
 		i = child->next_sibling;
 		if (run_cmd_doc(child, env))
@@ -129,10 +129,10 @@ void	close_tree_doc(t_node *root)
 	t_node	*child;
 	t_node	*i;
 
-	if(!root)
-		return (errno = ENODATA, (void)NULL);
+	if (!root)
+		return (errno = ENODATA, (void) NULL);
 	child = root->first_child;
-	while(child)
+	while (child)
 	{
 		i = child->next_sibling;
 		child = i;

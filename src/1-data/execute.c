@@ -6,7 +6,7 @@
 /*   By: nserve <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/22 14:04:55 by nserve            #+#    #+#             */
-/*   Updated: 2023/10/22 14:05:12 by nserve           ###   ########.fr       */
+/*   Updated: 2023/10/22 16:57:27 by nserve           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ char	**build_argv(t_node *cmd)
 		return (errno = ENODATA, NULL);
 	argv = malloc(sizeof(char *) * (cmd->children + 1));
 	if (!argv)
-		return (errno =ENOMEM, NULL);
+		return (errno = ENOMEM, NULL);
 	ft_memset(argv, 0, sizeof(char *) * (cmd->children + 1));
 	child = cmd->first_child;
 	j = 0;

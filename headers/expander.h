@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   expander.h                                   :+:      :+:    :+:   */
+/*   expander.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: nserve <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/15 17:33:58 by nserve            #+#    #+#             */
-/*   Updated: 2023/10/15 17:34:00 by nserve           ###   ########.fr       */
+/*   Updated: 2023/10/22 17:20:09 by nserve           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 
 # include "minishell.h"
 
-int	var_expansion(char **line, t_myenv *myenv);
+int		var_expansion(char **line, t_myenv *myenv);
 t_node	*pathname_expansion(t_node *word);
 int		remove_quotes(t_node *args);
 

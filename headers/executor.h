@@ -6,7 +6,7 @@
 /*   By: nserve <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/17 13:38:28 by nserve            #+#    #+#             */
-/*   Updated: 2023/10/17 13:38:30 by nserve           ###   ########.fr       */
+/*   Updated: 2023/10/22 17:19:54 by nserve           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 
 # include "minishell.h"
 
-int		pwd_builtin(char *argv[],t_myenv *env);
+int		pwd_builtin(char *argv[], t_myenv *env);
 int		cd_builtin(char *argv[], t_myenv *env);
 int		env_builtin(char *argv[], t_myenv *env);
 int		export_builtin(char *argv[], t_myenv *env);

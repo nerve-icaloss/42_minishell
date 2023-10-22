@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   child.c                                            :+:      :+:    :+:   */
+/*   executor_child.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: nserve <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/17 11:42:31 by nserve            #+#    #+#             */
-/*   Updated: 2023/10/17 11:42:37 by nserve           ###   ########.fr       */
+/*   Updated: 2023/10/22 17:13:36 by nserve           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ void	child_pipex_cmd(t_execute *exec, t_myshell *shell)
 		close(exec->std_fd[OUT]);
 	if (exec->bracket_first_child)
 	{
-		//exec->exit = execute_tree(exec->bracket_first_child, shell);
+		exec->exit = execute_tree(exec->bracket_first_child, shell);
 		shell_clean(shell);
 		exit(exec->exit);
 	}

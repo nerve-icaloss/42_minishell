@@ -6,7 +6,7 @@
 /*   By: nserve <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/16 17:54:16 by nserve            #+#    #+#             */
-/*   Updated: 2023/10/16 17:54:21 by nserve           ###   ########.fr       */
+/*   Updated: 2023/10/22 17:16:52 by nserve           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,9 +78,9 @@ int	infile_redirection(t_node *cmd)
 {
 	t_node	*child;
 	t_node	*i;
-	
+
 	if (!cmd)
-		return (errno =ENODATA, 1);
+		return (errno = ENODATA, 1);
 	child = cmd->first_child;
 	while (child)
 	{
@@ -105,9 +105,9 @@ int	outfile_redirection(t_node *cmd)
 {
 	t_node	*child;
 	t_node	*i;
-	
+
 	if (!cmd)
-		return (errno =ENODATA, 1);
+		return (errno = ENODATA, 1);
 	child = cmd->first_child;
 	while (child)
 	{

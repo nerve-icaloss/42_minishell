@@ -6,16 +6,16 @@
 /*   By: nserve <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/06 15:10:03 by nserve            #+#    #+#             */
-/*   Updated: 2023/10/20 15:33:21 by nserve           ###   ########.fr       */
+/*   Updated: 2023/10/22 17:08:24 by nserve           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../headers/parser.h"
 
-t_node *choose_first_child(t_token *tok, t_myenv *env)
+t_node	*choose_first_child(t_token *tok, t_myenv *env)
 {
 	t_source	*src;
-	t_node	*cmd;
+	t_node		*cmd;
 
 	if (!tok)
 		return (errno = ENODATA, NULL);
@@ -40,7 +40,7 @@ t_node *choose_first_child(t_token *tok, t_myenv *env)
 	return (cmd);
 }
 
-t_node *insert_lvl_parent(t_node *parent, t_token *tok, int type)
+t_node	*insert_lvl_parent(t_node *parent, t_token *tok, int type)
 {
 	t_node		*lvl;
 
@@ -59,7 +59,7 @@ t_node *insert_lvl_parent(t_node *parent, t_token *tok, int type)
 	return (token_clean(tok), parent);
 }
 
-t_node *choose_lvl(t_node *parent, t_token *tok, int node_type, t_myenv *env)
+t_node	*choose_lvl(t_node *parent, t_token *tok, int node_type, t_myenv *env)
 {
 	t_source	*src;
 	t_node		*cmd;
@@ -84,7 +84,7 @@ t_node *choose_lvl(t_node *parent, t_token *tok, int node_type, t_myenv *env)
 	return (cmd);
 }
 
-t_node *insert_lvl_child(t_node *parent, t_node *child)
+t_node	*insert_lvl_child(t_node *parent, t_node *child)
 {
 	t_node	*parent_child;
 
@@ -111,7 +111,7 @@ void	handle_error_and_clean(t_node *parent, t_token *tok, int type)
 	t_source	*src;
 
 	if (!parent || !tok)
-		return (errno = ENODATA, (void)NULL);
+		return (errno = ENODATA, (void) NULL);
 	src = tok->src;
 	if (type != NODE_BRACKET)
 		if (type < tok->type && tok->type < TOK_EOF)

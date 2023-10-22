@@ -6,13 +6,13 @@
 /*   By: nserve <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/22 16:33:51 by nserve            #+#    #+#             */
-/*   Updated: 2023/10/22 16:33:57 by nserve           ###   ########.fr       */
+/*   Updated: 2023/10/22 16:56:33 by nserve           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../headers/minishell.h"
 
-t_builtin **builtin_init(void)
+t_builtin	**builtin_init(void)
 {
 	t_builtin	**builtins;
 	int			i;
@@ -25,7 +25,7 @@ t_builtin **builtin_init(void)
 	{
 		builtins[i] = malloc(sizeof(t_builtin));
 		if (!builtins[i])
-			errno = ENOMEM; 
+			errno = ENOMEM;
 		i++;
 	}
 	if (errno == ENOMEM)

@@ -6,7 +6,7 @@
 /*   By: nserve <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/15 13:33:28 by nserve            #+#    #+#             */
-/*   Updated: 2023/10/15 13:33:43 by nserve           ###   ########.fr       */
+/*   Updated: 2023/10/22 16:59:11 by nserve           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ void	node_sibling_add(t_node **origin, t_node *child)
 	t_node	*i;
 
 	if (!origin || !child)
-		return (errno = ENODATA, (void)NULL);
+		return (errno = ENODATA, (void) NULL);
 	i = *origin;
 	while (i && i->next_sibling)
 		i = i->next_sibling;
@@ -78,7 +78,7 @@ void	node_sibling_clean(t_node **origin)
 	t_node	*i;
 
 	if (!origin)
-		return (errno = ENODATA, (void)NULL);
+		return (errno = ENODATA, (void) NULL);
 	i = *origin;
 	while (i)
 	{

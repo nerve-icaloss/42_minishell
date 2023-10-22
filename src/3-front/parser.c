@@ -6,7 +6,7 @@
 /*   By: nserve <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/06 09:38:10 by nserve            #+#    #+#             */
-/*   Updated: 2023/10/19 16:24:33 by nserve           ###   ########.fr       */
+/*   Updated: 2023/10/22 17:07:40 by nserve           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 
 t_node	*parse_word(t_token *tok, t_myenv *env)
 {
-	t_node		*word;
-	t_source	*src;
+	t_node			*word;
+	t_source		*src;
 	t_redir_type	type;
 
 	if (!tok || !tok->txt)
@@ -43,12 +43,12 @@ t_node	*parse_command(t_token *tok, t_myenv *env)
 	t_node		*word;
 
 	if (!tok)
-	    return (errno = ENODATA, NULL);
+		return (errno = ENODATA, NULL);
 	cmd = node_new(NODE_CMD);
 	if (!cmd)
 		return (token_clean(tok), NULL);
 	src = tok->src;
-	while(tok->type == TOK_WORD)
+	while (tok->type == TOK_WORD)
 	{
 		word = parse_word(tok, env);
 		if (!word)
@@ -71,7 +71,7 @@ t_node	*parse_lvl(t_node *parent, t_token *tok, int node_type, t_myenv *env)
 	if (!parent || parent->exit || !tok)
 		return (errno = ENODATA, NULL);
 	src = tok->src;
-	while((tok->type <= node_type || tok->type == TOK_BRACKET))
+	while ((tok->type <= node_type || tok->type == TOK_BRACKET))
 	{
 		if (tok->type == node_type)
 			parent = insert_lvl_parent(parent, tok, node_type);

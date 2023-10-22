@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   path.c                                             :+:      :+:    :+:   */
+/*   executor_path.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: nserve <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/27 14:24:42 by nserve            #+#    #+#             */
-/*   Updated: 2023/10/19 12:11:25 by nserve           ###   ########.fr       */
+/*   Updated: 2023/10/22 17:14:33 by nserve           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ static char	**split_dirs(char *data, int size)
 	dirs = malloc(sizeof(char *) * (size + 1));
 	if (!dirs)
 		return (errno = ENOMEM, NULL);
-	path = 	scan_dirs(data);
+	path = scan_dirs(data);
 	i = 0;
 	while (*path)
 	{
@@ -102,13 +102,12 @@ char	*search_cmd_path(char *name, t_myenv *env)
 	path = var_get(env->lst_var, "PATH");
 	if (!path)
 		return (errno = ENODATA, NULL);
-	i = 0;
+	i = -1;
 	size = 1;
-	while (path->value[i])
+	while (path->value[++i])
 	{
 		if (path->value[i] == ':')
 			size++;
-		i++;
 	}
 	cmd_path = ft_strdup(path->value);
 	dirs = split_dirs(cmd_path, size);

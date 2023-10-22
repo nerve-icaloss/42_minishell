@@ -6,7 +6,7 @@
 /*   By: nserve <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 18:23:00 by nserve            #+#    #+#             */
-/*   Updated: 2023/10/19 11:42:21 by nserve           ###   ########.fr       */
+/*   Updated: 2023/10/22 17:00:20 by nserve           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ t_node	*node_new(t_node_type type)
 int	node_val_set(t_node *node, char *val)
 {
 	if (!node)
-		return (errno = ENODATA,  -1);
+		return (errno = ENODATA, -1);
 	if (!val)
 	{
 		node->val = NULL;
@@ -39,7 +39,7 @@ int	node_val_set(t_node *node, char *val)
 	}
 	else
 	{
-		node->val =  ft_strdup(val);
+		node->val = ft_strdup(val);
 		if (!node->val)
 			return (errno = ENOMEM, perror("node_val_set"), -1);
 	}
@@ -49,7 +49,7 @@ int	node_val_set(t_node *node, char *val)
 void	node_parent_add(t_node *child, t_node *parent)
 {
 	if (!child || !parent)
-		return (errno = ENODATA, (void)NULL);
+		return (errno = ENODATA, (void) NULL);
 	parent->first_child = child;
 	if (!child->parent)
 		child->parent = parent;
@@ -73,7 +73,7 @@ void	node_parent_insert(t_node *parent, t_node *child)
 	t_node	*parent_last_child;
 
 	if (!parent || !child)
-		return (errno = ENODATA, (void)NULL);
+		return (errno = ENODATA, (void) NULL);
 	child->parent = parent;
 	parent_last_child = parent->first_child;
 	while (parent_last_child->next_sibling)
@@ -91,14 +91,14 @@ void	node_child_add(t_node *parent, t_node *child)
 	t_node	*i;
 
 	if (!parent || !child)
-		return (errno = ENODATA, (void)NULL);
+		return (errno = ENODATA, (void) NULL);
 	child->parent = parent;
 	if (!parent->first_child)
 		parent->first_child = child;
 	else
 	{
 		sibling = parent->first_child;
-		while(sibling->next_sibling)
+		while (sibling->next_sibling)
 			sibling = sibling->next_sibling;
 		sibling->next_sibling = child;
 		child->prev_sibling = sibling;
@@ -119,7 +119,7 @@ void	node_tree_clean(t_node *node)
 	t_node	*i;
 
 	if (!node)
-		return (errno = ENODATA, (void)NULL);
+		return (errno = ENODATA, (void) NULL);
 	if (node->parent && node->parent->first_child == node)
 	{
 		if (node->next_sibling)
@@ -139,4 +139,4 @@ void	node_tree_clean(t_node *node)
 	if (node->val)
 		free(node->val);
 	free(node);
-} 
+}

@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   source2.c                                       :+:      :+:    :+:   */
+/*   source2.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: nserve <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 12:48:28 by nserve            #+#    #+#             */
-/*   Updated: 2023/10/05 12:48:36 by nserve           ###   ########.fr       */
+/*   Updated: 2023/10/22 17:01:48 by nserve           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,6 @@ void	tok_buf_reset(t_source *src)
 {
 	src->tok_bufindex = 0;
 	ft_memset(src->tok_buf, '\0', src->tok_bufsize);
-	//src->tok_buf[0] = '\0';
 	src->tok_type = 1;
 }
 
@@ -40,7 +39,7 @@ void	tok_buf_add(t_source *src, char c)
 	{
 		tmp = realloc(src->tok_buf, src->tok_bufsize * 2);
 		if (!tmp)
-			return (errno = ENOMEM, (void)NULL) ;
+			return (errno = ENOMEM, (void) NULL);
 		src->tok_buf = tmp;
 		src->tok_bufsize *= 2;
 	}

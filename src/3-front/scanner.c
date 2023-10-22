@@ -6,7 +6,7 @@
 /*   By: nserve <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 12:26:12 by nserve            #+#    #+#             */
-/*   Updated: 2023/10/14 14:48:30 by nserve           ###   ########.fr       */
+/*   Updated: 2023/10/22 17:09:19 by nserve           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ int	scan_space(t_source *src)
 {
 	if (src->tok_bufindex > 1)
 	{
-		if (src->tok_type == (t_tok_type)-1)
+		if (src->tok_type == (t_tok_type) - 1)
 			src->tok_type = TOK_WORD;
 		return (ENDLOOP);
 	}
@@ -64,7 +64,6 @@ static void	scan_token_from_source(t_source *src)
 	//	src->tok_type = TOK_WORD;
 }
 
-
 t_token	*tokenize(t_source *src)
 {
 	t_token		*tok;
@@ -86,7 +85,7 @@ t_token	*tokenize(t_source *src)
 	if (src->tok_type == TOK_WORD)
 		tok = token_word_new(src->tok_buf);
 	else
-	 	tok = token_ops_new(src->tok_type);
+		tok = token_ops_new(src->tok_type);
 	if (!tok)
 		return (errno = ENOMEM, perror("tokenize"), tok_eof);
 	free(tok_eof);
@@ -97,7 +96,7 @@ t_token	*tokenize(t_source *src)
 void	untokenize(t_source *src)
 {
 	if (!src || !src->tok_buf || !src->tok_bufindex)
-		return (errno = ENODATA, (void)NULL);
+		return (errno = ENODATA, (void) NULL);
 	while ((src->tok_bufindex)--)
 		unget_char(src);
 }

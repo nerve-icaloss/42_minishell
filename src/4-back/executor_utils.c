@@ -6,7 +6,7 @@
 /*   By: nserve <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/16 12:27:03 by nserve            #+#    #+#             */
-/*   Updated: 2023/10/19 15:32:23 by nserve           ###   ########.fr       */
+/*   Updated: 2023/10/22 17:15:17 by nserve           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 int	execute_cmd_init(t_execute *exec, t_node *cmd)
 {
 	if (!exec || !cmd)
-		return (errno =ENODATA, 1);
+		return (errno = ENODATA, 1);
 	exec->exit = 1;
 	exec->argv = NULL;
 	exec->std_fd[IN] = -1;
@@ -35,7 +35,7 @@ int	execute_cmd_init(t_execute *exec, t_node *cmd)
 int	execute_pipex_init(t_execute *exec, t_node *pipex, t_node *cmd)
 {
 	if (!exec || !pipex || !cmd)
-		return (errno =ENODATA, 1);
+		return (errno = ENODATA, 1);
 	exec->exit = 1;
 	exec->argv = NULL;
 	if (cmd->next_sibling)
@@ -62,7 +62,7 @@ void	wait_cmd(t_execute *exec, t_node *cmd)
 	int	status;
 
 	if (!exec || !cmd)
-		return (errno = ENODATA, (void)NULL);
+		return (errno = ENODATA, (void) NULL);
 	if (waitpid(cmd->pid, &status, 0) == cmd->pid && WIFEXITED(status))
 		cmd->exit = WEXITSTATUS(status);
 	//else if (signal)
@@ -76,7 +76,7 @@ void	wait_pipex(t_execute *exec, t_node *pipex)
 	t_node	*cmd;
 
 	if (!exec || !pipex)
-		return (errno = ENODATA, (void)NULL);
+		return (errno = ENODATA, (void) NULL);
 	cmd = pipex->first_child;
 	while (cmd->next_sibling)
 	{

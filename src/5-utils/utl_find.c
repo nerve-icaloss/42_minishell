@@ -1,19 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   find_utils.c                                       :+:      :+:    :+:   */
+/*   utl_find.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: nserve <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/14 18:56:44 by nserve            #+#    #+#             */
-/*   Updated: 2023/10/16 11:05:53 by nserve           ###   ########.fr       */
+/*   Updated: 2023/10/22 17:18:05 by nserve           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "find_utils.h"
 #include "expansion_var.h"
 
-t_redir_type find_word_type(char *data)
+t_redir_type	find_word_type(char *data)
 {
 	if (data[0] == '<' && data[1] == '\0')
 		return (READ);
@@ -25,13 +25,12 @@ t_redir_type find_word_type(char *data)
 		return (APPEND);
 	else
 		return (WORD);
-
 }
 
 void	find_expansion(t_expand *expd, t_myenv *env)
 {
 	if (!expd || !env)
-		return (errno = ENODATA, (void)NULL);
+		return (errno = ENODATA, (void) NULL);
 	while (*expd->p)
 	{
 		if (*expd->p == '"')
@@ -51,7 +50,7 @@ void	find_expansion(t_expand *expd, t_myenv *env)
 	}
 }
 
-size_t find_closing_quote(char *data)
+size_t	find_closing_quote(char *data)
 {
 	char	quote;
 	size_t	i;
@@ -60,12 +59,12 @@ size_t find_closing_quote(char *data)
 	if (!data)
 		return (errno = ENODATA, 0);
 	quote = data[0];
-	if(quote != '\'' && quote != '"')
+	if (quote != '\'' && quote != '"')
 		return (0);
 	i = 0;
 	len = strlen(data);
-	while(++i < len)
-		if(data[i] == quote)
+	while (++i < len)
+		if (data[i] == quote)
 			return (i);
 	return (0);
 }

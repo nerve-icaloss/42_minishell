@@ -6,7 +6,7 @@
 /*   By: nserve <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/10 18:24:09 by nserve            #+#    #+#             */
-/*   Updated: 2023/10/10 18:24:13 by nserve           ###   ########.fr       */
+/*   Updated: 2023/10/22 17:22:44 by nserve           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,16 +17,16 @@
 # include "expander.h"
 # include "scanner.h"
 
-t_node *choose_first_child(t_token *tok, t_myenv *env);
-t_node *insert_lvl_parent(t_node *parent, t_token *tok, int type);
-t_node *choose_lvl(t_node *parent, t_token *tok, int node_type, t_myenv *env);
-t_node *insert_lvl_child(t_node *parent, t_node *child);
-void handle_error_and_clean(t_node *parent, t_token *tok, int type);
+t_node	*choose_first_child(t_token *tok, t_myenv *env);
+t_node	*insert_lvl_parent(t_node *parent, t_token *tok, int type);
+t_node	*choose_lvl(t_node *parent, t_token *tok, int node_type, t_myenv *env);
+t_node	*insert_lvl_child(t_node *parent, t_node *child);
+void	handle_error_and_clean(t_node *parent, t_token *tok, int type);
 
-t_node *parse_word(t_token *tok, t_myenv *env);
-t_node *parse_command(t_token *tok, t_myenv *env);
+t_node	*parse_word(t_token *tok, t_myenv *env);
+t_node	*parse_command(t_token *tok, t_myenv *env);
 t_node	*parse_bracket(t_token *tok, t_myenv *env);
-t_node *parse_lvl(t_node *parent, t_token *tok, int node_type, t_myenv *env);
-int parse_source(t_node **root, t_source *src, t_myenv *env);
+t_node	*parse_lvl(t_node *parent, t_token *tok, int node_type, t_myenv *env);
+int		parse_source(t_node **root, t_source *src, t_myenv *env);
 
 #endif

@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   expander.c                                   :+:      :+:    :+:   */
+/*   expander.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: nserve <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/14 17:10:43 by nserve            #+#    #+#             */
-/*   Updated: 2023/10/16 11:08:58 by nserve           ###   ########.fr       */
+/*   Updated: 2023/10/22 17:06:02 by nserve           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,8 +53,8 @@ static void	split_word(t_node **origin, char *data)
 	char	*word;
 
 	if (!origin || !data)
-		return (errno = ENODATA, (void)NULL);
-	word = 	scan_word(data);
+		return (errno = ENODATA, (void) NULL);
+	word = scan_word(data);
 	while (*word)
 	{
 		new = word_new(word);
