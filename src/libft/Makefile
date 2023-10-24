@@ -6,7 +6,7 @@
 #    By: hmelica <marvin@42.fr>                     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/11/07 10:50:51 by hmelica           #+#    #+#              #
-#    Updated: 2023/10/01 14:28:53 by hmelica          ###   ########.fr        #
+#    Updated: 2023/10/24 11:36:48 by nserve           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -58,6 +58,7 @@ FTSTR		=	ft_arrclear.c \
 				ft_striteri.c \
 				ft_strjoin.c \
 				ft_strjoin2.c \
+				ft_strnjoin.c \
 				ft_strlcat.c \
 				ft_strlcpy.c \
 				ft_strlen.c \
