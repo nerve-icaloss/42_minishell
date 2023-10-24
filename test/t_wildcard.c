@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../headers/minishell.h"
+#include "./universal.h"
 #include "../criterion/include/criterion/criterion.h"
 #include "../criterion/include/criterion/parameterized.h"
 #include "../criterion/include/criterion/new/assert.h"
@@ -97,8 +97,6 @@ ParameterizedTestParameters(wildcard, prev) {
 	cr_log_info("%d tests on wildcard prev", count);
 	return (cr_make_param_array(t_arg_wc, ret, count, free_wc_arg));
 }
-
-#include "../src/wildcard.h"
 
 int	wc_init_prev(t_wildcard *wc, char *s);
 int	wc_init_next(t_wildcard *wc);

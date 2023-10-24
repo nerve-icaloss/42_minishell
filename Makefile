@@ -111,6 +111,9 @@ MAKEFLAGS += --no-print-directory
 
 CC = cc
 
+TEST_MODE = -D TEST_MODE
+# comment to disable test and compile with static
+
 LIBFT_DIR		= ${SRCS_DIR}/libft
 LIBFT_FLAG		= -L $(LIBFT_DIR) -l:libft.a
 LIBFT			= ${SRCS_DIR}/libft/libft.a
@@ -138,9 +141,10 @@ RMDIR	= rm -df
 MKDIR	= mkdir
 
 CFLAGS_NAME		= $(if $(filter $(MAKECMDGOALS), sanitize),$(SANITIZE_FLAG),)
-CFLAGS			:= ${CFLAGS} $(if $(filter $(MAKECMDGOALS), debug test),$(DEBUG_FLAG),)
+CFLAGS			:= ${CFLAGS} $(if $(filter $(MAKECMDGOALS), debug test),$(DEBUG_FLAG),) ${TEST_MODE}
 DEBUG_PROMPT	= \033[1;35mdebug mode\033[0m
 OK_PROMPT		= \033[1;32mdone \033[0m$(if $(filter $(MAKECMDGOALS), debug test),$(DEBUG_PROMPT),)
+OK_PROMPT += $(ifdef TEST_MODE, "\033[1;35munit test mode\033[0m")
 
 DELETE = \033[2K\r
 

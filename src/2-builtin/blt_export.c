@@ -12,7 +12,7 @@
 
 #include "../../headers/minishell.h"
 
-static char	*format_export(char *s)
+TEST_STATIC char	*format_export(char *s)
 {
 	char	*ret;
 	char	*origin;

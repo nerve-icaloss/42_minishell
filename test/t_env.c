@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../headers/minishell.h"
+#include "./universal.h"
 #include "include/criterion/criterion.h"
 #include "include/criterion/new/assert.h"
 #include <stdio.h>

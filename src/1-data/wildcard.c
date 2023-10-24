@@ -12,7 +12,7 @@
 
 #include "../../headers/minishell.h"
 
-static int	wc_init_prev(t_wildcard *wc, char *s)
+ TEST_STATIC int	wc_init_prev(t_wildcard *wc, char *s)
 {
 	char	*i;
 	char	*j;
@@ -39,7 +39,7 @@ static int	wc_init_prev(t_wildcard *wc, char *s)
 	return (0);
 }
 
-static int	wc_init_next(t_wildcard *wc)
+ TEST_STATIC int	wc_init_next(t_wildcard *wc)
 {
 	char	*i;
 	char	*j;

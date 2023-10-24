@@ -13,7 +13,7 @@
 #ifndef SIGNAL_H
 # define SIGNAL_H
 
-# include "../../headers/minishell.h"
+# include "./minishell.h"
 
 
 

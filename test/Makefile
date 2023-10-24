@@ -38,5 +38,5 @@ universal_clean:
 	@rm -f universal.h
 
 universal.h: universal_clean
-	@find ../headers -type f -name "*.h" -exec cat {} >> universal.h \;
-	@find ../src -type f -name "*.h" -exec cat {} >> universal.h \;
+	@find ../headers -type f -name "*.h" -exec echo "#include \"{}\"" \;  >> universal.h
+	@find ../src -type f -name "*.h" -exec echo "#include \"{}\"" \;  >> universal.h

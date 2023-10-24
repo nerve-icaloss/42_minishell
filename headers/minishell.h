@@ -28,6 +28,12 @@
 # include <sys/wait.h>
 # include "../src/libft/libft.h"
 
+# ifndef TEST_MODE
+#  define TEST_STATIC static
+# else
+#  define TEST_STATIC
+# endif
+
 # define SYS_FAIL (-1)
 
 typedef struct dirent	t_dirent;

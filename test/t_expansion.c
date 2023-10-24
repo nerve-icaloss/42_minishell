@@ -10,13 +10,13 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../headers/minishell.h"
+#include "./universal.h"
 #include "include/criterion/criterion.h"
 #include "include/criterion/parameterized.h"
 #include "include/criterion/new/assert.h"
 #include <string.h>
 
-void	var_expansion(char **line, t_myenv *myenv);
+int	var_expansion(char **line, t_myenv *myenv);
 
 // test var expansion there
 char *cr_strdup(const char *str);
