@@ -6,7 +6,7 @@
 /*   By: nserve <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/16 11:49:35 by nserve            #+#    #+#             */
-/*   Updated: 2023/10/22 17:13:04 by nserve           ###   ########.fr       */
+/*   Updated: 2023/10/24 10:38:29 by nserve           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,10 +49,10 @@ int	execute_cmd(t_node *cmd, t_myshell *shell)
 		return (exec.exit);
 	if (apply_redirection(&exec, cmd))
 		return (ft_arrclear(exec.argv), exec.exit);
+	if (!exec.argv[0])
+		return (reset_redirection(&exec, cmd), 0);
 	if (search_exec_path(&exec, &shell->env))
 		return (ft_arrclear(exec.argv), exec.exit);
-	if (!exec.argv[0])
-		return (0);
 	else if (exec.builtin_f)
 		return (exec.builtin_f(exec.argv, &shell->env));
 	else
