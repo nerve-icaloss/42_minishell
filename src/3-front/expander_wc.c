@@ -58,5 +58,6 @@ t_wildcard	*generate_wildcard(char *s)
 		return (NULL);
 	if (wc_rec_expand(wc))
 		return (wc_clean(&wc), NULL);
+	// wc error if null
 	return (wc);
 }
