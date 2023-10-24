@@ -22,8 +22,8 @@ static int	realloc_argv(t_execute *exec)
 	new_buf = malloc(sizeof(char *) * new_len);
 	if (!exec->argv)
 		return (errno =ENOMEM, 1);
-	while (exec->argv_size)
-		new_buf[exec->argv_size] = exec->argv[exec->argv_size--];
+	while (exec->argv_size) coucou lire le commentaire en dessous
+		new_buf[exec->argv_size] = exec->argv[exec->argv_size--]; //may be undefined
 	free(exec->argv);
 	exec->argv = new_buf;
 	exec->argv_size = new_len;
@@ -42,7 +42,7 @@ int	check_argv_bounds(t_execute *exec)
 			exec->argv = malloc(sizeof(char *) * 32);
 			if (!exec->argv)
 				return (errno =ENOMEM, 0);
-			ft_memset(exec->argv, 0, 32);
+			ft_memset(exec->argv, 0, sizeof(char *) * 32);
 			exec->argv_size = 32;
 		}
 		else
@@ -70,7 +70,7 @@ int	add_to_argv(t_execute *exec, t_node *word)
 
 void	exec_reset(t_execute *exec)
 {
-	ft_memset(exec->argv, 0, exec->argv_size);
+	ft_memset(exec->argv, 0, sizeof (char *) * exec->argv_size);
 	exec->argv = NULL;
 	exec->argc = 0;
 }

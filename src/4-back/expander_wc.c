@@ -12,7 +12,7 @@
 
 #include "../../headers/minishell.h"
 
-char	*wc_to_str(t_wildcard *wc)
+/*char	*wc_to_str(t_wildcard *wc)
 {
 	char		*s;
 	char		*a;
@@ -39,6 +39,33 @@ char	*wc_to_str(t_wildcard *wc)
 		child = child->next;
 	}
 	return (s);
+}*/
+
+int	wc_into_node(t_wildcard *wc, t_node **word)
+{
+	char		*a;
+	t_wildcard	*child;
+	t_node		*to_add;
+
+	if (!wc)
+		return (-1);
+	child = wc->child;
+	while (child)
+	{
+		if (wc_into_node(child, word))
+			return (-1);
+		child = child->next;
+	}
+	child = wc;
+	if (child && !child->wc)
+	{
+		to_add = word_new(child->s);
+		if (!to_add)
+			return (errno = ENOMEM, -1);
+		node_sibling_add(word, to_add);
+		child = child->next;
+	}
+	return (0);
 }
 
 /*
@@ -59,4 +86,36 @@ t_wildcard	*generate_wildcard(char *s)
 	if (wc_rec_expand(wc))
 		return (wc_clean(&wc), NULL);
 	return (wc);
+}
+
+/*
+ * word should have no parent
+ * */
+int	run_wildcard(t_node **word)
+{
+	t_node		*i;
+	t_node		*j;
+	t_node		*end;
+	t_wildcard	*wc;
+
+	if (!word)
+		return (errno = ENODATA, -1);
+	i = *word;
+	end = i;
+	while (end->next_sibling)
+		end = end->next_sibling;
+	while (i)
+	{
+		wc = generate_wildcard(i->val);
+		if (wc)
+			if (wc_into_node(wc, word))
+				return (wc_clean(&wc), -1);
+		if (i != end)
+			j = i->next_sibling;
+		else
+			j = NULL;
+		word_pop(word, i);
+		i = j;
+	}
+	return (wc_clean(&wc), 0);
 }

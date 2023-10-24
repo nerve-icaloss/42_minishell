@@ -76,6 +76,9 @@ static void	find_expansion(t_expand *expd, t_myenv *env)
 	}
 }
 
+/*
+ * Returns null in case of problem
+ * */
 t_node	*word_expand(char *data, t_myenv *env)
 {
 	t_node		*word;
@@ -97,6 +100,8 @@ t_node	*word_expand(char *data, t_myenv *env)
 	}
 	free(expd.pstart);
 	remove_quotes(word);
+	if (run_wildcard(&word))
+		return (node_tree_clean(word), NULL);
 	return (word);
 }
 
