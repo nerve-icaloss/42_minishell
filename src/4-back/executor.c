@@ -19,6 +19,8 @@ int	search_exec_path(t_execute *exec, t_myenv *env)
 
 	if (!exec)
 		return (errno = ENODATA, 1);
+	if (!exec->argv[0])
+		return (0);
 	if (find_builtin_f(exec))
 		return (exec->exit = 1, 1);
 	if (exec->builtin_f)
@@ -49,7 +51,9 @@ int	execute_cmd(t_node *cmd, t_myshell *shell)
 		return (ft_arrclear(exec.argv), exec.exit);
 	if (search_exec_path(&exec, &shell->env))
 		return (ft_arrclear(exec.argv), exec.exit);
-	if (exec.builtin_f)
+	if (!exec.argv[0])
+		return (0);
+	else if (exec.builtin_f)
 		return (exec.builtin_f(exec.argv, &shell->env));
 	else
 	{

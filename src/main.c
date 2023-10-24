@@ -57,32 +57,32 @@ void	node_tree_print(t_node *root)
 	}
 }
 
-void	parse_and_execute(t_myshell *shell, t_source *src)
+void	parse_and_execute(char *cmdline, t_myshell *shell)
 {
-	if (!shell || !src)
-		return (errno = ENODATA, (void)NULL);
-	shell->exit = parse_source(&shell->root, src, &shell->env);
-	//clean source
+	t_source	src;
+
+	if (!cmdline || !shell)
+		return (errno = ENODATA, (void) NULL);
+	if (source_init(&src, cmdline))
+		return ((void) NULL);
+	shell->exit = parse_source(&shell->root, &src, &shell->env);
+	source_clean(&src);
 	if (shell->exit == 2)
 		run_tree_doc(shell->root, &shell->env);
 	else
 		shell->exit = run_tree_doc(shell->root, &shell->env);
 	if (shell->exit > 0)
-		return (node_tree_clean(shell->root), (void)NULL);
+		return (node_tree_clean(shell->root), (void) NULL);
 	node_tree_print(shell->root); //
-	write(1, "\n", 1);
+	write(1, "\n", 1); //
 	shell->exit = execute_tree(shell->root, shell);
 }
 
 void	rpel(t_myshell *shell)
 {
 	char		*cmdline;
-	t_source	src;
-
 	if (!shell)
 		return (errno = ENODATA, (void)NULL);
-	if (tok_buf_init(&src) == -1)
-		return ;
 	while (1)
 	{
 		cmdline = readline("minishell-1.0$ ");
@@ -93,11 +93,7 @@ void	rpel(t_myshell *shell)
 		}
 		if (entry_add(&shell->hist, cmdline) == -1)
 			write(2, "error login history\n", 20);
-		src.buf = cmdline;
-		src.curpos = INIT_SRC_POS;
-		src.bufsize = ft_strlen(cmdline);
-		parse_and_execute(shell, &src);
-		free(cmdline);
+		parse_and_execute(cmdline, shell);
 	}
 }
 

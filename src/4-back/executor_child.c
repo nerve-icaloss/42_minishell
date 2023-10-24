@@ -35,6 +35,8 @@ void	child_pipex_cmd(t_execute *exec, t_myshell *shell)
 		close(exec->std_fd[IN]);
 	if (exec->std_fd[OUT] > -1)
 		close(exec->std_fd[OUT]);
+	if (!exec->argv[0])
+		exit (0);
 	if (exec->bracket_first_child)
 	{
 		exec->exit = execute_tree(exec->bracket_first_child, shell);
