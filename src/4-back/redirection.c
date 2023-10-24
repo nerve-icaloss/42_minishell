@@ -11,16 +11,7 @@
 /* ************************************************************************** */
 
 #include "../../headers/redirection.h"
-
-static void	close_redirection(t_node *cmd, int fd)
-{
-	if (cmd->fd[fd] > 0)
-	{
-		if (close(cmd->fd[fd]))
-			perror("close");
-		cmd->fd[fd] = -1;
-	}
-}
+#include "../../headers/expander.h"
 
 int	apply_redirection(t_execute *exec, t_node *cmd)
 {
@@ -74,7 +65,31 @@ int	reset_redirection(t_execute *exec, t_node *cmd)
 	return (0);
 }
 
-int	infile_redirection(t_node *cmd)
+static int	open_redirection(t_node *redir, t_myenv *env)
+{
+	char	*name;
+	int		fd;
+
+	if (!redir)
+		return (errno = ENODATA, 1);
+	name = redir_expand(redir->val, redir->rtype, env);
+	if (!name)
+		return (-1);
+	fd = -1;
+	if (name && redir->rtype == READ)
+		fd = open_read(name);
+	if (redir->rtype == HEREDOC)
+		fd = redir->fd[IN];
+	if (name && redir->rtype == TRUNC)
+		fd = open_trunc(name);
+	if (name && redir->rtype == APPEND)
+		fd = open_append(name);
+	if (fd == SYS_FAIL)
+		perror(name);
+	return (free(name), fd);
+}
+
+int	infile_redirection(t_node *cmd, t_myenv *env)
 {
 	t_node	*child;
 	t_node	*i;
@@ -88,12 +103,9 @@ int	infile_redirection(t_node *cmd)
 		if (child->rtype == READ || child->rtype == HEREDOC)
 		{
 			close_redirection(cmd, IN);
-			if (child->rtype == READ)
-				cmd->fd[IN] = open_read(child->val);
-			if (child->rtype == HEREDOC)
-				cmd->fd[IN] = child->fd[IN];
+			cmd->fd[IN] = open_redirection(child, env);
 			if (cmd->fd[IN] == SYS_FAIL)
-				return (perror(child->val), 1);
+				return (1);
 			node_sibling_pop(child);
 		}
 		child = i;
@@ -101,7 +113,7 @@ int	infile_redirection(t_node *cmd)
 	return (0);
 }
 
-int	outfile_redirection(t_node *cmd)
+int	outfile_redirection(t_node *cmd, t_myenv *env)
 {
 	t_node	*child;
 	t_node	*i;
@@ -115,12 +127,9 @@ int	outfile_redirection(t_node *cmd)
 		if (child->rtype == TRUNC || child->rtype == APPEND)
 		{
 			close_redirection(cmd, OUT);
-			if (child->rtype == TRUNC)
-				cmd->fd[OUT] = open_trunc(child->val);
-			if (child->rtype == APPEND)
-				cmd->fd[OUT] = open_append(child->val);
+			cmd->fd[OUT] = open_redirection(child, env);
 			if (cmd->fd[OUT] == SYS_FAIL)
-				return (perror(child->val), 1);
+				return (1);
 			node_sibling_pop(child);
 		}
 		child = i;

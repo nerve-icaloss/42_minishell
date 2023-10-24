@@ -28,6 +28,17 @@ t_node	*node_new(t_node_type type)
 	return (node);
 }
 
+t_node	*node_word_new(t_redir_type type)
+{
+	t_node	*word;
+
+	word = node_new(NODE_WORD);
+	if (!word)
+		return (errno = ENOMEM, NULL);
+	word->rtype = type;
+	return (word);
+}
+
 t_node	*word_new(char *data)
 {
 	t_node	*word;
@@ -43,7 +54,7 @@ t_node	*word_new(char *data)
 	return (word);
 }
 
-t_node	*redir_new(char *data, t_redir_type type)
+/*t_node	*redir_new(char *data, t_redir_type type)
 {
 	t_node	*redir;
 
@@ -56,7 +67,7 @@ t_node	*redir_new(char *data, t_redir_type type)
 		return (node_tree_clean(redir), NULL);
 	redir->rtype = type;
 	return (redir);
-}
+}*/
 
 int	node_val_set(t_node *node, char *val)
 {

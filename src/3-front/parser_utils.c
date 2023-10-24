@@ -12,7 +12,7 @@
 
 #include "../../headers/parser.h"
 
-t_node	*choose_first_child(t_token *tok, t_myenv *env)
+t_node	*choose_first_child(t_token *tok)
 {
 	t_source	*src;
 	t_node		*cmd;
@@ -21,12 +21,12 @@ t_node	*choose_first_child(t_token *tok, t_myenv *env)
 		return (errno = ENODATA, NULL);
 	src = tok->src;
 	if (tok->type == TOK_WORD)
-		cmd = parse_command(tok, env);
+		cmd = parse_command(tok);
 	else if (tok->type == TOK_BRACKET)
 	{
 		token_clean(tok);
 		tok = tokenize(src);
-		cmd = parse_bracket(tok, env);
+		cmd = parse_bracket(tok);
 	}
 	else
 	{
@@ -59,7 +59,7 @@ t_node	*insert_lvl_parent(t_node *parent, t_token *tok, int type)
 	return (token_clean(tok), parent);
 }
 
-t_node	*choose_lvl(t_node *parent, t_token *tok, int node_type, t_myenv *env)
+t_node	*choose_lvl(t_node *parent, t_token *tok, int node_type)
 {
 	t_source	*src;
 	t_node		*cmd;
@@ -71,12 +71,12 @@ t_node	*choose_lvl(t_node *parent, t_token *tok, int node_type, t_myenv *env)
 		src = tok->src;
 		token_clean(tok);
 		tok = tokenize(src);
-		cmd = parse_bracket(tok, env);
+		cmd = parse_bracket(tok);
 	}
 	else if (tok->type == TOK_WORD)
-		cmd = parse_command(tok, env);
+		cmd = parse_command(tok);
 	else if (tok->type <= node_type)
-		cmd = parse_lvl(parent, tok, (node_type - 1), env);
+		cmd = parse_lvl(parent, tok, (node_type - 1));
 	else
 		cmd = NULL;
 	if (cmd && cmd->exit)

@@ -66,7 +66,7 @@ void	parse_and_execute(char *cmdline, t_myshell *shell)
 		return (errno = ENODATA, (void) NULL);
 	if (source_init(&src, cmdline))
 		return ((void) NULL);
-	shell->exit = parse_source(&shell->root, &src, &shell->env);
+	shell->exit = parse_source(&shell->root, &src);
 	source_clean(&src);
 	node_tree_print(shell->root); //
 	write(1, "\n", 1); //
