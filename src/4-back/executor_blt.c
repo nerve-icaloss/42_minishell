@@ -27,7 +27,7 @@ static void	return_builtin_lst(t_builtin **builtins)
 	builtins[5]->name = ft_strdup("unset");
 	builtins[5]->f = exit_builtin;
 	builtins[6]->name = ft_strdup("echo");
-	builtins[6]->f = exit_builtin;
+	builtins[6]->f = echo_builtin;
 	builtins[7]->name = NULL;
 	builtins[7]->f = NULL;
 }
