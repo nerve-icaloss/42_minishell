@@ -23,6 +23,8 @@ void	child_cmd(t_execute *exec, t_myshell *shell)
 	if (execve(exec->argv[0], exec->argv, shell->env.envp) == SYS_FAIL)
 	{
 		perror(exec->argv[0]);
+		ft_arrclear(exec->argv);
+		shell_clean(shell);
 		exit(1);
 	}
 }
@@ -47,11 +49,14 @@ void	child_pipex_cmd(t_execute *exec, t_myshell *shell)
 	{
 		exec->exit = exec->builtin_f(exec->argv, &shell->env);
 		ft_arrclear(exec->argv);
+		shell_clean(shell);
 		exit(exec->exit);
 	}
 	if (execve(exec->argv[0], exec->argv, shell->env.envp) == SYS_FAIL)
 	{
 		perror(exec->argv[0]);
+		ft_arrclear(exec->argv);
+		shell_clean(shell);
 		exit(1);
 	}
 }

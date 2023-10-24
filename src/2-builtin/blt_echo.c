@@ -39,11 +39,12 @@ int	main(int ac, char ** av)
 /*
  * ret = 1 if -n there
  * */
-int	echo_builtin(char **argv)
+int	echo_builtin(char **argv, t_myenv *env)
 {
 	char	ret;
 	char	*end;
 
+	(void) env;
 	if (!argv || !*argv)
 		return (-1);
 	argv++;

@@ -25,7 +25,7 @@ int	search_exec_path(t_execute *exec, t_myenv *env)
 		return (exec->exit = 1, 1);
 	if (exec->builtin_f)
 		return (exec->exit = 0, 0);
-	if (!(exec->argv[0][0] == '/' || exec->argv[0][0] == '.'))
+	if (exec->argv[0][0] != '/')
 		cmd_path = search_cmd_path(exec->argv[0], env);
 	else
 		cmd_path = ft_strdup(exec->argv[0]);
@@ -53,8 +53,8 @@ int	execute_cmd(t_node *cmd, t_myshell *shell)
 		return (reset_redirection(&exec, cmd), 0);
 	if (search_exec_path(&exec, &shell->env))
 		return (ft_arrclear(exec.argv), exec.exit);
-	else if (exec.builtin_f)
-		return (exec.builtin_f(exec.argv, &shell->env));
+	if (exec.builtin_f)
+		exec.exit = exec.builtin_f(exec.argv, &shell->env);
 	else
 	{
 		cmd->pid = fork();
@@ -62,9 +62,9 @@ int	execute_cmd(t_node *cmd, t_myshell *shell)
 			return (ft_arrclear(exec.argv), 1);
 		if (cmd->pid == 0)
 			child_cmd(&exec, shell);
+		wait_cmd(&exec, cmd);
 	}
-	reset_redirection(&exec, cmd);
-	return (wait_cmd(&exec, cmd), ft_arrclear(exec.argv), cmd->exit);
+	return (reset_redirection(&exec, cmd), ft_arrclear(exec.argv), cmd->exit);
 }
 
 int	execute_pipex(t_node *pipex, t_myshell *shell)
