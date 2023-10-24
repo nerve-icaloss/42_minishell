@@ -45,7 +45,7 @@ int	execute_cmd(t_node *cmd, t_myshell *shell)
 	if (!cmd || !shell)
 		return (errno = ENODATA, 1);
 	ft_memset(&exec, 0, sizeof(exec));
-	if (execute_cmd_init(&exec, cmd))
+	if (execute_cmd_init(&exec, cmd, &shell->env))
 		return (exec.exit);
 	if (apply_redirection(&exec, cmd))
 		return (ft_arrclear(exec.argv), exec.exit);
@@ -79,7 +79,7 @@ int	execute_pipex(t_node *pipex, t_myshell *shell)
 	while (cmd)
 	{
 		ft_arrclear(exec.argv);
-		if (execute_pipex_init(&exec, pipex, cmd))
+		if (execute_pipex_init(&exec, pipex, cmd, &shell->env))
 			continue ;
 		if (apply_redirection(&exec, cmd))
 			continue ;

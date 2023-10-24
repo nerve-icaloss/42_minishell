@@ -54,7 +54,6 @@ void	node_parent_insert(t_node *parent, t_node *child)
 void	node_child_add(t_node *parent, t_node *child)
 {
 	t_node	*sibling;
-	t_node	*i;
 
 	if (!parent || !child)
 		return (errno = ENODATA, (void) NULL);
@@ -70,13 +69,14 @@ void	node_child_add(t_node *parent, t_node *child)
 		child->prev_sibling = sibling;
 	}
 	parent->children++;
-	i = child->next_sibling;
+	parent->exit = child->exit;
+	/*i = child->next_sibling;
 	while (i)
 	{
 		i->parent = parent;
 		parent->children++;
 		i = i->next_sibling;
-	}
+	}*/
 }
 
 void	node_tree_clean(t_node *node)

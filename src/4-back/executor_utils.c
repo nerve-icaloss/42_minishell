@@ -11,33 +11,58 @@
 /* ************************************************************************** */
 
 #include "../../headers/executor.h"
+#include "../../headers/expander.h"
 #include "../../headers/redirection.h"
 
-int	execute_cmd_init(t_execute *exec, t_node *cmd)
+static int	build_argv(t_execute *exec, t_node *cmd, t_myenv *env)
+{
+	t_node	*child;
+	t_node	*word;
+	t_node	*i;
+
+	child = cmd->first_child;
+	while (child)
+	{
+		i = child->next_sibling;
+		word = word_expand(child->val, env);
+		if (!word)
+		{
+			child = child->next_sibling;
+			continue ;
+		}
+		if (add_to_argv(exec, word))
+			return (node_sibling_clean(&word), 1);
+		node_sibling_clean(&word);
+		node_sibling_pop(child);
+		child = i;
+	}
+	if (check_argv_bounds(exec))
+		exec->argv[exec->argc] = NULL;
+	return (0);
+}
+
+int	execute_cmd_init(t_execute *exec, t_node *cmd, t_myenv *env)
 {
 	if (!exec || !cmd)
 		return (errno = ENODATA, 1);
 	exec->exit = 1;
-	exec->argv = NULL;
 	exec->std_fd[IN] = -1;
 	exec->std_fd[OUT] = -1;
-	if (infile_redirection(cmd))
+	if (infile_redirection(cmd, env))
 		return (1);
-	if (outfile_redirection(cmd))
+	if (outfile_redirection(cmd, env))
 		return (1);
-	exec->argv = build_argv(cmd);
-	if (!exec->argv)
+	if (build_argv(exec, cmd, env))
 		return (1);
 	exec->exit = 0;
 	return (0);
 }
 
-int	execute_pipex_init(t_execute *exec, t_node *pipex, t_node *cmd)
+int	execute_pipex_init(t_execute *exec, t_node *pipex, t_node *cmd, t_myenv *env)
 {
 	if (!exec || !pipex || !cmd)
 		return (errno = ENODATA, 1);
 	exec->exit = 1;
-	exec->argv = NULL;
 	if (cmd->next_sibling)
 	{
 		if (pipe(pipex->fd) == SYS_FAIL)
@@ -51,7 +76,7 @@ int	execute_pipex_init(t_execute *exec, t_node *pipex, t_node *cmd)
 		exec->bracket_first_child = cmd->first_child;
 		return (0);
 	}
-	if (execute_cmd_init(exec, cmd))
+	if (execute_cmd_init(exec, cmd, env))
 		return (1);
 	else
 		return (0);

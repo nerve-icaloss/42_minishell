@@ -12,25 +12,25 @@
 
 #include "../../headers/minishell.h"
 
-static int	handle_quotes(char **ret, t_node *args, int *i, int *j)
+static int	handle_quotes(char **ret, char *src, int *i, int *j)
 {
 	static const char	quotes[3] = "'\"";
 	int					k;
 
-	if (!ret || !args || !i || !j)
+	if (!ret || !src || !i || !j)
 		return (1);
-	while (args->val[*i + *j] && !strchr(quotes, args->val[*i + *j]))
+	while (src[*i + *j] && !strchr(quotes, src[*i + *j]))
 		(*j)++;
-	*ret = ft_strjoin2(*ret, ft_substr(args->val, *i, *j), 1, 1);
-	if (!args->val[*i + *j])
+	*ret = ft_strjoin2(*ret, ft_substr(src, *i, *j), 1, 1);
+	if (!src[*i + *j])
 		return (1);
-	k = strchr(quotes, args->val[*i + *j]) - quotes;
+	k = strchr(quotes, src[*i + *j]) - quotes;
 	*i += *j + 1;
 	*j = 0;
-	while (args->val[*i + *j] && args->val[*i + *j] != quotes[k])
+	while (src[*i + *j] && src[*i + *j] != quotes[k])
 		(*j)++;
-	*ret = ft_strjoin2(*ret, ft_substr(args->val, *i, *j), 1, 1);
-	if (!args->val[*i + *j])
+	*ret = ft_strjoin2(*ret, ft_substr(src, *i, *j), 1, 1);
+	if (!src[*i + *j])
 		return (1);
 	*i += *j + 1;
 	*j = 0;
@@ -53,7 +53,7 @@ static int	remove_quotes_word(t_node *word)
 	i = 0;
 	j = 0;
 	while (word->val && word->val[i + j])
-		if (handle_quotes(&ret, word, &i, &j))
+		if (handle_quotes(&ret, word->val, &i, &j))
 			break ;
 	if (word->val)
 		free(word->val);
@@ -71,5 +71,25 @@ int	remove_quotes(t_node *word)
 			return (1);
 		word = word->next_sibling;
 	}
+	return (0);
+}
+
+int	remove_quotes_str(char **str)
+{
+	char				*ret;
+	int					i;
+	int					j;
+
+	if (!str || !*str)
+		return (errno = ENODATA, 1);
+	ret = NULL;
+	i = 0;
+	j = 0;
+	while (*str && *str[i + j])
+		if (handle_quotes(&ret, *str, &i, &j))
+			break ;
+	if (*str)
+		free(*str);
+	*str= ret;
 	return (0);
 }
