@@ -6,7 +6,7 @@
 /*   By: hmelica <hmelica@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/14 16:08:57 by hmelica           #+#    #+#             */
-/*   Updated: 2023/10/22 17:16:13 by nserve           ###   ########.fr       */
+/*   Updated: 2023/10/24 11:07:06 by nserve           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ int	here_doc(char *eof, t_myenv *env)
 			var_expansion(&line, env);
 		if (!line)
 			break ;
-		write(fd[1], line, len[1]);
+		write(fd[1], line, ft_strlen(line));
 		write(fd[1], "\n", 1);
 		line = readline("> ");
 		len[1] = ft_strlen(line);
@@ -83,14 +83,14 @@ static int	run_cmd_doc(t_node *cmd, t_myenv *env)
 	while (child)
 	{
 		i = child->next_sibling;
-		if (prev_doc)
-		{
-			if (close(prev_doc->fd[IN]) == SYS_FAIL)
-				perror("close_doc");
-			node_sibling_pop(prev_doc);
-		}
 		if (child->rtype == HEREDOC)
 		{
+			if (prev_doc)
+			{
+				if (close(prev_doc->fd[IN]) == SYS_FAIL)
+					perror("close_doc");
+				node_sibling_pop(prev_doc);
+			}
 			child->fd[IN] = this_doc(&child->val, env);
 			if (child->fd[IN] == SYS_FAIL)
 				return (1);

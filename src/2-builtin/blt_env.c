@@ -15,10 +15,13 @@
 /*
  * there is no params needed
  * T */
-int	env_builtin(t_myenv *env)
+int	env_builtin(char *argv[], t_myenv *env)
 {
 	t_lstvar	var;
 
+	(void) argv;
+	if (!env)
+		return (errno = ENODATA, 1);
 	var = env->lst_var;
 	while (var)
 	{

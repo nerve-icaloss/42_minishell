@@ -9,6 +9,8 @@
         "program": "${workspaceRoot}/minishell",
         "stopAtEntry": true,
         "args": [
+        	"cat",
+        	"toto"
         ],
         "cwd": "${workspaceRoot}",
         "MIMode": "gdb",

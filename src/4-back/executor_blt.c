@@ -21,7 +21,7 @@ static void	return_builtin_lst(t_builtin **builtins)
 	builtins[2]->name = ft_strdup("pwd");
 	builtins[2]->f = pwd_builtin;
 	builtins[3]->name = ft_strdup("env");
-	builtins[3]->f = exit_builtin;
+	builtins[3]->f = env_builtin;
 	builtins[4]->name = ft_strdup("export");
 	builtins[4]->f = export_builtin;
 	builtins[5]->name = ft_strdup("unset");

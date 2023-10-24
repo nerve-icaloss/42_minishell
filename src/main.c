@@ -14,6 +14,7 @@
 #include "../headers/parser.h"
 #include "../headers/here_doc.h"
 #include "../headers/executor.h"
+#include <unistd.h>
 
 void	node_tree_print(t_node *root)
 {
@@ -67,23 +68,25 @@ void	parse_and_execute(char *cmdline, t_myshell *shell)
 		return ((void) NULL);
 	shell->exit = parse_source(&shell->root, &src, &shell->env);
 	source_clean(&src);
+	node_tree_print(shell->root); //
+	write(1, "\n", 1); //
 	if (shell->exit == 2)
 		run_tree_doc(shell->root, &shell->env);
 	else
 		shell->exit = run_tree_doc(shell->root, &shell->env);
 	if (shell->exit > 0)
 		return (node_tree_clean(shell->root), (void) NULL);
-	node_tree_print(shell->root); //
-	write(1, "\n", 1); //
 	shell->exit = execute_tree(shell->root, shell);
+	shell->root = NULL;
 }
 
-void	rpel(t_myshell *shell)
+void	rpel_mode(t_myshell *shell)
 {
 	char		*cmdline;
+
 	if (!shell)
 		return (errno = ENODATA, (void)NULL);
-	while (1)
+	while (1 && isatty(STDIN_FILENO))
 	{
 		cmdline = readline("minishell-1.0$ ");
 		if (!cmdline || cmdline[0] == '\0' || cmdline[0] == '\n')
@@ -97,12 +100,21 @@ void	rpel(t_myshell *shell)
 	}
 }
 
+void	cmd_mode(t_myshell *shell, int argc, char *argv[])
+{
+	char		*cmdline;
+
+	cmdline = ft_strnjoin(argc - 1, &argv[1], " ");
+	if (!cmdline)
+		return (shell->exit = 1, (void) NULL);
+	parse_and_execute(cmdline, shell);
+}
+
 int	main(int argc, char *argv[], char *envp[])
 {
 	t_myshell	shell;
 	int			exit;
 
-	printf("Welcome to %s\n", argv[0]);
 	ft_memset(&shell, 0, sizeof(shell));
 	load_history();
 	if (!envp)
@@ -110,9 +122,9 @@ int	main(int argc, char *argv[], char *envp[])
 	if (env_init(&shell.env, envp))
 		return (write(2, "error env init\n", 15), 1);
 	if (argc == 1)
-	{
-		rpel(&shell);
-	}
+		rpel_mode(&shell);
+	else
+		cmd_mode(&shell, argc, argv);
 	exit = shell.exit;
 	return(register_history(&shell.hist), shell_clean(&shell), exit);
 }
