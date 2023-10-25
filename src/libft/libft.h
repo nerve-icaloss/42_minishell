@@ -6,7 +6,7 @@
 /*   By: hmelica <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/07 12:11:30 by hmelica           #+#    #+#             */
-/*   Updated: 2023/10/01 14:25:09 by hmelica          ###   ########.fr       */
+/*   Updated: 2023/10/25 20:04:11 by hmelica          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,24 +74,25 @@ char		*ft_trimleft(const char *str);
 char		*ft_trimright(const char *str);
 
 /* ft_str */
-void		ft_arrclear(char **array);
-size_t		ft_strlen(const char *s);
-size_t		ft_wordlen(const char *str);
-size_t		ft_strlcpy(char *dst, const char *src, size_t size);
-size_t		ft_strlcat(char *dst, const char *src, size_t size);
+char		**ft_split(const char *s, char c);
+char		*ft_strchr(const char *s, int c);
+char		*ft_strdup(const char *s);
+char		*ft_strjoin(const char *s1, const char *s2);
 char		*ft_strjoin(const char *s1, const char *s2);
 char		*ft_strjoin2(char *s1, char *s2, int free_s1, int free_s2);
-char		*ft_strnjoin(int size, char **strs, char *sep);
-char		*ft_strdup(const char *s);
-char		*ft_strchr(const char *s, int c);
-char		*ft_strrchr(const char *s, int c);
-char		*ft_strnstr(const char *s, const char *to_find, size_t size);
-int			ft_strncmp(const char *s1, const char *s2, size_t n);
-char		*ft_substr(const char *s, unsigned int start, size_t len);
-char		*ft_strjoin(const char *s1, const char *s2);
-char		*ft_strtrim(const char *s1, const char *set);
-char		**ft_split(const char *s, char c);
 char		*ft_strmapi(const char *s, char (*f)(unsigned int, char));
+char		*ft_strnjoin(int size, char **strs, char *sep);
+char		*ft_strnstr(const char *s, const char *to_find, size_t size);
+char		*ft_strrchr(const char *s, int c);
+char		*ft_strtrim(const char *s1, const char *set);
+char		*ft_substr(const char *s, unsigned int start, size_t len);
+int			ft_strncmp(const char *s1, const char *s2, size_t n);
+size_t		ft_strlcat(char *dst, const char *src, size_t size);
+size_t		ft_strlcpy(char *dst, const char *src, size_t size);
+size_t		ft_strlen(const char *s);
+size_t		ft_wordlen(const char *str);
+void		ft_arrclear(char **array);
+void		ft_offset(char *s, size_t off);
 void		ft_striteri(char *s, void (*f)(unsigned int, char *));
 
 /* ft_put */

@@ -6,7 +6,7 @@
 #    By: hmelica <marvin@42.fr>                     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/11/07 10:50:51 by hmelica           #+#    #+#              #
-#    Updated: 2023/10/24 11:36:48 by nserve           ###   ########.fr        #
+#    Updated: 2023/10/25 20:04:38 by hmelica          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -52,6 +52,7 @@ FTTRIM		=	ft_trimleft.c \
 				ft_trimright.c
 
 FTSTR		=	ft_arrclear.c \
+				ft_offset.c \
 				ft_split.c \
 				ft_strchr.c \
 				ft_strdup.c \
