@@ -6,7 +6,7 @@
 /*   By: nserve <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/14 17:10:43 by nserve            #+#    #+#             */
-/*   Updated: 2023/10/22 17:06:02 by nserve           ###   ########.fr       */
+/*   Updated: 2023/10/25 15:35:13 by nserve           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,10 +110,12 @@ char *redir_expand(char *data, t_redir_type type, t_myenv *env)
 	char		*ret;
 	t_expand	expd;
 
-	if (!data || !*data || !env)
+	if (!env)
 		return (errno = ENODATA, NULL);
 	if (type != HEREDOC)
 	{
+		if (!data)
+			return (errno = ENODATA, NULL);
 		if (expand_init(&expd, data))
 			return (NULL);
 		find_expansion(&expd, env);
