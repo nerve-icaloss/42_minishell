@@ -6,7 +6,7 @@
 /*   By: hmelica <hmelica@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/19 22:58:42 by hmelica           #+#    #+#             */
-/*   Updated: 2023/10/25 12:11:18 by hmelica          ###   ########.fr       */
+/*   Updated: 2023/10/25 12:52:45 by hmelica          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,15 +94,12 @@ int	wc_add(t_wildcard **origin, char *s)
 
 	if (!s)
 		return (errno = ENODATA, -1);
-	ft_dprintf(2, "trying %s\n", s);//
 	ret = malloc(sizeof(t_wildcard));
 	if (!ret)
 		return (free(s), errno = ENOMEM, -1);
 	ft_bzero(ret, sizeof(t_wildcard));
 	if (wc_init(ret, s))
 		return (errno = ENOMEM, wc_clean(&ret), -1);
-	if (!ret->wc)//
-		ft_dprintf(2, "definitly %s\n", ret->s);//
 	if (!*origin)
 		return (*origin = ret, 0);
 	i = *origin;
@@ -128,22 +125,17 @@ void	wc_clean(t_wildcard **i)
 		wc_clean(&child);
 		child = j;
 	}
-	child = *i;
-	if (child)
-	{
-		j = child->next;
-		if (child->s)
-			free(child->s);
-		if (child->path)
-			free(child->path);
-		if (child->glob_next)
-			free(child->glob_next);
-		if (child->glob_prev)
-			free(child->glob_prev);
-		if (child->following)
-			free(child->following);
-		free(child);
-		child = j;
-	}
+	if (*i && (*i)->s)
+		free((*i)->s);
+	if (*i && (*i)->path)
+		free((*i)->path);
+	if (*i && (*i)->glob_next)
+		free((*i)->glob_next);
+	if (*i && (*i)->glob_prev)
+		free((*i)->glob_prev);
+	if (*i && (*i)->following)
+		free((*i)->following);
+	if (*i)
+		free(*i);
 	*i = NULL;
 }
