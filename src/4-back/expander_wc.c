@@ -6,7 +6,7 @@
 /*   By: hmelica <hmelica@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/19 22:41:38 by hmelica           #+#    #+#             */
-/*   Updated: 2023/10/22 17:06:54 by nserve           ###   ########.fr       */
+/*   Updated: 2023/10/25 09:40:23 by hmelica          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,6 @@
 
 int	wc_into_node(t_wildcard *wc, t_node **word)
 {
-	char		*a;
 	t_wildcard	*child;
 	t_node		*to_add;
 
