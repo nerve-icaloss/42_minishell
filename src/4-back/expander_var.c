@@ -6,7 +6,7 @@
 /*   By: hmelica <hmelica@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/14 18:23:30 by hmelica           #+#    #+#             */
-/*   Updated: 2023/10/25 17:20:22 by hmelica          ###   ########.fr       */
+/*   Updated: 2023/10/25 18:38:42 by hmelica          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,7 @@ char	*var_expansion(char **line, size_t offset, t_myenv *env)
 	{
 		free(*line);
 		*line = ret;
+		return (ret + j);
 	}
-	return (ret + j);
+	return (*line + offset);
 }
