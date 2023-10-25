@@ -6,7 +6,7 @@
 /*   By: nserve <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/14 18:55:54 by nserve            #+#    #+#             */
-/*   Updated: 2023/10/22 17:06:22 by nserve           ###   ########.fr       */
+/*   Updated: 2023/10/25 10:01:46 by hmelica          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,6 +90,6 @@ int	remove_quotes_str(char **str)
 			break ;
 	if (*str)
 		free(*str);
-	*str= ret;
+	*str = ret;
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: hmelica <hmelica@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/19 22:41:38 by hmelica           #+#    #+#             */
-/*   Updated: 2023/10/25 09:40:23 by hmelica          ###   ########.fr       */
+/*   Updated: 2023/10/25 12:53:58 by hmelica          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,6 @@ t_wildcard	*generate_wildcard(char *s)
 		return (NULL);
 	if (wc_rec_expand(wc))
 		return (wc_clean(&wc), NULL);
-	// wc error if null
 	return (wc);
 }
 
@@ -110,6 +109,7 @@ int	run_wildcard(t_node **word)
 		if (wc)
 			if (wc_into_node(wc, word))
 				return (wc_clean(&wc), -1);
+		wc_clean(&wc);
 		if (i != end)
 			j = i->next_sibling;
 		else
@@ -117,5 +117,5 @@ int	run_wildcard(t_node **word)
 		word_pop(word, i);
 		i = j;
 	}
-	return (wc_clean(&wc), 0);
+	return (0);
 }

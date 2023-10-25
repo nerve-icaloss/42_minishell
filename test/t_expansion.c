@@ -6,7 +6,7 @@
 /*   By: hmelica <hmelica@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/16 21:57:09 by hmelica           #+#    #+#             */
-/*   Updated: 2023/10/15 14:42:35 by hmelica          ###   ########.fr       */
+/*   Updated: 2023/10/25 10:05:09 by hmelica          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -166,7 +166,7 @@ ParameterizedTest(t_doublestr *set, expansion, remove_quotes, .timeout = 2.)
 
 	if (!set)
 		cr_fatal("No arg");
-	n.val = NULL;
+	memset(&n, 0, sizeof(n));
 	if (set->in)
 		n.val = ft_strdup(set->in);
 	remove_quotes(&n);
