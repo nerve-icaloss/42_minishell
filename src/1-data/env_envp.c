@@ -6,7 +6,7 @@
 /*   By: hmelica <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/15 10:34:40 by hmelica           #+#    #+#             */
-/*   Updated: 2023/10/22 16:57:04 by nserve           ###   ########.fr       */
+/*   Updated: 2023/10/25 18:02:08 by hmelica          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ int	envp_update(t_myenv *env)
 	if (!env->envp)
 		return (-1);
 	envp = env->envp;
-	while (lst)
+	while (lst && (envp - env->envp) <= env->count)
 	{
 		if (!lst->value || *lst->value == '\0')
 		{
@@ -53,7 +53,7 @@ int	envp_update(t_myenv *env)
 			continue ;
 		}
 		*envp = var_get_string(lst);
-		if (!*(envp++))
+		if (!*(envp++) || (envp - env->envp) > env->count)
 			return (envp_clean(&env->envp), -1);
 		lst = lst->next;
 	}

@@ -6,7 +6,7 @@
 /*   By: hmelica <hmelica@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/03 16:05:03 by hmelica           #+#    #+#             */
-/*   Updated: 2023/10/22 17:04:27 by nserve           ###   ########.fr       */
+/*   Updated: 2023/10/25 18:01:29 by hmelica          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@
 	int		j;
 
 	if (!s || !ret || !var || !var->value)
-		return (-1);
+		return (-(var != NULL || !(*ret = (char *)s)));
 	i = 0;
 	j = 0;
 	count = 0;
@@ -100,7 +100,7 @@ int	cd_builtin(char **argv, t_myenv *env)
 	if (path_arg_parser(argv, env, &path))
 		return (1);
 	if (access(path, F_OK))
-		return (ft_dprintf(2, "cd: NO SUCH DIRECTORY"), 1);
+		return (ft_dprintf(2, "cd: NO SUCH DIRECTORY\n"), 1);
 	if (chdir(path))
 		return (ft_dprintf(2, "cd: ERROR WHILE CHANGING DIRECTORY\n"), 1);
 	path = getcwd(NULL, 0);
@@ -110,11 +110,11 @@ int	cd_builtin(char **argv, t_myenv *env)
 		env->count++;
 	if (!var_get(env->lst_var, "PWD"))
 		env->count++;
-	if (var_add(&env->lst_var, ft_strdup("OLDPWD"), ft_strdup(
-				var_get_value(env->lst_var, "PWD")))
-		|| var_add(&env->lst_var, ft_strdup("PWD"), path))
+	if (var_add(&env->lst_var, ft_strdup("PWD"), path)
+		|| var_add(&env->lst_var, ft_strdup("OLDPWD"), ft_strdup(
+				var_get_value(env->lst_var, "PWD"))))
 		return (-1);
-	if (envp_update(env))
+	if (env_update_count(env) || envp_update(env))
 		return (ft_dprintf(2, "WARN: minor error while updating envp\n"), 0);
 	return (0);
 }
