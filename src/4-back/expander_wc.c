@@ -6,7 +6,7 @@
 /*   By: hmelica <hmelica@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/19 22:41:38 by hmelica           #+#    #+#             */
-/*   Updated: 2023/10/25 09:40:23 by hmelica          ###   ########.fr       */
+/*   Updated: 2023/10/25 12:06:50 by hmelica          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,7 @@ int	wc_into_node(t_wildcard *wc, t_node **word)
 	child = wc;
 	if (child && !child->wc)
 	{
+		ft_dprintf(2, "adding to words -> %s\n", child->s);
 		to_add = word_new(child->s);
 		if (!to_add)
 			return (errno = ENOMEM, -1);
@@ -110,6 +111,7 @@ int	run_wildcard(t_node **word)
 		if (wc)
 			if (wc_into_node(wc, word))
 				return (wc_clean(&wc), -1);
+		wc_clean(&wc);
 		if (i != end)
 			j = i->next_sibling;
 		else
@@ -117,5 +119,5 @@ int	run_wildcard(t_node **word)
 		word_pop(word, i);
 		i = j;
 	}
-	return (wc_clean(&wc), 0);
+	return (0);
 }

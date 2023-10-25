@@ -6,7 +6,7 @@
 /*   By: hmelica <hmelica@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/21 02:03:33 by hmelica           #+#    #+#             */
-/*   Updated: 2023/10/25 10:03:39 by hmelica          ###   ########.fr       */
+/*   Updated: 2023/10/25 10:21:12 by hmelica          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,14 +77,15 @@ int	glob_name(char name[256], char *prev, char *next)
 	size_t	len;
 
 	len = 0;
+	ft_dprintf(2, "globbing (%s)%s(%s)\n", prev, name, next);
 	if (prev && *prev)
 	{
 		len = ft_strlen(prev);
 		if (ft_strncmp(name, prev, len))
-			return (0);
+			return (ft_dprintf(2, "no\n"), 0);
 	}
 	if (next && *next)
 		if (!glob_name_next(name, next, len))
-			return (0);
-	return (1);
+			return (ft_dprintf(2, "no\n"), 0);
+	return (ft_dprintf(2, "yes\n"), 1);
 }
