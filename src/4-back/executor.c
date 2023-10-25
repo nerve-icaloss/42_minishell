@@ -48,23 +48,23 @@ int	execute_cmd(t_node *cmd, t_myshell *shell)
 	if (execute_cmd_init(&exec, cmd, &shell->env))
 		return (exec.exit);
 	if (apply_redirection(&exec, cmd))
-		return (ft_arrclear(exec.argv), exec.exit);
+		return (exec_clean(&exec), exec.exit);
 	if (!exec.argv[0])
-		return (reset_redirection(&exec, cmd), 0);
+		return (reset_redirection(&exec, cmd), exec_clean(&exec), 0);
 	if (search_exec_path(&exec, &shell->env))
-		return (ft_arrclear(exec.argv), exec.exit);
+		return (reset_redirection(&exec, cmd), exec_clean(&exec), exec.exit);
 	if (exec.builtin_f)
 		exec.exit = exec.builtin_f(exec.argv, &shell->env);
 	else
 	{
 		cmd->pid = fork();
 		if (cmd->pid == SYS_FAIL)
-			return (ft_arrclear(exec.argv), 1);
+			return (reset_redirection(&exec, cmd), exec_clean(&exec), 1);
 		if (cmd->pid == 0)
 			child_cmd(&exec, shell);
 		wait_cmd(&exec, cmd);
 	}
-	return (reset_redirection(&exec, cmd), ft_arrclear(exec.argv), cmd->exit);
+	return (reset_redirection(&exec, cmd), exec_clean(&exec), cmd->exit);
 }
 
 int	execute_pipex(t_node *pipex, t_myshell *shell)
@@ -78,22 +78,22 @@ int	execute_pipex(t_node *pipex, t_myshell *shell)
 	cmd = pipex->first_child;
 	while (cmd)
 	{
-		ft_arrclear(exec.argv);
-		if (execute_pipex_init(&exec, pipex, cmd, &shell->env))
+		exec_reset(&exec);
+		if (execute_pipex_init(&exec, pipex, cmd, &shell->env)
+			|| apply_redirection(&exec, cmd) || (!exec.bracket_first_child
+			&& search_exec_path(&exec, &shell->env)))
+		{
+			reset_redirection(&exec, cmd);
+			cmd = cmd->next_sibling;
 			continue ;
-		if (apply_redirection(&exec, cmd))
-			continue ;
-		if (!exec.bracket_first_child && search_exec_path(&exec, &shell->env))
-			continue ;
-		cmd->pid = fork();
-		if (cmd->pid == SYS_FAIL)
-			cmd->exit = 1;
+		}
+		ft_fork(cmd);
 		if (cmd->pid == 0)
 			child_pipex_cmd(&exec, shell);
 		reset_redirection(&exec, cmd);
 		cmd = cmd->next_sibling;
 	}
-	return (wait_pipex(&exec, pipex), ft_arrclear(exec.argv), pipex->exit);
+	return (wait_pipex(&exec, pipex), exec_clean(&exec), pipex->exit);
 }
 
 int	stop_execute(t_node *node, int exit)
