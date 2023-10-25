@@ -28,6 +28,17 @@ t_node	*node_new(t_node_type type)
 	return (node);
 }
 
+t_node	*node_word_new(t_redir_type type)
+{
+	t_node	*word;
+
+	word = node_new(NODE_WORD);
+	if (!word)
+		return (errno = ENOMEM, NULL);
+	word->rtype = type;
+	return (word);
+}
+
 t_node	*word_new(char *data)
 {
 	t_node	*word;
@@ -43,7 +54,7 @@ t_node	*word_new(char *data)
 	return (word);
 }
 
-t_node	*redir_new(char *data, t_redir_type type)
+/*t_node	*redir_new(char *data, t_redir_type type)
 {
 	t_node	*redir;
 
@@ -56,7 +67,7 @@ t_node	*redir_new(char *data, t_redir_type type)
 		return (node_tree_clean(redir), NULL);
 	redir->rtype = type;
 	return (redir);
-}
+}*/
 
 int	node_val_set(t_node *node, char *val)
 {
@@ -74,4 +85,27 @@ int	node_val_set(t_node *node, char *val)
 			return (errno = ENOMEM, perror("node_val_set"), -1);
 	}
 	return (0);
+}
+
+/*
+ * works with no parent
+ * */
+void	word_pop(t_node **origin, t_node *word)
+{
+	if (!word)
+		return ;
+	if (*origin == word)
+	{
+		if (word->next_sibling)
+			*origin = word->next_sibling;
+		else
+			*origin = word->prev_sibling;
+	}
+	if (word->next_sibling)
+		word->next_sibling->prev_sibling = word->prev_sibling;
+	if (word->prev_sibling)
+		word->prev_sibling->next_sibling = word->next_sibling;
+	word->next_sibling = NULL;
+	word->prev_sibling = NULL;
+	node_tree_clean(word);
 }

@@ -64,10 +64,6 @@ SRCS_FILES	=	\
 				2-builtin/blt_export.c \
 				2-builtin/blt_pwd.c \
 				2-builtin/blt_unset.c \
-				3-front/expander.c \
-				3-front/expander_quote.c \
-				3-front/expander_var.c \
-				3-front/expander_wc.c \
 				3-front/parser.c \
 				3-front/parser_utils.c \
 				3-front/scanner.c \
@@ -77,8 +73,13 @@ SRCS_FILES	=	\
 				4-back/executor_child.c \
 				4-back/executor_path.c \
 				4-back/executor_utils.c \
+				4-back/expander.c \
+				4-back/expander_quote.c \
+				4-back/expander_var.c \
+				4-back/expander_wc.c \
 				4-back/here_doc.c \
 				4-back/redirection.c \
+				5-utils/utl_close.c \
 				5-utils/utl_error.c \
 				5-utils/utl_find.c \
 				5-utils/utl_open.c \

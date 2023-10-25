@@ -76,7 +76,10 @@ static void	find_expansion(t_expand *expd, t_myenv *env)
 	}
 }
 
-t_node	*word_expansion(char *data, t_myenv *env)
+/*
+ * Returns null in case of problem
+ * */
+t_node	*word_expand(char *data, t_myenv *env)
 {
 	t_node		*word;
 	t_expand	expd;
@@ -97,24 +100,34 @@ t_node	*word_expansion(char *data, t_myenv *env)
 	}
 	free(expd.pstart);
 	remove_quotes(word);
+	if (run_wildcard(&word))
+		return (node_tree_clean(word), NULL);
 	return (word);
 }
 
-t_node	*redir_expansion(char *data, t_redir_type type, t_myenv *env)
+char *redir_expand(char *data, t_redir_type type, t_myenv *env)
 {
-	t_node		*redir;
+	char		*ret;
 	t_expand	expd;
 
 	if (!data || !*data || !env)
 		return (errno = ENODATA, NULL);
-	if (expand_init(&expd, data))
-		return (NULL);
-	find_expansion(&expd, env);
-	redir = redir_new(expd.pstart, type);
-	if (!redir)
-		return (NULL);
-	free(expd.pstart);
 	if (type != HEREDOC)
-		remove_quotes(redir);
-	return (redir);
+	{
+		if (expand_init(&expd, data))
+			return (NULL);
+		find_expansion(&expd, env);
+		ret = ft_strdup(expd.pstart);
+		if (!ret)
+			return (errno = ENOMEM, NULL);
+		free(expd.pstart);
+		remove_quotes_str(&ret);
+	}
+	else
+	{
+		ret = ft_strdup("heredoc");
+		if (!ret)
+			return (errno = ENOMEM, NULL);
+	}
+	return (ret);
 }

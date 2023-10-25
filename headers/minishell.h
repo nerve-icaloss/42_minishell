@@ -39,13 +39,6 @@
 typedef struct dirent	t_dirent;
 typedef struct stat		t_stat;
 
-int				open_read(char *file);
-int				open_append(char *file);
-int				open_trunc(char *file);
-
-size_t			find_closing_quote(char *data);
-size_t			find_closing_brace(char *data);
-
 //----------------------------------------------------------------------------//
 
 # define HISTORY_FILE ".inputrc"
@@ -216,10 +209,10 @@ typedef struct s_node {
 	struct s_node	*next_sibling;
 }	t_node;
 
-t_node			*node_new(t_node_type type);
 t_redir_type	find_word_type(char *data);
+t_node			*node_new(t_node_type type);
+t_node			*node_word_new(t_redir_type type);
 t_node			*word_new(char *data);
-t_node			*redir_new(char *data, t_redir_type type);
 int				node_val_set(t_node *node, char *val);
 void			node_parent_add(t_node *child, t_node *parent);
 void			node_parent_insert(t_node *parent, t_node *child);
@@ -228,6 +221,9 @@ void			node_tree_clean(t_node *node);
 void			node_sibling_add(t_node **origin, t_node *child);
 void			node_sibling_pop(t_node *node);
 void			node_sibling_clean(t_node **origin);
+void			word_pop(t_node **origin, t_node *word);
+
+int				run_wildcard(t_node **word);
 
 //----------------------------------------------------------------------------//
 
@@ -245,13 +241,16 @@ void			builtin_clean(t_builtin **builtins);
 typedef struct s_execute {
 	t_node	*bracket_first_child;
 	int		(*builtin_f)(char **, t_myenv *);
+	int		argc;
+	int		argv_size;
 	char	**argv;
 	int		exit;
 	int		std_fd[2];
 	int		toclose_child;
 }	t_execute;
 
-char			**build_argv(t_node *cmd);
+int				check_argv_bounds(t_execute *exec);
+int				add_to_argv(t_execute *exec, t_node *word);
 void			exec_clean(t_execute *exec);
 
 //----------------------------------------------------------------------------//
@@ -269,5 +268,14 @@ void			shell_clean(t_myshell *shell);
 void			syntax_error_token(t_tok_type tok_type);
 void			cmd_notfound(char *str);
 void			path_notfound(void);
+
+int				open_read(char *file);
+int				open_append(char *file);
+int				open_trunc(char *file);
+
+void			close_redirection(t_node *cmd, int fd);
+
+size_t			find_closing_quote(char *data);
+size_t			find_closing_brace(char *data);
 
 #endif

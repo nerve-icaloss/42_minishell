@@ -6,12 +6,81 @@
 /*   By: nserve <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/22 14:04:55 by nserve            #+#    #+#             */
-/*   Updated: 2023/10/22 16:57:27 by nserve           ###   ########.fr       */
+/*   Updated: 2023/10/25 09:47:34 by hmelica          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../headers/minishell.h"
+#include <asm-generic/errno-base.h>
 
+static int	realloc_argv(t_execute *exec)
+{
+	char	**new_buf;
+	int		new_len;
+
+	new_len = exec->argv_size * 2;
+	new_buf = malloc(sizeof(char *) * new_len);
+	if (!exec->argv)
+		return (errno = ENOMEM, 1);
+	while (--exec->argv_size > 0)
+		new_buf[exec->argv_size] = exec->argv[exec->argv_size]; //argv_size may be undefined
+	free(exec->argv);
+	exec->argv = new_buf;
+	exec->argv_size = new_len;
+	return (0);
+}
+
+/*
+* returns 1 if the buffer is alloc'd/extended, 0 otherwise.
+*/
+int	check_argv_bounds(t_execute *exec)
+{
+	if (exec->argc >= exec->argv_size - 1)
+	{
+		if (!exec->argv)
+		{
+			exec->argv = malloc(sizeof(char *) * 32);
+			if (!exec->argv)
+				return (errno = ENOMEM, 0);
+			ft_memset(exec->argv, 0, sizeof(char *) * 32);
+			exec->argv_size = 32;
+		}
+		else
+			if (realloc_argv(exec))
+				return (0);
+	}
+	return (1);
+}
+
+int	add_to_argv(t_execute *exec, t_node *word)
+{
+	while (word)
+	{
+		if (check_argv_bounds(exec))
+		{
+			exec->argv[exec->argc] = ft_strdup(word->val);
+			if (!exec->argv[exec->argc])
+				return (1);
+			exec->argc++;
+		}
+		word = word->next_sibling;
+	}
+	return (0);
+}
+
+void	exec_reset(t_execute *exec)
+{
+	ft_memset(exec->argv, 0, sizeof (char *) * exec->argv_size);
+	exec->argv = NULL;
+	exec->argc = 0;
+}
+
+void	exec_clean(t_execute *exec)
+{
+	if (exec->argv)
+		ft_arrclear(exec->argv);
+}
+/*
 char	**build_argv(t_node *cmd)
 {
 	char	**argv;
@@ -38,11 +107,4 @@ char	**build_argv(t_node *cmd)
 		child = i;
 	}
 	return (argv);
-}
-
-void	exec_clean(t_execute *exec)
-{
-	if (exec->argv)
-		ft_arrclear(exec->argv);
-	exec->argv = NULL;
-}
+}*/
