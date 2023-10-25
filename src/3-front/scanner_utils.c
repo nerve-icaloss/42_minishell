@@ -6,7 +6,7 @@
 /*   By: nserve <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/06 11:26:05 by nserve            #+#    #+#             */
-/*   Updated: 2023/10/22 17:09:28 by nserve           ###   ########.fr       */
+/*   Updated: 2023/10/25 16:04:12 by hmelica          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,13 +66,17 @@ int	scan_ampersand(t_source *src, char nc)
 	{
 		src->tok_type = TOK_SYNTAX;
 		write(2, "syntax error", 12);
+		return (ENDLOOP);
 	}
 	if (nc == '&')
 	{
 		tok_buf_add(src, nc);
 		src->tok_type = TOK_AND;
+		return (ENDLOOP);
 	}
-	return (ENDLOOP);
+	else
+		unget_char(src);
+	return (0);
 }
 
 int	scan_lessthan(t_source *src, char nc)

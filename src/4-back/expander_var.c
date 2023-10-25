@@ -6,7 +6,7 @@
 /*   By: hmelica <hmelica@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/14 18:23:30 by hmelica           #+#    #+#             */
-/*   Updated: 2023/10/22 17:06:33 by nserve           ###   ########.fr       */
+/*   Updated: 2023/10/25 15:50:14 by hmelica          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,8 @@ static char	*extract_value(char **line, int *i, t_lstvar lst)
 	char	*ret;
 
 	j = 0;
-	while ((*line)[*i + j] && !ft_isspace((*line)[*i + j])
-			&& (*line)[*i + j] != '$')
+	while ((*line)[*i + j] && !ft_isspace((*line)[*i + j]) && (*line)[*i + j]
+			!= '"' && (*line)[*i + j] != '$')
 		j++;
 	if (j == 0)
 		return (ft_substr(*line, *i - 1, 1));
@@ -35,32 +35,34 @@ static char	*extract_value(char **line, int *i, t_lstvar lst)
 	return (ret);
 }
 
-int	var_expansion(char **line, t_myenv *env)
+char	*var_expansion(char **line, size_t offset, t_myenv *env)
 {
 	char	*ret;
 	int		i;
 	int		j;
 
 	if (!line || !*line)
-		return (errno = ENODATA, 1);
+		return (errno = ENODATA, NULL);
 	ret = NULL;
 	i = 0;
-	j = 0;
-	while ((*line)[i + j])
-	{
-		while ((*line)[i + j] && ((*line)[i + j] != '$'))
-			j++;
-		ret = ft_strjoin2(ret, ft_substr(*line, i, j), 1, 1);
-		i += j;
-		if ((*line)[i] && (*line)[i] == '$' && ++i)
-			ret = ft_strjoin2(ret, extract_value(line, &i, env->lst_var),
-					1, 0);
+	j = offset;
+	while ((*line)[i + j] && ((*line)[i + j] != '$'))
+		j++;
+	if (!(*line)[i + j])
+		return (*line + offset);
+	ret = ft_strjoin2(ret, ft_substr(*line, i, j), 1, 1);
+	i += j;
+	if ((*line)[i] && (*line)[i] == '$' && ++i)
+		ret = ft_strjoin2(ret, extract_value(line, &i, env->lst_var),
+				1, 0);
+	ret = ft_strjoin2(ret, *line + i, 1, 0);
+	j = ft_strlen(ret) - ft_strlen(*line);
+	if (j < 0)
 		j = 0;
-	}
 	if (ret)
 	{
 		free(*line);
 		*line = ret;
 	}
-	return (0);
+	return (ret + j);
 }
