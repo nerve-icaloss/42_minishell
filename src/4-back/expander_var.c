@@ -6,7 +6,7 @@
 /*   By: hmelica <hmelica@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/14 18:23:30 by hmelica           #+#    #+#             */
-/*   Updated: 2023/10/25 15:50:14 by hmelica          ###   ########.fr       */
+/*   Updated: 2023/10/25 17:20:22 by hmelica          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,11 +52,12 @@ char	*var_expansion(char **line, size_t offset, t_myenv *env)
 		return (*line + offset);
 	ret = ft_strjoin2(ret, ft_substr(*line, i, j), 1, 1);
 	i += j;
+	j = ft_strlen(ret);
 	if ((*line)[i] && (*line)[i] == '$' && ++i)
 		ret = ft_strjoin2(ret, extract_value(line, &i, env->lst_var),
 				1, 0);
+	j = ft_strlen(ret);
 	ret = ft_strjoin2(ret, *line + i, 1, 0);
-	j = ft_strlen(ret) - ft_strlen(*line);
 	if (j < 0)
 		j = 0;
 	if (ret)
