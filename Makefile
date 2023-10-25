@@ -83,6 +83,7 @@ SRCS_FILES	=	\
 				5-utils/utl_close.c \
 				5-utils/utl_error.c \
 				5-utils/utl_find.c \
+				5-utils/utl_fork.c \
 				5-utils/utl_open.c \
 				5-utils/utl_read.c \
 				5-utils/utl_var.c \

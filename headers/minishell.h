@@ -259,6 +259,7 @@ typedef struct s_execute {
 int				check_argv_bounds(t_execute *exec);
 int				add_to_argv(t_execute *exec, t_node *word);
 void			exec_clean(t_execute *exec);
+void			exec_reset(t_execute *exec);
 
 //----------------------------------------------------------------------------//
 
@@ -287,5 +288,7 @@ size_t			find_closing_brace(char *data);
 
 char			*ft_readline(char *prompt, void (*signal_handler)(int), 
 				  void (*signal_restore));
+
+void			ft_fork(t_node *cmd);
 
 #endif

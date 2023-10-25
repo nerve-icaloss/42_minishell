@@ -11,7 +11,6 @@
 /* ************************************************************************** */
 
 #include "../../headers/minishell.h"
-#include <asm-generic/errno-base.h>
 
 static int	realloc_argv(t_execute *exec)
 {
@@ -71,8 +70,15 @@ int	add_to_argv(t_execute *exec, t_node *word)
 
 void	exec_reset(t_execute *exec)
 {
+	int	i;
+
+	i = 0;
+	while (i < exec->argc)
+	{
+		free(exec->argv[i]);
+		i++;
+	}
 	ft_memset(exec->argv, 0, sizeof (char *) * exec->argv_size);
-	exec->argv = NULL;
 	exec->argc = 0;
 }
 

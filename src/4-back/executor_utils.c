@@ -6,7 +6,7 @@
 /*   By: nserve <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/16 12:27:03 by nserve            #+#    #+#             */
-/*   Updated: 2023/10/22 17:15:17 by nserve           ###   ########.fr       */
+/*   Updated: 2023/10/25 19:33:55 by nserve           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,6 @@
 #include "../../headers/expander.h"
 #include "../../headers/redirection.h"
 #include "../../headers/signal_not_libc.h"
-#include <signal.h>
-#include <stdlib.h>
 
 static int	build_argv(t_execute *exec, t_node *cmd, t_myenv *env)
 {
