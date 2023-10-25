@@ -15,8 +15,6 @@
 
 # include "minishell.h"
 
-extern volatile int	g_signal;
-
 void	sigint_handler_rpel(int sigint);
 void	sigint_handler_child(int sigint);
 void	sigint_handler_heredoc(int sigint);
