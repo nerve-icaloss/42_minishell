@@ -6,7 +6,7 @@
 /*   By: nserve & hmelica                           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/10 14:57:45 by hmelica           #+#    #+#             */
-/*   Updated: 2023/10/25 17:34:16 by nserve           ###   ########.fr       */
+/*   Updated: 2023/10/25 19:16:34 by hmelica          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,20 +63,21 @@ void	node_tree_print(t_node *root)
 void	parse_and_execute(char *cmdline, t_myshell *shell)
 {
 	t_source	src;
+	int			exit;
 
 	if (!cmdline || !shell)
 		return (errno = ENODATA, (void) NULL);
 	if (source_init(&src, cmdline))
 		return ((void) NULL);
-	shell->exit = parse_source(&shell->root, &src);
+	exit = parse_source(&shell->root, &src);
 	source_clean(&src);
 	node_tree_print(shell->root); //
 	write(1, "\n", 1); //
-	if (shell->exit == 2)
+	if (exit == 2)
 		run_tree_doc(shell->root, &shell->env);
 	else
-		shell->exit = run_tree_doc(shell->root, &shell->env);
-	if (shell->exit > 0)
+		exit = run_tree_doc(shell->root, &shell->env);
+	if (exit > 0)
 		return (node_tree_clean(shell->root), shell->root = NULL, (void) NULL);
 	shell->exit = execute_tree(shell->root, shell);
 	shell->root = NULL;
@@ -125,7 +126,7 @@ int	main(int argc, char *argv[], char *envp[])
 	load_history();
 	if (!envp)
 		return (write(2, "error envp unset\n", 16), 1);
-	if (env_init(&shell.env, envp))
+	if (env_init(&shell.env, envp, &shell))
 		return (write(2, "error env init\n", 15), 1);
 	if (argc == 1)
 		rpel_mode(&shell);

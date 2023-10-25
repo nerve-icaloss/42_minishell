@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/10 14:58:41 by hmelica           #+#    #+#             */
-/*   Updated: 2023/10/25 16:53:26 by hmelica          ###   ########.fr       */
+/*   Updated: 2023/10/25 18:58:23 by hmelica          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ typedef struct s_myvar {
 	struct s_myvar	*prev;
 }	t_myvar;
 
-typedef t_myvar *		t_lstvar;
+typedef t_myvar *	t_lstvar;
 
 int				var_add(t_lstvar *origin, char *name, char *value);
 void			var_update(t_myvar *var, char *name, char *value);
@@ -86,9 +86,12 @@ typedef struct s_myenv {
 	unsigned int	count;
 	char			**envp;
 	bool			subsh;
+	int				*exit;
 }	t_myenv;
 
-int				env_init(t_myenv *env, char **envp);
+typedef struct s_myshell	t_myshell;
+
+int				env_init(t_myenv *env, char **envp, t_myshell *shell);
 int				env_update_count(t_myenv *env);
 int				envp_update(t_myenv *env);
 void			env_clean(t_myenv *env);

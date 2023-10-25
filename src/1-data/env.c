@@ -6,7 +6,7 @@
 /*   By: nserve <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/30 14:41:30 by nserve            #+#    #+#             */
-/*   Updated: 2023/10/22 16:56:51 by nserve           ###   ########.fr       */
+/*   Updated: 2023/10/25 19:18:46 by hmelica          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,12 +70,14 @@ int	env_update_count(t_myenv *env)
  *   - myenv is unitialized at the begining
  *   - doesnt check if pwd, oldpwd or home are set at the end
  * T */
-int	env_init(t_myenv *env, char **envp)
+int	env_init(t_myenv *env, char **envp, t_myshell *shell)
 {
 	if (!envp || !env)
 		return (-1);
 	env->lst_var = NULL;
 	env->envp = NULL;
+	if (shell)
+		env->exit = &shell->exit;
 	while (*envp)
 	{
 		if (var_parsing(&env->lst_var, *envp))

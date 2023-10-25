@@ -6,7 +6,7 @@
 /*   By: hmelica <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/15 16:41:40 by hmelica           #+#    #+#             */
-/*   Updated: 2023/10/01 16:30:23 by hmelica          ###   ########.fr       */
+/*   Updated: 2023/10/25 19:19:02 by hmelica          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ t_myenv	myenv;
 
 void setup(void)
 {
-	if (env_init(&myenv, envp))
+	if (env_init(&myenv, envp, NULL))
 	{
 		cr_log_warn("Problem with env_init... Skipping");
 		cr_skip_test();
@@ -60,7 +60,7 @@ Test(env, update_count, .description="Test of env_update_count")
 }
 
 Test(env, init, .description="Test of env_init", .fini = clean) {
-	cr_assert(env_init(&myenv, envp) == 0, "Init problem");
+	cr_assert(env_init(&myenv, envp, NULL) == 0, "Init problem");
 }
 
 Test(env, clean, .description="Test of env_clean", .init = setup) {
