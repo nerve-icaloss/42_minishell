@@ -6,7 +6,7 @@
 /*   By: hmelica <hmelica@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/21 02:03:33 by hmelica           #+#    #+#             */
-/*   Updated: 2023/10/22 16:57:46 by nserve           ###   ########.fr       */
+/*   Updated: 2023/10/25 10:03:39 by hmelica          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,6 @@ int	glob_name_next(char name[256], char *next, size_t i)
 	//return (i > len[0]);
 	if (name[i] && *(next - 1) == '*')
 		return (1);
-	ft_dprintf(2, ">> '%s'[%d] : (%c)\n", name, i, name[i]);
 	return (name[i] == '\0');
 }
 

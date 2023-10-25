@@ -6,7 +6,7 @@
 /*   By: nserve <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/22 14:04:55 by nserve            #+#    #+#             */
-/*   Updated: 2023/10/22 16:57:27 by nserve           ###   ########.fr       */
+/*   Updated: 2023/10/25 09:47:34 by hmelica          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,9 +21,9 @@ static int	realloc_argv(t_execute *exec)
 	new_len = exec->argv_size * 2;
 	new_buf = malloc(sizeof(char *) * new_len);
 	if (!exec->argv)
-		return (errno =ENOMEM, 1);
-	while (exec->argv_size)
-		new_buf[exec->argv_size] = exec->argv[exec->argv_size--];
+		return (errno = ENOMEM, 1);
+	while (--exec->argv_size > 0)
+		new_buf[exec->argv_size] = exec->argv[exec->argv_size]; //argv_size may be undefined
 	free(exec->argv);
 	exec->argv = new_buf;
 	exec->argv_size = new_len;
@@ -41,8 +41,8 @@ int	check_argv_bounds(t_execute *exec)
 		{
 			exec->argv = malloc(sizeof(char *) * 32);
 			if (!exec->argv)
-				return (errno =ENOMEM, 0);
-			ft_memset(exec->argv, 0, 32);
+				return (errno = ENOMEM, 0);
+			ft_memset(exec->argv, 0, sizeof(char *) * 32);
 			exec->argv_size = 32;
 		}
 		else
@@ -70,7 +70,7 @@ int	add_to_argv(t_execute *exec, t_node *word)
 
 void	exec_reset(t_execute *exec)
 {
-	ft_memset(exec->argv, 0, exec->argv_size);
+	ft_memset(exec->argv, 0, sizeof (char *) * exec->argv_size);
 	exec->argv = NULL;
 	exec->argc = 0;
 }

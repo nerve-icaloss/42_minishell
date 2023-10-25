@@ -30,6 +30,9 @@ void	node_sibling_add(t_node **origin, t_node *child)
 	}
 }
 
+/*
+ * Problemes de securite ???
+ * */
 void	node_sibling_pop(t_node *node)
 {
 	if (node->prev_sibling == NULL)

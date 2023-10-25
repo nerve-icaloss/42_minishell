@@ -86,3 +86,26 @@ int	node_val_set(t_node *node, char *val)
 	}
 	return (0);
 }
+
+/*
+ * works with no parent
+ * */
+void	word_pop(t_node **origin, t_node *word)
+{
+	if (!word)
+		return ;
+	if (*origin == word)
+	{
+		if (word->next_sibling)
+			*origin = word->next_sibling;
+		else
+			*origin = word->prev_sibling;
+	}
+	if (word->next_sibling)
+		word->next_sibling->prev_sibling = word->prev_sibling;
+	if (word->prev_sibling)
+		word->prev_sibling->next_sibling = word->next_sibling;
+	word->next_sibling = NULL;
+	word->prev_sibling = NULL;
+	node_tree_clean(word);
+}

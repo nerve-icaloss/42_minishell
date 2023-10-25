@@ -221,6 +221,9 @@ void			node_tree_clean(t_node *node);
 void			node_sibling_add(t_node **origin, t_node *child);
 void			node_sibling_pop(t_node *node);
 void			node_sibling_clean(t_node **origin);
+void			word_pop(t_node **origin, t_node *word);
+
+int				run_wildcard(t_node **word);
 
 //----------------------------------------------------------------------------//
 
