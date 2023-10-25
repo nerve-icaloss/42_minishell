@@ -22,6 +22,7 @@ static int	realloc_argv(t_execute *exec)
 	new_buf = malloc(sizeof(char *) * new_len);
 	if (!new_buf)
 		return (errno = ENOMEM, 1);
+	ft_memset(new_buf, 0, sizeof(char *) * new_len);
 	while (--exec->argv_size >= 0)
 		new_buf[exec->argv_size] = exec->argv[exec->argv_size]; //argv_size may be undefined
 	free(exec->argv);

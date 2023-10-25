@@ -6,7 +6,7 @@
 /*   By: nserve & hmelica                           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/10 14:57:45 by hmelica           #+#    #+#             */
-/*   Updated: 2023/10/20 14:43:56 by nserve           ###   ########.fr       */
+/*   Updated: 2023/10/25 14:35:30 by nserve           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,9 @@
 #include "../headers/parser.h"
 #include "../headers/here_doc.h"
 #include "../headers/executor.h"
-#include <unistd.h>
+#include "../headers/signal.h"
+
+volatile int	g_signal;
 
 void	node_tree_print(t_node *root)
 {
@@ -92,7 +94,8 @@ void	rpel_mode(t_myshell *shell)
 		if (!cmdline || cmdline[0] == '\0' || cmdline[0] == '\n')
 		{
 			free(cmdline);
-			continue ;
+			g_signal = 130;
+			break ;
 		}
 		if (entry_add(&shell->hist, cmdline) == -1)
 			write(2, "error login history\n", 20);

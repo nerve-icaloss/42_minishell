@@ -57,6 +57,8 @@ t_node	*parse_command(t_token *tok)
 		word = parse_word(tok);
 		if (!word)
 			return (node_tree_clean(cmd), NULL);
+		if (word->exit)
+			return (cmd->exit = 2, node_tree_clean(word), cmd);
 		node_child_add(cmd, word);
 		tok = tokenize(src);
 	}

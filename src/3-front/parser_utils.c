@@ -6,7 +6,7 @@
 /*   By: nserve <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/06 15:10:03 by nserve            #+#    #+#             */
-/*   Updated: 2023/10/22 17:08:24 by nserve           ###   ########.fr       */
+/*   Updated: 2023/10/25 15:29:49 by nserve           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,8 @@ t_node	*choose_first_child(t_token *tok)
 	}
 	else
 	{
-		syntax_error_token(tok->type);
+		if (tok->type != TOK_EOF)
+			syntax_error_token(tok->type);
 		token_clean(tok);
 		cmd = node_new(NODE_CMD);
 		if (!cmd)

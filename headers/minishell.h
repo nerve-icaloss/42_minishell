@@ -26,6 +26,7 @@
 # include <sys/stat.h>
 # include <sys/types.h>
 # include <sys/wait.h>
+# include <signal.h>
 # include "../src/libft/libft.h"
 
 # ifndef TEST_MODE
@@ -35,6 +36,8 @@
 # endif
 
 # define SYS_FAIL (-1)
+
+extern volatile int	g_signal;
 
 typedef struct dirent	t_dirent;
 typedef struct stat		t_stat;
@@ -277,5 +280,8 @@ void			close_redirection(t_node *cmd, int fd);
 
 size_t			find_closing_quote(char *data);
 size_t			find_closing_brace(char *data);
+
+char			*ft_readline(char *prompt, void (*signal_handler)(int), 
+				  void (*signal_restore));
 
 #endif
