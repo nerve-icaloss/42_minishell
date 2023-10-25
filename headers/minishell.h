@@ -27,6 +27,7 @@
 # include <sys/types.h>
 # include <sys/wait.h>
 # include <signal.h>
+# include <string.h>
 # include "../src/libft/libft.h"
 
 # ifndef TEST_MODE

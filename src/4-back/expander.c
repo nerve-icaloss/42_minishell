@@ -104,7 +104,7 @@ t_node	*word_expand(char *data, t_myenv *env)
 	return (word);
 }
 
-char *redir_expand(char *data, t_redir_type type, t_myenv *env)
+char	*redir_expand(char *data, t_redir_type type, t_myenv *env)
 {
 	char		*ret;
 	t_expand	expd;

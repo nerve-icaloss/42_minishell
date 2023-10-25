@@ -10,46 +10,46 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../headers/signal.h"
+#include "../../headers/signal_not_libc.h"
 
-void	sigint_handler_rpel(int sigint)
+void	handler_rpel(int signum)
 {
-	(void) sigint;
+	(void) signum;
 	write(1, "\n", 1);
 	rl_on_new_line();
 	rl_replace_line("", 0);
 	rl_redisplay();
 }
 
-void	sigint_handler_child(int sigint)
+void	handler_child(int signum)
 {
-	(void) sigint;
-	g_signal = SIGQUIT;
+	(void) signum;
+	write(1, "\n", 1);
 }
 
-void	sigint_handler_heredoc(int sigint)
+void	handler_heredoc(int signum)
 {
-	(void) sigint;
-	g_signal = SIGINT;
-	rl_on_new_line();
-	rl_replace_line("", 0);
-	rl_redisplay();
-
-}
-
-void	sigint_handler_failed_hd(int sigint)
-{
-	(void) sigint;
+	(void) signum;
 	close(STDIN_FILENO);
 	write(1, "\n", 1);
+
 }
 
-void	sigint_assign(int sigint, void (*f)(int))
+void	handler_failed_hd(int signum)
 {
-	struct sigaction	act;
+	(void) signum;
+	rl_on_new_line();
+	rl_replace_line("", 0);
+	rl_redisplay();
+}
 
-	act.sa_handler = f;
-	act.sa_flags = 0;
-	if (sigaction(sigint, &act, NULL) == SYS_FAIL)
+void	sigint_assign(int signum, void (*f)(int))
+{
+	struct sigaction	sa;
+
+	ft_memset(&sa, 0, sizeof(sa));
+	sa.sa_handler = f;
+	sa.sa_flags = 0;
+	if (sigaction(signum, &sa, NULL) == SYS_FAIL)
 		perror("sigaction");
 }
