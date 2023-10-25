@@ -12,14 +12,29 @@
 
 #include "../../headers/executor.h"
 #include "../../headers/here_doc.h"
+#include "../../headers/signal_not_libc.h"
 
-void	child_cmd(t_execute *exec, t_myshell *shell)
+static void	close_fd_child(t_execute *exec, t_myshell *shell)
 {
 	close_tree_doc(shell->root);
 	if (exec->std_fd[IN] > -1)
 		close(exec->std_fd[IN]);
 	if (exec->std_fd[OUT] > -1)
 		close(exec->std_fd[OUT]);
+}
+
+static void	clean_child(t_execute *exec, t_myshell *shell)
+{
+	ft_arrclear(exec->argv);
+	shell_clean(shell);
+}
+
+void	child_cmd(t_execute *exec, t_myshell *shell)
+{
+	sigint_assign(SIGINT, handler_child);
+	sigint_assign(SIGQUIT, SIG_IGN);
+	close_fd_child(exec, shell);
+	sigint_assign(SIGQUIT, SIG_DFL);
 	if (execve(exec->argv[0], exec->argv, shell->env.envp) == SYS_FAIL)
 	{
 		perror(exec->argv[0]);
@@ -31,14 +46,11 @@ void	child_cmd(t_execute *exec, t_myshell *shell)
 
 void	child_pipex_cmd(t_execute *exec, t_myshell *shell)
 {
-	close_tree_doc(shell->root);
-	close(exec->toclose_child);
-	if (exec->std_fd[IN] > -1)
-		close(exec->std_fd[IN]);
-	if (exec->std_fd[OUT] > -1)
-		close(exec->std_fd[OUT]);
+	sigint_assign(SIGINT, handler_child);
+	close_fd_child(exec, shell);
 	if (!exec->argv[0])
 		exit (0);
+	close(exec->toclose_child);
 	if (exec->bracket_first_child)
 	{
 		exec->exit = execute_tree(exec->bracket_first_child, shell);
@@ -48,15 +60,14 @@ void	child_pipex_cmd(t_execute *exec, t_myshell *shell)
 	if (exec->builtin_f)
 	{
 		exec->exit = exec->builtin_f(exec->argv, &shell->env);
-		ft_arrclear(exec->argv);
-		shell_clean(shell);
+		clean_child(exec, shell);
 		exit(exec->exit);
 	}
+	sigint_assign(SIGQUIT, SIG_DFL);
 	if (execve(exec->argv[0], exec->argv, shell->env.envp) == SYS_FAIL)
 	{
 		perror(exec->argv[0]);
-		ft_arrclear(exec->argv);
-		shell_clean(shell);
+		clean_child(exec, shell);
 		exit(1);
 	}
 }

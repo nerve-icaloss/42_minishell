@@ -10,17 +10,17 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef SIGNAL_H
-# define SIGNAL_H
+#ifndef SIGNAL_NOT_LIBC_H
+# define SIGNAL_NOT_LIBC_H
 
 # include "minishell.h"
 
-void	sigint_handler_rpel(int sigint);
-void	sigint_handler_child(int sigint);
-void	sigint_handler_heredoc(int sigint);
-void	sigint_handler_failed_hd(int sigint);
+void	handler_rpel(int signum);
+void	handler_child(int signum);
+void	handler_heredoc(int signum);
+void	handler_failed_hd(int signum);
 
-void	sigint_assign(int sigint, void (*f)(int));
+void	sigint_assign(int signum, void (*f)(int));
 
 
 #endif

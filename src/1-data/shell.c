@@ -14,7 +14,9 @@
 
 void	shell_clean(t_myshell *shell)
 {
-	history_clean(&shell->hist);
+	if (shell->hist)
+		history_clean(&shell->hist);
+	if (shell->root)
+		node_tree_clean(shell->root);
 	env_clean(&shell->env);
-	node_tree_clean(shell->root);
 }

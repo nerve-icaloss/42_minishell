@@ -11,14 +11,15 @@
 /* ************************************************************************** */
 
 #include "../../headers/minishell.h"
-#include "../../headers/signal.h"
+#include "../../headers/signal_not_libc.h"
 
-char	*ft_readline(char *prompt, void (*signal_handler)(int), 
-				  void (*signal_restore))
+char	*ft_readline(char *prompt, void (*signal_handler)(int),
+			void (*signal_restore))
 {
-	int	std_out;
+	int		std_out;
 	char	*ret;
 
+	ret = NULL;
 	sigint_assign(SIGINT, signal_handler);
 	if (isatty(STDIN_FILENO))
 	{

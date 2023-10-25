@@ -6,7 +6,7 @@
 /*   By: nserve & hmelica                           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/10 14:57:45 by hmelica           #+#    #+#             */
-/*   Updated: 2023/10/25 14:35:30 by nserve           ###   ########.fr       */
+/*   Updated: 2023/10/25 17:34:16 by nserve           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 #include "../headers/parser.h"
 #include "../headers/here_doc.h"
 #include "../headers/executor.h"
-#include "../headers/signal.h"
+#include "../headers/signal_not_libc.h"
 
 volatile int	g_signal;
 
@@ -77,7 +77,7 @@ void	parse_and_execute(char *cmdline, t_myshell *shell)
 	else
 		shell->exit = run_tree_doc(shell->root, &shell->env);
 	if (shell->exit > 0)
-		return (node_tree_clean(shell->root), (void) NULL);
+		return (node_tree_clean(shell->root), shell->root = NULL, (void) NULL);
 	shell->exit = execute_tree(shell->root, shell);
 	shell->root = NULL;
 }
@@ -90,13 +90,15 @@ void	rpel_mode(t_myshell *shell)
 		return (errno = ENODATA, (void)NULL);
 	while (1 && isatty(STDIN_FILENO))
 	{
-		cmdline = readline("minishell-1.0$ ");
-		if (!cmdline || cmdline[0] == '\0' || cmdline[0] == '\n')
+		cmdline = ft_readline("minishell-1.0$ ", handler_rpel, SIG_IGN);
+		if (!cmdline)
 		{
 			free(cmdline);
-			g_signal = 130;
+			shell->exit = 131;
 			break ;
 		}
+		if (cmdline[0] == '\0' || cmdline[0] == '\n')
+			continue ;
 		if (entry_add(&shell->hist, cmdline) == -1)
 			write(2, "error login history\n", 20);
 		parse_and_execute(cmdline, shell);
@@ -118,6 +120,7 @@ int	main(int argc, char *argv[], char *envp[])
 	t_myshell	shell;
 	int			exit;
 
+	sigint_assign(SIGQUIT, SIG_IGN);
 	ft_memset(&shell, 0, sizeof(shell));
 	load_history();
 	if (!envp)

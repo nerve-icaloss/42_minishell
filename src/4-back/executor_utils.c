@@ -13,6 +13,9 @@
 #include "../../headers/executor.h"
 #include "../../headers/expander.h"
 #include "../../headers/redirection.h"
+#include "../../headers/signal_not_libc.h"
+#include <signal.h>
+#include <stdlib.h>
 
 static int	build_argv(t_execute *exec, t_node *cmd, t_myenv *env)
 {
@@ -88,11 +91,18 @@ void	wait_cmd(t_execute *exec, t_node *cmd)
 
 	if (!exec || !cmd)
 		return (errno = ENODATA, (void) NULL);
+	sigint_assign(SIGINT, SIG_IGN);
 	if (waitpid(cmd->pid, &status, 0) == cmd->pid && WIFEXITED(status))
 		cmd->exit = WEXITSTATUS(status);
 	//else if (signal)
 	else
 		cmd->exit = exec->exit;
+	if (!WIFSIGNALED(status))
+		return ;
+	if (WTERMSIG(status) == SIGINT)
+		cmd->exit = 130;
+	if (WTERMSIG(status) == SIGQUIT)
+		write(2, "Quit (core dumped)\n", 19);
 }
 
 void	wait_pipex(t_execute *exec, t_node *pipex)
@@ -102,6 +112,7 @@ void	wait_pipex(t_execute *exec, t_node *pipex)
 
 	if (!exec || !pipex)
 		return (errno = ENODATA, (void) NULL);
+	sigint_assign(SIGINT, SIG_IGN);
 	cmd = pipex->first_child;
 	while (cmd->next_sibling)
 	{
@@ -111,7 +122,12 @@ void	wait_pipex(t_execute *exec, t_node *pipex)
 	}
 	if (waitpid(cmd->pid, &status, 0) == cmd->pid && WIFEXITED(status))
 		pipex->exit = WEXITSTATUS(status);
-	//else if (signal)
 	else
 		pipex->exit = exec->exit;
+	if (!WIFSIGNALED(status))
+		return ;
+	if (WTERMSIG(status) == SIGINT)
+		pipex->exit = 130;
+	if (WTERMSIG(status) == SIGQUIT)
+		write(2, "Quit (core dumped)\n", 19);
 }
