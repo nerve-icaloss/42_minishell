@@ -6,7 +6,7 @@
 /*   By: hmelica <hmelica@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/21 02:03:33 by hmelica           #+#    #+#             */
-/*   Updated: 2023/10/25 10:03:39 by hmelica          ###   ########.fr       */
+/*   Updated: 2023/10/25 12:53:29 by hmelica          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,9 +64,9 @@ int	glob_name_next(char name[256], char *next, size_t i)
 	//if ((i > len[0]) && *(next - 1) == '*')
 	//	return (1);
 	//return (i > len[0]);
-	if (name[i] && *(next - 1) == '*')
+	if (i > len[0] || (name[i] && *(next - 1) == '*'))
 		return (1);
-	return (name[i] == '\0');
+	return (i > len[0] || name[i] == '\0');
 }
 
 /*
