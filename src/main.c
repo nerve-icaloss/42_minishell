@@ -6,7 +6,7 @@
 /*   By: nserve & hmelica                           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/10 14:57:45 by hmelica           #+#    #+#             */
-/*   Updated: 2023/10/25 19:16:34 by hmelica          ###   ########.fr       */
+/*   Updated: 2023/10/26 18:50:06 by nserve           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,8 +81,9 @@ void	parse_and_execute(char *cmdline, t_myshell *shell)
 	if (exit > 0)
 	{
 		shell->exit = exit;
+		node_tree_clean(shell->root);
 		shell->root = NULL;
-		return (node_tree_clean(shell->root), (void) NULL);
+		return ;
 	}
 	shell->exit = execute_tree(shell->root, shell);
 	shell->root = NULL;
@@ -134,6 +135,9 @@ int	main(int argc, char *argv[], char *envp[])
 		return (write(2, "error envp unset\n", 16), 1);
 	if (env_init(&shell.env, envp, &shell))
 		return (write(2, "error env init\n", 15), 1);
+	shell.start_dir = getcwd(NULL, 0);
+	if (!shell.start_dir)
+		return (write(2, "error start dir\n", 16), 1);
 	if (argc == 1)
 		rpel_mode(&shell);
 	else
