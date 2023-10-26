@@ -6,7 +6,7 @@
 /*   By: nserve <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/14 18:55:54 by nserve            #+#    #+#             */
-/*   Updated: 2023/10/26 16:54:48 by hmelica          ###   ########.fr       */
+/*   Updated: 2023/10/26 20:28:49 by hmelica          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ static int	remove_quotes_word(t_node *word)
 	if (!word || !word->val)
 		return (errno = ENODATA, 1);
 	i = word->val;
-	while (*i)
+	while (i && *i)
 	{
 		while (*i && !ft_strchr(quotes, *i))
 			i++;
@@ -36,7 +36,7 @@ static int	remove_quotes_word(t_node *word)
 			return (0);
 		ft_offset(j, 1);
 		ft_offset(i, 1);
-		i = j - 2;
+		//i = j - 2;
 	}
 	return (0);
 }

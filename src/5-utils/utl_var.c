@@ -6,7 +6,7 @@
 /*   By: hmelica <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/14 14:36:17 by hmelica           #+#    #+#             */
-/*   Updated: 2023/10/26 20:19:32 by hmelica          ###   ########.fr       */
+/*   Updated: 2023/10/26 20:24:46 by hmelica          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ t_lstvar	var_get(t_lstvar lst, char *name)
 {
 	size_t	len;
 
-	if (!name || !lst)
+	if (!name || !*name || !lst)
 		return (NULL);
 	len = ft_strlen(name);
 	while (lst)

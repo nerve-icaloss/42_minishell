@@ -6,7 +6,7 @@
 /*   By: hmelica <hmelica@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/24 19:26:12 by hmelica           #+#    #+#             */
-/*   Updated: 2023/10/22 17:05:25 by nserve           ###   ########.fr       */
+/*   Updated: 2023/10/26 20:26:51 by hmelica          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ int	unset_builtin(char **argv, t_myenv *env)
 	if (!argv || !*argv || !env)
 		return (-1);
 	lst = &env->lst_var;
-	while (*++argv)
+	while (*(++argv) && **argv)
 		var_pop(lst, var_get(*lst, *argv));
 	if (env_update_count(env) || envp_update(env))
 		return (ft_dprintf(2, "WARN: minor error while updating envp\n"), 0);
