@@ -6,7 +6,7 @@
 /*   By: nserve <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/06 09:38:10 by nserve            #+#    #+#             */
-/*   Updated: 2023/10/26 09:37:15 by nserve           ###   ########.fr       */
+/*   Updated: 2023/10/26 19:38:27 by nserve           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,8 +52,7 @@ t_node	*parse_command(t_token *tok)
 		word = parse_word(tok);
 		if (!word)
 			return (node_tree_clean(cmd), NULL);
-		if (src->tok_type != TOK_SYNTAX)
-			node_child_add(cmd, word);
+		node_child_add(cmd, word);
 		tok = tokenize(src);
 	}
 	if ( 0 < src->tok_type && src->tok_type < TOK_EOF)

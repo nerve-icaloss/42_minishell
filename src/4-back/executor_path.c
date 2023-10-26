@@ -139,6 +139,7 @@ char	*check_cmd_path(t_execute *exec, char *name)
 	else if (stat(name, &sb) == 0 && sb.st_mode && S_ISDIR(sb.st_mode))
 	{
 		errno = EISDIR;
+		write(2, "minishell: ", 11);
 		perror(name);
 		exec->exit = 126;
 		ret = NULL;

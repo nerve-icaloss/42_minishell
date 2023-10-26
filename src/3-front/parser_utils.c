@@ -6,7 +6,7 @@
 /*   By: nserve <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/06 15:10:03 by nserve            #+#    #+#             */
-/*   Updated: 2023/10/25 15:29:49 by nserve           ###   ########.fr       */
+/*   Updated: 2023/10/26 20:02:44 by nserve           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ t_node	*choose_first_child(t_token *tok)
 	}
 	else
 	{
-		if (tok->type != TOK_EOF)
+		if (tok->type < TOK_EOB)
 			syntax_error_token(tok->type);
 		token_clean(tok);
 		cmd = node_new(NODE_CMD);
@@ -119,7 +119,12 @@ void	handle_error_and_clean(t_node *parent, t_token *tok, int type)
 			untokenize(src);
 	if (tok->type == TOK_SYNTAX)
 		parent->exit = 2;
-	if (parent->children == 0 && type == NODE_PIPE)
+	if (!parent->exit && parent->children < 2 && type >= NODE_PIPE)
+	{
+		syntax_error_node(type);
+		parent->exit = 2;
+	}
+	if (!parent->exit && parent->children < 1 && type == NODE_BRACKET)
 	{
 		syntax_error_node(type);
 		parent->exit = 2;
