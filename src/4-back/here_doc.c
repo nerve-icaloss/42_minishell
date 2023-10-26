@@ -6,7 +6,7 @@
 /*   By: hmelica <hmelica@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/14 16:08:57 by hmelica           #+#    #+#             */
-/*   Updated: 2023/10/25 15:15:48 by hmelica          ###   ########.fr       */
+/*   Updated: 2023/10/26 15:41:14 by hmelica          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ int	here_doc(char *eof, t_myenv *env)
 	while (line && (len[1] != len[0] || ft_strncmp(line, eof, len[0]) != 0))
 	{
 		if (env)
-			var_expansion(&line, 0, env);
+			var_expansion(&line, env);
 		if (!line)
 			break ;
 		write(fd[1], line, ft_strlen(line));

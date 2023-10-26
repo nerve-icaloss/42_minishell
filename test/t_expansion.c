@@ -6,7 +6,7 @@
 /*   By: hmelica <hmelica@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/16 21:57:09 by hmelica           #+#    #+#             */
-/*   Updated: 2023/10/25 18:42:31 by hmelica          ###   ########.fr       */
+/*   Updated: 2023/10/26 15:45:10 by hmelica          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,6 @@
 #include "include/criterion/parameterized.h"
 #include "include/criterion/new/assert.h"
 #include <string.h>
-
-char	*var_expansion(char **line, size_t offset, t_myenv *myenv);
 
 // test var expansion there
 char *cr_strdup(const char *str);
@@ -100,17 +98,7 @@ ParameterizedTest(t_doublestr *set, expansion, var_expansion, .timeout = 2.)
 	s = NULL;
 	if (set->in)
 		s = ft_strdup(set->in);
-	int i = 0;
-	int j = 0;
-	while (s && s[j] && strchr(s + j, '$') && ++i < 50)
-	{
-		cr_log_info(">> %s", s);
-		j = var_expansion(&s, j, &env) - s;
-	}
-	if (!s)
-		var_expansion(&s, 0, &env);
-	if (i >= 50)
-		cr_fatal("infinite loop on %s", set->in);
+	var_expansion(&s, &env);
 	if (s == NULL)
 		cr_expect(eq(ptr, s, set->out), "str not unset when supposed to");
 	else

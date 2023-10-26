@@ -6,7 +6,7 @@
 /*   By: nserve <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/14 17:10:43 by nserve            #+#    #+#             */
-/*   Updated: 2023/10/26 14:26:42 by hmelica          ###   ########.fr       */
+/*   Updated: 2023/10/26 15:40:58 by hmelica          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,26 +53,13 @@ static void	split_word(t_node **origin, char *data)
 	}
 }
 
+/*
+ * gestion des variables
+ * */
 static void	find_expansion(t_expand *expd, t_myenv *env)
 {
-	// gestion des doubles quotes
-	if (!expd || !env)
-		return (errno = ENODATA, (void) NULL);
-	while (expd->p && *expd->p)
-	{
-		if (*expd->p == '"')
-			expd->in_double_quote = !expd->in_double_quote;
-		else if (*expd->p == '\'' && !expd->in_double_quote)
-				expd->p += find_closing_quote(expd->p);
-		else if (*expd->p == '$')
-		{
-			expd->p = var_expansion(&expd->pstart, expd->p - expd->pstart, env);
-			expd->expanded = 1;
-		}
-		else if (ft_isspace(*expd->p))
-			expd->expanded = 1;
-		expd->p += (*expd->p != '\0');
-	}
+	var_expansion(&expd->pstart, env);
+	expd->p = expd->pstart;
 }
 
 /*

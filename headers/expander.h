@@ -6,7 +6,7 @@
 /*   By: nserve <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/15 17:33:58 by nserve            #+#    #+#             */
-/*   Updated: 2023/10/25 15:15:13 by hmelica          ###   ########.fr       */
+/*   Updated: 2023/10/26 15:41:55 by hmelica          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 
 # include "minishell.h"
 
-char	*var_expansion(char **line, size_t offset, t_myenv *env);
+void	var_expansion(char **line, t_myenv *env);
 t_node	*pathname_expansion(t_node *word);
 int		remove_quotes(t_node *args);
 int		remove_quotes_str(char **str);
