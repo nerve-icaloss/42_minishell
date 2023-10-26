@@ -6,7 +6,7 @@
 /*   By: hmelica <hmelica@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/16 21:32:35 by hmelica           #+#    #+#             */
-/*   Updated: 2023/10/22 17:05:06 by nserve           ###   ########.fr       */
+/*   Updated: 2023/10/26 19:10:38 by hmelica          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,8 @@ static int	print_export(t_myenv *env)
 	char		*s;
 
 	var = env->lst_var;
+	while (var->next)
+		var = var->next;
 	while (var)
 	{
 		if (var->value)
@@ -57,7 +59,7 @@ static int	print_export(t_myenv *env)
 		}
 		else
 			printf("export %s\n", var->name);
-		var = var->next;
+		var = var->prev;
 	}
 	return (0);
 }
