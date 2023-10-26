@@ -6,7 +6,7 @@
 /*   By: hmelica <hmelica@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/16 21:32:35 by hmelica           #+#    #+#             */
-/*   Updated: 2023/10/26 19:11:41 by hmelica          ###   ########.fr       */
+/*   Updated: 2023/10/26 19:15:53 by hmelica          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,7 @@ int	export_builtin(char **av, t_myenv *env)
 	len = 1;
 	while (av[len])
 	{
-		if (ft_isdigit(*av[len]))
+		if (!ft_isalpha(*av[len]))
 			ft_dprintf(2, "export: '%s' : not a valid identifier\n", av[len]);
 		else if (var_parsing(&env->lst_var, av[len]))
 			return (-1);
