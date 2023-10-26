@@ -6,7 +6,7 @@
 /*   By: nserve <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/28 17:51:15 by nserve            #+#    #+#             */
-/*   Updated: 2023/10/22 17:12:57 by nserve           ###   ########.fr       */
+/*   Updated: 2023/10/26 18:00:10 by hmelica          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ static void	return_builtin_lst(t_builtin **builtins)
 	builtins[4]->name = ft_strdup("export");
 	builtins[4]->f = export_builtin;
 	builtins[5]->name = ft_strdup("unset");
-	builtins[5]->f = exit_builtin;
+	builtins[5]->f = unset_builtin;
 	builtins[6]->name = ft_strdup("echo");
 	builtins[6]->f = echo_builtin;
 	builtins[7]->name = NULL;
