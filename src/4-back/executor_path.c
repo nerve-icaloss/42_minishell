@@ -11,6 +11,8 @@
 /* ************************************************************************** */
 
 #include "../../headers/minishell.h"
+#include <asm-generic/errno-base.h>
+#include <sys/stat.h>
 
 static char	*scan_dirs(char *data)
 {
@@ -116,4 +118,24 @@ char	*search_cmd_path(char *name, t_myenv *env)
 		return (free(cmd_path), NULL);
 	cmd_path = scan_dirs_cmdfile(name, dirs);
 	return (ft_arrclear(dirs), cmd_path);
+}
+
+int	check_cmd_path(t_execute *exec, char *name)
+{
+	struct stat	sb;
+
+	if (name[0] == '.' && name[1] != '/')
+	{
+		ft_dprintf(2, "minishell: %s: filename argument required\n", name);
+		exec->exit = 1;
+		return (1);
+	}
+	if (stat(name, &sb) == 0 && sb.st_mode && S_ISDIR(sb.st_mode))
+	{
+		errno = EISDIR;
+		perror(name);
+		exec->exit = 126;
+		return (1);
+	}
+	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: nserve <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/06 09:38:10 by nserve            #+#    #+#             */
-/*   Updated: 2023/10/22 17:07:40 by nserve           ###   ########.fr       */
+/*   Updated: 2023/10/26 09:37:15 by nserve           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,19 +25,14 @@ t_node	*parse_word(t_token *tok)
 		return (NULL);
 	if (word->rtype > WORD)
 	{
-		token_clean(tok);
-		tok = tokenize(src);
-		if (tok->type != TOK_WORD)
-		{
-			word->exit = 2;
-			syntax_error_token(tok->type);
-		}
-		else
-			node_val_set(word, tok->txt);
+		parse_redir(tok, word);
 	}
 	else
+	{
 		node_val_set(word, tok->txt);
-	return (token_clean(tok), word);
+		token_clean(tok);
+	}
+	return (word);
 }
 
 t_node	*parse_command(t_token *tok)
@@ -57,14 +52,13 @@ t_node	*parse_command(t_token *tok)
 		word = parse_word(tok);
 		if (!word)
 			return (node_tree_clean(cmd), NULL);
-		if (word->exit)
-			return (cmd->exit = 2, node_tree_clean(word), cmd);
-		node_child_add(cmd, word);
+		if (src->tok_type != TOK_SYNTAX)
+			node_child_add(cmd, word);
 		tok = tokenize(src);
 	}
-	if (0 < tok->type && tok->type < TOK_EOF)
+	if ( 0 < src->tok_type && src->tok_type < TOK_EOF)
 		untokenize(src);
-	if (tok->type == TOK_SYNTAX || tok->type == TOK_BRACKET)
+	if (src->tok_type == TOK_SYNTAX || src->tok_type == TOK_BRACKET)
 		cmd->exit = 2;
 	return (token_clean(tok), cmd);
 }

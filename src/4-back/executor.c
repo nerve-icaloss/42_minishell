@@ -6,7 +6,7 @@
 /*   By: nserve <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/16 11:49:35 by nserve            #+#    #+#             */
-/*   Updated: 2023/10/24 10:38:29 by nserve           ###   ########.fr       */
+/*   Updated: 2023/10/26 14:14:19 by nserve           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,10 +25,11 @@ int	search_exec_path(t_execute *exec, t_myenv *env)
 		return (exec->exit = 1, 1);
 	if (exec->builtin_f)
 		return (exec->exit = 0, 0);
-	if (exec->argv[0][0] != '/')
+	cmd_path = NULL;
+	if (!(exec->argv[0][0] == '/' || exec->argv[0][0] == '.'))
 		cmd_path = search_cmd_path(exec->argv[0], env);
 	else
-		cmd_path = ft_strdup(exec->argv[0]);
+		return (check_cmd_path(exec, exec->argv[0]));
 	if (!cmd_path)
 		return (cmd_notfound(exec->argv[0]), exec->exit = 127, 1);
 	if (access(cmd_path, F_OK | X_OK) == SYS_FAIL)
