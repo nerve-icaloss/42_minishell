@@ -6,7 +6,7 @@
 /*   By: hmelica <hmelica@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/27 15:24:31 by hmelica           #+#    #+#             */
-/*   Updated: 2023/10/22 17:04:37 by nserve           ###   ########.fr       */
+/*   Updated: 2023/10/26 18:48:42 by hmelica          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,21 @@ int	main(int ac, char ** av)
 /*
  * ret = 1 if -n there
  * */
+
+int	is_nl_flag(char *s)
+{
+	if (!s || *s != '-')
+		return (0);
+	s++;
+	if (*s != 'n')
+		return (0);
+	while (*s == 'n')
+		s++;
+	if (*s != '\0')
+		return (0);
+	return (1);
+}
+
 int	echo_builtin(char **argv, t_myenv *env)
 {
 	char	ret;
@@ -50,7 +65,7 @@ int	echo_builtin(char **argv, t_myenv *env)
 	argv++;
 	if (!*argv)
 		return (write(1, "\n", 1), 0);
-	ret = (ft_strlen(argv[0]) == 2 && !ft_strncmp(argv[0], "-n", 3));
+	ret = is_nl_flag(argv[0]);;
 	if (ret)
 		argv++;
 	while (*argv)
