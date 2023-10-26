@@ -6,7 +6,7 @@
 /*   By: nserve <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/14 17:10:43 by nserve            #+#    #+#             */
-/*   Updated: 2023/10/25 16:15:35 by hmelica          ###   ########.fr       */
+/*   Updated: 2023/10/26 14:26:42 by hmelica          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ static void	find_expansion(t_expand *expd, t_myenv *env)
 		}
 		else if (ft_isspace(*expd->p))
 			expd->expanded = 1;
-		expd->p++;
+		expd->p += (*expd->p != '\0');
 	}
 }
 
