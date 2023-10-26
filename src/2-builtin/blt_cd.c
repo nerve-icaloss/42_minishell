@@ -6,7 +6,7 @@
 /*   By: hmelica <hmelica@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/03 16:05:03 by hmelica           #+#    #+#             */
-/*   Updated: 2023/10/26 20:56:57 by hmelica          ###   ########.fr       */
+/*   Updated: 2023/10/26 21:14:42 by hmelica          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@
  *  - 0 tilde found : returns 0
  *  - x tildes found : returns x (because it is not always normal to
  *    expand more than one tilde)
- * ret should be set to NULL or to be malloc'd
+ * ret should be set to NULL
  * */
 int	home_expand(const char *s, char **ret, t_myvar *var)
 {

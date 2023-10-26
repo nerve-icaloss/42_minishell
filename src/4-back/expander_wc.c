@@ -6,7 +6,7 @@
 /*   By: hmelica <hmelica@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/19 22:41:38 by hmelica           #+#    #+#             */
-/*   Updated: 2023/10/26 20:53:05 by hmelica          ###   ########.fr       */
+/*   Updated: 2023/10/26 21:15:02 by hmelica          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,6 +97,7 @@ int	is_in_between_quotes(char *s)
 	char	*i[2];
 	char	*j[2];
 	char	*k;
+
 	if (!s)
 		return (0);
 	k = ft_strchr(s, '*');
@@ -108,28 +109,39 @@ int	is_in_between_quotes(char *s)
 			return (1);
 		k = ft_strchr(k + 1, '*');
 	}
+	k = ft_strchr(s, '~');
+	while (k)
+	{
+		update_quotes(i, j, s, k);
+		if ((i[0] && i[1] && i[0] < k && i[1] > k)
+			|| (j[0] && j[1] && j[0] < k && j[1] > k))
+			return (1);
+		k = ft_strchr(k + 1, '~');
+	}
 	return (0);
 }
 
-int	run_wc_on(char *val, t_node **word, t_myvar *var)
+int	run_wc_on(char **val, t_node **word, t_myvar *var)
 {
 	t_wildcard	*wc;
 	char		*s;
 
-	if (!val)
+	if (!val || !*val)
 		return (-1);
-	s = NULL;
-	if (!var || home_expand(val, &s, var_get(var, "HOME")) || !s)
+	s = ft_strdup(*val);
+	free(*val);
+	*val = NULL;
+	if (!var || home_expand(s, val, var_get(var, "HOME")) || !s)
 		return (ft_dprintf(2, "minishell: HOME not set\n"), -1);
-	wc = generate_wildcard(s);
 	free(s);
+	wc = generate_wildcard(*val);
 	if (wc)
 	{
 		if (wc_into_node(wc, word))
 			return (wc_clean(&wc), -1);
 	}
 	if (!*word)
-		*word = word_new(val);
+		*word = word_new(*val);
 	wc_clean(&wc);
 	return (0);
 }
@@ -151,7 +163,7 @@ int	run_wildcard(t_node **word, t_myvar *var)
 		end = end->next_sibling;
 	while (i)
 	{
-		if (run_wc_on(i->val, word, var))
+		if (run_wc_on(&i->val, word, var))
 			return (-1);
 		if (i != end)
 			j = i->next_sibling;
