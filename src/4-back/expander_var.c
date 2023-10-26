@@ -6,7 +6,7 @@
 /*   By: hmelica <hmelica@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/14 18:23:30 by hmelica           #+#    #+#             */
-/*   Updated: 2023/10/26 15:57:02 by hmelica          ###   ########.fr       */
+/*   Updated: 2023/10/26 16:22:17 by hmelica          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ static char	*extract_value(char *line, t_myenv *env)
 	j = 0;
 	while (line[j] && ft_isalnum(line[j]))
 		j++;
-	if (j == 0 && line[j] == '\0')
+	if (j == 0 && line[j] != '$')
 		return (ft_strdup("$"));
 	name = ft_substr(line, 0, j);
 	if (ft_strlen(name) == 1 && *name == '?')
@@ -46,7 +46,7 @@ void	var_replace(char **start, char **p, t_myenv *env, char *k)
 	if (!i)
 		return (ft_offset(k, 1));
 	*k = '\0';
-	len = ft_strlen(i);
+	len = ft_strlen(i) + ft_strlen(*start);
 	j = ft_strjoin2(*start, i, 0, 1);
 	if (!j)
 		return ;

@@ -6,7 +6,7 @@
 /*   By: nserve <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 12:26:12 by nserve            #+#    #+#             */
-/*   Updated: 2023/10/26 16:06:23 by hmelica          ###   ########.fr       */
+/*   Updated: 2023/10/26 16:10:37 by hmelica          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int	scan_space(t_source *src)
 {
-	if (src->tok_bufindex > 1)
+	if (src->tok_bufindex > 0)
 	{
 		if (src->tok_type == (t_tok_type) -1)
 			src->tok_type = TOK_WORD;
