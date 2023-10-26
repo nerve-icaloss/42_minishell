@@ -45,7 +45,8 @@ int	find_builtin_f(t_execute *exec)
 	while (builtins[i]->name != NULL)
 	{
 		if (ft_strncmp(exec->argv[0], builtins[i]->name,
-				ft_strlen(builtins[i]->name)) == 0)
+				ft_strlen(builtins[i]->name)) == 0
+	  			&& ft_strlen(exec->argv[0]) == ft_strlen(builtins[i]->name))
 		{
 			exec->builtin_f = builtins[i]->f;
 			return (builtin_clean(builtins), 0);

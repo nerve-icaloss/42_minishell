@@ -120,22 +120,30 @@ char	*search_cmd_path(char *name, t_myenv *env)
 	return (ft_arrclear(dirs), cmd_path);
 }
 
-int	check_cmd_path(t_execute *exec, char *name)
+char	*check_cmd_path(t_execute *exec, char *name)
 {
 	struct stat	sb;
+	char		*ret;
 
 	if (name[0] == '.' && name[1] != '/')
 	{
-		ft_dprintf(2, "minishell: %s: filename argument required\n", name);
-		exec->exit = 1;
-		return (1);
+		if (name[1] == '\0')
+		{
+			ft_dprintf(2, "minishell: %s: filename argument required\n", name);
+			exec->exit = 1;
+			ret = NULL;
+		}
+		else
+			ret = NULL;
 	}
-	if (stat(name, &sb) == 0 && sb.st_mode && S_ISDIR(sb.st_mode))
+	else if (stat(name, &sb) == 0 && sb.st_mode && S_ISDIR(sb.st_mode))
 	{
 		errno = EISDIR;
 		perror(name);
 		exec->exit = 126;
-		return (1);
+		ret = NULL;
 	}
-	return (0);
+	else
+		ret = ft_strdup(name);
+	return (ret);
 }

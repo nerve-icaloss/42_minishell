@@ -72,6 +72,8 @@ int	execute_pipex_init(t_execute *exec, t_node *pipex, t_node *cmd, t_myenv *env
 		cmd->next_sibling->fd[IN] = pipex->fd[IN];
 		exec->toclose_child = pipex->fd[IN];
 	}
+	else
+		exec->toclose_child = -1;
 	if (cmd->type == NODE_BRACKET)
 	{
 		exec->bracket_first_child = cmd->first_child;

@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "../../headers/minishell.h"
+#include <unistd.h>
 
 void	shell_clean(t_myshell *shell)
 {
@@ -19,4 +20,5 @@ void	shell_clean(t_myshell *shell)
 	if (shell->root)
 		node_tree_clean(shell->root);
 	env_clean(&shell->env);
+	//close(STDIN_FILENO);
 }

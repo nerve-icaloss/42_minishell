@@ -25,7 +25,7 @@ int		exit_builtin(char *argv[], t_myenv *env);
 
 int		find_builtin_f(t_execute *exec);
 char	*search_cmd_path(char *name, t_myenv *env);
-int		check_cmd_path(t_execute *exec, char *name);
+char	*check_cmd_path(t_execute *exec, char *name);
 
 int		execute_pipex_init(t_execute *exec, t_node *pipex, t_node *cmd,
 						t_myenv *env);
