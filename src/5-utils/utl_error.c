@@ -12,6 +12,18 @@
 
 #include "../../headers/minishell.h"
 
+void	syntax_error_node(t_node_type node_type)
+{
+	if (node_type == NODE_PIPE)
+		write(2, "bash: syntax error near unexpected token `|'", 44);
+	if (node_type == NODE_OR)
+		write(2, "bash: syntax error near unexpected token `||'", 44);
+	if (node_type == NODE_AND)
+		write(2, "bash: syntax error near unexpected token `&&'", 44);
+	if (node_type == NODE_BRACKET)
+		write(2, "bash: syntax error near unexpected token `('", 44);
+}
+
 void	syntax_error_token(t_tok_type tok_type)
 {
 	if (tok_type == TOK_PIPE)
@@ -25,6 +37,18 @@ void	syntax_error_token(t_tok_type tok_type)
 	if (tok_type == TOK_EOF)
 		write(2, "minishell: syntax error near unexpected token `newline'\n",
 			56);
+}
+
+void	syntax_error_redir(t_redir_type redir_type)
+{
+	if (redir_type == READ)
+		write(2, "minishell: syntax error near unexpected token `<'\n", 50);
+	if (redir_type == HEREDOC)
+		write(2, "minishell: syntax error near unexpected token `<<'\n", 51);
+	if (redir_type == APPEND)
+		write(2, "minishell: syntax error near unexpected token `>>\n", 51);
+	if (redir_type == TRUNC)
+		write(2, "minishell: syntax error near unexpected token `>'\n", 50);
 }
 
 void	cmd_notfound(char *str)

@@ -78,7 +78,11 @@ void	parse_and_execute(char *cmdline, t_myshell *shell)
 	else
 		exit = run_tree_doc(shell->root, &shell->env);
 	if (exit > 0)
-		return (node_tree_clean(shell->root), shell->root = NULL, (void) NULL);
+	{
+		shell->exit = exit;
+		shell->root = NULL;
+		return (node_tree_clean(shell->root), (void) NULL);
+	}
 	shell->exit = execute_tree(shell->root, shell);
 	shell->root = NULL;
 }

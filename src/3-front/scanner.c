@@ -71,7 +71,7 @@ t_token	*tokenize(t_source *src)
 
 	tok_eof = token_ops_new(TOK_EOF);
 	tok_eof->src = src;
-	if (!src || !src->buf || !src->bufsize)
+	if (!src || !src->buf || !src->bufsize || src->tok_type == TOK_SYNTAX)
 		return (errno = ENODATA, tok_eof);
 	if (!src->tok_buf)
 		return (tok_eof);

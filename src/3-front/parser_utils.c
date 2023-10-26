@@ -121,14 +121,7 @@ void	handle_error_and_clean(t_node *parent, t_token *tok, int type)
 		parent->exit = 2;
 	if (parent->children == 0 && type == NODE_PIPE)
 	{
-		if (type == NODE_PIPE)
-			write(2, "bash: syntax error near unexpected token `|'", 44);
-		if (type == NODE_OR)
-			write(2, "bash: syntax error near unexpected token `||'", 44);
-		if (type == NODE_AND)
-			write(2, "bash: syntax error near unexpected token `&&'", 44);
-		if (type == NODE_BRACKET)
-			write(2, "bash: syntax error near unexpected token `('", 44);
+		syntax_error_node(type);
 		parent->exit = 2;
 	}
 	token_clean(tok);

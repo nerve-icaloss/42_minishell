@@ -273,7 +273,9 @@ typedef struct s_myshell {
 t_myshell		shell_init(void);
 void			shell_clean(t_myshell *shell);
 
+void			syntax_error_node(t_node_type node_type);
 void			syntax_error_token(t_tok_type tok_type);
+void			syntax_error_redir(t_redir_type redir_type);
 void			cmd_notfound(char *str);
 void			path_notfound(void);
 
