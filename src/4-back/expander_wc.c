@@ -6,7 +6,7 @@
 /*   By: hmelica <hmelica@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/19 22:41:38 by hmelica           #+#    #+#             */
-/*   Updated: 2023/10/25 12:53:58 by hmelica          ###   ########.fr       */
+/*   Updated: 2023/10/26 18:23:25 by hmelica          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,6 +87,22 @@ t_wildcard	*generate_wildcard(char *s)
 	return (wc);
 }
 
+int	run_wc_on(char *val, t_node **word)
+{
+	t_wildcard	*wc;
+
+	wc = generate_wildcard(val);
+	if (wc)
+	{
+		if (wc_into_node(wc, word))
+			return (wc_clean(&wc), -1);
+	}
+	if (!*word)
+		*word = word_new(val);
+	wc_clean(&wc);
+	return (0);
+}
+
 /*
  * word should have no parent
  * */
@@ -95,7 +111,6 @@ int	run_wildcard(t_node **word)
 	t_node		*i;
 	t_node		*j;
 	t_node		*end;
-	t_wildcard	*wc;
 
 	if (!word)
 		return (errno = ENODATA, -1);
@@ -105,16 +120,14 @@ int	run_wildcard(t_node **word)
 		end = end->next_sibling;
 	while (i)
 	{
-		wc = generate_wildcard(i->val);
-		if (wc)
-			if (wc_into_node(wc, word))
-				return (wc_clean(&wc), -1);
-		wc_clean(&wc);
+		if (run_wc_on(i->val, word))
+			return (-1);
 		if (i != end)
 			j = i->next_sibling;
 		else
 			j = NULL;
-		word_pop(word, i);
+		if ((*word)->next_sibling)
+			word_pop(word, i);
 		i = j;
 	}
 	return (0);
