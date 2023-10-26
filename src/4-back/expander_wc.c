@@ -6,7 +6,7 @@
 /*   By: hmelica <hmelica@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/19 22:41:38 by hmelica           #+#    #+#             */
-/*   Updated: 2023/10/26 19:52:13 by hmelica          ###   ########.fr       */
+/*   Updated: 2023/10/26 20:53:05 by hmelica          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,13 +111,18 @@ int	is_in_between_quotes(char *s)
 	return (0);
 }
 
-int	run_wc_on(char *val, t_node **word)
+int	run_wc_on(char *val, t_node **word, t_myvar *var)
 {
 	t_wildcard	*wc;
+	char		*s;
 
 	if (!val)
 		return (-1);
-	wc = generate_wildcard(val);
+	s = NULL;
+	if (!var || home_expand(val, &s, var_get(var, "HOME")) || !s)
+		return (ft_dprintf(2, "minishell: HOME not set\n"), -1);
+	wc = generate_wildcard(s);
+	free(s);
 	if (wc)
 	{
 		if (wc_into_node(wc, word))
@@ -132,7 +137,7 @@ int	run_wc_on(char *val, t_node **word)
 /*
  * word should have no parent
  * */
-int	run_wildcard(t_node **word)
+int	run_wildcard(t_node **word, t_myvar *var)
 {
 	t_node		*i;
 	t_node		*j;
@@ -146,7 +151,7 @@ int	run_wildcard(t_node **word)
 		end = end->next_sibling;
 	while (i)
 	{
-		if (run_wc_on(i->val, word))
+		if (run_wc_on(i->val, word, var))
 			return (-1);
 		if (i != end)
 			j = i->next_sibling;

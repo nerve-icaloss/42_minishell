@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/10 14:58:41 by hmelica           #+#    #+#             */
-/*   Updated: 2023/10/26 20:33:11 by hmelica          ###   ########.fr       */
+/*   Updated: 2023/10/26 20:51:42 by hmelica          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,6 +79,7 @@ t_lstvar		var_get(t_lstvar lst, char *name);
 char			*var_get_value(t_lstvar lst, char *name);
 char			*var_get_string(t_myvar *var);
 int				name_check(char *s);
+int				home_expand(const char *s, char **ret, t_myvar *var);
 
 //----------------------------------------------------------------------------//
 
@@ -231,7 +232,7 @@ void			node_sibling_pop(t_node *node);
 void			node_sibling_clean(t_node **origin);
 void			word_pop(t_node **origin, t_node *word);
 
-int				run_wildcard(t_node **word);
+int				run_wildcard(t_node **word, t_myvar *var);
 
 //----------------------------------------------------------------------------//
 

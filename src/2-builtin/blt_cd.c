@@ -6,7 +6,7 @@
 /*   By: hmelica <hmelica@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/03 16:05:03 by hmelica           #+#    #+#             */
-/*   Updated: 2023/10/25 18:01:29 by hmelica          ###   ########.fr       */
+/*   Updated: 2023/10/26 20:56:57 by hmelica          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@
  *    expand more than one tilde)
  * ret should be set to NULL or to be malloc'd
  * */
- TEST_STATIC int	home_expand(const char *s, char **ret, t_myvar *var)
+int	home_expand(const char *s, char **ret, t_myvar *var)
 {
 	int		count;
 	int		i;
@@ -49,7 +49,7 @@
 	return (count);
 }
 
- TEST_STATIC int	arg_parser_home(t_myenv *env, char **path)
+TEST_STATIC int	arg_parser_home(t_myenv *env, char **path)
 {
 	t_myvar	*var;
 
@@ -74,10 +74,8 @@ static int	arg_parser_oldpwd(t_myenv *env, char **path)
 /*
  * Controle les arguments pour cd
  * */
- TEST_STATIC int	path_arg_parser(char **argv, t_myenv *env, char **path)
+TEST_STATIC int	path_arg_parser(char **argv, t_myenv *env, char **path)
 {
-	char	*s;
-
 	if (!argv || !*argv)
 		return (-1);
 	else if (argv[1] && argv[2])
@@ -86,10 +84,7 @@ static int	arg_parser_oldpwd(t_myenv *env, char **path)
 		return (arg_parser_home(env, path));
 	else if (ft_strlen(argv[1]) == 1 && *argv[1] == '-')
 		return (arg_parser_oldpwd(env, path));
-	s = NULL;
-	if (home_expand(argv[1], &s, var_get(env->lst_var, "HOME")) < 0)
-		return (ft_dprintf(2, "cd: HOME not set\n"), 1);
-	*path = s;
+	*path = argv[1];
 	return (0);
 }
 
@@ -100,7 +95,7 @@ int	cd_builtin(char **argv, t_myenv *env)
 	if (path_arg_parser(argv, env, &path))
 		return (1);
 	if (access(path, F_OK))
-		return (ft_dprintf(2, "cd: NO SUCH DIRECTORY\n"), 1);
+		return (ft_dprintf(2, "cd: %s: NO SUCH DIRECTORY\n", path), 1);
 	if (chdir(path))
 		return (ft_dprintf(2, "cd: ERROR WHILE CHANGING DIRECTORY\n"), 1);
 	path = getcwd(NULL, 0);
@@ -110,9 +105,9 @@ int	cd_builtin(char **argv, t_myenv *env)
 		env->count++;
 	if (!var_get(env->lst_var, "PWD"))
 		env->count++;
-	if (var_add(&env->lst_var, ft_strdup("PWD"), path)
-		|| var_add(&env->lst_var, ft_strdup("OLDPWD"), ft_strdup(
-				var_get_value(env->lst_var, "PWD"))))
+	if (var_add(&env->lst_var, ft_strdup("OLDPWD"), ft_strdup(
+				var_get_value(env->lst_var, "PWD")))
+		|| var_add(&env->lst_var, ft_strdup("PWD"), path))
 		return (-1);
 	if (env_update_count(env) || envp_update(env))
 		return (ft_dprintf(2, "WARN: minor error while updating envp\n"), 0);
