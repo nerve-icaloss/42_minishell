@@ -6,7 +6,7 @@
 /*   By: hmelica <hmelica@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/14 18:23:30 by hmelica           #+#    #+#             */
-/*   Updated: 2023/10/26 17:27:46 by hmelica          ###   ########.fr       */
+/*   Updated: 2023/10/26 17:43:39 by hmelica          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,15 +19,14 @@ static char	*extract_value(char *line, t_myenv *env)
 	char	*ret;
 
 	j = 0;
+	if (line[0] && line[0] == '?' && !ft_isalnum(line[1]))
+		return (ft_offset(line, 1), ft_itoa(*env->exit));
 	while (line[j] && ft_isalnum(line[j]))
 		j++;
 	if (j == 0 && line[j] != '$')
 		return (ft_strdup("$"));
 	name = ft_substr(line, 0, j);
-	if (ft_strlen(name) == 1 && *name == '?')
-		ret = ft_itoa(*env->exit);
-	else
-		ret = ft_strdup(var_get_value(env->lst_var, name));
+	ret = ft_strdup(var_get_value(env->lst_var, name));
 	if (name)
 		free(name);
 	ft_offset(line, j);
