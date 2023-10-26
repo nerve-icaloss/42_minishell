@@ -6,7 +6,7 @@
 /*   By: hmelica <hmelica@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/14 18:23:30 by hmelica           #+#    #+#             */
-/*   Updated: 2023/10/26 16:22:17 by hmelica          ###   ########.fr       */
+/*   Updated: 2023/10/26 17:27:46 by hmelica          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,11 +57,41 @@ void	var_replace(char **start, char **p, t_myenv *env, char *k)
 	*p = *start + len;
 }
 
+static void update_quotes(char *i[2], char *j[2], char *line, char *k)
+{
+	ft_memset(i, 0, sizeof (char *) * 2);
+	ft_memset(j, 0, sizeof (char *) * 2);
+	if (!k)
+		return ;
+	i[0] = ft_strchr(line, '"');
+	if (i[0])
+		i[1] = ft_strchr(i[0] + 1, '"');
+	while (i[0] && i[1] && (i[1] < k))
+	{
+		i[0] = ft_strchr(i[1] + 1, '"');
+		if (i[0])
+			i[1] = ft_strchr(i[0] + 1, '"');
+	}
+	j[0] = ft_strchr(line, '\'');
+	if (j[0])
+		j[1] = ft_strchr(j[0] + 1, '\'');
+	while (j[0] && j[1] && (j[1] < k))
+	{
+		j[0] = ft_strchr(j[1] + 1, '\'');
+		if (j[0])
+			j[1] = ft_strchr(j[0] + 1, '\'');
+	}
+}
+
+/*
+ * [0] is open
+ * [1] is close
+ * */
 void	var_expansion(char **line, t_myenv *env)
 {
 	char				*p;
-	char				*i;
-	char				*j;
+	char				*i[2];
+	char				*j[2];
 	char				*k;
 
 	if (!env || !line || !*line)
@@ -70,14 +100,14 @@ void	var_expansion(char **line, t_myenv *env)
 	k = ft_strchr(p, '$');
 	while (p && *p && k)
 	{
-		i = ft_strchr(p, '"');
-		j = ft_strchr(p, '\'');
-		if ((!j || j > k || (i && i < j)))
+		update_quotes(i, j, *line, k);
+		if ((!j[0] || !j[1] || j[0] > k || j[1] < k || (i[0] && i[1] && i[0]
+			< j[0] && i[1] > j[0])))
 		{
 			var_replace(line, &p, env, k);
 		}
-		else if (j && j < k && (!i || j < i))
-			p = ft_strchr(j + 1, *j);
+		else if (j[0] && j[1] && j[0] < k && (!i[0] || !i[1] || j[0] < i[0]))
+			p = j[1] + 1;
 		k = ft_strchr(p, '$');
 	}
 }

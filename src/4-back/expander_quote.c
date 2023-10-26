@@ -6,7 +6,7 @@
 /*   By: nserve <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/14 18:55:54 by nserve            #+#    #+#             */
-/*   Updated: 2023/10/26 14:15:22 by hmelica          ###   ########.fr       */
+/*   Updated: 2023/10/26 16:54:48 by hmelica          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ static int	remove_quotes_word(t_node *word)
 		if (!*i)
 			return (0);
 		j = ft_strchr(i + 1, *i);
-		if (!*j)
+		if (!j)
 			return (0);
 		ft_offset(j, 1);
 		ft_offset(i, 1);

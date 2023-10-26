@@ -6,7 +6,7 @@
 /*   By: hmelica <hmelica@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/16 21:57:09 by hmelica           #+#    #+#             */
-/*   Updated: 2023/10/26 15:45:10 by hmelica          ###   ########.fr       */
+/*   Updated: 2023/10/26 17:28:33 by hmelica          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,62 @@ ParameterizedTestParameters(expansion, var_expansion) {
 			"$a$b$c",
 			"aaabbbccc",
 		},
+		{
+			"\"coucou je suis heureux\"",
+			"\"coucou je suis heureux\"",
+		},
+		{
+			"\"coucou 'je' 'suis' heureux\"",
+			"\"coucou 'je' 'suis' heureux\"",
+		},
+		{
+			"\"coucou je $a heureux\"",
+			"\"coucou je aaa heureux\"",
+		},
+		{
+			"coucou\" je $a \"heureux",
+			"coucou\" je aaa \"heureux",
+		},
+		{
+			"'coucou je $a heureux'",
+			"'coucou je $a heureux'",
+		},
+		{
+			"coucou' je $a 'heureux",
+			"coucou' je $a 'heureux",
+		},
+		{
+			"\"coucou' je $a 'heureux\"",
+			"\"coucou' je aaa 'heureux\"",
+		},
+		{
+			"coucou\" je $a heureux",
+			"coucou\" je aaa heureux",
+		},
+		{
+			"coucou' je $a heureux",
+			"coucou' je aaa heureux",
+		},
+		{
+			"coucou $a \"$b\", '$c' ahah",
+			"coucou aaa \"bbb\", '$c' ahah",
+		},
+		{
+			"coucou $a \"$b\", '$c ahah",
+			"coucou aaa \"bbb\", 'ccc ahah",
+		},
+		{
+			"coucou $a \"$b\", $c' ahah",
+			"coucou aaa \"bbb\", ccc' ahah",
+		},
+		{
+			"coucou \"'\" je ' $a heureux",
+			"coucou \"'\" je ' aaa heureux",
+		},
+		{
+			"coucou' je $a \"'\"heureux",
+			"coucou' je $a \"'\"heureux",
+		},
 	};
 	t_doublestr *strings;
 
@@ -103,7 +159,7 @@ ParameterizedTest(t_doublestr *set, expansion, var_expansion, .timeout = 2.)
 		cr_expect(eq(ptr, s, set->out), "str not unset when supposed to");
 	else
 	{
-		cr_expect(eq(str, s, set->out), "str does not match");
+		cr_expect(eq(str, s, set->out), "str does not match (input '%s')", set->in);
 		free(s);
 	}
 	var_clean(&env.lst_var);
