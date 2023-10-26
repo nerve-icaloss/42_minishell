@@ -6,7 +6,7 @@
 /*   By: hmelica <hmelica@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/20 11:11:00 by hmelica           #+#    #+#             */
-/*   Updated: 2023/10/25 11:12:15 by hmelica          ###   ########.fr       */
+/*   Updated: 2023/10/26 19:59:13 by hmelica          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,10 @@ char	*insert_name(t_wildcard *wc, char name[256])
 	char	*ret;
 
 	ret = NULL;
-	ret = ft_strjoin2(wc->path, name, 0, 0);
+	if (wc->path && !ft_memcmp(wc->path, "./", 3))
+		ret = ft_strdup(name);
+	else
+		ret = ft_strjoin2(wc->path, name, 0, 0);
 	ret = ft_strjoin2(ret, wc->following, 1, 0);
 	return (ret);
 }
