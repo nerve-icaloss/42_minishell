@@ -80,6 +80,8 @@ void	exec_reset(t_execute *exec)
 	}
 	ft_memset(exec->argv, 0, sizeof (char *) * exec->argv_size);
 	exec->argc = 0;
+	exec->builtin_f = NULL;
+	exec->bracket_first_child = NULL;
 }
 
 void	exec_clean(t_execute *exec)

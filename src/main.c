@@ -15,6 +15,7 @@
 #include "../headers/here_doc.h"
 #include "../headers/executor.h"
 #include "../headers/signal_not_libc.h"
+#include <unistd.h>
 
 volatile int	g_signal;
 
@@ -99,7 +100,8 @@ void	rpel_mode(t_myshell *shell)
 		if (!cmdline)
 		{
 			free(cmdline);
-			shell->exit = 131;
+			if (isatty(STDIN_FILENO))
+				shell->exit = 131;
 			break ;
 		}
 		if (cmdline[0] == '\0' || cmdline[0] == '\n')
