@@ -19,6 +19,8 @@ void	shell_clean(t_myshell *shell)
 		history_clean(&shell->hist);
 	if (shell->root)
 		node_tree_clean(shell->root);
+	if (shell->start_dir)
+		free(shell->start_dir);
 	env_clean(&shell->env);
 	//close(STDIN_FILENO);
 }
