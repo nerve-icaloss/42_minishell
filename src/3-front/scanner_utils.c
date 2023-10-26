@@ -39,10 +39,13 @@ int	scan_verticalbar(t_source *src, char nc)
 		return (tok_buf_pop(src), unget_char(src), ENDLOOP);
 	nc = next_char(src);
 	nc2 = peek_char(src);
-	if (nc == '|' && nc2 == '|')
+	if ((nc == '|' && nc2 == '|') || (nc == ' ' && nc2 == '|'))
 	{
 		src->tok_type = TOK_SYNTAX;
-		syntax_error_token(TOK_OR);
+		if (nc == '|')
+			syntax_error_token(TOK_OR);
+		if (nc == ' ')
+			syntax_error_token(TOK_PIPE);
 	}
 	else if (nc == '|')
 	{

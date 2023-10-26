@@ -265,6 +265,7 @@ void			exec_reset(t_execute *exec);
 
 typedef struct s_myshell {
 	t_history	hist;
+	char		*start_dir;
 	t_myenv		env;
 	t_node		*root;
 	int			exit;
