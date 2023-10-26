@@ -6,7 +6,7 @@
 /*   By: hmelica <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/14 14:36:17 by hmelica           #+#    #+#             */
-/*   Updated: 2023/10/26 20:24:46 by hmelica          ###   ########.fr       */
+/*   Updated: 2023/10/26 20:35:34 by hmelica          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,21 +14,15 @@
 
 int	name_check(char *s)
 {
-	char	*origin;
-
-	origin = s;
 	if (!s)
-		return (ft_dprintf(2, "export: '%s' : not a valid identifier\n",
-				origin), 0);
+		return (0);
 	if (!ft_isalpha(*s) && *s != '_')
-		return (ft_dprintf(2, "export: '%s' : not a valid identifier\n",
-				origin), 0);
+		return (0);
 	while (*s && (ft_isalnum(*s) || *s == '_'))
 		s++;
 	if (!*s)
 		return (1);
-	return (ft_dprintf(2, "export: '%s' : not a valid identifier\n", origin)
-			, 0);
+	return (0);
 }
 
 /*

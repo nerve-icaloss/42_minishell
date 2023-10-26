@@ -6,7 +6,7 @@
 /*   By: hmelica <hmelica@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/16 21:32:35 by hmelica           #+#    #+#             */
-/*   Updated: 2023/10/26 20:19:41 by hmelica          ###   ########.fr       */
+/*   Updated: 2023/10/26 20:40:16 by hmelica          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,8 +81,8 @@ int	export_builtin(char **av, t_myenv *env)
 	len = 1;
 	while (av[len])
 	{
-		if (!ft_isalpha(*av[len]) && *av[len] != '_')
-			ft_dprintf(2, "export: '%s' : not a valid identifier\n", av[len]);
+		if (!name_check(av[len]))
+			ft_dprintf(2, "minishell: export: '%s' : not a valid identifier\n", av[len]);
 		else if (var_parsing(&env->lst_var, av[len]))
 			return (-1);
 		len++;
@@ -90,7 +90,7 @@ int	export_builtin(char **av, t_myenv *env)
 	if (len > 1)
 	{
 		if (env_update_count(env) || envp_update(env))
-			return (ft_dprintf(2, "WARN: minor error while updating envp\n"),
+			return (ft_dprintf(2, "minishell: export: minor error while updating envp\n"),
 				0);
 	}
 	return (0);
