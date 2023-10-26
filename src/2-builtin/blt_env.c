@@ -6,7 +6,7 @@
 /*   By: hmelica <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/14 10:33:12 by hmelica           #+#    #+#             */
-/*   Updated: 2023/10/22 17:04:51 by nserve           ###   ########.fr       */
+/*   Updated: 2023/10/26 19:12:05 by hmelica          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,11 +23,13 @@ int	env_builtin(char *argv[], t_myenv *env)
 	if (!env)
 		return (errno = ENODATA, 1);
 	var = env->lst_var;
+	while (var && var->next)
+		var = var->next;
 	while (var)
 	{
 		if (var->value)
 			printf("%s=%s\n", var->name, var->value);
-		var = var->next;
+		var = var->prev;
 	}
 	return (0);
 }
