@@ -12,6 +12,7 @@
 
 #include "../../headers/minishell.h"
 #include "../../headers/signal_not_libc.h"
+#include <unistd.h>
 
 char	*ft_readline(char *prompt, void (*signal_handler)(int),
 			void (*signal_restore))
@@ -20,9 +21,9 @@ char	*ft_readline(char *prompt, void (*signal_handler)(int),
 	char	*ret;
 
 	ret = NULL;
-	sigint_assign(SIGINT, signal_handler);
 	if (isatty(STDIN_FILENO))
 	{
+		sigint_assign(SIGINT, signal_handler);
 		std_out = dup(STDOUT_FILENO);
 		if (std_out == SYS_FAIL)
 			return (perror("dup"), NULL);
@@ -35,7 +36,9 @@ char	*ft_readline(char *prompt, void (*signal_handler)(int),
 			return (perror("dup2"), NULL);
 		if (close (std_out) == SYS_FAIL)
 			perror("close");
+		sigint_assign(SIGINT, signal_restore);
 	}
-	sigint_assign(SIGINT, signal_restore);
+	else
+		ret = get_next_line(STDIN_FILENO);
 	return (ret);
 }

@@ -71,8 +71,8 @@ void	parse_and_execute(char *cmdline, t_myshell *shell)
 		return ((void) NULL);
 	exit = parse_source(&shell->root, &src);
 	source_clean(&src);
-	node_tree_print(shell->root); //
-	write(1, "\n", 1); //
+	//node_tree_print(shell->root); //
+	//write(1, "\n", 1); //
 	if (exit == 2)
 		run_tree_doc(shell->root, &shell->env);
 	else
@@ -93,7 +93,7 @@ void	rpel_mode(t_myshell *shell)
 
 	if (!shell)
 		return (errno = ENODATA, (void)NULL);
-	while (1 && isatty(STDIN_FILENO))
+	while (1)
 	{
 		cmdline = ft_readline("minishell-1.0$ ", handler_rpel, SIG_IGN);
 		if (!cmdline)

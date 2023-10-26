@@ -50,7 +50,8 @@ void	child_pipex_cmd(t_execute *exec, t_myshell *shell)
 	close_fd_child(exec, shell);
 	if (!exec->argv[0])
 		exit (0);
-	close(exec->toclose_child);
+	if (exec->toclose_child != -1)
+		close(exec->toclose_child);
 	if (exec->bracket_first_child)
 	{
 		exec->exit = execute_tree(exec->bracket_first_child, shell);
