@@ -6,11 +6,13 @@
 /*   By: hmelica <hmelica@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/19 22:41:38 by hmelica           #+#    #+#             */
-/*   Updated: 2023/10/26 18:23:25 by hmelica          ###   ########.fr       */
+/*   Updated: 2023/10/26 19:52:13 by hmelica          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../headers/minishell.h"
+
+void	update_quotes(char *i[2], char *j[2], char *line, char *k);
 
 /*char	*wc_to_str(t_wildcard *wc)
 {
@@ -87,10 +89,34 @@ t_wildcard	*generate_wildcard(char *s)
 	return (wc);
 }
 
+/*
+ * returns 1 if in between quotes
+ * */
+int	is_in_between_quotes(char *s)
+{
+	char	*i[2];
+	char	*j[2];
+	char	*k;
+	if (!s)
+		return (0);
+	k = ft_strchr(s, '*');
+	while (k)
+	{
+		update_quotes(i, j, s, k);
+		if ((i[0] && i[1] && i[0] < k && i[1] > k)
+			|| (j[0] && j[1] && j[0] < k && j[1] > k))
+			return (1);
+		k = ft_strchr(k + 1, '*');
+	}
+	return (0);
+}
+
 int	run_wc_on(char *val, t_node **word)
 {
 	t_wildcard	*wc;
 
+	if (!val)
+		return (-1);
 	wc = generate_wildcard(val);
 	if (wc)
 	{

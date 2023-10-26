@@ -6,7 +6,7 @@
 /*   By: nserve <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/14 17:10:43 by nserve            #+#    #+#             */
-/*   Updated: 2023/10/26 15:40:58 by hmelica          ###   ########.fr       */
+/*   Updated: 2023/10/26 19:46:51 by hmelica          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,7 @@ t_node	*word_expand(char *data, t_myenv *env)
 {
 	t_node		*word;
 	t_expand	expd;
+	int			wc_trigger;
 
 	if (!data || !*data || !env)
 		return (errno = ENODATA, NULL);
@@ -85,8 +86,9 @@ t_node	*word_expand(char *data, t_myenv *env)
 			return (NULL);
 	}
 	free(expd.pstart);
+	wc_trigger = !is_in_between_quotes(word->val);
 	remove_quotes(word);
-	if (run_wildcard(&word))
+	if (wc_trigger && run_wildcard(&word))
 		return (node_tree_clean(word), NULL);
 	return (word);
 }

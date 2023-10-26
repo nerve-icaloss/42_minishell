@@ -6,7 +6,7 @@
 /*   By: hmelica <hmelica@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/14 18:23:30 by hmelica           #+#    #+#             */
-/*   Updated: 2023/10/26 17:43:39 by hmelica          ###   ########.fr       */
+/*   Updated: 2023/10/26 19:37:46 by hmelica          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ void	var_replace(char **start, char **p, t_myenv *env, char *k)
 	*p = *start + len;
 }
 
-static void update_quotes(char *i[2], char *j[2], char *line, char *k)
+void	update_quotes(char *i[2], char *j[2], char *line, char *k)
 {
 	ft_memset(i, 0, sizeof (char *) * 2);
 	ft_memset(j, 0, sizeof (char *) * 2);
@@ -88,10 +88,10 @@ static void update_quotes(char *i[2], char *j[2], char *line, char *k)
  * */
 void	var_expansion(char **line, t_myenv *env)
 {
-	char				*p;
-	char				*i[2];
-	char				*j[2];
-	char				*k;
+	char	*p;
+	char	*i[2];
+	char	*j[2];
+	char	*k;
 
 	if (!env || !line || !*line)
 		return (errno = ENODATA, (void) NULL);
