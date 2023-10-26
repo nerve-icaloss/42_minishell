@@ -23,6 +23,7 @@ t_node	*choose_lvl(t_node *parent, t_token *tok, int node_type);
 t_node	*insert_lvl_child(t_node *parent, t_node *child);
 void	handle_error_and_clean(t_node *parent, t_token *tok, int type);
 
+void	parse_redir(t_token *tok, t_node *word);
 t_node	*parse_word(t_token *tok);
 t_node	*parse_command(t_token *tok);
 t_node	*parse_bracket(t_token *tok);

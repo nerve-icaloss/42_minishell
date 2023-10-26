@@ -20,7 +20,10 @@ int	scan_quote(t_source *src)
 	if (!i)
 	{
 		src->tok_type = TOK_SYNTAX;
-		write(2, "syntax error", 12);
+		if (src->buf[src->curpos] == '"')
+			write(2, "minishell: syntax error near token `\"'\n", 40);
+		if (src->buf[src->curpos] == '\'')
+			write(2, "minishell: syntax error near token `\''\n", 40);
 		return (ENDLOOP);
 	}
 	while (i--)
@@ -39,9 +42,9 @@ int	scan_verticalbar(t_source *src, char nc)
 	if (nc == '|' && nc2 == '|')
 	{
 		src->tok_type = TOK_SYNTAX;
-		write(2, "syntax error", 12);
+		syntax_error_token(TOK_OR);
 	}
-	if (nc == '|')
+	else if (nc == '|')
 	{
 		tok_buf_add(src, nc);
 		src->tok_type = TOK_OR;
@@ -65,10 +68,10 @@ int	scan_ampersand(t_source *src, char nc)
 	if (nc == '&' && nc2 == '&')
 	{
 		src->tok_type = TOK_SYNTAX;
-		write(2, "syntax error", 12);
+		syntax_error_token(TOK_AND);
 		return (ENDLOOP);
 	}
-	if (nc == '&')
+	else if (nc == '&')
 	{
 		tok_buf_add(src, nc);
 		src->tok_type = TOK_AND;
@@ -91,9 +94,9 @@ int	scan_lessthan(t_source *src, char nc)
 	if (nc == '<' && nc2 == '<')
 	{
 		src->tok_type = TOK_SYNTAX;
-		write(2, "syntax error", 12);
+		syntax_error_redir(HEREDOC);
 	}
-	if (nc == '<')
+	else if (nc == '<')
 		tok_buf_add(src, nc);
 	else
 		unget_char(src);
@@ -112,9 +115,9 @@ int	scan_morethan(t_source *src, char nc)
 	if (nc == '>' && nc2 == '>')
 	{
 		src->tok_type = TOK_SYNTAX;
-		write(2, "syntax error", 12);
+		syntax_error_redir(APPEND);
 	}
-	if (nc == '>')
+	else if (nc == '>')
 		tok_buf_add(src, nc);
 	else
 		unget_char(src);
