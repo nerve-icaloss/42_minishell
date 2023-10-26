@@ -6,7 +6,7 @@
 /*   By: nserve <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/26 10:15:52 by nserve            #+#    #+#             */
-/*   Updated: 2023/10/26 10:16:06 by nserve           ###   ########.fr       */
+/*   Updated: 2023/10/26 19:29:37 by nserve           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,10 +22,10 @@ void	parse_redir(t_token *tok, t_node *word)
 	src = tok->src;
 	token_clean(tok);
 	tok = tokenize(src);
-	if (tok->type == TOK_EOF)
+	if (tok->type != TOK_WORD)
 	{
 		src->tok_type = TOK_SYNTAX;
-		syntax_error_token(TOK_EOF);
+		syntax_error_token(tok->type);
 	}
 	else if (find_word_type(tok->txt) != WORD)
 	{

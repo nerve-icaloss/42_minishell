@@ -15,13 +15,13 @@
 void	syntax_error_node(t_node_type node_type)
 {
 	if (node_type == NODE_PIPE)
-		write(2, "bash: syntax error near unexpected token `|'", 44);
+		write(2, "minishell: syntax error near unexpected token `|'\n", 50);
 	if (node_type == NODE_OR)
-		write(2, "bash: syntax error near unexpected token `||'", 44);
+		write(2, "minishell: syntax error near unexpected token `||'\n", 51);
 	if (node_type == NODE_AND)
-		write(2, "bash: syntax error near unexpected token `&&'", 44);
+		write(2, "minishell: syntax error near unexpected token `&&'\n", 51);
 	if (node_type == NODE_BRACKET)
-		write(2, "bash: syntax error near unexpected token `('", 44);
+		write(2, "minishell: syntax error near unexpected token `('\n", 50);
 }
 
 void	syntax_error_token(t_tok_type tok_type)
@@ -58,6 +58,7 @@ void	cmd_notfound(char *str)
 
 	not_found = ": command not found";
 	strerror = ft_strjoin(str, not_found);
+	write(2, "minishell: ", 11);
 	write(2, strerror, ft_strlen(strerror));
 	write(2, "\n", 1);
 	free(strerror);
@@ -65,6 +66,7 @@ void	cmd_notfound(char *str)
 
 void	path_notfound(void)
 {
+	write(2, "minishell: ", 11);
 	write(2, "env: path not found", 19);
 	write(2, "\n", 1);
 }

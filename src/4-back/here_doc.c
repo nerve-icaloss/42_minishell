@@ -6,7 +6,7 @@
 /*   By: hmelica <hmelica@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/14 16:08:57 by hmelica           #+#    #+#             */
-/*   Updated: 2023/10/26 15:41:14 by hmelica          ###   ########.fr       */
+/*   Updated: 2023/10/26 19:45:54 by nserve           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,8 @@ static int	this_doc(char **val, t_myenv *env)
 	int		fd;
 
 	fd = -1;
+	if (!*val)
+		return (fd);
 	a = *val;
 	i = -1;
 	if (*a == '\'' || *a == '"')

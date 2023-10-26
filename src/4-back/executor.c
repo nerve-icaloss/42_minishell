@@ -34,7 +34,8 @@ int	search_exec_path(t_execute *exec, t_myenv *env)
 	if (!cmd_path)
 		return (cmd_notfound(exec->argv[0]), exec->exit = 127, 1);
 	if (access(cmd_path, F_OK | X_OK) == SYS_FAIL)
-		return (perror(cmd_path), exec->exit = 126, 1);
+		return (write(2, "minishell: ", 11), perror(cmd_path),
+			exec->exit = 127, 1);
 	free(exec->argv[0]);
 	exec->argv[0] = cmd_path;
 	return (0);
