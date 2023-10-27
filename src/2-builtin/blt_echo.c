@@ -92,7 +92,11 @@ int	echo_builtin(char **argv, t_myenv *env)
 			end = "";
 		else if (!argv[1])
 			end = "\n";
-		ft_printf("%s%s", *(argv++), end);
+		if (**argv)
+			ft_printf("%s%s", *argv, end);
+		else
+			ft_printf("%s", end);
+		argv++;
 	}
 	return (0);
 }
