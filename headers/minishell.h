@@ -45,7 +45,7 @@ typedef struct stat		t_stat;
 
 //----------------------------------------------------------------------------//
 
-# define HISTORY_FILE ".inputrc"
+# define HISTORY_FILE "/.inputrc"
 
 typedef struct s_myentry {
 	char				*content;
@@ -57,7 +57,6 @@ typedef t_myentry *		t_history;
 int				entry_add(t_history *origin, char *str);
 void			history_clean(t_history *history);
 void			load_history(void);
-void			register_history(t_history *history);
 
 //----------------------------------------------------------------------------//
 
@@ -274,6 +273,7 @@ typedef struct s_myshell {
 }	t_myshell;
 
 t_myshell		shell_init(void);
+void			register_history(t_myshell *shell);
 void			shell_clean(t_myshell *shell);
 
 void			syntax_error_node(t_node_type node_type);
@@ -281,6 +281,10 @@ void			syntax_error_token(t_tok_type tok_type);
 void			syntax_error_redir(t_redir_type redir_type);
 void			cmd_notfound(char *str);
 void			path_notfound(void);
+
+t_myenv			*expand_this_doc(char **val, t_myenv *env);
+void			write_doc_pipe(int fd, char *line);
+int				doc_happend(char *line, char *eof, int write_fd, t_myenv *env);
 
 int				open_read(char *file);
 int				open_append(char *file);

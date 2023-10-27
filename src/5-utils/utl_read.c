@@ -20,12 +20,13 @@ char	*ft_readline(char *prompt, void (*signal_handler)(int),
 	char	*ret;
 
 	ret = NULL;
-	sigint_assign(SIGINT, signal_handler);
+	if (signal_handler)
+		sigint_assign(SIGINT, signal_handler);
 	if (isatty(STDIN_FILENO))
 	{
 		std_out = dup(STDOUT_FILENO);
 		if (std_out == SYS_FAIL)
-			return (perror("dup"), NULL);
+			return (perror("dup read"), NULL);
 		if (dup2(STDERR_FILENO, STDOUT_FILENO) == SYS_FAIL)
 			return (perror("dup2"), NULL);
 		ret = readline(prompt);

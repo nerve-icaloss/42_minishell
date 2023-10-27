@@ -85,7 +85,10 @@ static int	open_redirection(t_node *redir, t_myenv *env)
 	if (name && redir->rtype == APPEND)
 		fd = open_append(name);
 	if (fd == SYS_FAIL)
+	{
+		write(2, "minishell: ", 11);
 		perror(name);
+	}
 	return (free(name), fd);
 }
 

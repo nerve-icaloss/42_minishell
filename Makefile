@@ -82,6 +82,7 @@ SRCS_FILES	=	\
 				4-back/redirection.c \
 				4-back/signal.c \
 				5-utils/utl_close.c \
+				5-utils/utl_doc.c \
 				5-utils/utl_error.c \
 				5-utils/utl_find.c \
 				5-utils/utl_fork.c \
