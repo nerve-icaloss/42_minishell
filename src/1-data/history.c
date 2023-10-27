@@ -60,7 +60,7 @@ void	load_history(void)
 
 	fd = open(HISTORY_FILE, O_RDONLY, 000666);
 	if (fd == -1)
-		return (perror("register"));
+		return ;
 	buffer = get_next_line(fd);
 	while (buffer)
 	{
