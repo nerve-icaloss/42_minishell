@@ -6,7 +6,7 @@
 /*   By: nserve <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/16 11:49:35 by nserve            #+#    #+#             */
-/*   Updated: 2023/10/26 14:14:19 by nserve           ###   ########.fr       */
+/*   Updated: 2023/10/27 17:12:42 by nserve           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ int	execute_cmd(t_node *cmd, t_myshell *shell)
 	if (search_exec_path(&exec, &shell->env))
 		return (reset_redirection(&exec, cmd), exec_clean(&exec), exec.exit);
 	if (exec.builtin_f)
-		exec.exit = exec.builtin_f(exec.argv, &shell->env);
+		cmd->exit = exec.builtin_f(exec.argv, &shell->env);
 	else
 	{
 		cmd->pid = fork();

@@ -31,6 +31,7 @@ void	handler_heredoc(int signum)
 {
 	(void) signum;
 	close(STDIN_FILENO);
+	g_signal = 130;
 	write(1, "\n", 1);
 
 }

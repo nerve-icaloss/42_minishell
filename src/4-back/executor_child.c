@@ -46,6 +46,7 @@ void	child_cmd(t_execute *exec, t_myshell *shell)
 
 void	child_pipex_cmd(t_execute *exec, t_myshell *shell)
 {
+	shell->env.subsh = true;
 	sigint_assign(SIGINT, handler_child);
 	close_fd_child(exec, shell);
 	if (!exec->argv[0])
@@ -55,20 +56,17 @@ void	child_pipex_cmd(t_execute *exec, t_myshell *shell)
 	if (exec->bracket_first_child)
 	{
 		exec->exit = execute_tree(exec->bracket_first_child, shell);
-		shell_clean(shell);
-		exit(exec->exit);
+		return (shell_clean(shell), exit(exec->exit));
 	}
 	if (exec->builtin_f)
 	{
 		exec->exit = exec->builtin_f(exec->argv, &shell->env);
-		clean_child(exec, shell);
-		exit(exec->exit);
+		return (clean_child(exec, shell), exit(exec->exit));
 	}
 	sigint_assign(SIGQUIT, SIG_DFL);
 	if (execve(exec->argv[0], exec->argv, shell->env.envp) == SYS_FAIL)
 	{
 		perror(exec->argv[0]);
-		clean_child(exec, shell);
-		exit(1);
+		return (clean_child(exec, shell), exit(1));
 	}
 }

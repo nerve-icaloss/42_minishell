@@ -75,18 +75,21 @@ void	load_history(void)
 		return ;
 }
 
-void	register_history(t_history *history)
+void	register_history(t_myshell *shell)
 {
 	int			fd;
 	t_history	i;
 	char		*log;
+	char		*file;
 
-	if (!history)
+	if (!shell->hist)
 		return ;
-	fd = open_append(HISTORY_FILE);
+	file = ft_strjoin(shell->start_dir, HISTORY_FILE);
+	fd = open_append(file);
 	if (fd == -1)
-		return (perror(HISTORY_FILE));
-	i = *history;
+		return (perror(file), free(file));
+	free(file);
+	i = shell->hist;
 	while (i)
 	{
 		log = ft_strjoin(i->content, "\n");
@@ -95,7 +98,7 @@ void	register_history(t_history *history)
 		i = i->next;
 	}
 	rl_clear_history();
-	history_clean(history);
+	history_clean(&shell->hist);
 	if (close(fd) == -1)
 		return ;
 }

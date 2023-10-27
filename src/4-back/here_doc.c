@@ -6,12 +6,15 @@
 /*   By: hmelica <hmelica@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/14 16:08:57 by hmelica           #+#    #+#             */
-/*   Updated: 2023/10/26 19:45:54 by nserve           ###   ########.fr       */
+/*   Updated: 2023/10/27 12:34:37 by nserve           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../headers/here_doc.h"
 #include "../../headers/expander.h"
+#include "../../headers/signal_not_libc.h"
+#include <signal.h>
+#include <unistd.h>
 
 /*
  * Use myenv == NULL to disable var_expansion
@@ -20,31 +23,29 @@
  * */
 int	here_doc(char *eof, t_myenv *env)
 {
-	int		len[2];
 	int		fd[2];
+	int		ret;
 	char	*line;
 
-	(void) env;
+	// (void) env;
 	if (!eof || pipe(fd))
 		return (-1);
-	len[0] = ft_strlen(eof);
-	line = readline("> ");
-	len[1] = ft_strlen(line);
-	while (line && (len[1] != len[0] || ft_strncmp(line, eof, len[0]) != 0))
+	while (1)
 	{
-		if (env)
-			var_expansion(&line, env);
+		line = ft_readline("> ", handler_heredoc, SIG_IGN);
+		if (!line && g_signal != 130)
+			return (close(fd[1]), close(fd[0]), 0);
 		if (!line)
-			break ;
-		write(fd[1], line, ft_strlen(line));
-		write(fd[1], "\n", 1);
-		line = readline("> ");
-		len[1] = ft_strlen(line);
+			return (close(fd[1]), close(fd[0]), g_signal = -1, -1);
+		ret = doc_happend(line, eof, fd[1], env);
+		if (ret != 2)
+		{
+			if (ret == 0)
+				return (close(fd[1]), fd[0]);
+			else
+				return (close(fd[1]), close(fd[0]), ret);
+		}
 	}
-	close(fd[1]);
-	if (!line)
-		return (close(fd[0]), -1);
-	return (fd[0]);
 }
 
 /*
@@ -53,24 +54,26 @@ int	here_doc(char *eof, t_myenv *env)
  * */
 static int	this_doc(char **val, t_myenv *env)
 {
-	char	*a;
-	long	i;
 	int		fd;
+	int		stdin_fd;
 
 	fd = -1;
-	if (!*val)
+	if (!val || !*val)
 		return (fd);
-	a = *val;
-	i = -1;
-	if (*a == '\'' || *a == '"')
-	{
-		i = find_closing_quote(a);
-		a[i] = '\0';
-		env = NULL;
-	}
-	fd = here_doc(a + (i >= 0), env);
+	env = expand_this_doc(val, env);
+	stdin_fd = dup(STDIN_FILENO);
+	if (stdin_fd == SYS_FAIL)
+		return (perror("dup hd"), -1);
+	fd = here_doc(*val, env);
+	sigint_assign(SIGINT, handler_failed_hd);
+	if (fd != -1)
+		sigint_assign(SIGINT, handler_rpel);
+	dup2(stdin_fd, STDIN_FILENO);
+	close(stdin_fd);
 	free(*val);
 	*val = NULL;
+	if (fd == 0 || fd == -2 || fd == -1)
+		return (-1);
 	return (fd);
 }
 

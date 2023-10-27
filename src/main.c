@@ -6,7 +6,7 @@
 /*   By: nserve & hmelica                           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/10 14:57:45 by hmelica           #+#    #+#             */
-/*   Updated: 2023/10/26 18:50:06 by nserve           ###   ########.fr       */
+/*   Updated: 2023/10/27 16:41:09 by nserve           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 #include "../headers/here_doc.h"
 #include "../headers/executor.h"
 #include "../headers/signal_not_libc.h"
-#include <unistd.h>
 
 volatile int	g_signal;
 
@@ -70,23 +69,24 @@ void	parse_and_execute(char *cmdline, t_myshell *shell)
 		return (errno = ENODATA, (void) NULL);
 	if (source_init(&src, cmdline))
 		return ((void) NULL);
+	g_signal = 0;
 	exit = parse_source(&shell->root, &src);
 	source_clean(&src);
-	//node_tree_print(shell->root); //
-	//write(1, "\n", 1); //
 	if (exit == 2)
 		run_tree_doc(shell->root, &shell->env);
 	else
 		exit = run_tree_doc(shell->root, &shell->env);
 	if (exit > 0)
 	{
-		shell->exit = exit;
-		node_tree_clean(shell->root);
-		shell->root = NULL;
-		return ;
+		if (g_signal == 130)
+			shell->exit = g_signal;
+		else if (g_signal == -1)
+			shell->exit = 0;
+		else
+			shell->exit = exit;
+		return (node_tree_clean(shell->root), (void) NULL) ;
 	}
 	shell->exit = execute_tree(shell->root, shell);
-	shell->root = NULL;
 }
 
 void	rpel_mode(t_myshell *shell)
@@ -97,7 +97,7 @@ void	rpel_mode(t_myshell *shell)
 		return (errno = ENODATA, (void)NULL);
 	while (1)
 	{
-		cmdline = ft_readline("minishell-1.0$ ", handler_rpel, SIG_IGN);
+		cmdline = ft_readline("minishell-1.0$ ", NULL, handler_rpel);
 		if (!cmdline)
 		{
 			free(cmdline);
@@ -110,6 +110,9 @@ void	rpel_mode(t_myshell *shell)
 		if (entry_add(&shell->hist, cmdline) == -1)
 			write(2, "error login history\n", 20);
 		parse_and_execute(cmdline, shell);
+		shell->root = NULL;
+		if (g_signal == -1)
+			break ;
 	}
 }
 
@@ -130,6 +133,7 @@ int	main(int argc, char *argv[], char *envp[])
 
 	sigint_assign(SIGQUIT, SIG_IGN);
 	ft_memset(&shell, 0, sizeof(shell));
+	g_signal = 0;
 	load_history();
 	if (!envp)
 		return (write(2, "error envp unset\n", 16), 1);
@@ -143,5 +147,5 @@ int	main(int argc, char *argv[], char *envp[])
 	else
 		cmd_mode(&shell, argc, argv);
 	exit = shell.exit;
-	return(register_history(&shell.hist), shell_clean(&shell), exit);
+	return(register_history(&shell), shell_clean(&shell), exit);
 }
