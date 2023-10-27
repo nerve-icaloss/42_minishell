@@ -54,6 +54,24 @@ int	is_nl_flag(char *s)
 	return (1);
 }
 
+int	flag_parkour(char ***argv)
+{
+	int	ret;
+	int	is_flag;
+
+	ret = is_nl_flag(**argv);
+	if (ret)
+		is_flag = 1;
+	while (ret)
+	{
+		(*argv)++;
+		ret = is_nl_flag(**argv);
+		if (ret)
+			is_flag = 1;
+	}
+	return (is_flag);
+}
+
 int	echo_builtin(char **argv, t_myenv *env)
 {
 	char	ret;
@@ -65,9 +83,7 @@ int	echo_builtin(char **argv, t_myenv *env)
 	argv++;
 	if (!*argv)
 		return (write(1, "\n", 1), 0);
-	ret = is_nl_flag(argv[0]);;
-	if (ret)
-		argv++;
+	ret = flag_parkour(&argv);
 	while (*argv)
 	{
 		end = " ";
@@ -75,8 +91,7 @@ int	echo_builtin(char **argv, t_myenv *env)
 			end = "";
 		else if (!argv[1])
 			end = "\n";
-		ft_printf("%s%s", *argv, end);
-		argv++;
+		ft_printf("%s%s", *(argv++), end);
 	}
 	return (0);
 }
