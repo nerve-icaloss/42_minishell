@@ -6,7 +6,7 @@
 /*   By: nserve <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/14 17:10:43 by nserve            #+#    #+#             */
-/*   Updated: 2023/10/27 18:39:36 by hmelica          ###   ########.fr       */
+/*   Updated: 2023/10/27 21:09:42 by hmelica          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,11 @@ static void	split_word(t_node **origin, char *data)
 
 	if (!origin || !data)
 		return (errno = ENODATA, (void) NULL);
+	if (*data == '\0')
+	{
+		free(data);
+		return (word_pop(origin, *origin));
+	}
 	word = scan_word(data);
 	while (*word)
 	{
@@ -61,11 +66,13 @@ static void	split_word(t_node **origin, char *data)
 static void	find_expansion(t_expand *expd, t_myenv *env)
 {
 	char	*prec;
+	size_t	prec_len;
 
 	prec = expd->pstart;
+	prec_len = ft_strlen(prec);
 	var_expansion(&expd->pstart, env);
 	expd->p = expd->pstart;
-	if (expd->pstart != prec)
+	if (expd->pstart != prec || prec_len != ft_strlen(expd->pstart))
 		expd->expanded = 1;
 }
 
@@ -86,12 +93,10 @@ t_node	*word_expand(char *data, t_myenv *env)
 	word = NULL;
 	if (expd.expanded)
 		split_word(&word, expd.pstart);
-	if (!word)
-	{
+	else if (!word)
 		word = word_new(expd.pstart);
-		if (!word)
-			return (NULL);
-	}
+	if (!word)
+		return (NULL);
 	free(expd.pstart);
 	wc_trigger = !is_in_between_quotes(word->val);
 	remove_quotes(word);
