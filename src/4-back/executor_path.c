@@ -6,7 +6,7 @@
 /*   By: nserve <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/27 14:24:42 by nserve            #+#    #+#             */
-/*   Updated: 2023/10/22 17:14:33 by nserve           ###   ########.fr       */
+/*   Updated: 2023/10/27 22:10:15 by hmelica          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ static char	**split_dirs(char *data, int size)
 
 	if (!data)
 		return (errno = ENODATA, NULL);
-	dirs = malloc(sizeof(char *) * (size + 1));
+	dirs = ft_calloc(sizeof(char *), (size + 1));
 	if (!dirs)
 		return (errno = ENOMEM, NULL);
 	path = scan_dirs(data);
