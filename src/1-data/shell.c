@@ -11,7 +11,6 @@
 /* ************************************************************************** */
 
 #include "../../headers/minishell.h"
-#include <unistd.h>
 
 void	shell_clean(t_myshell *shell)
 {
