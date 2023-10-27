@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/10 14:58:41 by hmelica           #+#    #+#             */
-/*   Updated: 2023/10/26 20:51:42 by hmelica          ###   ########.fr       */
+/*   Updated: 2023/10/27 21:39:25 by hmelica          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,7 @@ typedef struct stat		t_stat;
 //----------------------------------------------------------------------------//
 
 # define HISTORY_FILE "/.inputrc"
+# define ORIGIN_HISTORY_FILE ".inputrc"
 
 typedef struct s_myentry {
 	char				*content;
