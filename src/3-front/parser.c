@@ -15,11 +15,9 @@
 t_node	*parse_word(t_token *tok)
 {
 	t_node			*word;
-	t_source		*src;
 
 	if (!tok || !tok->txt)
 		return (errno = ENODATA, NULL);
-	src = tok->src;
 	word = node_word_new(find_word_type(tok->txt));
 	if (!word)
 		return (NULL);
