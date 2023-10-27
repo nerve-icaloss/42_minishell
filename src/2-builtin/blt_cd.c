@@ -6,7 +6,7 @@
 /*   By: hmelica <hmelica@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/03 16:05:03 by hmelica           #+#    #+#             */
-/*   Updated: 2023/10/27 22:11:57 by hmelica          ###   ########.fr       */
+/*   Updated: 2023/10/27 22:31:10 by hmelica          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,10 +81,11 @@ TEST_STATIC int	path_arg_parser(char **argv, t_myenv *env, char **path)
 	if (!argv || !*argv)
 		return (-1);
 	else if (argv[1] && argv[2])
-		return (ft_dprintf(2, "cd: TOO MANY ARGUMENTS\n"), 1);
+		return (ft_dprintf(2, "cd: too many arguments\n"), 1);
 	else if (!argv[1])
 		return (arg_parser_home(env, path));
-	else if (ft_strlen(argv[1]) == 1 && *argv[1] == '-')
+	else if ((ft_strlen(argv[1]) == 1 && *argv[1] == '-') || (ft_strlen(argv[1])
+				== 2 && *argv[1] == '-' && argv[1][1] == '-'))
 		return (arg_parser_oldpwd(env, path));
 	*path = argv[1];
 	return (0);
