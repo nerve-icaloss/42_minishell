@@ -6,7 +6,7 @@
 /*   By: hmelica <hmelica@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/20 11:11:00 by hmelica           #+#    #+#             */
-/*   Updated: 2023/10/26 19:59:13 by hmelica          ###   ########.fr       */
+/*   Updated: 2023/10/27 20:39:03 by hmelica          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,10 +44,10 @@ int	is_dir(t_wildcard *wc, t_dirent *elem)
 
 int	wc_pregnant(t_wildcard *wc, t_dirent *elem)
 {
-	return (ft_memcmp(elem->d_name, "..", 3) == 0 || ft_memcmp(elem->d_name,
-			".", 2) == 0 || !glob_name(elem->d_name, wc->glob_prev,
+	return (!glob_name(elem->d_name, wc->glob_prev,
 			wc->glob_next) || (wc->following && *wc->following
-			&& !is_dir(wc, elem)));
+			&& !is_dir(wc, elem)) || (elem->d_name[0] == '.'
+			&& (!wc->glob_prev || *wc->glob_prev != '.')));
 }
 
 int	wc_run_child(t_wildcard *wc)
