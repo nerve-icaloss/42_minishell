@@ -6,7 +6,7 @@
 /*   By: nserve & hmelica                           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/10 14:57:45 by hmelica           #+#    #+#             */
-/*   Updated: 2023/10/27 16:41:09 by nserve           ###   ########.fr       */
+/*   Updated: 2023/10/27 21:29:24 by hmelica          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,6 +95,7 @@ void	rpel_mode(t_myshell *shell)
 
 	if (!shell)
 		return (errno = ENODATA, (void)NULL);
+	sigint_assign(SIGINT, handler_rpel);
 	while (1)
 	{
 		cmdline = ft_readline("minishell-1.0$ ", NULL, handler_rpel);
