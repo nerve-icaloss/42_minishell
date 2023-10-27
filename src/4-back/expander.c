@@ -6,7 +6,7 @@
 /*   By: nserve <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/14 17:10:43 by nserve            #+#    #+#             */
-/*   Updated: 2023/10/27 21:09:42 by hmelica          ###   ########.fr       */
+/*   Updated: 2023/10/27 22:19:41 by hmelica          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,8 @@ static char	*scan_word(char *data)
 	while (*buf)
 	{
 		if (ft_isquote(*buf))
-			buf = find_closing_quote(buf) + buf + 1;
-		if (ft_isspace(*buf))
+			buf = find_closing_quote(buf) + buf;
+		else if (ft_isspace(*buf))
 		{
 			*buf = '\0';
 			buf++;
