@@ -6,7 +6,7 @@
 /*   By: hmelica <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/07 12:11:30 by hmelica           #+#    #+#             */
-/*   Updated: 2023/10/25 20:04:11 by hmelica          ###   ########.fr       */
+/*   Updated: 2023/10/27 18:36:02 by hmelica          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,7 @@ int			ft_isalpha(int c);
 int			ft_isalnum(int c);
 int			ft_isdigit(int c);
 int			ft_isascii(int c);
+int			ft_isquote(int c);
 int			ft_isprint(int c);
 int			ft_isspace(int c);
 int			ft_isplusminus(int c);

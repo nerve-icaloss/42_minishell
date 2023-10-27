@@ -6,7 +6,7 @@
 /*   By: nserve <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/14 17:10:43 by nserve            #+#    #+#             */
-/*   Updated: 2023/10/26 20:48:10 by hmelica          ###   ########.fr       */
+/*   Updated: 2023/10/27 18:39:36 by hmelica          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,13 +24,15 @@ static char	*scan_word(char *data)
 	ret = buf;
 	while (*buf)
 	{
+		if (ft_isquote(*buf))
+			buf = find_closing_quote(buf) + buf + 1;
 		if (ft_isspace(*buf))
 		{
 			*buf = '\0';
 			buf++;
 			return (ret);
 		}
-		buf++;
+		buf += (*buf != '\0');
 	}
 	return (ret);
 }
@@ -58,8 +60,13 @@ static void	split_word(t_node **origin, char *data)
  * */
 static void	find_expansion(t_expand *expd, t_myenv *env)
 {
+	char	*prec;
+
+	prec = expd->pstart;
 	var_expansion(&expd->pstart, env);
 	expd->p = expd->pstart;
+	if (expd->pstart != prec)
+		expd->expanded = 1;
 }
 
 /*

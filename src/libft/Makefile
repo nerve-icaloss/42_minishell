@@ -6,7 +6,7 @@
 #    By: hmelica <marvin@42.fr>                     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/11/07 10:50:51 by hmelica           #+#    #+#              #
-#    Updated: 2023/10/25 20:04:38 by hmelica          ###   ########.fr        #
+#    Updated: 2023/10/27 18:35:30 by hmelica          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -28,6 +28,7 @@ FTIS		=	ft_isalnum.c \
 				ft_isalpha.c \
 				ft_isascii.c \
 				ft_isdigit.c \
+				ft_isquote.c \
 				ft_isplusminus.c \
 				ft_isprint.c \
 				ft_isspace.c \

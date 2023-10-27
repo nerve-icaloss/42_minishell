@@ -6,7 +6,7 @@
 /*   By: hmelica <hmelica@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/16 21:32:35 by hmelica           #+#    #+#             */
-/*   Updated: 2023/10/26 20:40:16 by hmelica          ###   ########.fr       */
+/*   Updated: 2023/10/27 18:24:47 by hmelica          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,16 +73,19 @@ static int	print_export(t_myenv *env)
 int	export_builtin(char **av, t_myenv *env)
 {
 	int	len;
+	int	ret;
 
 	if (!av || !av[0] || !env)
 		return (-1);
 	if (!av[1])
 		return (print_export(env));
 	len = 1;
+	ret = 0;
 	while (av[len])
 	{
-		if (!name_check(av[len]))
-			ft_dprintf(2, "minishell: export: '%s' : not a valid identifier\n", av[len]);
+		if (!name_check(av[len]) && ++ret)
+			ft_dprintf(2, "minishell: export: `%s' : not a valid identifier\n",
+					av[len]);
 		else if (var_parsing(&env->lst_var, av[len]))
 			return (-1);
 		len++;
@@ -90,8 +93,8 @@ int	export_builtin(char **av, t_myenv *env)
 	if (len > 1)
 	{
 		if (env_update_count(env) || envp_update(env))
-			return (ft_dprintf(2, "minishell: export: minor error while updating envp\n"),
-				0);
+			return (ft_dprintf(2,
+					"minishell: export: minor error while updating envp\n"), 0);
 	}
-	return (0);
+	return (ret > 0);
 }
