@@ -6,7 +6,7 @@
 /*   By: hmelica <hmelica@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/19 22:41:38 by hmelica           #+#    #+#             */
-/*   Updated: 2023/10/26 21:15:02 by hmelica          ###   ########.fr       */
+/*   Updated: 2023/10/27 18:04:20 by hmelica          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,12 +128,15 @@ int	run_wc_on(char **val, t_node **word, t_myvar *var)
 
 	if (!val || !*val)
 		return (-1);
-	s = ft_strdup(*val);
-	free(*val);
-	*val = NULL;
-	if (!var || home_expand(s, val, var_get(var, "HOME")) || !s)
-		return (ft_dprintf(2, "minishell: HOME not set\n"), -1);
-	free(s);
+	if (ft_strchr(*val, '~'))
+	{
+		s = ft_strdup(*val);
+		free(*val);
+		*val = NULL;
+		if (!s || (home_expand(s, val, var) && 0))
+			return (-1);
+		free(s);
+	}
 	wc = generate_wildcard(*val);
 	if (wc)
 	{
@@ -163,7 +166,7 @@ int	run_wildcard(t_node **word, t_myvar *var)
 		end = end->next_sibling;
 	while (i)
 	{
-		if (run_wc_on(&i->val, word, var))
+		if (run_wc_on(&i->val, word, var_get(var, "HOME")))
 			return (-1);
 		if (i != end)
 			j = i->next_sibling;

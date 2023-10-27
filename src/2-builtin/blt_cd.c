@@ -6,7 +6,7 @@
 /*   By: hmelica <hmelica@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/03 16:05:03 by hmelica           #+#    #+#             */
-/*   Updated: 2023/10/26 21:14:42 by hmelica          ###   ########.fr       */
+/*   Updated: 2023/10/27 18:05:35 by hmelica          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,8 @@ int	home_expand(const char *s, char **ret, t_myvar *var)
 	int		j;
 
 	if (!s || !ret || !var || !var->value)
-		return (-(var != NULL || !(*ret = (char *)s)));
+		return (ft_dprintf(2, "minishell: HOME not set\n"), 
+				*ret = ft_strdup(s), -1);
 	i = 0;
 	j = 0;
 	count = 0;
