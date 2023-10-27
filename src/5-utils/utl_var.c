@@ -6,7 +6,7 @@
 /*   By: hmelica <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/14 14:36:17 by hmelica           #+#    #+#             */
-/*   Updated: 2023/10/26 20:35:34 by hmelica          ###   ########.fr       */
+/*   Updated: 2023/10/27 17:04:13 by hmelica          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,13 +14,21 @@
 
 int	name_check(char *s)
 {
+	size_t	len;
+	char	*k;
+
 	if (!s)
 		return (0);
+	k = ft_strchr(s, '=');
+	if (k)
+		len = k - s;
+	else
+		len = ft_strlen(s);
 	if (!ft_isalpha(*s) && *s != '_')
 		return (0);
-	while (*s && (ft_isalnum(*s) || *s == '_'))
+	while (*s && len-- > 0 && (ft_isalnum(*s) || *s == '_'))
 		s++;
-	if (!*s)
+	if (!*s || *s == '=')
 		return (1);
 	return (0);
 }
