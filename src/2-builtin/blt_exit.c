@@ -6,33 +6,40 @@
 /*   By: nserve <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/26 15:53:24 by nserve            #+#    #+#             */
-/*   Updated: 2023/10/27 17:32:34 by nserve           ###   ########.fr       */
+/*   Updated: 2023/10/27 20:03:27 by hmelica          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../headers/minishell.h"
 
-static int	is_numeric_arg(char *data)
+static int	is_numeric_arg(char *str, long long *ret)
 {
-	int	i;
-	int	ret;
+	static const unsigned long long int	maxi = 0x8000000000000000;
+	long long						signe;
+	int								written;
 
-	i = 0;
-	ret = 1;
-	if (data[i] == '-' || data[i] == '+')
-		i++;
-	while (data[i])
+	*ret = 0;
+	written = 0;
+	signe = 1;
+	if (ft_strlen(str) > 20)
+		return (0);
+	while (*str)
 	{
-		if (i > 19)
-			ret = 0;
-		if (!ft_isdigit(data[i]))
-			ret = 0;
-		i++;
+		if ('0' <= *str && *str <= '9' && (written || ++written))
+			*ret = (*ret * 10) + (*str - '0');
+		else if ((*str == '+' || *str == '-') && (!written && ++written))
+			signe *= 1 - (2 * (*str / '-'));
+		else if (!ft_isspace(*str) || written)
+			break ;
+		if (*ret < 0 && (signe > 0 || ft_memcmp(ret, &maxi, sizeof(long long))))
+			return (0);
+		str++;
 	}
-	return (ret);
+	*ret *= signe;
+	return (!*str || ft_isspace(*str));
 }
 
-static int	check_exit_args(char *args[])
+static int	check_exit_args(char *args[], long long *ret)
 {
 	int	i;
 
@@ -44,7 +51,7 @@ static int	check_exit_args(char *args[])
 			ft_dprintf(2, "minishell: exit: too many arguments\n");
 			return (1);
 		}
-		if (!is_numeric_arg(args[i]))
+		if (!is_numeric_arg(args[i], ret))
 		{
 			ft_dprintf(2, "minishell: exit: %s: numeric argument required\n",
 				 args[i]);
@@ -57,16 +64,17 @@ static int	check_exit_args(char *args[])
 
 int	exit_builtin(char *args[], t_myenv *env)
 {
-	char	exit;
+	long long	ret;
+	char		exit;
 
-	exit = check_exit_args(args);
+	write(2, "exit\n", 5);
+	exit = check_exit_args(args, &ret);
 	if (exit)
 		return (exit);
+	exit = (char) ret;
 	if (env->subsh == false)
 		g_signal = -1;
-	if (args[1])
-		exit = ft_atol(args[1]);
-	else
+	if (!args[1])
 		exit = *env->exit;
 	return (exit);
 }
