@@ -6,7 +6,7 @@
 /*   By: nserve <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/27 10:59:24 by nserve            #+#    #+#             */
-/*   Updated: 2023/10/26 17:53:24 by hmelica          ###   ########.fr       */
+/*   Updated: 2023/10/27 21:37:53 by hmelica          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,8 +57,13 @@ void	load_history(void)
 	int		fd;
 	char	*buffer;
 	char	*nl;
+	char	*file;
 
-	fd = open(HISTORY_FILE, O_RDONLY, 000666);
+	file = ft_strjoin2(getcwd(NULL, 0), HISTORY_FILE, 1, 0);
+	if (!file)
+		return ;
+	fd = open(file, O_RDONLY, 000666);
+	free(file);
 	if (fd == -1)
 		return ;
 	buffer = get_next_line(fd);
