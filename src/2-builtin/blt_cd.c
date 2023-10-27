@@ -6,7 +6,7 @@
 /*   By: hmelica <hmelica@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/03 16:05:03 by hmelica           #+#    #+#             */
-/*   Updated: 2023/10/27 20:33:29 by hmelica          ###   ########.fr       */
+/*   Updated: 2023/10/27 22:11:57 by hmelica          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,7 @@ static int	arg_parser_oldpwd(t_myenv *env, char **path)
 	if (!var || !var->value)
 		return (ft_dprintf(2, "cd: OLDPWD not set\n"), 1);
 	*path = var->value;
+	ft_dprintf(1, "%s\n", *path);
 	return (0);
 }
 
