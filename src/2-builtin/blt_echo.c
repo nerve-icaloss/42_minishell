@@ -59,6 +59,7 @@ int	flag_parkour(char ***argv)
 	int	ret;
 	int	is_flag;
 
+	is_flag = 0;
 	ret = is_nl_flag(**argv);
 	if (ret)
 		is_flag = 1;
