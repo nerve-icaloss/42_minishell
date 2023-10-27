@@ -6,7 +6,7 @@
 /*   By: hmelica <hmelica@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/03 16:05:03 by hmelica           #+#    #+#             */
-/*   Updated: 2023/10/27 18:05:35 by hmelica          ###   ########.fr       */
+/*   Updated: 2023/10/27 20:33:29 by hmelica          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,12 +96,12 @@ int	cd_builtin(char **argv, t_myenv *env)
 	if (path_arg_parser(argv, env, &path))
 		return (1);
 	if (access(path, F_OK))
-		return (ft_dprintf(2, "cd: %s: NO SUCH DIRECTORY\n", path), 1);
+		return (ft_dprintf(2, "cd: %s: %s\n", path, strerror(errno)), 1);
 	if (chdir(path))
-		return (ft_dprintf(2, "cd: ERROR WHILE CHANGING DIRECTORY\n"), 1);
+		return (ft_dprintf(2, "cd: %s: %s\n", path, strerror(errno)), 1);
 	path = getcwd(NULL, 0);
 	if (!path)
-		return (ft_dprintf(2, "cd: ERROR AFTER CHANGING DIRECTORY\n"), 1);
+		return (ft_dprintf(2, "cd: %s: %s\n", path, strerror(errno)), 1);
 	if (!var_get(env->lst_var, "OLDPWD"))
 		env->count++;
 	if (!var_get(env->lst_var, "PWD"))
