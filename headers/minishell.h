@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/10 14:58:41 by hmelica           #+#    #+#             */
-/*   Updated: 2023/10/27 21:39:25 by hmelica          ###   ########.fr       */
+/*   Updated: 2023/10/27 22:51:52 by hmelica          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -174,6 +174,7 @@ int				wc_rec_expand(t_wildcard *wc);
 int				wc_run_child(t_wildcard *wc);
 char			*insert_name(t_wildcard *wc, char name[256]);
 int				is_dir(t_wildcard *wc, t_dirent *elem);
+int				check_whole_path(char *path);
 
 typedef struct s_expand {
 	char	*pstart;

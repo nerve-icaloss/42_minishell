@@ -6,7 +6,7 @@
 /*   By: hmelica <hmelica@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/03 16:05:03 by hmelica           #+#    #+#             */
-/*   Updated: 2023/10/27 22:31:10 by hmelica          ###   ########.fr       */
+/*   Updated: 2023/10/27 22:52:35 by hmelica          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,7 +97,7 @@ int	cd_builtin(char **argv, t_myenv *env)
 
 	if (path_arg_parser(argv, env, &path))
 		return (1);
-	if (access(path, F_OK))
+	if (access(path, F_OK) || !check_whole_path(path))
 		return (ft_dprintf(2, "cd: %s: %s\n", path, strerror(errno)), 1);
 	if (chdir(path))
 		return (ft_dprintf(2, "cd: %s: %s\n", path, strerror(errno)), 1);
