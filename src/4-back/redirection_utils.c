@@ -26,6 +26,8 @@ static char	*check_expanded_redir(t_node *redir, t_myenv *env)
 	is_ambigous = 0;
 	while(name[x])
 	{
+		if (ft_isquote(name[x]))
+			break ;
 		if (ft_isspace(name[x]))
 			is_ambigous++;
 		x++;
@@ -36,6 +38,7 @@ static char	*check_expanded_redir(t_node *redir, t_myenv *env)
 		ft_dprintf(2, "%s: ambiguous redirect\n", redir->val);
 		return (free(name), NULL);
 	}
+	remove_quotes_str(&name);
 	return (name);
 }
 

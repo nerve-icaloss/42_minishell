@@ -123,7 +123,6 @@ char	*redir_expand(char *data, t_redir_type type, t_myenv *env)
 		if (!ret)
 			return (free(expd.pstart), errno = ENOMEM, NULL);
 		free(expd.pstart);
-		remove_quotes_str(&ret);
 	}
 	else
 	{
