@@ -6,7 +6,7 @@
 /*   By: hmelica <hmelica@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/21 02:03:33 by hmelica           #+#    #+#             */
-/*   Updated: 2023/10/25 12:53:29 by hmelica          ###   ########.fr       */
+/*   Updated: 2023/10/28 14:43:28 by hmelica          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ int	glob_name_next(char name[256], char *next, size_t i)
 
 	len[0] = ft_strlen(name);
 	to_find = NULL;
-	while (name[i] && *next)
+	while (i < len[0] && name[i] && *next)
 	{
 		if (!set_next_star(&next_star, &next, &to_find))
 			return (0);

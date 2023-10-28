@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/10 14:58:41 by hmelica           #+#    #+#             */
-/*   Updated: 2023/10/28 11:03:39 by hmelica          ###   ########.fr       */
+/*   Updated: 2023/10/28 14:06:46 by hmelica          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -233,6 +233,7 @@ void			node_sibling_add(t_node **origin, t_node *child);
 void			node_sibling_pop(t_node *node);
 void			node_sibling_clean(t_node **origin);
 void			word_pop(t_node **origin, t_node *word);
+void			sort_words(t_node **word);
 
 int				run_wildcard(t_node **word, t_myvar *var);
 

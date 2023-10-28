@@ -6,7 +6,7 @@
 #    By: hmelica <marvin@42.fr>                     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/11/07 10:50:51 by hmelica           #+#    #+#              #
-#    Updated: 2023/10/27 18:35:30 by hmelica          ###   ########.fr        #
+#    Updated: 2023/10/28 14:33:32 by hmelica          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -31,6 +31,7 @@ FTIS		=	ft_isalnum.c \
 				ft_isquote.c \
 				ft_isplusminus.c \
 				ft_isprint.c \
+				ft_isupper.c \
 				ft_isspace.c \
 				ft_isstr_int.c
 
@@ -56,6 +57,7 @@ FTTRIM		=	ft_trimleft.c \
 FTSTR		=	ft_arrclear.c \
 				ft_offset.c \
 				ft_split.c \
+				ft_strcasecmp.c \
 				ft_strchr.c \
 				ft_strdup.c \
 				ft_striteri.c \

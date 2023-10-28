@@ -6,7 +6,7 @@
 /*   By: hmelica <hmelica@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/19 22:41:38 by hmelica           #+#    #+#             */
-/*   Updated: 2023/10/27 18:04:20 by hmelica          ###   ########.fr       */
+/*   Updated: 2023/10/28 14:05:59 by hmelica          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -176,5 +176,6 @@ int	run_wildcard(t_node **word, t_myvar *var)
 			word_pop(word, i);
 		i = j;
 	}
+	sort_words(word);
 	return (0);
 }

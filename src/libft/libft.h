@@ -6,7 +6,7 @@
 /*   By: hmelica <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/07 12:11:30 by hmelica           #+#    #+#             */
-/*   Updated: 2023/10/27 18:36:02 by hmelica          ###   ########.fr       */
+/*   Updated: 2023/10/28 14:31:09 by hmelica          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,7 @@ int			ft_isdigit(int c);
 int			ft_isascii(int c);
 int			ft_isquote(int c);
 int			ft_isprint(int c);
+int			ft_isupper(int c);
 int			ft_isspace(int c);
 int			ft_isplusminus(int c);
 int			ft_isstr_int(char *str);
@@ -88,6 +89,7 @@ char		*ft_strnstr(const char *s, const char *to_find, size_t size);
 char		*ft_strrchr(const char *s, int c);
 char		*ft_strtrim(const char *s1, const char *set);
 char		*ft_substr(const char *s, unsigned int start, size_t len);
+int			ft_strcasecmp(const char *s1, const char *s2);
 int			ft_strncmp(const char *s1, const char *s2, size_t n);
 size_t		ft_strlcat(char *dst, const char *src, size_t size);
 size_t		ft_strlcpy(char *dst, const char *src, size_t size);
