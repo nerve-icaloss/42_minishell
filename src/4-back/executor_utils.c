@@ -49,9 +49,7 @@ int	execute_cmd_init(t_execute *exec, t_node *cmd, t_myenv *env)
 	exec->std_fd[IN] = -1;
 	exec->std_fd[OUT] = -1;
 	exec->exit = 0;
-	if (infile_redirection(cmd, env))
-		exec->exit = 1;
-	if (outfile_redirection(cmd, env))
+	if (do_redirection(cmd, env))
 		exec->exit = 1;
 	if (build_argv(exec, cmd, env))
 		exec->exit = 1;

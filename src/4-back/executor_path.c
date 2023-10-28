@@ -11,8 +11,6 @@
 /* ************************************************************************** */
 
 #include "../../headers/minishell.h"
-#include <asm-generic/errno-base.h>
-#include <sys/stat.h>
 
 static char	*scan_dirs(char *data)
 {
@@ -91,35 +89,6 @@ static char	*scan_dirs_cmdfile(char *name, char *dirs[])
 	return (free(cwd), path);
 }
 
-char	*search_cmd_path(char *name, t_myenv *env)
-{
-	char	**dirs;
-	char	*cmd_path;
-	int		size;
-	int		i;
-	t_myvar	*path;
-
-	if (!name || !env)
-		return (errno = ENODATA, NULL);
-	path = var_get(env->lst_var, "PATH");
-	if (!path)
-		return (errno = ENODATA, NULL);
-	i = -1;
-	size = 1;
-	while (path->value[++i])
-	{
-		if (path->value[i] == ':')
-			size++;
-	}
-	cmd_path = ft_strdup(path->value);
-	dirs = split_dirs(cmd_path, size);
-	free(cmd_path);
-	if (!dirs)
-		return (free(cmd_path), NULL);
-	cmd_path = scan_dirs_cmdfile(name, dirs);
-	return (ft_arrclear(dirs), cmd_path);
-}
-
 char	*check_cmd_path(t_execute *exec, char *name)
 {
 	struct stat	sb;
@@ -147,4 +116,33 @@ char	*check_cmd_path(t_execute *exec, char *name)
 	else
 		ret = ft_strdup(name);
 	return (ret);
+}
+
+char	*search_cmd_path(t_execute *exec, char *name, t_myenv *env)
+{
+	char	**dirs;
+	char	*cmd_path;
+	int		size;
+	int		i;
+	char	*paths;
+
+	if (!name || !env)
+		return (errno = ENODATA, NULL);
+	paths = var_get_value(env->lst_var, "PATH");
+	if (!paths)
+		return (check_cmd_path(exec, name));
+	i = -1;
+	size = 1;
+	while (paths[++i])
+	{
+		if (paths[i] == ':')
+			size++;
+	}
+	cmd_path = ft_strdup(paths);
+	dirs = split_dirs(cmd_path, size);
+	free(cmd_path);
+	if (!dirs)
+		return (free(cmd_path), NULL);
+	cmd_path = scan_dirs_cmdfile(name, dirs);
+	return (ft_arrclear(dirs), cmd_path);
 }

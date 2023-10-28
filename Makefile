@@ -80,6 +80,7 @@ SRCS_FILES	=	\
 				4-back/expander_wc.c \
 				4-back/here_doc.c \
 				4-back/redirection.c \
+				4-back/redirection_utils.c \
 				4-back/signal.c \
 				5-utils/utl_access.c \
 				5-utils/utl_close.c \

@@ -121,7 +121,7 @@ char	*redir_expand(char *data, t_redir_type type, t_myenv *env)
 		find_expansion(&expd, env);
 		ret = ft_strdup(expd.pstart);
 		if (!ret)
-			return (errno = ENOMEM, NULL);
+			return (free(expd.pstart), errno = ENOMEM, NULL);
 		free(expd.pstart);
 		remove_quotes_str(&ret);
 	}
