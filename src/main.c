@@ -6,7 +6,7 @@
 /*   By: nserve & hmelica                           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/10 14:57:45 by hmelica           #+#    #+#             */
-/*   Updated: 2023/10/27 21:36:18 by hmelica          ###   ########.fr       */
+/*   Updated: 2023/10/28 15:28:26 by hmelica          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,8 @@ void	node_tree_print(t_node *root)
 	t_node	*child;
 	t_node	*i;
 
-	if(!root)
-		return (errno = ENODATA, (void)NULL);
+	if (!root)
+		return (errno = ENODATA, (void) NULL);
 	if (root->type == NODE_BRACKET)
 		write(1, "( ", 2);
 	child = root->first_child;
@@ -45,7 +45,7 @@ void	node_tree_print(t_node *root)
 			write(1, ") ", 2);
 		child = i;
 	}
-	if(root->type == NODE_WORD && root->val)
+	if (root->type == NODE_WORD && root->val)
 	{
 		if (root->rtype == READ)
 			write(1, "< ", ft_strlen("< "));
@@ -84,7 +84,7 @@ void	parse_and_execute(char *cmdline, t_myshell *shell)
 			shell->exit = 0;
 		else
 			shell->exit = exit;
-		return (node_tree_clean(shell->root), (void) NULL) ;
+		return (node_tree_clean(shell->root), (void) NULL);
 	}
 	shell->exit = execute_tree(shell->root, shell);
 }
@@ -94,7 +94,7 @@ void	rpel_mode(t_myshell *shell)
 	char		*cmdline;
 
 	if (!shell)
-		return (errno = ENODATA, (void)NULL);
+		return (errno = ENODATA, (void) NULL);
 	sigint_assign(SIGINT, handler_rpel);
 	while (1)
 	{
@@ -148,5 +148,5 @@ int	main(int argc, char *argv[], char *envp[])
 	else
 		cmd_mode(&shell, argc, argv);
 	exit = shell.exit;
-	return(register_history(&shell), shell_clean(&shell), exit);
+	return (register_history(&shell), shell_clean(&shell), exit);
 }

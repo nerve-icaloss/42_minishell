@@ -6,7 +6,7 @@
 /*   By: hmelica <hmelica@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/14 18:23:30 by hmelica           #+#    #+#             */
-/*   Updated: 2023/10/26 19:37:46 by hmelica          ###   ########.fr       */
+/*   Updated: 2023/10/28 15:40:59 by hmelica          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,7 +101,7 @@ void	var_expansion(char **line, t_myenv *env)
 	{
 		update_quotes(i, j, *line, k);
 		if ((!j[0] || !j[1] || j[0] > k || j[1] < k || (i[0] && i[1] && i[0]
-			< j[0] && i[1] > j[0])))
+					< j[0] && i[1] > j[0])))
 		{
 			var_replace(line, &p, env, k);
 		}

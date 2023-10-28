@@ -6,7 +6,7 @@
 /*   By: nserve <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/16 12:27:03 by nserve            #+#    #+#             */
-/*   Updated: 2023/10/25 19:33:55 by nserve           ###   ########.fr       */
+/*   Updated: 2023/10/28 15:41:41 by hmelica          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,8 @@ int	execute_cmd_init(t_execute *exec, t_node *cmd, t_myenv *env)
 	return (exec->exit);
 }
 
-int	execute_pipex_init(t_execute *exec, t_node *pipex, t_node *cmd, t_myenv *env)
+int	execute_pipex_init(t_execute *exec, t_node *pipex, t_node *cmd,
+		t_myenv *env)
 {
 	if (!exec || !pipex || !cmd)
 		return (errno = ENODATA, 1);

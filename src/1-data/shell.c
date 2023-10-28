@@ -6,7 +6,7 @@
 /*   By: nserve <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/28 19:32:32 by nserve            #+#    #+#             */
-/*   Updated: 2023/10/22 17:00:57 by nserve           ###   ########.fr       */
+/*   Updated: 2023/10/28 15:31:08 by hmelica          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,5 +21,4 @@ void	shell_clean(t_myshell *shell)
 	if (shell->start_dir)
 		free(shell->start_dir);
 	env_clean(&shell->env);
-	//close(STDIN_FILENO);
 }

@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   signal.h                                           :+:      :+:    :+:   */
+/*   signal_not_libc.h                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: nserve <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/22 12:03:32 by nserve            #+#    #+#             */
-/*   Updated: 2023/10/22 17:23:24 by nserve           ###   ########.fr       */
+/*   Updated: 2023/10/28 15:43:45 by hmelica          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,5 @@ void	handler_heredoc(int signum);
 void	handler_failed_hd(int signum);
 
 void	sigint_assign(int signum, void (*f)(int));
-
 
 #endif

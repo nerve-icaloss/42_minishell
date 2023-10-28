@@ -6,7 +6,7 @@
 /*   By: hmelica <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/28 13:56:04 by hmelica           #+#    #+#             */
-/*   Updated: 2023/10/28 14:35:34 by hmelica          ###   ########.fr       */
+/*   Updated: 2023/10/28 15:42:11 by hmelica          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,6 @@ size_t	get_max_len(t_node *i)
 
 void	sort_words(t_node **word)
 {
-	//size_t	len;
 	t_node	*min;
 	t_node	*i;
 	t_node	*j;
@@ -47,7 +46,6 @@ void	sort_words(t_node **word)
 	if (!word)
 		return ;
 	i = *word;
-	//len = get_max_len(i);
 	while (i && i->next_sibling)
 	{
 		j = i->next_sibling;

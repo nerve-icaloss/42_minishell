@@ -6,7 +6,7 @@
 /*   By: nserve <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/28 17:51:15 by nserve            #+#    #+#             */
-/*   Updated: 2023/10/26 18:00:10 by hmelica          ###   ########.fr       */
+/*   Updated: 2023/10/28 15:40:14 by hmelica          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ int	find_builtin_f(t_execute *exec)
 	{
 		if (ft_strncmp(exec->argv[0], builtins[i]->name,
 				ft_strlen(builtins[i]->name)) == 0
-	  			&& ft_strlen(exec->argv[0]) == ft_strlen(builtins[i]->name))
+			&& ft_strlen(exec->argv[0]) == ft_strlen(builtins[i]->name))
 		{
 			exec->builtin_f = builtins[i]->f;
 			return (builtin_clean(builtins), 0);

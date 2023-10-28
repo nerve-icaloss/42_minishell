@@ -6,7 +6,7 @@
 /*   By: hmelica <hmelica@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/04 15:51:56 by hmelica           #+#    #+#             */
-/*   Updated: 2023/10/04 15:51:57 by hmelica          ###   ########.fr       */
+/*   Updated: 2023/10/28 15:35:22 by hmelica          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,8 @@
 #include "../criterion/include/criterion/new/assert.h"
 #include <stdio.h>
 #include <string.h>
+
+volatile int	g_signal;
 
 char *cr_strdup(const char *str);
 

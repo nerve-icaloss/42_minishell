@@ -6,7 +6,7 @@
 /*   By: nserve <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/22 14:04:55 by nserve            #+#    #+#             */
-/*   Updated: 2023/10/25 12:42:55 by hmelica          ###   ########.fr       */
+/*   Updated: 2023/10/28 15:30:44 by hmelica          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ static int	realloc_argv(t_execute *exec)
 		return (errno = ENOMEM, 1);
 	ft_memset(new_buf, 0, sizeof(char *) * new_len);
 	while (--exec->argv_size >= 0)
-		new_buf[exec->argv_size] = exec->argv[exec->argv_size]; //argv_size may be undefined
+		new_buf[exec->argv_size] = exec->argv[exec->argv_size];
 	free(exec->argv);
 	exec->argv = new_buf;
 	exec->argv_size = new_len;

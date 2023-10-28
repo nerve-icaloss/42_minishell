@@ -6,7 +6,7 @@
 /*   By: hmelica <hmelica@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/16 21:32:35 by hmelica           #+#    #+#             */
-/*   Updated: 2023/10/27 18:24:47 by hmelica          ###   ########.fr       */
+/*   Updated: 2023/10/28 15:38:54 by hmelica          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,7 @@ int	export_builtin(char **av, t_myenv *env)
 	{
 		if (!name_check(av[len]) && ++ret)
 			ft_dprintf(2, "minishell: export: `%s' : not a valid identifier\n",
-					av[len]);
+				av[len]);
 		else if (var_parsing(&env->lst_var, av[len]))
 			return (-1);
 		len++;

@@ -6,7 +6,7 @@
 /*   By: nserve <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/22 18:28:52 by nserve            #+#    #+#             */
-/*   Updated: 2023/10/22 18:29:06 by nserve           ###   ########.fr       */
+/*   Updated: 2023/10/28 15:38:16 by hmelica          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,13 +70,6 @@ void	node_child_add(t_node *parent, t_node *child)
 	}
 	parent->children++;
 	parent->exit = child->exit;
-	/*i = child->next_sibling;
-	while (i)
-	{
-		i->parent = parent;
-		parent->children++;
-		i = i->next_sibling;
-	}*/
 }
 
 void	node_tree_clean(t_node *node)

@@ -6,7 +6,7 @@
 /*   By: nserve <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/22 12:03:22 by nserve            #+#    #+#             */
-/*   Updated: 2023/10/22 12:03:27 by nserve           ###   ########.fr       */
+/*   Updated: 2023/10/28 15:41:12 by hmelica          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,6 @@ void	handler_heredoc(int signum)
 	close(STDIN_FILENO);
 	g_signal = 130;
 	write(1, "\n", 1);
-
 }
 
 void	handler_failed_hd(int signum)

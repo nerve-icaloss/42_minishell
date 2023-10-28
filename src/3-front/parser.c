@@ -53,7 +53,7 @@ t_node	*parse_command(t_token *tok)
 		node_child_add(cmd, word);
 		tok = tokenize(src);
 	}
-	if ( 0 <= src->tok_type && src->tok_type < TOK_EOF)
+	if (0 < src->tok_type && src->tok_type < TOK_EOF)
 		untokenize(src);
 	if (src->tok_type == TOK_SYNTAX)
 		cmd->exit = 2;

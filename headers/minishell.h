@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/10 14:58:41 by hmelica           #+#    #+#             */
-/*   Updated: 2023/10/28 14:06:46 by hmelica          ###   ########.fr       */
+/*   Updated: 2023/10/28 15:51:16 by hmelica          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,10 +38,10 @@
 
 # define SYS_FAIL (-1)
 
-extern volatile int	g_signal;
+extern volatile int			g_signal;
 
-typedef struct dirent	t_dirent;
-typedef struct stat		t_stat;
+typedef struct dirent		t_dirent;
+typedef struct stat			t_stat;
 
 //----------------------------------------------------------------------------//
 
@@ -53,7 +53,7 @@ typedef struct s_myentry {
 	struct s_myentry	*next;
 }	t_myentry;
 
-typedef t_myentry *		t_history;
+typedef t_myentry *			t_history;
 
 int				entry_add(t_history *origin, char *str);
 void			history_clean(t_history *history);
@@ -68,7 +68,7 @@ typedef struct s_myvar {
 	struct s_myvar	*prev;
 }	t_myvar;
 
-typedef t_myvar *	t_lstvar;
+typedef t_myvar *			t_lstvar;
 
 int				var_add(t_lstvar *origin, char *name, char *value);
 void			var_update(t_myvar *var, char *name, char *value);
@@ -301,8 +301,8 @@ void			close_redirection(t_node *cmd, int fd);
 size_t			find_closing_quote(char *data);
 size_t			find_closing_brace(char *data);
 
-char			*ft_readline(char *prompt, void (*signal_handler)(int), 
-				  void (*signal_restore));
+char			*ft_readline(char *prompt, void (*signal_handler)(int),
+					void (*signal_restore));
 
 void			ft_fork(t_node *cmd);
 

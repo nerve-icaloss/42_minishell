@@ -6,7 +6,7 @@
 /*   By: nserve <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/26 15:53:24 by nserve            #+#    #+#             */
-/*   Updated: 2023/10/27 20:03:27 by hmelica          ###   ########.fr       */
+/*   Updated: 2023/10/28 15:38:42 by hmelica          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,8 @@
 static int	is_numeric_arg(char *str, long long *ret)
 {
 	static const unsigned long long int	maxi = 0x8000000000000000;
-	long long						signe;
-	int								written;
+	long long							signe;
+	int									written;
 
 	*ret = 0;
 	written = 0;
@@ -54,7 +54,7 @@ static int	check_exit_args(char *args[], long long *ret)
 		if (!is_numeric_arg(args[i], ret))
 		{
 			ft_dprintf(2, "minishell: exit: %s: numeric argument required\n",
-				 args[i]);
+				args[i]);
 			return (2);
 		}
 		i++;

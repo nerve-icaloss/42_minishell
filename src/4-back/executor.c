@@ -6,7 +6,7 @@
 /*   By: nserve <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/16 11:49:35 by nserve            #+#    #+#             */
-/*   Updated: 2023/10/27 17:12:42 by nserve           ###   ########.fr       */
+/*   Updated: 2023/10/28 15:41:24 by hmelica          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,7 @@ int	execute_pipex(t_node *pipex, t_myshell *shell)
 		exec_reset(&exec);
 		if (execute_pipex_init(&exec, pipex, cmd, &shell->env)
 			|| apply_redirection(&exec, cmd) || (!exec.bracket_first_child
-			&& search_exec_path(&exec, &shell->env)))
+				&& search_exec_path(&exec, &shell->env)))
 		{
 			reset_redirection(&exec, cmd);
 			cmd = cmd->next_sibling;

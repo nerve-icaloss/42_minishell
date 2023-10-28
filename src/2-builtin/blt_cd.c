@@ -6,7 +6,7 @@
 /*   By: hmelica <hmelica@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/03 16:05:03 by hmelica           #+#    #+#             */
-/*   Updated: 2023/10/28 12:19:08 by hmelica          ###   ########.fr       */
+/*   Updated: 2023/10/28 15:37:53 by hmelica          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,8 +28,8 @@ int	home_expand(const char *s, char **ret, t_myvar *var)
 	int		j;
 
 	if (!s || !ret || !var || !var->value)
-		return (ft_dprintf(2, "minishell: HOME not set\n"), 
-				*ret = ft_strdup(s), -1);
+		return (ft_dprintf(2, "minishell: HOME not set\n"),
+			*ret = ft_strdup(s), -1);
 	i = 0;
 	j = 0;
 	count = 0;
@@ -85,7 +85,7 @@ static int	arg_parser_oldpwd(t_myenv *env, char **path)
 		return (errno = ENOMEM, -1);
 	if (access(*path, F_OK) || !check_whole_path(*path))
 		return (ft_dprintf(2, "cd: %s: %s\n", *path, strerror(errno)),
-				free(*path), 1);
+			free(*path), 1);
 	ft_dprintf(1, "%s\n", *path);
 	return (0);
 }
@@ -122,10 +122,10 @@ int	cd_builtin(char **argv, t_myenv *env)
 		return (1);
 	if (access(path, F_OK) || !check_whole_path(path))
 		return (ft_dprintf(2, "cd: %s: %s\n", path, strerror(errno)),
-				free(path), 1);
+			free(path), 1);
 	if (chdir(path))
 		return (ft_dprintf(2, "cd: %s: %s\n", path, strerror(errno)),
-				free(path), 1);
+			free(path), 1);
 	free(path);
 	path = getcwd(NULL, 0);
 	if (!path)

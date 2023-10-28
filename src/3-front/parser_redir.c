@@ -6,19 +6,18 @@
 /*   By: nserve <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/26 10:15:52 by nserve            #+#    #+#             */
-/*   Updated: 2023/10/26 19:29:37 by nserve           ###   ########.fr       */
+/*   Updated: 2023/10/28 15:39:35 by hmelica          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../headers/minishell.h"
 
-
 void	parse_redir(t_token *tok, t_node *word)
 {
-	t_source *src;
+	t_source	*src;
 
 	if (!tok || !word)
-		return (errno =ENODATA, (void) NULL);
+		return (errno = ENODATA, (void) NULL);
 	src = tok->src;
 	token_clean(tok);
 	tok = tokenize(src);

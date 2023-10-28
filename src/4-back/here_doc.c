@@ -6,7 +6,7 @@
 /*   By: hmelica <hmelica@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/14 16:08:57 by hmelica           #+#    #+#             */
-/*   Updated: 2023/10/27 12:34:37 by nserve           ###   ########.fr       */
+/*   Updated: 2023/10/28 15:40:36 by hmelica          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,6 @@ int	here_doc(char *eof, t_myenv *env)
 	int		ret;
 	char	*line;
 
-	// (void) env;
 	if (!eof || pipe(fd))
 		return (-1);
 	while (1)

@@ -6,7 +6,7 @@
 /*   By: hmelica <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/28 14:26:05 by hmelica           #+#    #+#             */
-/*   Updated: 2023/10/28 15:24:44 by hmelica          ###   ########.fr       */
+/*   Updated: 2023/10/28 15:42:40 by hmelica          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,5 +29,5 @@ int	ft_strcasecmp(const char *s1, const char *s2)
 	}
 	is_same = (ft_tolower(*s1) == ft_tolower(*s2)) * 1024;
 	return ((ft_tolower(*s1) + (ft_islower(*s1) * is_same))
-			- (ft_tolower(*s2) + (ft_islower(*s2) * is_same)));
+		- (ft_tolower(*s2) + (ft_islower(*s2) * is_same)));
 }

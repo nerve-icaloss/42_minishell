@@ -6,7 +6,7 @@
 /*   By: nserve <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/17 13:38:28 by nserve            #+#    #+#             */
-/*   Updated: 2023/10/22 17:19:54 by nserve           ###   ########.fr       */
+/*   Updated: 2023/10/28 15:43:02 by hmelica          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ char	*search_cmd_path(char *name, t_myenv *env);
 char	*check_cmd_path(t_execute *exec, char *name);
 
 int		execute_pipex_init(t_execute *exec, t_node *pipex, t_node *cmd,
-						t_myenv *env);
+			t_myenv *env);
 int		execute_cmd_init(t_execute *exec, t_node *cmd, t_myenv *env);
 
 void	child_cmd(t_execute *exec, t_myshell *shell);
