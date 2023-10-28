@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/10 14:58:41 by hmelica           #+#    #+#             */
-/*   Updated: 2023/10/28 22:25:18 by hmelica          ###   ########.fr       */
+/*   Updated: 2023/10/28 22:51:37 by hmelica          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -286,7 +286,7 @@ void			syntax_error_redir(t_redir_type redir_type);
 void			cmd_notfound(char *str);
 void			path_notfound(void);
 
-# define DOC_BUF 100
+# define DOC_BUF 4096
 # define DOC_MAXFILES 4000
 
 int				expand_this_doc(char **val);
