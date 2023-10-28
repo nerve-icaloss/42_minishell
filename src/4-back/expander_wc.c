@@ -6,7 +6,7 @@
 /*   By: hmelica <hmelica@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/19 22:41:38 by hmelica           #+#    #+#             */
-/*   Updated: 2023/10/28 14:05:59 by hmelica          ###   ########.fr       */
+/*   Updated: 2023/10/28 17:23:52 by hmelica          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -166,16 +166,17 @@ int	run_wildcard(t_node **word, t_myvar *var)
 		end = end->next_sibling;
 	while (i)
 	{
-		if (run_wc_on(&i->val, word, var_get(var, "HOME")))
+		j = NULL;
+		if (run_wc_on(&i->val, &j, var_get(var, "HOME")))
 			return (-1);
+		sort_words(&j);
+		node_sibling_add(word, j);
+		j = NULL;
 		if (i != end)
 			j = i->next_sibling;
-		else
-			j = NULL;
 		if ((*word)->next_sibling)
 			word_pop(word, i);
 		i = j;
 	}
-	sort_words(word);
 	return (0);
 }
