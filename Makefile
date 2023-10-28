@@ -6,7 +6,7 @@
 #    By: marvin <marvin@42.fr>                      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/04/13 14:06:13 by hmelica           #+#    #+#              #
-#    Updated: 2023/10/28 14:00:24 by hmelica          ###   ########.fr        #
+#    Updated: 2023/10/28 22:16:43 by hmelica          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -92,6 +92,7 @@ SRCS_FILES	=	\
 				5-utils/utl_open.c \
 				5-utils/utl_path.c \
 				5-utils/utl_read.c \
+				5-utils/utl_tmp.c \
 				5-utils/utl_var.c \
 				5-utils/utl_wildcard.c \
 				5-utils/utl_words.c \
