@@ -35,7 +35,7 @@ int	here_doc(char *eof, t_myenv *env)
 		if (!line && g_signal != 130)
 			return (close(fd[1]), close(fd[0]), 0);
 		if (!line)
-			return (close(fd[1]), close(fd[0]), g_signal = -1, -1);
+			return (close(fd[1]), close(fd[0]), g_signal = 4, -1);
 		ret = doc_happend(line, eof, fd[1], env);
 		if (ret != 2)
 		{

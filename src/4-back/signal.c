@@ -15,6 +15,7 @@
 void	handler_rpel(int signum)
 {
 	(void) signum;
+	g_signal = 130;
 	write(1, "\n", 1);
 	rl_on_new_line();
 	rl_replace_line("", 0);

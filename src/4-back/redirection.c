@@ -6,7 +6,7 @@
 /*   By: nserve <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/16 17:54:16 by nserve            #+#    #+#             */
-/*   Updated: 2023/10/22 17:16:52 by nserve           ###   ########.fr       */
+/*   Updated: 2023/10/28 22:22:52 by nserve           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,8 +69,8 @@ int	infile_redirection(t_node *cmd, t_node *redir, t_myenv *env)
 	close_redirection(cmd, IN);
 	cmd->fd[IN] = open_redirection(redir, env);
 	if (cmd->fd[IN] == SYS_FAIL)
-		return (node_sibling_pop(redir), 1);
-	return (node_sibling_pop(redir), 0);
+		return (1);
+	return (0);
 }
 
 int	outfile_redirection(t_node *cmd, t_node *redir, t_myenv *env)
@@ -78,8 +78,8 @@ int	outfile_redirection(t_node *cmd, t_node *redir, t_myenv *env)
 	close_redirection(cmd, OUT);
 	cmd->fd[OUT] = open_redirection(redir, env);
 	if (cmd->fd[OUT] == SYS_FAIL)
-		return (node_sibling_pop(redir), 1);
-	return (node_sibling_pop(redir), 0);
+		return (1);
+	return (0);
 }
 
 int	do_redirection(t_node *cmd, t_myenv *env)
@@ -95,10 +95,12 @@ int	do_redirection(t_node *cmd, t_myenv *env)
 		i = child->next_sibling;
 		if (child->rtype == READ || child->rtype == HEREDOC)
 			if (infile_redirection(cmd, child, env))
-				return (1);
+				return (node_sibling_pop(child), 1);
 		if (child->rtype == TRUNC || child->rtype == APPEND)
 			if (outfile_redirection(cmd, child, env))
-				return (1);
+				return (node_sibling_pop(child), 1);
+		if (child->rtype != WORD)
+			node_sibling_pop(child);
 		child = i;
 	}
 	return (0);
