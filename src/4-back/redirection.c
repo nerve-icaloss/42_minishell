@@ -11,7 +11,6 @@
 /* ************************************************************************** */
 
 #include "../../headers/redirection.h"
-#include "../../headers/expander.h"
 
 int	apply_redirection(t_execute *exec, t_node *cmd)
 {
@@ -65,34 +64,25 @@ int	reset_redirection(t_execute *exec, t_node *cmd)
 	return (0);
 }
 
-static int	open_redirection(t_node *redir, t_myenv *env)
+int	infile_redirection(t_node *cmd, t_node *redir, t_myenv *env)
 {
-	char	*name;
-	int		fd;
-
-	if (!redir)
-		return (errno = ENODATA, 1);
-	name = redir_expand(redir->val, redir->rtype, env);
-	if (!name)
-		return (-1);
-	fd = -1;
-	if (name && redir->rtype == READ)
-		fd = open_read(name);
-	if (redir->rtype == HEREDOC)
-		fd = redir->fd[IN];
-	if (name && redir->rtype == TRUNC)
-		fd = open_trunc(name);
-	if (name && redir->rtype == APPEND)
-		fd = open_append(name);
-	if (fd == SYS_FAIL)
-	{
-		write(2, "minishell: ", 11);
-		perror(name);
-	}
-	return (free(name), fd);
+	close_redirection(cmd, IN);
+	cmd->fd[IN] = open_redirection(redir, env);
+	if (cmd->fd[IN] == SYS_FAIL)
+		return (node_sibling_pop(redir), 1);
+	return (node_sibling_pop(redir), 0);
 }
 
-int	infile_redirection(t_node *cmd, t_myenv *env)
+int	outfile_redirection(t_node *cmd, t_node *redir, t_myenv *env)
+{
+	close_redirection(cmd, OUT);
+	cmd->fd[OUT] = open_redirection(redir, env);
+	if (cmd->fd[OUT] == SYS_FAIL)
+		return (node_sibling_pop(redir), 1);
+	return (node_sibling_pop(redir), 0);
+}
+
+int	do_redirection(t_node *cmd, t_myenv *env)
 {
 	t_node	*child;
 	t_node	*i;
@@ -104,37 +94,11 @@ int	infile_redirection(t_node *cmd, t_myenv *env)
 	{
 		i = child->next_sibling;
 		if (child->rtype == READ || child->rtype == HEREDOC)
-		{
-			close_redirection(cmd, IN);
-			cmd->fd[IN] = open_redirection(child, env);
-			if (cmd->fd[IN] == SYS_FAIL)
+			if (infile_redirection(cmd, child, env))
 				return (1);
-			node_sibling_pop(child);
-		}
-		child = i;
-	}
-	return (0);
-}
-
-int	outfile_redirection(t_node *cmd, t_myenv *env)
-{
-	t_node	*child;
-	t_node	*i;
-
-	if (!cmd)
-		return (errno = ENODATA, 1);
-	child = cmd->first_child;
-	while (child)
-	{
-		i = child->next_sibling;
 		if (child->rtype == TRUNC || child->rtype == APPEND)
-		{
-			close_redirection(cmd, OUT);
-			cmd->fd[OUT] = open_redirection(child, env);
-			if (cmd->fd[OUT] == SYS_FAIL)
+			if (outfile_redirection(cmd, child, env))
 				return (1);
-			node_sibling_pop(child);
-		}
 		child = i;
 	}
 	return (0);

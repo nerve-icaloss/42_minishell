@@ -17,7 +17,10 @@
 
 int		apply_redirection(t_execute *exec, t_node *cmd);
 int		reset_redirection(t_execute *exec, t_node *cmd);
-int		infile_redirection(t_node *cmd, t_myenv *env);
-int		outfile_redirection(t_node *cmd, t_myenv *env);
+
+int		open_redirection(t_node *redir, t_myenv *env);
+int		infile_redirection(t_node *cmd, t_node *redir, t_myenv *env);
+int		outfile_redirection(t_node *cmd, t_node *redir, t_myenv *env);
+int		do_redirection(t_node *cmd, t_myenv *env);
 
 #endif
