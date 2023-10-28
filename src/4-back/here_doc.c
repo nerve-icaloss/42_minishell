@@ -6,7 +6,7 @@
 /*   By: hmelica <hmelica@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/14 16:08:57 by hmelica           #+#    #+#             */
-/*   Updated: 2023/10/28 22:06:30 by hmelica          ###   ########.fr       */
+/*   Updated: 2023/10/28 22:24:49 by hmelica          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ int	here_doc(char *eof, t_myenv *env, int expand)
 		free(line);
 	}
 	free(line);
-	return (here_done(buffer, env));
+	return (here_done(ret[0], buffer, env));
 }
 
 /*

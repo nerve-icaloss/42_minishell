@@ -6,7 +6,7 @@
 /*   By: hmelica <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/28 22:14:05 by hmelica           #+#    #+#             */
-/*   Updated: 2023/10/28 22:17:31 by hmelica          ###   ########.fr       */
+/*   Updated: 2023/10/28 22:43:51 by hmelica          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 
 char	*get_tmp_file(char *dir)
 {
-	static const char	*basename = "/temp_buffer_hd";
+	static const char	*basename = "/temp_buffer_hd_";
 	char				*file;
 	char				*path;
 	int					inc;
@@ -42,18 +42,18 @@ char	*get_tmp_path(t_myenv *env)
 	char	*ret;
 
 	ret = NULL;
-	if (access("/tmp", F_OK | W_OK | R_OK))
+	if (!access("/tmp", F_OK | W_OK | R_OK))
 		ret = get_tmp_file("/tmp");
 	dir = var_get_value(env->lst_var, "HOME");
-	if (!ret && dir && access(dir, F_OK | W_OK | R_OK))
+	if (!ret && dir && !access(dir, F_OK | W_OK | R_OK))
 		ret = get_tmp_file(dir);
 	dir = var_get_value(env->lst_var, "PWD");
-	if (!ret && dir && access(dir, F_OK | W_OK | R_OK))
+	if (!ret && dir && !access(dir, F_OK | W_OK | R_OK))
 		ret = get_tmp_file(dir);
 	dir = NULL;
 	if (!ret)
 		dir = ft_readline("Please enter filepath > ", handler_heredoc, SIG_IGN);
-	if (!ret && dir && access(dir, F_OK | W_OK | R_OK))
+	if (!ret && dir && !access(dir, F_OK | W_OK | R_OK))
 		ret = get_tmp_file(dir);
 	if (dir)
 		free(dir);
@@ -87,6 +87,6 @@ int	get_tmp(t_myenv *env)
 	path = get_tmp_path(env);
 	if (!path)
 		return (-1);
-	fd = open(path, O_WRONLY | O_TRUNC | O_CREAT);
+	fd = open(path, O_WRONLY | O_TRUNC | O_CREAT, 0666);
 	return (fd);
 }
