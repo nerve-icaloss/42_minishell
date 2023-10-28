@@ -6,7 +6,7 @@
 /*   By: hmelica <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/28 22:14:05 by hmelica           #+#    #+#             */
-/*   Updated: 2023/10/28 23:38:03 by hmelica          ###   ########.fr       */
+/*   Updated: 2023/10/28 23:47:53 by hmelica          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ char	*get_tmp_path(t_myenv *env)
 		ret = get_tmp_file(dir);
 	if (dir && !ret)
 		free(dir);
-	if (!ret)
+	if (!ret && ft_dprintf(2, "minishell: heredoc: Cannot create temp file\n"))
 		dir = ft_readline("Please enter filepath : ", handler_heredoc, SIG_IGN);
 	if (!ret && dir && (access(dir, F_OK) || access(dir, R_OK | W_OK)))
 		ret = dir;
@@ -64,7 +64,7 @@ char	*get_tmp_path(t_myenv *env)
 int	get_tmp(t_myenv *env)
 {
 	static char	*path = NULL;
-	static int	fd = -1;
+	static int	fd = -2;
 
 	if (!env)
 	{
@@ -72,7 +72,7 @@ int	get_tmp(t_myenv *env)
 			close(fd);
 		if (path)
 			free(path);
-		return (fd = -1, path = NULL, -1);
+		return (fd = -2, path = NULL, -2);
 	}
 	if (path)
 	{

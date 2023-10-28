@@ -6,7 +6,7 @@
 /*   By: hmelica <hmelica@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/14 16:08:57 by hmelica           #+#    #+#             */
-/*   Updated: 2023/10/28 22:24:49 by hmelica          ###   ########.fr       */
+/*   Updated: 2023/10/29 00:02:17 by hmelica          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ int	here_doc(char *eof, t_myenv *env, int expand)
 		if (!line && g_signal != 130)
 			return (get_tmp(NULL), free(buffer), 0);
 		if (!line)
-			return (get_tmp(NULL), free(buffer), g_signal = -1, -1);
+			return (get_tmp(NULL), free(buffer), -1);
 		if (is_eof(eof, line))
 			break ;
 		ret[0] = put_in_buffer(&buffer, &line, env, ret);

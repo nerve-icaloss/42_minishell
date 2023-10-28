@@ -6,7 +6,7 @@
 /*   By: nserve <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/27 11:11:19 by nserve            #+#    #+#             */
-/*   Updated: 2023/10/28 22:49:43 by hmelica          ###   ########.fr       */
+/*   Updated: 2023/10/28 23:48:27 by hmelica          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ int	here_done(int ret, char *buffer, t_myenv *env)
 	if (ret <= 0)
 	{
 		if (pipe(fd))
-			return (free(buffer), -1);
+			return (free(buffer), -2);
 		write_doc_pipe(fd[1], buffer);
 		free(buffer);
 		close(fd[1]);
@@ -70,12 +70,12 @@ int	put_in_buffer(char **buffer, char **line, t_myenv *env, int ret[2])
 		var_expansion(line, env);
 	if (ret[0] < 0 && ft_strlen(*line) + ft_strlen(*buffer) < DOC_BUF - 1)
 		return (ft_strlcat(*buffer, *line, DOC_BUF),
-				ft_strlcat(*buffer, "\n", DOC_BUF), -1);
+				ft_strlcat(*buffer, "\n", DOC_BUF), -2);
 	if (ret[0] < 0)
 	{
 		ret[0] = get_tmp(env);
 		if (ret[0] < 0)
-			return (-1);
+			return (-2);
 		write(ret[0], *buffer, ft_strlen(*buffer));
 		*buffer = ft_memset(*buffer, '\0', DOC_BUF);
 	}
