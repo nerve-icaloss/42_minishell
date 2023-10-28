@@ -66,9 +66,9 @@ void	parse_and_execute(char *cmdline, t_myshell *shell)
 	int			exit;
 
 	if (!cmdline || !shell)
-		return (errno = ENODATA, (void) NULL);
+		return (free(cmdline), errno = ENODATA, (void) NULL);
 	if (source_init(&src, cmdline))
-		return ((void) NULL);
+		return (free(cmdline), (void) NULL);
 	g_signal = 0;
 	exit = parse_source(&shell->root, &src);
 	source_clean(&src);

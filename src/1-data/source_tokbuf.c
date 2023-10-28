@@ -49,7 +49,7 @@ void	tok_buf_add(t_source *src, char c)
 	src->tok_buf[src->tok_bufindex++] = c;
 	if (src->tok_bufindex >= src->tok_bufsize)
 	{
-		tmp = realloc(src->tok_buf, src->tok_bufsize * 2);
+		tmp = ft_strrealloc(src->tok_buf, src->tok_bufsize * 2);
 		if (!tmp)
 			return (errno = ENOMEM, (void) NULL);
 		src->tok_buf = tmp;
