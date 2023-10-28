@@ -94,7 +94,6 @@ void	wait_cmd(t_execute *exec, t_node *cmd)
 	sigint_assign(SIGINT, SIG_IGN);
 	if (waitpid(cmd->pid, &status, 0) == cmd->pid && WIFEXITED(status))
 		cmd->exit = WEXITSTATUS(status);
-	//else if (signal)
 	else
 		cmd->exit = exec->exit;
 	if (!WIFSIGNALED(status))

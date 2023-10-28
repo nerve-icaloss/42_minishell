@@ -86,7 +86,7 @@ static int	arg_parser_oldpwd(t_myenv *env, char **path)
 	if (access(*path, F_OK) || !check_whole_path(*path))
 		return (ft_dprintf(2, "cd: %s: %s\n", *path, strerror(errno)),
 				free(*path), 1);
-	ft_dprintf(2, "%s\n", *path);
+	ft_dprintf(1, "%s\n", *path);
 	return (0);
 }
 
