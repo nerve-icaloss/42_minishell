@@ -6,7 +6,7 @@
 /*   By: hmelica <hmelica@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/03 16:05:03 by hmelica           #+#    #+#             */
-/*   Updated: 2023/10/28 11:43:54 by hmelica          ###   ########.fr       */
+/*   Updated: 2023/10/28 12:19:08 by hmelica          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,11 @@ TEST_STATIC int	arg_parser_home(t_myenv *env, char **path)
 	if (!var || !var->value)
 		return (ft_dprintf(2, "cd: HOME not set\n"), 1);
 	*path = ft_strdup(var->value);
+	if (*path && **path == '\0')
+	{
+		free(*path);
+		*path = ft_strdup("./");
+	}
 	if (!path)
 		return (errno = ENOMEM, -1);
 	return (0);
@@ -71,12 +76,17 @@ static int	arg_parser_oldpwd(t_myenv *env, char **path)
 	if (!var || !var->value)
 		return (ft_dprintf(2, "cd: OLDPWD not set\n"), 1);
 	*path = ft_strdup(var->value);
+	if (*path && **path == '\0')
+	{
+		free(*path);
+		*path = ft_strdup("./");
+	}
 	if (!path)
 		return (errno = ENOMEM, -1);
 	if (access(*path, F_OK) || !check_whole_path(*path))
 		return (ft_dprintf(2, "cd: %s: %s\n", *path, strerror(errno)),
 				free(*path), 1);
-	ft_dprintf(1, "%s\n", *path);
+	ft_dprintf(2, "%s\n", *path);
 	return (0);
 }
 
@@ -90,12 +100,17 @@ TEST_STATIC int	path_arg_parser(char **argv, t_myenv *env, char **path)
 	*path = NULL;
 	if (argv[1] && argv[2])
 		return (ft_dprintf(2, "cd: too many arguments\n"), 1);
-	if (!argv[1])
+	if (!argv[1] || (ft_strlen(argv[1]) == 2 && *argv[1] == '-'
+			&& argv[1][1] == '-'))
 		return (arg_parser_home(env, path));
-	if ((ft_strlen(argv[1]) == 1 && *argv[1] == '-') || (ft_strlen(argv[1])
-				== 2 && *argv[1] == '-' && argv[1][1] == '-'))
+	if ((ft_strlen(argv[1]) == 1 && *argv[1] == '-'))
 		return (arg_parser_oldpwd(env, path));
 	*path = ft_strdup(argv[1]);
+	if (*path && **path == '\0')
+	{
+		free(*path);
+		*path = ft_strdup("./");
+	}
 	return (0);
 }
 

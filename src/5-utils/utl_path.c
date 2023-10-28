@@ -6,7 +6,7 @@
 /*   By: hmelica <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/27 22:35:04 by hmelica           #+#    #+#             */
-/*   Updated: 2023/10/28 11:05:08 by hmelica          ###   ########.fr       */
+/*   Updated: 2023/10/28 11:54:02 by hmelica          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,28 +27,19 @@ int	check_path(char *path)
 	return (dir.st_mode & S_IXUSR);
 }
 
-/*
- * trim path to last not fail
- * */
 int	check_whole_path(char *path)
 {
 	char	*i;
-	char	*prev;
 
-	prev = path;
 	i = ft_strchr(path, '/');
 	while (i && *i)
 	{
-		*i = '\0';
 		if (!check_path(path))
-			return (*prev = '\0', 0);
+			return (*i = '/', 0);
 		*i = '/';
-		prev = i;
 		i = ft_strchr(i + 1, '/');
 	}
-	if (check_path(path))
-		return (1);
-	return (*prev = '\0', 0);
+	return (check_path(path));
 }
 
 char	*ft_getcwd(t_myenv *env)
