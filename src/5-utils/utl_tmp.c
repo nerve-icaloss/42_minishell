@@ -6,7 +6,7 @@
 /*   By: hmelica <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/28 22:14:05 by hmelica           #+#    #+#             */
-/*   Updated: 2023/10/28 22:43:51 by hmelica          ###   ########.fr       */
+/*   Updated: 2023/10/28 23:38:03 by hmelica          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,19 +44,18 @@ char	*get_tmp_path(t_myenv *env)
 	ret = NULL;
 	if (!access("/tmp", F_OK | W_OK | R_OK))
 		ret = get_tmp_file("/tmp");
-	dir = var_get_value(env->lst_var, "HOME");
+	dir = ft_getcwd(env);
 	if (!ret && dir && !access(dir, F_OK | W_OK | R_OK))
 		ret = get_tmp_file(dir);
 	dir = var_get_value(env->lst_var, "PWD");
 	if (!ret && dir && !access(dir, F_OK | W_OK | R_OK))
 		ret = get_tmp_file(dir);
-	dir = NULL;
-	if (!ret)
-		dir = ft_readline("Please enter filepath > ", handler_heredoc, SIG_IGN);
-	if (!ret && dir && !access(dir, F_OK | W_OK | R_OK))
-		ret = get_tmp_file(dir);
-	if (dir)
+	if (dir && !ret)
 		free(dir);
+	if (!ret)
+		dir = ft_readline("Please enter filepath : ", handler_heredoc, SIG_IGN);
+	if (!ret && dir && (access(dir, F_OK) || access(dir, R_OK | W_OK)))
+		ret = dir;
 	if (!ret)
 		ft_dprintf(2, "minishell: heredoc: Oh, c'mon... %s\n", strerror(errno));
 	return (ret);
