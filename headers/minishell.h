@@ -290,6 +290,8 @@ t_myenv			*expand_this_doc(char **val, t_myenv *env);
 void			write_doc_pipe(int fd, char *line);
 int				doc_happend(char *line, char *eof, int write_fd, t_myenv *env);
 
+int				ft_access(char *cmd_path, t_execute *exec);
+
 int				open_read(char *file);
 int				open_append(char *file);
 int				open_trunc(char *file);

@@ -46,28 +46,26 @@ int	execute_cmd_init(t_execute *exec, t_node *cmd, t_myenv *env)
 {
 	if (!exec || !cmd)
 		return (errno = ENODATA, 1);
-	exec->exit = 1;
 	exec->std_fd[IN] = -1;
 	exec->std_fd[OUT] = -1;
-	if (infile_redirection(cmd, env))
-		return (1);
-	if (outfile_redirection(cmd, env))
-		return (1);
-	if (build_argv(exec, cmd, env))
-		return (1);
 	exec->exit = 0;
-	return (0);
+	if (infile_redirection(cmd, env))
+		exec->exit = 1;
+	if (outfile_redirection(cmd, env))
+		exec->exit = 1;
+	if (build_argv(exec, cmd, env))
+		exec->exit = 1;
+	return (exec->exit);
 }
 
 int	execute_pipex_init(t_execute *exec, t_node *pipex, t_node *cmd, t_myenv *env)
 {
 	if (!exec || !pipex || !cmd)
 		return (errno = ENODATA, 1);
-	exec->exit = 1;
 	if (cmd->next_sibling)
 	{
 		if (pipe(pipex->fd) == SYS_FAIL)
-			return (perror("pipe"), 1);
+			return (exec->exit = 1, perror("pipe"), 1);
 		cmd->fd[OUT] = pipex->fd[OUT];
 		cmd->next_sibling->fd[IN] = pipex->fd[IN];
 		exec->toclose_child = pipex->fd[IN];

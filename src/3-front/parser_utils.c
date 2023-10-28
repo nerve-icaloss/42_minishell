@@ -6,7 +6,7 @@
 /*   By: nserve <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/06 15:10:03 by nserve            #+#    #+#             */
-/*   Updated: 2023/10/26 20:02:44 by nserve           ###   ########.fr       */
+/*   Updated: 2023/10/28 15:55:09 by nserve           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,6 +91,10 @@ t_node	*insert_lvl_child(t_node *parent, t_node *child)
 
 	if (!parent || !child)
 		return (errno = ENODATA, NULL);
+	if (parent->type == NODE_BRACKET)
+		return (node_tree_clean(child), parent);
+	if (parent->type == NODE_CMD && child->type == NODE_BRACKET)
+		return (node_tree_clean(parent), child);
 	if (parent->type > child->type)
 	{
 		parent_child = parent->first_child;
@@ -119,12 +123,16 @@ void	handle_error_and_clean(t_node *parent, t_token *tok, int type)
 			untokenize(src);
 	if (tok->type == TOK_SYNTAX)
 		parent->exit = 2;
-	if (!parent->exit && parent->children < 2 && type >= NODE_PIPE)
+	if (type == NODE_BRACKET && tok->type != TOK_EOB)
+		parent->exit = 2;
+	if (!parent->exit && parent->type != NODE_BRACKET
+		&& parent->children < 2 && type >= NODE_PIPE)
 	{
 		syntax_error_node(type);
 		parent->exit = 2;
 	}
-	if (!parent->exit && parent->children < 1 && type == NODE_BRACKET)
+	if (!parent->exit && parent->type == NODE_BRACKET
+		&& parent->children < 1 && type == NODE_BRACKET)
 	{
 		syntax_error_node(type);
 		parent->exit = 2;
