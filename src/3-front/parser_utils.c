@@ -91,6 +91,8 @@ t_node	*insert_lvl_child(t_node *parent, t_node *child)
 
 	if (!parent || !child)
 		return (errno = ENODATA, NULL);
+	if (parent == child)
+		return (parent);
 	if (parent->type == NODE_BRACKET)
 		return (node_tree_clean(child), parent);
 	if (parent->type == NODE_CMD && child->type == NODE_BRACKET)

@@ -6,7 +6,7 @@
 /*   By: nserve & hmelica                           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/10 14:57:45 by hmelica           #+#    #+#             */
-/*   Updated: 2023/10/28 15:28:26 by hmelica          ###   ########.fr       */
+/*   Updated: 2023/10/28 21:07:45 by nserve           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,6 +125,7 @@ void	cmd_mode(t_myshell *shell, int argc, char *argv[])
 	if (!cmdline)
 		return (shell->exit = 1, (void) NULL);
 	parse_and_execute(cmdline, shell);
+	shell->root = NULL;
 }
 
 int	main(int argc, char *argv[], char *envp[])
