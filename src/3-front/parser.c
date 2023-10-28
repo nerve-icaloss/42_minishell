@@ -110,9 +110,9 @@ t_node	*parse_bracket(t_token *tok)
 			return (NULL);
 		tok = tokenize(src);
 	}
-	handle_error_and_clean(bracket, tok, NODE_BRACKET);
 	bracket->exit = cmd->exit;
 	node_child_add(bracket, cmd);
+	handle_error_and_clean(bracket, tok, NODE_BRACKET);
 	return (bracket);
 }
 
