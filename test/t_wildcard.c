@@ -6,7 +6,7 @@
 /*   By: hmelica <hmelica@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/04 15:51:56 by hmelica           #+#    #+#             */
-/*   Updated: 2023/10/28 21:48:59 by hmelica          ###   ########.fr       */
+/*   Updated: 2023/10/29 01:04:52 by hmelica          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -309,13 +309,13 @@ ParameterizedTestParameters(wildcard, glob_name) {
 		{
 			0,
 			"toto",
+			"",
 			"t",
-			""
 		},
 		{
 			0,
 			"titi",
-			""
+			"",
 			"t",
 		},
 		{
@@ -325,7 +325,7 @@ ParameterizedTestParameters(wildcard, glob_name) {
 			"t"
 		},
 		{
-			t,
+			1,
 			"test",
 			"",
 			"t"

@@ -6,7 +6,7 @@
 /*   By: hmelica <hmelica@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/04 15:51:56 by hmelica           #+#    #+#             */
-/*   Updated: 2023/10/28 15:35:22 by hmelica          ###   ########.fr       */
+/*   Updated: 2023/10/29 00:55:34 by hmelica          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -211,7 +211,7 @@ ParameterizedTestParameters(cd, arg_parser) {
 		{
 			{NULL, 0, NULL, 0}, // should stay init like this
 			1,
-			"preset_str", // - with unset OLDPWD
+			NULL, // - with unset OLDPWD
 			{
 				"HOME=/usr",
 				"PWD=/tmp",
@@ -224,15 +224,30 @@ ParameterizedTestParameters(cd, arg_parser) {
 		},
 		{
 			{NULL, 0, NULL, 0}, // should stay init like this
+			0,
+			"./", // - with empty OLDPWD
+			{
+				"HOME=/usr",
+				"PWD=/tmp",
+				"OLDPWD=",
+				"VAR=value",
+				NULL,
+				"with empty OLDPWD",
+				"-",
+				NULL
+			},
+		},
+		{
+			{NULL, 0, NULL, 0}, // should stay init like this
 			1,
-			"preset_str", // - with empty OLDPWD
+			NULL, // - with empty OLDPWD
 			{
 				"HOME=/usr",
 				"PWD=/tmp",
 				"OLDPWD",
 				"VAR=value",
 				NULL,
-				"with empty OLDPWD",
+				"with just set OLDPWD",
 				"-",
 				NULL
 			},
@@ -254,7 +269,7 @@ ParameterizedTestParameters(cd, arg_parser) {
 		{
 			{NULL, 0, NULL, 0}, // should stay init like this
 			1,
-			"preset_str", // with no arg but home unset
+			NULL, // with no arg but home unset
 			{
 				"PWD=/tmp",
 				"OLDPWD=/",
@@ -267,7 +282,7 @@ ParameterizedTestParameters(cd, arg_parser) {
 		{
 			{NULL, 0, NULL, 0}, // should stay init like this
 			1,
-			"preset_str", // with no arg but no home
+			NULL, // with no arg but no home
 			{
 				"HOME",
 				"PWD=/tmp",
@@ -309,14 +324,14 @@ ParameterizedTestParameters(cd, arg_parser) {
 		{
 			{NULL, 0, NULL, 0}, // should stay init like this
 			0,
-			"--", // will raise an error later but shouldnt return oldpwd
+			"/usr", // home ??
 			{
 				"HOME=/usr",
 				"PWD=/tmp",
 				"OLDPWD=/",
 				"VAR=value",
 				NULL,
-				"will raise an error later but shouldnt return oldpwd",
+				"home ??",
 				"--",
 				NULL
 			},
@@ -324,7 +339,7 @@ ParameterizedTestParameters(cd, arg_parser) {
 		{
 			{NULL, 0, NULL, 0}, // should stay init like this
 			1,
-			"preset_str", // to many arguments
+			NULL, // to many arguments
 			{
 				"HOME=/usr",
 				"PWD=/tmp",
@@ -387,11 +402,19 @@ int	path_arg_parser(char **argv, t_myenv *myenv, char **path);
 ParameterizedTest(t_arg_t *arg, cd, arg_parser, .timeout = 1)
 {
 	char *str = "preset_str";
+	char *o;
+
+	o = str;
 	if (!arg)
 		cr_fatal("no arg");
 	cr_expect(eq(int, path_arg_parser(arg->tab, &arg->env, &str), arg->ret_code),
 			"return code wrong\n%s", *arg->tab);
-	cr_expect(eq(str, str, arg->expected), "Expected return path wrong\n%s", *arg->tab);
+	if (str && arg->expected)
+		cr_expect(eq(str, str, arg->expected), "Expected return path wrong\n%s", *arg->tab);
+	else
+		cr_expect(eq(ptr, str, arg->expected), "Expected return path set\n%s", *arg->tab);
+	if (str && str != o)
+		free(str);
 }
 
 Test(cd, builtin)

@@ -6,7 +6,7 @@
 /*   By: hmelica <hmelica@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/03 16:05:03 by hmelica           #+#    #+#             */
-/*   Updated: 2023/10/28 15:37:53 by hmelica          ###   ########.fr       */
+/*   Updated: 2023/10/29 00:53:36 by hmelica          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,17 +76,17 @@ static int	arg_parser_oldpwd(t_myenv *env, char **path)
 	if (!var || !var->value)
 		return (ft_dprintf(2, "cd: OLDPWD not set\n"), 1);
 	*path = ft_strdup(var->value);
+	if (!*path)
+		return (errno = ENOMEM, -1);
+	ft_dprintf(1, "%s\n", *path);
 	if (*path && **path == '\0')
 	{
 		free(*path);
 		*path = ft_strdup("./");
 	}
-	if (!path)
-		return (errno = ENOMEM, -1);
 	if (access(*path, F_OK) || !check_whole_path(*path))
 		return (ft_dprintf(2, "cd: %s: %s\n", *path, strerror(errno)),
 			free(*path), 1);
-	ft_dprintf(1, "%s\n", *path);
 	return (0);
 }
 
