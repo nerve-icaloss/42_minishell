@@ -6,7 +6,7 @@
 /*   By: hmelica <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/07 12:11:30 by hmelica           #+#    #+#             */
-/*   Updated: 2023/10/28 14:31:09 by hmelica          ###   ########.fr       */
+/*   Updated: 2023/10/28 14:52:46 by hmelica          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,16 +43,17 @@ typedef struct s_insert
 }	t_insert;
 
 /* ft_is */
-int			ft_isalpha(int c);
 int			ft_isalnum(int c);
-int			ft_isdigit(int c);
+int			ft_isalpha(int c);
 int			ft_isascii(int c);
-int			ft_isquote(int c);
-int			ft_isprint(int c);
-int			ft_isupper(int c);
-int			ft_isspace(int c);
+int			ft_isdigit(int c);
+int			ft_islower(int c);
 int			ft_isplusminus(int c);
+int			ft_isprint(int c);
+int			ft_isquote(int c);
+int			ft_isspace(int c);
 int			ft_isstr_int(char *str);
+int			ft_isupper(int c);
 
 /* ft_to */
 int			ft_tolower(int c);
