@@ -6,7 +6,7 @@
 #    By: marvin <marvin@42.fr>                      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/04/13 14:06:13 by hmelica           #+#    #+#              #
-#    Updated: 2023/10/29 16:19:03 by hmelica          ###   ########.fr        #
+#    Updated: 2023/10/29 17:30:36 by hmelica          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -237,7 +237,10 @@ force:;
 mac_clean:
 	@find . -type f -name "* [2-9]*" -print -delete
 
-meson/meson.py:
+.gitmodules:
+	cp .not_git_modules .gitmodules
+
+meson/meson.py: .gitmodules
 	git submodule init
 	git submodule update
 
