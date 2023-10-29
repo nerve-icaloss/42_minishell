@@ -6,11 +6,36 @@
 /*   By: hmelica <hmelica@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/16 21:32:35 by hmelica           #+#    #+#             */
-/*   Updated: 2023/10/28 16:27:23 by hmelica          ###   ########.fr       */
+/*   Updated: 2023/10/29 12:49:29 by hmelica          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../headers/minishell.h"
+
+int	name_check(char *s)
+{
+	size_t	len;
+	char	*k;
+	char	*eq;
+
+	if (!s)
+		return (0);
+	k = ft_strchr(s, '=');
+	eq = ft_strchr(s, '+');
+	if (eq && eq + 1 == k)
+		k = eq;
+	if (k)
+		len = k - s;
+	else
+		len = ft_strlen(s);
+	if (!ft_isalpha(*s) && *s != '_')
+		return (0);
+	while (*s && len-- > 0 && (ft_isalnum(*s) || *s == '_'))
+		s++;
+	if (!*s || *s == '=' || *s == '+')
+		return (1);
+	return (0);
+}
 
 TEST_STATIC char	*format_export(char *s)
 {
