@@ -81,8 +81,6 @@ void	parse_and_execute(char *cmdline, t_myshell *shell)
 	{
 		if (g_signal == 130)
 			shell->exit = g_signal;
-		else if (g_signal == 4)
-			shell->exit = 0;
 		else
 			shell->exit = exit;
 		return (node_tree_clean(shell->root), (void) NULL);
