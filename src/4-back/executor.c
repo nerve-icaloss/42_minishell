@@ -48,7 +48,7 @@ int	execute_cmd(t_node *cmd, t_myshell *shell)
 		return (errno = ENODATA, 1);
 	ft_memset(&exec, 0, sizeof(exec));
 	if (execute_cmd_init(&exec, cmd, &shell->env))
-		return (exec.exit);
+		return (exec_clean(&exec), exec.exit);
 	if (apply_redirection(&exec, cmd))
 		return (exec_clean(&exec), exec.exit);
 	if (!exec.argv[0])
