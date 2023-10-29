@@ -6,7 +6,7 @@
 /*   By: hmelica <hmelica@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/16 21:32:35 by hmelica           #+#    #+#             */
-/*   Updated: 2023/10/29 12:49:29 by hmelica          ###   ########.fr       */
+/*   Updated: 2023/10/29 15:16:16 by hmelica          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,10 +89,28 @@ static int	print_export(t_myenv *env)
 	return (0);
 }
 
+size_t	get_value_size(char *s, t_myenv *env)
+{
+	char	*k;
+	char	*eq;
+	size_t	len;
+
+	if (!s)
+		return (0);
+	k = ft_strchr(s, '=');
+	eq = ft_strchr(s, '+');
+	len = ft_strlen(k + 1);
+	if (eq && k == eq + 1 && env)
+	{
+		*eq = '\0';
+		len += ft_strlen(var_get_value(env->lst_var, s));
+		*eq = '+';
+	}
+	return (len);
+}
+
 /*
  * export builtin
- * */
-/*
  * export does check for numbers at first character of variable name
  * */
 int	export_builtin(char **av, t_myenv *env)
@@ -111,7 +129,7 @@ int	export_builtin(char **av, t_myenv *env)
 		if (!name_check(av[len]) && ++ret)
 			ft_dprintf(2, "minishell: export: `%s' : not a valid identifier\n",
 				av[len]);
-		if (ft_strlen(ft_strchr(av[len], '=')) > 10001 && ++ret)
+		else if (get_value_size(av[len], env) > 10000 && ++ret)
 			ft_dprintf(2, "minishell: export: env var max_size reached\n");
 		else if (var_parsing(&env->lst_var, av[len]))
 			return (-1);
