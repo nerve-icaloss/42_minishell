@@ -53,24 +53,24 @@ void	child_pipex_cmd(t_execute *exec, t_myshell *shell)
 	sigint_assign(SIGINT, handler_child);
 	if (exec->toclose_child != -1)
 		close(exec->toclose_child);
-	if (!exec->argv[0] && !exec->builtin_f && !exec->bracket_first_child)
+	if (exec->argv && !exec->argv[0] && !exec->builtin_f && !exec->bracket_first_child)
 	{
 		close_all_fd_child(exec, shell);
-		return (free(exec->argv), shell_clean(shell), exit (0));
+		return (shell_clean(shell), exit (0));
 	}
 	if (exec->bracket_first_child)
 	{
 		close_std_fd_child(exec);
 		exec->exit = execute_tree(exec->bracket_first_child, shell);
-		return (free(exec->argv), shell_clean(shell), exit(exec->exit));
+		return (shell_clean(shell), exit(exec->exit));
 	}
 	close_all_fd_child(exec, shell);
 	if (exec->builtin_f)
 	{
 		exec->exit = exec->builtin_f(exec->argv, &shell->env);
-		return (clean_child(exec, shell), exit(exec->exit));
+		return (shell_clean(shell), exit(exec->exit));
 	}
 	sigint_assign(SIGQUIT, SIG_DFL);
 	if (execve(exec->argv[0], exec->argv, shell->env.envp) == SYS_FAIL)
-		return (perror(exec->argv[0]), clean_child(exec, shell), exit(1));
+		return (perror(exec->argv[0]), shell_clean(shell), exit(1));
 }
