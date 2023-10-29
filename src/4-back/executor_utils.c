@@ -98,7 +98,10 @@ void	wait_cmd(t_execute *exec, t_node *cmd)
 	if (WTERMSIG(status) == SIGINT)
 		cmd->exit = 130;
 	if (WTERMSIG(status) == SIGQUIT)
+	{
 		write(2, "Quit (core dumped)\n", 19);
+		cmd->exit = 131;
+	}
 }
 
 void	wait_pipex(t_execute *exec, t_node *pipex)
@@ -124,5 +127,8 @@ void	wait_pipex(t_execute *exec, t_node *pipex)
 	if (WTERMSIG(status) == SIGINT)
 		pipex->exit = 130;
 	if (WTERMSIG(status) == SIGQUIT)
+	{
 		write(2, "Quit (core dumped)\n", 19);
+		pipex->exit = 131;
+	}
 }
