@@ -88,14 +88,10 @@ void	parse_and_execute(char *cmdline, t_myshell *shell)
 	shell->exit = execute_tree(shell->root, shell);
 }
 
-void	rpel_mode(t_myshell *shell)
+static void	rpel_loop(t_myshell *shell)
 {
 	char		*cmdline;
 
-	if (!shell)
-		return (errno = ENODATA, (void) NULL);
-	sigint_assign(SIGINT, handler_rpel);
-	header();
 	while (1)
 	{
 		cmdline = ft_readline("minishell-1.0$ ", NULL, handler_rpel);
@@ -119,6 +115,15 @@ void	rpel_mode(t_myshell *shell)
 		if (g_signal == -1)
 			break ;
 	}
+}
+
+void	rpel_mode(t_myshell *shell)
+{
+	if (!shell)
+		return (errno = ENODATA, (void) NULL);
+	sigint_assign(SIGINT, handler_rpel);
+	header();
+	rpel_loop(shell);
 }
 
 void	cmd_mode(t_myshell *shell, int argc, char *argv[])
