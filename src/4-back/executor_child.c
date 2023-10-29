@@ -67,7 +67,7 @@ void	child_pipex_cmd(t_execute *exec, t_myshell *shell)
 	if (exec->builtin_f)
 	{
 		exec->exit = exec->builtin_f(exec->argv, &shell->env);
-		return (free(exec->argv), clean_child(exec, shell), exit(exec->exit));
+		return (clean_child(exec, shell), exit(exec->exit));
 	}
 	sigint_assign(SIGQUIT, SIG_DFL);
 	if (execve(exec->argv[0], exec->argv, shell->env.envp) == SYS_FAIL)
