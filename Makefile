@@ -6,7 +6,7 @@
 #    By: marvin <marvin@42.fr>                      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/04/13 14:06:13 by hmelica           #+#    #+#              #
-#    Updated: 2023/10/29 14:35:03 by hmelica          ###   ########.fr        #
+#    Updated: 2023/10/29 15:51:15 by hmelica          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -106,7 +106,7 @@ SRCS_FILES	=	\
 SRCS_FILES_BONUS = \
 #
 # ^- (this comment line matters too)
-CFLAGS	= -Wall -Werror -Wextra
+CFLAGS	= -Wall -Werror -Wextra \
 # Other useful flags : -O3 -Wno-unused-result
 #                           ^- flag de compilation sur mac (Apple Clang)
 #                        ^- flag d'optimisation maximum (peut entrainer des
@@ -122,7 +122,7 @@ SANITIZE_FLAG	= -fsanitize=address
 # N'affiche pas le changement de directory lors du ${MAKE} -c
 MAKEFLAGS += --no-print-directory
 
-CC = cc
+CC = gcc
 
 TEST_MODE = -D TEST_MODE
 # comment to disable test and compile with static
