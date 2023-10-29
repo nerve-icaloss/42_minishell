@@ -40,12 +40,10 @@ t_node	*bracket_first_child(t_token *tok)
 
 t_node	*choose_first_child(t_token *tok)
 {
-	t_source	*src;
 	t_node		*cmd;
 
 	if (!tok)
 		return (errno = ENODATA, NULL);
-	src = tok->src;
 	if (tok->type == TOK_WORD)
 		cmd = parse_command(tok);
 	else if (tok->type == TOK_BRACKET || tok->type == TOK_EOB)
