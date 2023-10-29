@@ -6,30 +6,30 @@
 /*   By: hmelica <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/14 14:36:17 by hmelica           #+#    #+#             */
-/*   Updated: 2023/10/28 16:22:38 by hmelica          ###   ########.fr       */
+/*   Updated: 2023/10/29 12:53:58 by hmelica          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../headers/minishell.h"
 
-int	name_check(char *s)
+int	split_name(char *str, char **split, char **name, int *append)
 {
-	size_t	len;
-	char	*k;
+	char	*eq;
 
-	if (!s)
-		return (0);
-	k = ft_strchr(s, '=');
-	if (k)
-		len = k - s;
-	else
-		len = ft_strlen(s);
-	if (!ft_isalpha(*s) && *s != '_')
-		return (0);
-	while (*s && len-- > 0 && (ft_isalnum(*s) || *s == '_'))
-		s++;
-	if (!*s || *s == '=')
-		return (1);
+	*append = 0;
+	*split = ft_strchr(str, '=');
+	eq = ft_strchr(str, '+');
+	if (eq && eq + 1 == *split)
+		*append = 1;
+	if (!*split)
+		*split = str + ft_strlen(str);
+	if (eq && eq + 1 == *split)
+		*split = eq;
+	*name = ft_substr(str, 0, *split - str);
+	if (**split == '+')
+		(*split)++;
+	if (!name_check(*name))
+		return (-1);
 	return (0);
 }
 
@@ -42,14 +42,11 @@ int	var_parsing(t_lstvar *lst, char *str)
 	char	*split;
 	char	*name;
 	char	*value;
+	int		append;
 
 	if (!lst || !str || !*str)
 		return (-1);
-	split = ft_strchr(str, '=');
-	if (!split)
-		split = str + ft_strlen(str);
-	name = ft_substr(str, 0, split - str);
-	if (!name_check(name))
+	if (split_name(str, &split, &name, &append))
 		return (-1);
 	if (split[0] == '\0')
 		value = NULL;
@@ -59,6 +56,8 @@ int	var_parsing(t_lstvar *lst, char *str)
 		if (!value)
 			return (free(name), -1);
 	}
+	if (append)
+		value = ft_strjoin2(var_get_value(*lst, name), value, 0, 1);
 	if (!var_add(lst, name, value))
 		return (0);
 	if (value)
