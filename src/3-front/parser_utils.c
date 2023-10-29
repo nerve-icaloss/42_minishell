@@ -88,14 +88,14 @@ t_node	*choose_lvl(t_node *parent, t_token *tok, int node_type)
 	if (!parent || !tok)
 		return (errno = ENODATA, NULL);
 	cmd = NULL;
-	if (tok->type == TOK_BRACKET && parent->type != TOK_PIPE)
+	if (tok->type == TOK_BRACKET && parent->type != NODE_PIPE)
 	{
 		src = tok->src;
 		token_clean(tok);
 		tok = tokenize(src);
 		cmd = parse_bracket(tok);
 	}
-	else if (tok->type == TOK_BRACKET && parent->type == TOK_PIPE)
+	else if (tok->type == TOK_BRACKET && parent->type == NODE_PIPE)
 	{
 		cmd = choose_lvl_bracket_error(parent, tok);
 	}

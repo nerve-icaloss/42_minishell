@@ -68,9 +68,6 @@ int	exit_builtin(char *args[], t_myenv *env)
 	char		exit;
 
 	exit = check_exit_args(args, &ret);
-	if (exit)
-		return (exit);
-	exit = (char) ret;
 	if (env->subsh == false)
 	{
 		g_signal = -1;

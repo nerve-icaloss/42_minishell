@@ -18,7 +18,7 @@ t_node 	*choose_lvl_bracket_error(t_node *parent, t_token *tok)
 
 	syntax_error_token(TOK_BRACKET);
 	token_clean(tok);
-	cmd = node_new(NODE_CMD);
+	cmd = node_new(NODE_BRACKET);
 	if (!cmd)
 		return (NULL);
 	parent->exit = 2;
