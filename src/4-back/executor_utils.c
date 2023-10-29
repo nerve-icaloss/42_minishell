@@ -6,7 +6,7 @@
 /*   By: nserve <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/16 12:27:03 by nserve            #+#    #+#             */
-/*   Updated: 2023/10/28 15:41:41 by hmelica          ###   ########.fr       */
+/*   Updated: 2023/10/29 11:31:47 by hmelica          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,6 +86,7 @@ void	wait_cmd(t_execute *exec, t_node *cmd)
 {
 	int	status;
 
+	status = 0;
 	if (!exec || !cmd)
 		return (errno = ENODATA, (void) NULL);
 	if (waitpid(cmd->pid, &status, 0) == cmd->pid && WIFEXITED(status))
