@@ -140,6 +140,7 @@ void	close_tree_doc(t_node *root)
 	while (child)
 	{
 		i = child->next_sibling;
+		close_tree_doc(child);
 		child = i;
 	}
 	if (root->rtype == HEREDOC)
