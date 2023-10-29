@@ -6,7 +6,7 @@
 /*   By: hmelica <hmelica@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/16 21:32:35 by hmelica           #+#    #+#             */
-/*   Updated: 2023/10/29 15:16:16 by hmelica          ###   ########.fr       */
+/*   Updated: 2023/10/29 16:53:11 by hmelica          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ int	name_check(char *s)
 		return (0);
 	while (*s && len-- > 0 && (ft_isalnum(*s) || *s == '_'))
 		s++;
-	if (!*s || *s == '=' || *s == '+')
+	if (!*s || *s == '=' || (*s == '+' && *(s + 1) == '='))
 		return (1);
 	return (0);
 }
@@ -99,7 +99,9 @@ size_t	get_value_size(char *s, t_myenv *env)
 		return (0);
 	k = ft_strchr(s, '=');
 	eq = ft_strchr(s, '+');
-	len = ft_strlen(k + 1);
+	len = 0;
+	if (k && *k)
+		len = ft_strlen(k + 1);
 	if (eq && k == eq + 1 && env)
 	{
 		*eq = '\0';
