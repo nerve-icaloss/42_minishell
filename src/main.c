@@ -6,7 +6,7 @@
 /*   By: nserve & hmelica                           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/10 14:57:45 by hmelica           #+#    #+#             */
-/*   Updated: 2023/10/29 10:59:51 by hmelica          ###   ########.fr       */
+/*   Updated: 2023/10/29 17:24:47 by hmelica          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,7 +122,7 @@ void	rpel_mode(t_myshell *shell)
 	if (!shell)
 		return (errno = ENODATA, (void) NULL);
 	sigint_assign(SIGINT, handler_rpel);
-	// header();
+	header();
 	rpel_loop(shell);
 }
 

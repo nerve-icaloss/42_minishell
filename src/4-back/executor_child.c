@@ -6,7 +6,7 @@
 /*   By: nserve <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/17 11:42:31 by nserve            #+#    #+#             */
-/*   Updated: 2023/10/29 14:32:51 by hmelica          ###   ########.fr       */
+/*   Updated: 2023/10/29 17:25:07 by hmelica          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,8 @@ void	child_pipex_cmd(t_execute *exec, t_myshell *shell)
 	sigint_assign(SIGINT, handler_child);
 	if (exec->toclose_child != -1)
 		close(exec->toclose_child);
-	if (exec->argv && !exec->argv[0] && !exec->builtin_f && !exec->bracket_first_child)
+	if (exec->argv && !exec->argv[0] && !exec->builtin_f
+		&& !exec->bracket_first_child)
 	{
 		close_all_fd_child(exec, shell);
 		return (clean_child(exec, shell), exit (0));

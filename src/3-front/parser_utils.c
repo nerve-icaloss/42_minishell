@@ -6,7 +6,7 @@
 /*   By: nserve <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/06 15:10:03 by nserve            #+#    #+#             */
-/*   Updated: 2023/10/28 15:55:09 by nserve           ###   ########.fr       */
+/*   Updated: 2023/10/29 17:24:28 by hmelica          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,8 +116,6 @@ t_node	*insert_lvl_child(t_node *parent, t_node *child)
 		return (errno = ENODATA, NULL);
 	if (parent == child)
 		return (parent);
-	// if (parent->type == NODE_BRACKET)
-	// 	return (node_tree_clean(child), parent);
 	if (parent->type == NODE_PIPE && child->type == NODE_BRACKET)
 		return (node_tree_clean(child), parent);
 	if (parent->type > child->type)

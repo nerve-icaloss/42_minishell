@@ -6,13 +6,13 @@
 /*   By: nserve <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/28 22:03:11 by nserve            #+#    #+#             */
-/*   Updated: 2023/10/28 23:21:16 by nserve           ###   ########.fr       */
+/*   Updated: 2023/10/29 17:24:10 by hmelica          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../headers/parser.h"
 
-t_node 	*choose_lvl_bracket_error(t_node *parent, t_token *tok)
+t_node	*choose_lvl_bracket_error(t_node *parent, t_token *tok)
 {
 	t_node		*cmd;
 
