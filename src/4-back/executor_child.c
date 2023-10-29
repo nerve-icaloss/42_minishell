@@ -6,7 +6,7 @@
 /*   By: nserve <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/17 11:42:31 by nserve            #+#    #+#             */
-/*   Updated: 2023/10/29 11:15:02 by nserve           ###   ########.fr       */
+/*   Updated: 2023/10/29 14:32:51 by hmelica          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ static void	close_all_fd_child(t_execute *exec, t_myshell *shell)
 	if (exec->std_fd[OUT] > -1)
 		close(exec->std_fd[OUT]);
 }
+
 static void	close_std_fd_child(t_execute *exec)
 {
 	if (exec->std_fd[IN] > -1)
