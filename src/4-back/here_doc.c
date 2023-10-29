@@ -6,7 +6,7 @@
 /*   By: hmelica <hmelica@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/14 16:08:57 by hmelica           #+#    #+#             */
-/*   Updated: 2023/10/29 11:21:59 by hmelica          ###   ########.fr       */
+/*   Updated: 2023/10/29 11:42:06 by hmelica          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ int	here_doc(char *eof, t_myenv *env, int expand)
 	ret[0] = -1;
 	ret[1] = expand;
 	line = NULL;
-	while (buffer || ret >= 0)
+	while (buffer || ret[0] >= 0)
 	{
 		line = ft_readline("> ", handler_heredoc, SIG_IGN);
 		if (!line && g_signal != 130)
