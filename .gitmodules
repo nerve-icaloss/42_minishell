@@ -7,3 +7,6 @@
 [submodule "minishell_tests"]
 	path = minishell_tests
 	url = git@github.com:etyloppihacilem/minishell_tests.git
+[submodule "test"]
+	path = test
+	url = git@github.com:etyloppihacilem/minishell_tests.git
