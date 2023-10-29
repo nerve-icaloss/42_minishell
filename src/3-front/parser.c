@@ -6,7 +6,7 @@
 /*   By: nserve <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/06 09:38:10 by nserve            #+#    #+#             */
-/*   Updated: 2023/10/29 00:44:03 by nserve           ###   ########.fr       */
+/*   Updated: 2023/10/29 15:53:01 by nserve           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,8 @@ t_node	*parse_lvl(t_node *parent, t_token *tok, int node_type)
 	if (!parent || parent->exit || !tok)
 		return (errno = ENODATA, NULL);
 	src = tok->src;
-	while ((tok->type <= node_type || tok->type == TOK_BRACKET))
+	while (!parent->exit &&
+		(tok->type <= node_type || tok->type == TOK_BRACKET))
 	{
 		if (tok->type == node_type)
 			parent = insert_lvl_parent(parent, tok, node_type);
@@ -128,7 +129,7 @@ int	parse_source(t_node **root, t_source *src)
 	if (!cmd)
 		return (1);
 	tok = tokenize(src);
-	if (tok->type == TOK_BRACKET)
+	if (!cmd->exit && tok->type == TOK_BRACKET)
 	{
 		syntax_error_token(TOK_BRACKET);
 		cmd->exit = 2;

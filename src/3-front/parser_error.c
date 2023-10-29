@@ -12,12 +12,25 @@
 
 #include "../../headers/parser.h"
 
+t_node 	*choose_lvl_bracket_error(t_node *parent, t_token *tok)
+{
+	t_node		*cmd;
+
+	syntax_error_token(TOK_BRACKET);
+	token_clean(tok);
+	cmd = node_new(NODE_CMD);
+	if (!cmd)
+		return (NULL);
+	parent->exit = 2;
+	return (cmd);
+}
+
 static int	next_tok_not_word(t_source *src)
 {
 	t_token	*peek_tok;
 
 	peek_tok = tokenize(src);
-	if (TOK_PIPE <= peek_tok->type && peek_tok->type <= TOK_EOF)
+	if (TOK_PIPE < peek_tok->type && peek_tok->type <= TOK_EOF)
 	{
 		untokenize(src);
 		token_clean(peek_tok);

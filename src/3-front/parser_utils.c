@@ -53,7 +53,7 @@ t_node	*choose_first_child(t_token *tok)
 		if (tok->type < TOK_EOB)
 			syntax_error_token(tok->type);
 		token_clean(tok);
-		cmd = node_new(NODE_CMD);
+		cmd = node_new(NODE_BRACKET);
 		if (!cmd)
 			return (NULL);
 		cmd->exit = 2;
@@ -87,19 +87,22 @@ t_node	*choose_lvl(t_node *parent, t_token *tok, int node_type)
 
 	if (!parent || !tok)
 		return (errno = ENODATA, NULL);
-	if (tok->type == TOK_BRACKET)
+	cmd = NULL;
+	if (tok->type == TOK_BRACKET && parent->type != TOK_PIPE)
 	{
 		src = tok->src;
 		token_clean(tok);
 		tok = tokenize(src);
 		cmd = parse_bracket(tok);
 	}
+	else if (tok->type == TOK_BRACKET && parent->type == TOK_PIPE)
+	{
+		cmd = choose_lvl_bracket_error(parent, tok);
+	}
 	else if (tok->type == TOK_WORD)
 		cmd = parse_command(tok);
-	else if (tok->type <= node_type)
+	else if (tok->type != TOK_BRACKET && tok->type <= node_type)
 		cmd = parse_lvl(parent, tok, (node_type - 1));
-	else
-		cmd = NULL;
 	if (cmd && cmd->exit)
 		parent->exit = cmd->exit;
 	return (cmd);
@@ -115,8 +118,8 @@ t_node	*insert_lvl_child(t_node *parent, t_node *child)
 		return (parent);
 	// if (parent->type == NODE_BRACKET)
 	// 	return (node_tree_clean(child), parent);
-	// if (parent->type == NODE_CMD && child->type == NODE_BRACKET)
-	// 	return (node_tree_clean(parent), child);
+	if (parent->type == NODE_PIPE && child->type == NODE_BRACKET)
+		return (node_tree_clean(child), parent);
 	if (parent->type > child->type)
 	{
 		parent_child = parent->first_child;
