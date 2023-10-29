@@ -56,7 +56,7 @@ void	child_pipex_cmd(t_execute *exec, t_myshell *shell)
 	if (exec->argv && !exec->argv[0] && !exec->builtin_f && !exec->bracket_first_child)
 	{
 		close_all_fd_child(exec, shell);
-		return (shell_clean(shell), exit (0));
+		return (clean_child(exec, shell), exit (0));
 	}
 	if (exec->bracket_first_child)
 	{
@@ -68,9 +68,9 @@ void	child_pipex_cmd(t_execute *exec, t_myshell *shell)
 	if (exec->builtin_f)
 	{
 		exec->exit = exec->builtin_f(exec->argv, &shell->env);
-		return (shell_clean(shell), exit(exec->exit));
+		return (clean_child(exec, shell), exit(exec->exit));
 	}
 	sigint_assign(SIGQUIT, SIG_DFL);
 	if (execve(exec->argv[0], exec->argv, shell->env.envp) == SYS_FAIL)
-		return (perror(exec->argv[0]), shell_clean(shell), exit(1));
+		return (perror(exec->argv[0]), clean_child(exec, shell), exit(1));
 }

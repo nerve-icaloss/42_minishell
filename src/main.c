@@ -122,7 +122,7 @@ void	rpel_mode(t_myshell *shell)
 	if (!shell)
 		return (errno = ENODATA, (void) NULL);
 	sigint_assign(SIGINT, handler_rpel);
-	header();
+	// header();
 	rpel_loop(shell);
 }
 
