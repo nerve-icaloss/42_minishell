@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/10 14:58:41 by hmelica           #+#    #+#             */
-/*   Updated: 2023/10/29 10:41:33 by hmelica          ###   ########.fr       */
+/*   Updated: 2023/10/29 10:58:26 by hmelica          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -314,6 +314,5 @@ char			*ft_readline(char *prompt, void (*signal_handler)(int),
 
 void			ft_fork(t_node *cmd);
 void			header(void);
-
 
 #endif

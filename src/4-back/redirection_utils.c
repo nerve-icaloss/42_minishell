@@ -6,7 +6,7 @@
 /*   By: nserve <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/28 18:50:57 by nserve            #+#    #+#             */
-/*   Updated: 2023/10/28 18:51:08 by nserve           ###   ########.fr       */
+/*   Updated: 2023/10/29 10:59:16 by hmelica          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ static char	*check_expanded_redir(t_node *redir, t_myenv *env)
 		return (NULL);
 	x = 0;
 	is_ambigous = 0;
-	while(name[x])
+	while (name[x])
 	{
 		if (ft_isquote(name[x]))
 			break ;

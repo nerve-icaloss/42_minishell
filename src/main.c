@@ -6,7 +6,7 @@
 /*   By: nserve & hmelica                           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/10 14:57:45 by hmelica           #+#    #+#             */
-/*   Updated: 2023/10/29 10:44:38 by hmelica          ###   ########.fr       */
+/*   Updated: 2023/10/29 10:59:51 by hmelica          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 
 volatile int	g_signal;
 
+/*
 void	node_tree_print(t_node *root)
 {
 	t_node	*child;
@@ -58,7 +59,7 @@ void	node_tree_print(t_node *root)
 		write(1, root->val, ft_strlen(root->val));
 		write(1, " ", 1);
 	}
-}
+}*/
 
 void	parse_and_execute(char *cmdline, t_myshell *shell)
 {
