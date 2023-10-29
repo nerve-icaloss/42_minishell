@@ -49,7 +49,10 @@ static int	check_exit_args(char *args[], long long *ret)
 		if (i == 2)
 		{
 			ft_dprintf(2, "minishell: exit: too many arguments\n");
-			return (1);
+			if (is_numeric_arg(args[i - 1], ret))
+				return (-1);
+			else
+				return (2);
 		}
 		if (!is_numeric_arg(args[i], ret))
 		{
@@ -68,6 +71,8 @@ int	exit_builtin(char *args[], t_myenv *env)
 	char		exit;
 
 	exit = check_exit_args(args, &ret);
+	if (exit < 0)
+		return (1);
 	if (env->subsh == false)
 	{
 		g_signal = -1;
