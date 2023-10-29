@@ -103,7 +103,7 @@ void	rpel_mode(t_myshell *shell)
 		if (!cmdline)
 		{
 			if (isatty(STDIN_FILENO))
-				shell->exit = 131;
+				shell->exit = 0;
 			break ;
 		}
 		if (g_signal == 130)

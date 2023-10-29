@@ -113,7 +113,7 @@ t_node	*parse_bracket(t_token *tok)
 	bracket->exit = cmd->exit;
 	node_child_add(bracket, cmd);
 	handle_error_bracket(bracket, tok);
-	return (bracket);
+	return (token_clean(tok), bracket);
 }
 
 int	parse_source(t_node **root, t_source *src)
