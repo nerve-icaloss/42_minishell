@@ -6,7 +6,7 @@
 /*   By: nserve <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/27 11:11:19 by nserve            #+#    #+#             */
-/*   Updated: 2023/10/29 11:23:22 by hmelica          ###   ########.fr       */
+/*   Updated: 2023/10/29 13:00:22 by hmelica          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ int	expand_this_doc(char *val)
 	{
 		i = find_closing_quote(val);
 		if (!i)
-			return(1);
+			return (1);
 		val[i] = '\0';
 		ft_offset(val, 1);
 		return (0);
@@ -74,7 +74,7 @@ int	put_in_buffer(char **buffer, char **line, t_myenv *env, int ret[2])
 		var_expansion(line, env);
 	if (ret[0] < 0 && ft_strlen(*line) + ft_strlen(*buffer) < DOC_BUF - 1)
 		return (ft_strlcat(*buffer, *line, DOC_BUF),
-				ft_strlcat(*buffer, "\n", DOC_BUF), -2);
+			ft_strlcat(*buffer, "\n", DOC_BUF), -2);
 	if (ret[0] < 0)
 	{
 		ret[0] = get_tmp(env);

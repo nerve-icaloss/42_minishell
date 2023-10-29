@@ -6,7 +6,7 @@
 /*   By: hmelica <hmelica@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/14 16:08:57 by hmelica           #+#    #+#             */
-/*   Updated: 2023/10/29 12:12:46 by hmelica          ###   ########.fr       */
+/*   Updated: 2023/10/29 12:59:35 by hmelica          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,9 @@
 #include "../../headers/signal_not_libc.h"
 #include <signal.h>
 #include <unistd.h>
+
+static const char	*g_noeof = "minishell: warning: heredoc delimited by end-of"
+	"-file (wanted";
 
 /*
  * ret[0] is fd
@@ -45,8 +48,7 @@ int	here_doc(char *eof, t_myenv *env, int expand)
 	if (line)
 		free(line);
 	else
-		ft_dprintf(2, "minishell: warning: heredoc delimited by end-of-file (wa"
-			"nted `%s')\n", eof);
+		ft_dprintf(2, "%s `%s')\n", g_noeof, eof);
 	return (here_done(ret[0], buffer, env));
 }
 
