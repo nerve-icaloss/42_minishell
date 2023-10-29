@@ -125,7 +125,7 @@ void	wait_pipex(t_execute *exec, t_node *pipex)
 	if (!WIFSIGNALED(status))
 		return ;
 	if (WTERMSIG(status) == SIGINT)
-		pipex->exit = 130;
+		pipex->exit =  WEXITSTATUS(status);
 	if (WTERMSIG(status) == SIGQUIT)
 	{
 		write(2, "Quit (core dumped)\n", 19);

@@ -22,6 +22,7 @@ static void	close_all_fd_child(t_execute *exec, t_myshell *shell)
 	if (exec->std_fd[OUT] > -1)
 		close(exec->std_fd[OUT]);
 }
+
 static void	close_std_fd_child(t_execute *exec)
 {
 	if (exec->std_fd[IN] > -1)
