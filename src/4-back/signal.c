@@ -6,7 +6,7 @@
 /*   By: nserve <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/22 12:03:22 by nserve            #+#    #+#             */
-/*   Updated: 2023/10/28 15:41:12 by hmelica          ###   ########.fr       */
+/*   Updated: 2023/10/29 18:05:54 by nserve           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,9 @@ void	handler_rpel(int signum)
 void	handler_child(int signum)
 {
 	(void) signum;
-	write(1, "\n", 1);
+	// write(1, "\n", 1);
+	rl_on_new_line();
+	rl_replace_line("", 0);
 }
 
 void	handler_heredoc(int signum)
