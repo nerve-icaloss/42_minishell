@@ -6,7 +6,7 @@
 #    By: marvin <marvin@42.fr>                      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/04/13 14:06:13 by hmelica           #+#    #+#              #
-#    Updated: 2023/10/29 15:51:15 by hmelica          ###   ########.fr        #
+#    Updated: 2023/10/29 16:19:03 by hmelica          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -122,7 +122,7 @@ SANITIZE_FLAG	= -fsanitize=address
 # N'affiche pas le changement de directory lors du ${MAKE} -c
 MAKEFLAGS += --no-print-directory
 
-CC = gcc
+CC = cc
 
 TEST_MODE = -D TEST_MODE
 # comment to disable test and compile with static
