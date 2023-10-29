@@ -12,6 +12,24 @@
 
 #include "../../headers/parser.h"
 
+static int	next_tok_not_word(t_source *src)
+{
+	t_token	*peek_tok;
+
+	peek_tok = tokenize(src);
+	if (TOK_PIPE <= peek_tok->type && peek_tok->type <= TOK_EOF)
+	{
+		untokenize(src);
+		token_clean(peek_tok);
+		return (0);
+	}
+	else
+	{
+		token_clean(peek_tok);
+		return (1);
+	}
+}
+
 void	handle_error_bracket(t_node *parent, t_token *tok)
 {
 	t_source	*src;
@@ -27,6 +45,11 @@ void	handle_error_bracket(t_node *parent, t_token *tok)
 		parent->exit = 2;
 	}
 	if (!parent->exit && parent->children < 1)
+	{
+		syntax_error_token(TOK_EOB);
+		parent->exit = 2;
+	}
+	if (tok->type == TOK_EOB && next_tok_not_word(src))
 	{
 		syntax_error_token(TOK_EOB);
 		parent->exit = 2;

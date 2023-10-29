@@ -46,8 +46,7 @@ void	tok_buf_add(t_source *src, char c)
 {
 	char	*tmp;
 
-	src->tok_buf[src->tok_bufindex++] = c;
-	if (src->tok_bufindex >= src->tok_bufsize)
+	if (src->tok_bufindex > src->tok_bufsize)
 	{
 		tmp = ft_strrealloc(src->tok_buf, src->tok_bufsize * 2);
 		if (!tmp)
@@ -55,6 +54,7 @@ void	tok_buf_add(t_source *src, char c)
 		src->tok_buf = tmp;
 		src->tok_bufsize *= 2;
 	}
+	src->tok_buf[src->tok_bufindex++] = c;
 }
 
 void	tok_buf_pop(t_source *src)

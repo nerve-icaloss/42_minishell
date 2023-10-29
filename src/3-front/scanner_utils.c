@@ -42,10 +42,7 @@ int	scan_verticalbar(t_source *src, char nc)
 	if ((nc == '|' && nc2 == '|') || (nc == ' ' && nc2 == '|'))
 	{
 		src->tok_type = TOK_SYNTAX;
-		if (nc == '|')
-			syntax_error_token(TOK_OR);
-		if (nc == ' ')
-			syntax_error_token(TOK_PIPE);
+		syntax_error_token(TOK_PIPE);
 	}
 	else if (nc == '|')
 	{
