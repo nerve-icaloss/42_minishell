@@ -6,7 +6,7 @@
 #    By: marvin <marvin@42.fr>                      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/04/13 14:06:13 by hmelica           #+#    #+#              #
-#    Updated: 2023/10/28 22:16:43 by hmelica          ###   ########.fr        #
+#    Updated: 2023/10/29 10:12:33 by hmelica          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -64,6 +64,7 @@ SRCS_FILES	=	\
 				2-builtin/blt_export.c \
 				2-builtin/blt_pwd.c \
 				2-builtin/blt_unset.c \
+				3-front/header.c \
 				3-front/parser.c \
 				3-front/parser_error.c \
 				3-front/parser_redir.c \
