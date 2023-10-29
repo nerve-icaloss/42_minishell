@@ -6,7 +6,7 @@
 #    By: marvin <marvin@42.fr>                      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/04/13 14:06:13 by hmelica           #+#    #+#              #
-#    Updated: 2023/10/29 10:12:33 by hmelica          ###   ########.fr        #
+#    Updated: 2023/10/29 14:35:03 by hmelica          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -202,7 +202,7 @@ ${LIBFT}: force
 norm:
 	@printf "\n\033[1;33mChecking norm...\033[0m %-18s" " "
 	@echo $$(a=$$(git ls-files | grep -E ".*\.[ch]$$" | grep -v "test" | \
-	xargs -n 4 -P 4 norminette | grep --color=always Error) ; b=$$(printf "%s" "$$a" | wc -l) ; \
+	xargs -n 4 -P 0 norminette | grep --color=always Error) ; b=$$(printf "%s" "$$a" | wc -l) ; \
 	if [ $$b -eq 0 ]; then ${ECHO} "\033[1;32mdone\033[0m" ; \
 	else ${ECHO} "\033[1;31mERROR\033[0m" ; printf "%s\n" "$$a" ; fi ; ) | sed \
 	"s/Error/\nError/Ig"
