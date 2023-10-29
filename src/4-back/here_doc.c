@@ -6,7 +6,7 @@
 /*   By: hmelica <hmelica@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/14 16:08:57 by hmelica           #+#    #+#             */
-/*   Updated: 2023/10/29 00:02:17 by hmelica          ###   ########.fr       */
+/*   Updated: 2023/10/29 11:21:59 by hmelica          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ int	here_doc(char *eof, t_myenv *env, int expand)
 	buffer = ft_calloc(sizeof(char), DOC_BUF);
 	ret[0] = -1;
 	ret[1] = expand;
+	line = NULL;
 	while (buffer || ret >= 0)
 	{
 		line = ft_readline("> ", handler_heredoc, SIG_IGN);
@@ -43,7 +44,8 @@ int	here_doc(char *eof, t_myenv *env, int expand)
 		ret[0] = put_in_buffer(&buffer, &line, env, ret);
 		free(line);
 	}
-	free(line);
+	if (line)
+		free(line);
 	return (here_done(ret[0], buffer, env));
 }
 
@@ -62,7 +64,7 @@ static int	this_doc(char **val, t_myenv *env)
 	stdin_fd = dup(STDIN_FILENO);
 	if (stdin_fd == SYS_FAIL)
 		return (perror("dup hd"), -1);
-	fd = here_doc(*val, env, expand_this_doc(val));
+	fd = here_doc(*val, env, expand_this_doc(*val));
 	sigint_assign(SIGINT, handler_failed_hd);
 	if (fd != -1)
 		sigint_assign(SIGINT, handler_rpel);

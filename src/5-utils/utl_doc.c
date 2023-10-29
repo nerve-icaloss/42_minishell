@@ -6,7 +6,7 @@
 /*   By: nserve <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/27 11:11:19 by nserve            #+#    #+#             */
-/*   Updated: 2023/10/28 23:48:27 by hmelica          ###   ########.fr       */
+/*   Updated: 2023/10/29 11:23:22 by hmelica          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,16 +14,20 @@
 #include "../../headers/expander.h"
 #include "../../headers/here_doc.h"
 
-int	expand_this_doc(char **val)
+int	expand_this_doc(char *val)
 {
 	long	i;
 
+	if (!val)
+		return (0);
 	i = -1;
-	if (*val[0] == '\'' || *val[0] == '"')
+	if (*val == '\'' || *val == '"')
 	{
-		i = find_closing_quote(*val);
-		*val[i] = '\0';
-		ft_offset(*val, 1);
+		i = find_closing_quote(val);
+		if (!i)
+			return(1);
+		val[i] = '\0';
+		ft_offset(val, 1);
 		return (0);
 	}
 	return (1);
@@ -56,7 +60,7 @@ int	here_done(int ret, char *buffer, t_myenv *env)
 	{
 		if (pipe(fd))
 			return (free(buffer), -2);
-		write_doc_pipe(fd[1], buffer);
+		write(fd[1], buffer, ft_strlen(buffer));
 		free(buffer);
 		close(fd[1]);
 		return (get_tmp(NULL), fd[0]);

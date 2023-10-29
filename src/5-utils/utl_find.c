@@ -6,7 +6,7 @@
 /*   By: nserve <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/14 18:56:44 by nserve            #+#    #+#             */
-/*   Updated: 2023/10/24 12:46:35 by nserve           ###   ########.fr       */
+/*   Updated: 2023/10/29 11:14:21 by hmelica          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ size_t	find_closing_quote(char *data)
 	if (quote != '\'' && quote != '"')
 		return (0);
 	i = 0;
-	len = strlen(data);
+	len = ft_strlen(data);
 	while (++i < len)
 		if (data[i] == quote)
 			return (i);
