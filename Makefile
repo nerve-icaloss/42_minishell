@@ -208,14 +208,12 @@ norm:
 	"s/Error/\nError/Ig"
 
 clean:
-	@${MAKE} -C test fclean
 	@${MAKE} -C ${LIBFT_DIR} clean
 	@${RM} ${OBJS} ${OBJS_BONUS}
 	@${RMDIR} ${OBJS_DIR}/1-data ${OBJS_DIR}/2-builtin ${OBJS_DIR}/3-front ${OBJS_DIR}/4-back ${OBJS_DIR}/5-utils ${OBJS_DIR}
 	@printf "\033[1;34m%-44s\033[0m \033[1;32m%s\033[0m\n" "Cleaning" "done"
 
 fclean: clean
-	@${MAKE} -C test fclean
 	@${MAKE} -C ${LIBFT_DIR} fclean
 	@${RM} ${NAME} ${NAME_BONUS}
 	@${RM} tags
