@@ -12,6 +12,32 @@
 
 #include "../../headers/parser.h"
 
+t_node	*bracket_first_child(t_token *tok)
+{
+	t_source	*src;
+	t_node		*cmd;
+
+	if (!tok)
+		return (errno = ENODATA, NULL);
+	src = tok->src;
+	if (tok->type == TOK_EOB)
+	{
+		syntax_error_token(TOK_EOB);
+		token_clean(tok);
+		cmd = node_new(NODE_CMD);
+		if (!cmd)
+			return (NULL);
+		cmd->exit = 2;
+	}
+	else
+	{
+		token_clean(tok);
+		tok = tokenize(src);
+		cmd = parse_bracket(tok);
+	}
+	return (cmd);
+}
+
 t_node	*choose_first_child(t_token *tok)
 {
 	t_source	*src;
@@ -22,12 +48,8 @@ t_node	*choose_first_child(t_token *tok)
 	src = tok->src;
 	if (tok->type == TOK_WORD)
 		cmd = parse_command(tok);
-	else if (tok->type == TOK_BRACKET)
-	{
-		token_clean(tok);
-		tok = tokenize(src);
-		cmd = parse_bracket(tok);
-	}
+	else if (tok->type == TOK_BRACKET || tok->type == TOK_EOB)
+		cmd = bracket_first_child(tok);
 	else
 	{
 		if (tok->type < TOK_EOB)
@@ -91,6 +113,8 @@ t_node	*insert_lvl_child(t_node *parent, t_node *child)
 
 	if (!parent || !child)
 		return (errno = ENODATA, NULL);
+	if (parent == child)
+		return (parent);
 	if (parent->type == NODE_BRACKET)
 		return (node_tree_clean(child), parent);
 	if (parent->type == NODE_CMD && child->type == NODE_BRACKET)
@@ -109,33 +133,4 @@ t_node	*insert_lvl_child(t_node *parent, t_node *child)
 	}
 	else
 		return (child);
-}
-
-void	handle_error_and_clean(t_node *parent, t_token *tok, int type)
-{
-	t_source	*src;
-
-	if (!parent || !tok)
-		return (errno = ENODATA, (void) NULL);
-	src = tok->src;
-	if (type != NODE_BRACKET)
-		if (type < tok->type && tok->type < TOK_EOF)
-			untokenize(src);
-	if (tok->type == TOK_SYNTAX)
-		parent->exit = 2;
-	if (type == NODE_BRACKET && tok->type != TOK_EOB)
-		parent->exit = 2;
-	if (!parent->exit && parent->type != NODE_BRACKET
-		&& parent->children < 2 && type >= NODE_PIPE)
-	{
-		syntax_error_node(type);
-		parent->exit = 2;
-	}
-	if (!parent->exit && parent->type == NODE_BRACKET
-		&& parent->children < 1 && type == NODE_BRACKET)
-	{
-		syntax_error_node(type);
-		parent->exit = 2;
-	}
-	token_clean(tok);
 }

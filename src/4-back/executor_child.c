@@ -32,7 +32,6 @@ static void	clean_child(t_execute *exec, t_myshell *shell)
 void	child_cmd(t_execute *exec, t_myshell *shell)
 {
 	sigint_assign(SIGINT, handler_child);
-	sigint_assign(SIGQUIT, SIG_IGN);
 	close_fd_child(exec, shell);
 	sigint_assign(SIGQUIT, SIG_DFL);
 	if (execve(exec->argv[0], exec->argv, shell->env.envp) == SYS_FAIL)

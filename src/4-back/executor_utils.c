@@ -88,7 +88,6 @@ void	wait_cmd(t_execute *exec, t_node *cmd)
 
 	if (!exec || !cmd)
 		return (errno = ENODATA, (void) NULL);
-	sigint_assign(SIGINT, SIG_IGN);
 	if (waitpid(cmd->pid, &status, 0) == cmd->pid && WIFEXITED(status))
 		cmd->exit = WEXITSTATUS(status);
 	else
@@ -108,7 +107,6 @@ void	wait_pipex(t_execute *exec, t_node *pipex)
 
 	if (!exec || !pipex)
 		return (errno = ENODATA, (void) NULL);
-	sigint_assign(SIGINT, SIG_IGN);
 	cmd = pipex->first_child;
 	while (cmd->next_sibling)
 	{

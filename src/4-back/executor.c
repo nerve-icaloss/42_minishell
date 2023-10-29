@@ -6,7 +6,7 @@
 /*   By: nserve <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/16 11:49:35 by nserve            #+#    #+#             */
-/*   Updated: 2023/10/28 15:41:24 by hmelica          ###   ########.fr       */
+/*   Updated: 2023/10/29 10:02:16 by nserve           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,7 +124,7 @@ int	execute_tree(t_node *root, t_myshell *shell)
 	if (!root->parent && (root->type == NODE_PIPE || root->type == NODE_CMD))
 		return (node_tree_clean(root), exit);
 	child = root->first_child;
-	while (child)
+	while (root->type != NODE_PIPE && child)
 	{
 		i = child->next_sibling;
 		exit = execute_tree(child, shell);

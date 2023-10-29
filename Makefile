@@ -65,6 +65,7 @@ SRCS_FILES	=	\
 				2-builtin/blt_pwd.c \
 				2-builtin/blt_unset.c \
 				3-front/parser.c \
+				3-front/parser_error.c \
 				3-front/parser_redir.c \
 				3-front/parser_utils.c \
 				3-front/scanner.c \

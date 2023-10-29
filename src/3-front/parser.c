@@ -6,7 +6,7 @@
 /*   By: nserve <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/06 09:38:10 by nserve            #+#    #+#             */
-/*   Updated: 2023/10/28 15:13:28 by nserve           ###   ########.fr       */
+/*   Updated: 2023/10/29 00:44:03 by nserve           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ t_node	*parse_command(t_token *tok)
 		node_child_add(cmd, word);
 		tok = tokenize(src);
 	}
-	if (0 < src->tok_type && src->tok_type < TOK_EOF)
+	if (0 <= src->tok_type && src->tok_type < TOK_EOF)
 		untokenize(src);
 	if (src->tok_type == TOK_SYNTAX)
 		cmd->exit = 2;
@@ -83,7 +83,7 @@ t_node	*parse_lvl(t_node *parent, t_token *tok, int node_type)
 			return (NULL);
 		tok = tokenize(src);
 	}
-	handle_error_and_clean(parent, tok, node_type);
+	handle_error_lvl(parent, tok, node_type);
 	return (parent);
 }
 
@@ -112,7 +112,7 @@ t_node	*parse_bracket(t_token *tok)
 	}
 	bracket->exit = cmd->exit;
 	node_child_add(bracket, cmd);
-	handle_error_and_clean(bracket, tok, NODE_BRACKET);
+	handle_error_bracket(bracket, tok);
 	return (bracket);
 }
 
@@ -128,6 +128,11 @@ int	parse_source(t_node **root, t_source *src)
 	if (!cmd)
 		return (1);
 	tok = tokenize(src);
+	if (tok->type == TOK_BRACKET)
+	{
+		syntax_error_token(TOK_BRACKET);
+		cmd->exit = 2;
+	}
 	while (!cmd->exit && tok->type != TOK_EOF)
 	{
 		cmd = parse_lvl(cmd, tok, TOK_AND);

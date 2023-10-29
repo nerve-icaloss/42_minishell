@@ -6,7 +6,7 @@
 /*   By: nserve & hmelica                           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/10 14:57:45 by hmelica           #+#    #+#             */
-/*   Updated: 2023/10/28 15:28:26 by hmelica          ###   ########.fr       */
+/*   Updated: 2023/10/29 00:46:41 by nserve           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,7 @@ void	parse_and_execute(char *cmdline, t_myshell *shell)
 	{
 		if (g_signal == 130)
 			shell->exit = g_signal;
-		else if (g_signal == -1)
+		else if (g_signal == 4)
 			shell->exit = 0;
 		else
 			shell->exit = exit;
@@ -101,13 +101,17 @@ void	rpel_mode(t_myshell *shell)
 		cmdline = ft_readline("minishell-1.0$ ", NULL, handler_rpel);
 		if (!cmdline)
 		{
-			free(cmdline);
 			if (isatty(STDIN_FILENO))
 				shell->exit = 131;
 			break ;
 		}
+		if (g_signal == 130)
+			shell->exit = 130;
 		if (cmdline[0] == '\0' || cmdline[0] == '\n')
+		{
+			free(cmdline);
 			continue ;
+		}
 		if (entry_add(&shell->hist, cmdline) == -1)
 			write(2, "error login history\n", 20);
 		parse_and_execute(cmdline, shell);
@@ -125,6 +129,7 @@ void	cmd_mode(t_myshell *shell, int argc, char *argv[])
 	if (!cmdline)
 		return (shell->exit = 1, (void) NULL);
 	parse_and_execute(cmdline, shell);
+	shell->root = NULL;
 }
 
 int	main(int argc, char *argv[], char *envp[])

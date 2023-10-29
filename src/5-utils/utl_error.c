@@ -34,6 +34,8 @@ void	syntax_error_token(t_tok_type tok_type)
 		write(2, "minishell: syntax error near unexpected token `&&'\n", 51);
 	if (tok_type == TOK_BRACKET)
 		write(2, "minishell: syntax error near unexpected token `('\n", 50);
+	if (tok_type == TOK_EOB)
+		write(2, "minishell: syntax error near unexpected token `)'\n", 50);
 	if (tok_type == TOK_EOF)
 		write(2, "minishell: syntax error near unexpected token `newline'\n",
 			56);
