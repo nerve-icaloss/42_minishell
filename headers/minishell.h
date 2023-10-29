@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/10 14:58:41 by hmelica           #+#    #+#             */
-/*   Updated: 2023/10/28 15:51:16 by hmelica          ###   ########.fr       */
+/*   Updated: 2023/10/28 22:06:30 by hmelica          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -286,9 +286,17 @@ void			syntax_error_redir(t_redir_type redir_type);
 void			cmd_notfound(char *str);
 void			path_notfound(void);
 
-t_myenv			*expand_this_doc(char **val, t_myenv *env);
+# define DOC_BUF 4096
+# define DOC_MAXFILES 4000
+
+int				expand_this_doc(char **val);
 void			write_doc_pipe(int fd, char *line);
-int				doc_happend(char *line, char *eof, int write_fd, t_myenv *env);
+int				doc_append(char *line, char *eof, char *buffer, t_myenv *env);
+int				get_tmp(t_myenv *env);
+int				is_eof(char *eof, char *line);
+int				here_done(char *buffer, t_myenv *env);
+int				put_in_buffer(char **buffer, char **line, t_myenv *env,
+					int ret[2]);
 
 int				ft_access(char *cmd_path, t_execute *exec);
 

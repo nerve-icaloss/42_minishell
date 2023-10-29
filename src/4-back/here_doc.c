@@ -6,7 +6,7 @@
 /*   By: hmelica <hmelica@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/14 16:08:57 by hmelica           #+#    #+#             */
-/*   Updated: 2023/10/28 15:40:36 by hmelica          ###   ########.fr       */
+/*   Updated: 2023/10/28 22:06:30 by hmelica          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,34 +17,34 @@
 #include <unistd.h>
 
 /*
- * Use myenv == NULL to disable var_expansion
- * multiply by 1 or 0 if needed
- * line[1] is the line just readed and line[0] is all concatened lines.
+ * ret[0] is fd
+ * ret[1] is expand
  * */
-int	here_doc(char *eof, t_myenv *env)
+int	here_doc(char *eof, t_myenv *env, int expand)
 {
-	int		fd[2];
-	int		ret;
+	int		ret[2];
 	char	*line;
+	char	*buffer;
 
-	if (!eof || pipe(fd))
+	if (!eof)
 		return (-1);
-	while (1)
+	buffer = ft_calloc(sizeof(char), DOC_BUF);
+	ret[0] = -1;
+	ret[1] = expand;
+	while (buffer || ret >= 0)
 	{
 		line = ft_readline("> ", handler_heredoc, SIG_IGN);
 		if (!line && g_signal != 130)
-			return (close(fd[1]), close(fd[0]), 0);
+			return (get_tmp(NULL), free(buffer), 0);
 		if (!line)
-			return (close(fd[1]), close(fd[0]), g_signal = 4, -1);
-		ret = doc_happend(line, eof, fd[1], env);
-		if (ret != 2)
-		{
-			if (ret == 0)
-				return (close(fd[1]), fd[0]);
-			else
-				return (close(fd[1]), close(fd[0]), ret);
-		}
+			return (get_tmp(NULL), free(buffer), g_signal = -1, -1);
+		if (is_eof(eof, line))
+			break ;
+		ret[0] = put_in_buffer(&buffer, &line, env, ret);
+		free(line);
 	}
+	free(line);
+	return (here_done(buffer, env));
 }
 
 /*
@@ -59,11 +59,10 @@ static int	this_doc(char **val, t_myenv *env)
 	fd = -1;
 	if (!val || !*val)
 		return (fd);
-	env = expand_this_doc(val, env);
 	stdin_fd = dup(STDIN_FILENO);
 	if (stdin_fd == SYS_FAIL)
 		return (perror("dup hd"), -1);
-	fd = here_doc(*val, env);
+	fd = here_doc(*val, env, expand_this_doc(val));
 	sigint_assign(SIGINT, handler_failed_hd);
 	if (fd != -1)
 		sigint_assign(SIGINT, handler_rpel);
