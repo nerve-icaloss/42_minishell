@@ -6,7 +6,7 @@
 /*   By: nserve <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/27 14:24:42 by nserve            #+#    #+#             */
-/*   Updated: 2023/10/27 22:10:15 by hmelica          ###   ########.fr       */
+/*   Updated: 2023/11/02 12:16:36 by nserve           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,16 +94,11 @@ char	*check_cmd_path(t_execute *exec, char *name)
 	struct stat	sb;
 	char		*ret;
 
-	if (name[0] == '.' && name[1] != '/')
+	if (name[0] == '.' && name[1] == '\0')
 	{
-		if (name[1] == '\0')
-		{
-			ft_dprintf(2, "minishell: %s: filename argument required\n", name);
-			exec->exit = 1;
-			ret = NULL;
-		}
-		else
-			ret = NULL;
+		ft_dprintf(2, "minishell: %s: filename argument required\n", name);
+		exec->exit = 1;
+		ret = NULL;
 	}
 	else if (stat(name, &sb) == 0 && sb.st_mode && S_ISDIR(sb.st_mode))
 	{
