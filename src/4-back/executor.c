@@ -50,7 +50,7 @@ int	execute_cmd(t_node *cmd, t_myshell *shell)
 	if (execute_cmd_init(&exec, cmd, &shell->env))
 		return (exec_clean(&exec), exec.exit);
 	if (apply_redirection(&exec, cmd))
-		return (exec_clean(&exec), exec.exit);
+		return (reset_redirection(&exec, cmd), exec_clean(&exec), exec.exit);
 	if (!exec.argv[0])
 		return (reset_redirection(&exec, cmd), exec_clean(&exec), 0);
 	if (search_exec_path(&exec, &shell->env))
@@ -81,11 +81,8 @@ int	execute_pipex(t_node *pipex, t_myshell *shell)
 	while (cmd)
 	{
 		exec_reset(&exec);
-		if (execute_pipex_init(&exec, pipex, cmd, &shell->env)
-			|| apply_redirection(&exec, cmd) || (!exec.bracket_first_child
-				&& search_exec_path(&exec, &shell->env)))
+		if (execute_pipex_init(&exec, pipex, cmd, &shell->env))
 		{
-			reset_redirection(&exec, cmd);
 			cmd = cmd->next_sibling;
 			continue ;
 		}
@@ -102,6 +99,8 @@ int	stop_execute(t_node *node, int exit)
 {
 	if (!node)
 		return (errno = ENODATA, 1);
+	if (g_signal)
+		exit = g_signal;
 	if (node->type == NODE_AND && exit > 0)
 		return (1);
 	if (node->type == NODE_OR && exit == 0)

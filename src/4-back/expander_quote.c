@@ -74,7 +74,7 @@ int	remove_quotes_str(char **str)
 			return (0);
 		ft_offset(j, 1);
 		ft_offset(i, 1);
-		i = j - 2;
+		i = j - 1;
 	}
 	return (0);
 }

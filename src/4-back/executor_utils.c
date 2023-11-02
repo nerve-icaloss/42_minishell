@@ -71,15 +71,13 @@ int	execute_pipex_init(t_execute *exec, t_node *pipex, t_node *cmd,
 	}
 	else
 		exec->toclose_child = -1;
-	if (cmd->type == NODE_BRACKET)
-	{
-		exec->bracket_first_child = cmd->first_child;
-		return (0);
-	}
 	if (execute_cmd_init(exec, cmd, env))
-		return (1);
-	else
-		return (0);
+		return (close_pipe_in(cmd), exec->exit = 1, 1);
+	if (apply_redirection(exec, cmd))
+		return (reset_redirection(exec, cmd), exec->exit);
+	if (search_exec_path(exec, env))
+		return (reset_redirection(exec, cmd), exec->exit);
+	return (0);
 }
 
 void	wait_cmd(t_execute *exec, t_node *cmd)
@@ -125,7 +123,7 @@ void	wait_pipex(t_execute *exec, t_node *pipex)
 	if (!WIFSIGNALED(status))
 		return ;
 	if (WTERMSIG(status) == SIGINT)
-		pipex->exit = WEXITSTATUS(status);
+		pipex->exit = 130;
 	if (WTERMSIG(status) == SIGQUIT)
 	{
 		write(2, "Quit (core dumped)\n", 19);

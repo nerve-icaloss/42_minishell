@@ -23,14 +23,6 @@ static void	close_all_fd_child(t_execute *exec, t_myshell *shell)
 		close(exec->std_fd[OUT]);
 }
 
-static void	close_std_fd_child(t_execute *exec)
-{
-	if (exec->std_fd[IN] > -1)
-		close(exec->std_fd[IN]);
-	if (exec->std_fd[OUT] > -1)
-		close(exec->std_fd[OUT]);
-}
-
 static void	clean_child(t_execute *exec, t_myshell *shell)
 {
 	if (exec->argv)
@@ -53,19 +45,9 @@ void	child_pipex_cmd(t_execute *exec, t_myshell *shell)
 	sigint_assign(SIGINT, handler_child);
 	if (exec->toclose_child != -1)
 		close(exec->toclose_child);
-	if (exec->argv && !exec->argv[0] && !exec->builtin_f
-		&& !exec->bracket_first_child)
-	{
-		close_all_fd_child(exec, shell);
-		return (clean_child(exec, shell), exit (0));
-	}
-	if (exec->bracket_first_child)
-	{
-		close_std_fd_child(exec);
-		exec->exit = execute_tree(exec->bracket_first_child, shell);
-		return (shell_clean(shell), exit(exec->exit));
-	}
 	close_all_fd_child(exec, shell);
+	if (exec->argv && !exec->argv[0] && !exec->builtin_f)
+		return (clean_child(exec, shell), exit (0));
 	if (exec->builtin_f)
 	{
 		exec->exit = exec->builtin_f(exec->argv, &shell->env);

@@ -251,7 +251,6 @@ t_builtin		**builtin_init(void);
 void			builtin_clean(t_builtin **builtins);
 
 typedef struct s_execute {
-	t_node	*bracket_first_child;
 	int		(*builtin_f)(char **, t_myenv *);
 	int		argc;
 	int		argv_size;
@@ -304,7 +303,8 @@ int				open_read(char *file);
 int				open_append(char *file);
 int				open_trunc(char *file);
 
-void			close_redirection(t_node *cmd, int fd);
+void			close_redirection(t_node *cmd, int mode);
+void			close_pipe_in(t_node *cmd);
 
 size_t			find_closing_quote(char *data);
 size_t			find_closing_brace(char *data);

@@ -12,12 +12,22 @@
 
 #include "../../headers/minishell.h"
 
-void	close_redirection(t_node *cmd, int fd)
+void	close_redirection(t_node *cmd, int mode)
 {
-	if (cmd->fd[fd] > 0)
+	if (cmd->fd[mode] > 0)
 	{
-		if (close(cmd->fd[fd]))
+		if (close(cmd->fd[mode]) == SYS_FAIL)
 			perror("close");
-		cmd->fd[fd] = -1;
+		cmd->fd[mode] = -1;
+	}
+}
+
+void	close_pipe_in(t_node *cmd)
+{
+	if (cmd->fd[IN] > 0)
+	{
+		if (close(cmd->fd[IN]) == SYS_FAIL)
+			perror("close");
+		cmd->fd[IN] = -1;
 	}
 }
