@@ -78,7 +78,8 @@ int	exit_builtin(char *args[], t_myenv *env)
 	if (env->subsh == false)
 	{
 		g_signal = -1;
-		write(2, "exit\n", 5);
+		if (isatty(STDIN_FILENO))
+			write(2, "exit\n", 5);
 	}
 	if (!args[1])
 		ret = *env->exit;

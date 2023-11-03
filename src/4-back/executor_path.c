@@ -100,6 +100,10 @@ char	*check_cmd_path(t_execute *exec, char *name)
 		exec->exit = 1;
 		ret = NULL;
 	}
+	else if (name[0] == '.' && name[1] == '.' && name[2] == '\0')
+		ret = NULL;
+	else if (name[0] == '.' && !(name[1] == '.' || name[1] == '/'))
+		ret = NULL;
 	else if (stat(name, &sb) == 0 && sb.st_mode && S_ISDIR(sb.st_mode))
 	{
 		errno = EISDIR;
