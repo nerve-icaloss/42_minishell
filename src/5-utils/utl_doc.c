@@ -6,7 +6,7 @@
 /*   By: nserve <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/27 11:11:19 by nserve            #+#    #+#             */
-/*   Updated: 2023/10/29 13:00:22 by hmelica          ###   ########.fr       */
+/*   Updated: 2023/11/03 14:16:04 by hmelica          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,10 +33,11 @@ int	expand_this_doc(char *val)
 	return (1);
 }
 
-void	write_doc_pipe(int fd, char *line)
+int	write_doc_pipe(int fd, char *line)
 {
-	write(fd, line, ft_strlen(line));
-	write(fd, "\n", 1);
+	if (write(fd, line, ft_strlen(line)) < 0 || write(fd, "\n", 1) < 0)
+		return (-1);
+	return (0);
 }
 
 int	is_eof(char *eof, char *line)
@@ -52,16 +53,17 @@ int	is_eof(char *eof, char *line)
 	return (0);
 }
 
-int	here_done(int ret, char *buffer, t_myenv *env)
+int	here_done(int ret, char *buf, t_myenv *env)
 {
 	int	fd[2];
 
 	if (ret <= 0)
 	{
 		if (pipe(fd))
-			return (free(buffer), -2);
-		write(fd[1], buffer, ft_strlen(buffer));
-		free(buffer);
+			return (free(buf), get_tmp(NULL), -2);
+		if (write(fd[1], buf, ft_strlen(buf)) < 0)
+			return (free(buf), close(fd[1]), close(fd[0]), get_tmp(NULL), -1);
+		free(buf);
 		close(fd[1]);
 		return (get_tmp(NULL), fd[0]);
 	}
@@ -80,11 +82,13 @@ int	put_in_buffer(char **buffer, char **line, t_myenv *env, int ret[2])
 		ret[0] = get_tmp(env);
 		if (ret[0] < 0)
 			return (-2);
-		write(ret[0], *buffer, ft_strlen(*buffer));
+		if (write(ret[0], *buffer, ft_strlen(*buffer)) < 0)
+			return (-1);
 		*buffer = ft_memset(*buffer, '\0', DOC_BUF);
 	}
 	if (ret[0] < 0)
 		return (-1);
-	write_doc_pipe(ret[0], *line);
+	if (write_doc_pipe(ret[0], *line))
+		return (-1);
 	return (ret[0]);
 }
