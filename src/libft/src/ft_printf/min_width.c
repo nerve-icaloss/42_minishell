@@ -6,7 +6,7 @@
 /*   By: hmelica <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/14 14:29:44 by hmelica           #+#    #+#             */
-/*   Updated: 2023/09/24 10:56:07 by hmelica          ###   ########.fr       */
+/*   Updated: 2023/11/03 13:55:14 by hmelica          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,14 +99,17 @@ int	display(char *s, t_insert ins, int force_len, int fd)
 	if (ins.min_width > 0 && !check_flag(ins.flags, '-'))
 	{
 		while (ins.min_width-- > 0 && ++ret)
-			write(fd, " ", 1);
+			if (write(fd, " ", 1) < 0)
+				return (-1);
 	}
-	write(fd, s, len);
+	if (write(fd, s, len) < 0)
+		return (-1);
 	ret += len;
 	if (ins.min_width > 0 && check_flag(ins.flags, '-'))
 	{
 		while (ins.min_width-- > 0 && ++ret)
-			write(fd, " ", 1);
+			if (write(fd, " ", 1) < 0)
+				return (-1);
 	}
 	return (ret);
 }

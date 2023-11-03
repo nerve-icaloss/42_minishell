@@ -6,7 +6,7 @@
 /*   By: hmelica <hmelica@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/27 15:24:31 by hmelica           #+#    #+#             */
-/*   Updated: 2023/10/26 18:48:42 by hmelica          ###   ########.fr       */
+/*   Updated: 2023/11/03 14:05:41 by hmelica          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,10 @@ int	echo_builtin(char **argv, t_myenv *env)
 		return (-1);
 	argv++;
 	if (!*argv)
-		return (write(1, "\n", 1), 0);
+		if (write(1, "\n", 1) < 0)
+			return (ft_dprintf(2, "minishell: echo: %s\n", strerror(errno)));
+	if (!*argv)
+		return (0);
 	ret = flag_parkour(&argv);
 	while (*argv)
 	{
@@ -92,10 +95,8 @@ int	echo_builtin(char **argv, t_myenv *env)
 			end = "";
 		else if (!argv[1])
 			end = "\n";
-		if (**argv)
-			ft_printf("%s%s", *argv, end);
-		else
-			ft_printf("%s", end);
+		if (ft_printf("%s%s", *argv, end) < 0)
+			return (ft_dprintf(2, "minishell: echo: %s\n", strerror(errno)), 1);
 		argv++;
 	}
 	return (0);

@@ -6,7 +6,7 @@
 /*   By: hmelica <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/14 18:39:28 by hmelica           #+#    #+#             */
-/*   Updated: 2023/09/24 11:11:08 by hmelica          ###   ########.fr       */
+/*   Updated: 2023/11/03 13:49:26 by hmelica          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,14 +15,17 @@
 /*
 Recursiviely write an int
 */
-void	dec_rec(unsigned int i, int fd)
+int	dec_rec(unsigned int i, int fd)
 {
 	char	c;
 
 	c = (i % 10) + '0';
 	if (i / 10)
-		dec_rec(i / 10, fd);
-	write(fd, &c, 1);
+		if (dec_rec(i / 10, fd) < 0)
+			return (-1);
+	if (write(fd, &c, 1) < 0)
+		return (-1);
+	return (1);
 }
 
 /*
@@ -47,26 +50,26 @@ static int	write_number(unsigned int ui, t_insert ins, int i, int fd)
 	int		ret;
 
 	ret = 0;
-	c = ' ';
-	if (check_flag(ins.flags, '0'))
-		c = '0';
-	if (i < 0 && (check_flag(ins.flags, '0')))
-		write(fd, "-", 1);
+	c = ' ' * (check_flag(ins.flags, '0') == 0) + '0' * (check_flag(ins.flags,
+				'0') != 0);
+	if (i < 0 && (check_flag(ins.flags, '0')) && write(fd, "-", 1) < 0)
+		return (-1);
 	if (ins.min_width > 0 && !check_flag(ins.flags, '-'))
 	{
 		while (ins.min_width-- > 0 && ++ret)
-			write(fd, &c, 1);
+			if (write(fd, &c, 1) < 0)
+				return (-1);
 	}
-	if (i < 0 && (!check_flag(ins.flags, '0') || ins.prec < 0))
-		write(fd, "-", 1);
-	if (i >= 0 && check_flag(ins.flags, ' '))
-		write(fd, " ", 1);
-	else if (i >= 0 && check_flag(ins.flags, '+'))
-		write(fd, "+", 1);
-	while ((ins.prec-- > 0 || (ins.prec++ > 0)))
-		write(fd, "0", 1);
-	dec_rec(ui, fd);
-	return (ret);
+	if (i < 0 && (!check_flag(ins.flags, '0') || ins.prec < 0) && write(fd, "-",
+			1) < 0)
+		return (-1);
+	if (i >= 0 && check_flag(ins.flags, ' ') && write(fd, " ", 1) < 0)
+		return (-1);
+	else if (i >= 0 && check_flag(ins.flags, '+') && write(fd, "+", 1) < 0)
+		return (-1);
+	while ((ins.prec-- > 0 || (ins.prec++ > 0)) && write(fd, "0", 1) < 0)
+		return (-1);
+	return (dec_rec(ui, fd) * ret);
 }
 
 /*
@@ -92,7 +95,8 @@ int	main_d(va_list act, t_insert ins, int fd)
 	if (ins.min_width > 0 && check_flag(ins.flags, '-'))
 	{
 		while (ins.min_width-- > 0 && ++ret)
-			write(fd, " ", 1);
+			if (write(fd, " ", 1) < 0)
+				return (-1);
 	}
 	return (ret);
 }

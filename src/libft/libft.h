@@ -6,7 +6,7 @@
 /*   By: hmelica <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/07 12:11:30 by hmelica           #+#    #+#             */
-/*   Updated: 2023/10/28 14:52:46 by hmelica          ###   ########.fr       */
+/*   Updated: 2023/11/03 13:46:00 by hmelica          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -136,7 +136,7 @@ int			read_following_int(const char **format);
 int			display(char *s, t_insert ins, int force_len, int fd);
 int			hex_len(unsigned long i);
 int			int_len(unsigned int i);
-void		dec_rec(unsigned int i, int fd);
+int			dec_rec(unsigned int i, int fd);
 
 int			main_c(va_list act, t_insert ins, int fd);
 int			main_d(va_list act, t_insert ins, int fd);

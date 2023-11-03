@@ -6,13 +6,13 @@
 /*   By: hmelica <hmelica@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/24 10:40:40 by hmelica           #+#    #+#             */
-/*   Updated: 2023/09/28 10:30:39 by hmelica          ###   ########.fr       */
+/*   Updated: 2023/11/03 13:49:44 by hmelica          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-int	handler(va_list act, t_insert ins, int fd);
+int	handler(va_list act, t_insert ins, int fd[2]);
 int	separation(const char **format, int ret[2],
 		va_list act, va_list ori);
 
@@ -34,11 +34,12 @@ int	ft_dprintf(int fd, const char *format, ...)
 		if (*format == '%')
 		{
 			va_copy(args, origin);
-			separation(&format, ret, act, args);
+			if (separation(&format, ret, act, args) < 0)
+				return (va_end(act), va_end(origin), -1);
 			va_end(args);
 		}
-		else if (++ret[1])
-			write(fd, format, 1);
+		else if (++ret[1] && write(fd, format, 1) < 0)
+			return (va_end(act), va_end(origin), -1);
 		format++;
 	}
 	return (va_end(act), va_end(origin), ret[1]);

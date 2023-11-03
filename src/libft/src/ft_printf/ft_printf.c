@@ -6,13 +6,13 @@
 /*   By: hmelica <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/11 15:53:02 by hmelica           #+#    #+#             */
-/*   Updated: 2023/09/28 10:30:52 by hmelica          ###   ########.fr       */
+/*   Updated: 2023/11/03 13:48:37 by hmelica          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-int	handler(va_list act, t_insert ins, int fd);
+int	handler(va_list act, t_insert ins, int fd[2]);
 int	separation(const char **format, int ret[2],
 		va_list act, va_list ori);
 
@@ -35,16 +35,15 @@ int	ft_printf(const char *format, ...)
 		if (*format == '%')
 		{
 			va_copy(args, origin);
-			separation(&format, ret, act, args);
+			if (separation(&format, ret, act, args) < 0)
+				return (va_end(act), va_end(origin), -1);
 			va_end(args);
 		}
-		else if (++ret[1])
-			write(ret[0], format, 1);
+		else if (++ret[1] && write(1, format, 1) < 0)
+			return (va_end(act), va_end(origin), -1);
 		format++;
 	}
-	va_end(act);
-	va_end(origin);
-	return (ret[1]);
+	return (va_end(act), va_end(origin), ret[1]);
 }
 
 /*
@@ -78,11 +77,13 @@ int	separation(const char **format, int ret[2],
 	{
 		ret[1]++;
 		*format = origin;
-		write(ret[0], "%", 1);
+		if (write(ret[0], "%", 1) < 0)
+			return (-1);
 		return (0);
 	}
 	ins.type = **format;
-	ret[1] += handler(act, ins, ret[0]);
+	if (handler(act, ins, ret) < 0)
+		return (-1);
 	return (ret[1]);
 }
 
@@ -90,26 +91,30 @@ int	separation(const char **format, int ret[2],
 Launch different functions depending on the csp
 Return number of char printed
 */
-int	handler(va_list act, t_insert ins, int fd)
+int	handler(va_list act, t_insert ins, int fd[2])
 {
+	int	ret;
+
+	ret = 0;
 	if (ins.type == 'c')
-		return (main_c(act, ins, fd));
-	if (ins.type == 's')
-		return (main_s(act, ins, fd));
-	if (ins.type == 'p')
-		return (main_p(act, ins, fd));
-	if (ins.type == 'd' || ins.type == 'i')
-		return (main_d(act, ins, fd));
-	if (ins.type == 'u')
-		return (main_u(act, ins, fd));
-	if (ins.type == 'x')
-		return (main_x(act, ins, "0123456789abcdefx", fd));
-	if (ins.type == 'X')
-		return (main_x(act, ins, "0123456789ABCDEFX", fd));
-	if (ins.type == '%')
+		ret = main_c(act, ins, fd[0]);
+	else if (ins.type == 's')
+		ret = main_s(act, ins, fd[0]);
+	else if (ins.type == 'p')
+		ret = main_p(act, ins, fd[0]);
+	else if (ins.type == 'd' || ins.type == 'i')
+		ret = main_d(act, ins, fd[0]);
+	else if (ins.type == 'u')
+		ret = main_u(act, ins, fd[0]);
+	else if (ins.type == 'x')
+		ret = main_x(act, ins, "0123456789abcdefx", fd[0]);
+	else if (ins.type == 'X')
+		ret = main_x(act, ins, "0123456789ABCDEFX", fd[0]);
+	else if (ins.type == '%')
 	{
-		write(fd, "%", 1);
-		return (1);
+		if (write(fd[0], "%", 1))
+			return (-1);
+		return (fd[1] += 1, 1);
 	}
-	return (0);
+	return (fd[1] += ret, ret);
 }
