@@ -73,3 +73,29 @@ size_t	find_closing_brace(char *data)
 		return (0);
 	return (i);
 }
+
+int	find_slash(char *str)
+{
+	if (!str)
+		return (errno = ENODATA, 0);
+	while (*str)
+	{
+		if (*str == '/')
+			return (1);
+		str++;
+	}
+	return (0);
+}
+
+int	find_dot(char *str)
+{
+	if (!str)
+		return (errno = ENODATA, 0);
+	while (*str)
+	{
+		if (*str == '.')
+			return (1);
+		str++;
+	}
+	return (0);
+}
