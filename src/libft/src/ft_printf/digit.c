@@ -6,7 +6,7 @@
 /*   By: hmelica <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/14 18:39:28 by hmelica           #+#    #+#             */
-/*   Updated: 2023/11/03 13:49:26 by hmelica          ###   ########.fr       */
+/*   Updated: 2023/11/03 15:54:36 by hmelica          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,8 +67,11 @@ static int	write_number(unsigned int ui, t_insert ins, int i, int fd)
 		return (-1);
 	else if (i >= 0 && check_flag(ins.flags, '+') && write(fd, "+", 1) < 0)
 		return (-1);
-	while ((ins.prec-- > 0 || (ins.prec++ > 0)) && write(fd, "0", 1) < 0)
-		return (-1);
+	while (ins.prec-- > 0 || (ins.prec++ > 0))
+		if (write(fd, "0", 1) < 0)
+			return (-1);
+	if (ins.null_prec && i == 0)
+		return (ret);
 	return (dec_rec(ui, fd) * ret);
 }
 
@@ -79,6 +82,7 @@ run write_number and next width stuff
 int	main_d(va_list act, t_insert ins, int fd)
 {
 	int				ret;
+	int				tmp;
 	int				i;
 	unsigned int	ui;
 
@@ -87,11 +91,18 @@ int	main_d(va_list act, t_insert ins, int fd)
 	ui = i;
 	if (i < 0)
 		ui = i * -1;
+	ins.null_prec = 0;
+	if (ins.prec == 0)
+		ins.null_prec = 1;
 	ins.prec = (ins.prec - int_len(ui)) * !check_flag(ins.flags, '0');
-	ret += int_len(ui) + (i < 0 || check_flag(ins.flags, ' ')
-			|| check_flag(ins.flags, '+')) + (ins.prec * (ins.prec > 0));
+	ret += int_len(ui) - (ins.null_prec && i == 0) + (i < 0
+			|| check_flag(ins.flags, ' ') || check_flag(ins.flags, '+'))
+		+ (ins.prec * (ins.prec > 0));
 	ins.min_width -= ret;
-	ret += write_number(ui, ins, i, fd);
+	tmp = write_number(ui, ins, i, fd);
+	if (tmp < 0)
+		return (-1);
+	ret += tmp;
 	if (ins.min_width > 0 && check_flag(ins.flags, '-'))
 	{
 		while (ins.min_width-- > 0 && ++ret)

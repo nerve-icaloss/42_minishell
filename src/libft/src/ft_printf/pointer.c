@@ -6,7 +6,7 @@
 /*   By: hmelica <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/14 18:39:28 by hmelica           #+#    #+#             */
-/*   Updated: 2023/11/03 14:00:27 by hmelica          ###   ########.fr       */
+/*   Updated: 2023/11/03 15:13:47 by hmelica          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,8 @@ static int	pnt_rec(void *p, int fd)
 	int		ret;
 	int		tmp;
 
+	if (!p)
+		return (0);
 	ret = 1;
 	c = "0123456789abcdef"[(unsigned long)p % 16];
 	if ((unsigned long)p / 16)
@@ -44,13 +46,18 @@ static int	write_pointer(void *p, t_insert ins, int fd)
 	int	tmp;
 
 	ret = 0;
-	ins.min_width -= 2 + hex_len((unsigned long) p);
+	ins.min_width -= ((2 + hex_len((unsigned long) p)) * (p != 0))
+		+ 5 * (p == 0);
 	if (ins.min_width > 0 && !check_flag(ins.flags, '-'))
 	{
 		while (ins.min_width-- > 0 && ++ret)
 			if (write(fd, " ", 1) < 0)
 				return (-1);
 	}
+	if (!p)
+		ret += write(fd, "(nil)", 5);
+	else if (write(fd, "0x", 2) < 0)
+		return (-1);
 	tmp = pnt_rec(p, fd);
 	if (tmp < 0)
 		return (-1);
@@ -73,17 +80,13 @@ int	main_p(va_list act, t_insert ins, int fd)
 	int		ret;
 
 	p = va_arg(act, void *);
-	if (!p)
-		return (write(fd, "(nil)", 5));
-	if (check_flag(ins.flags, ' ') && write(fd, " ", 1))
+	if (p && check_flag(ins.flags, ' ') && write(fd, " ", 1) < 0)
 		return (-1);
-	else if (check_flag(ins.flags, '+') && write(fd, "+", 1))
-		return (-1);
-	if (write(fd, "0x", 2) < 0)
+	else if (p && check_flag(ins.flags, '+') && write(fd, "+", 1) < 0)
 		return (-1);
 	ret = write_pointer(p, ins, fd);
 	if (ret < 0)
 		return (-1);
-	return (2 + ret + (check_flag(ins.flags, ' ')
+	return (2 * (p != 0) + ret + (check_flag(ins.flags, ' ')
 			|| check_flag(ins.flags, '+')));
 }

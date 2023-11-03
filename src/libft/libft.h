@@ -6,7 +6,7 @@
 /*   By: hmelica <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/07 12:11:30 by hmelica           #+#    #+#             */
-/*   Updated: 2023/11/03 13:46:00 by hmelica          ###   ########.fr       */
+/*   Updated: 2023/11/03 15:48:42 by hmelica          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@ typedef struct s_insert
 	int		flags;
 	int		min_width;
 	int		prec;
+	int		null_prec;
 }	t_insert;
 
 /* ft_is */

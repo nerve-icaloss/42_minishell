@@ -6,7 +6,7 @@
 /*   By: hmelica <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/11 15:53:02 by hmelica           #+#    #+#             */
-/*   Updated: 2023/11/03 13:48:37 by hmelica          ###   ########.fr       */
+/*   Updated: 2023/11/03 15:39:13 by hmelica          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ int	separation(const char **format, int ret[2],
 	ins.min_width = 0;
 	ins.prec = -1;
 	while (++(*format) && is_flag(**format))
-		ins.flags += set_flag(**format);
+		ins.flags += (set_flag(**format) * !check_flag(ins.flags, **format));
 	ins.min_width = get_min_width(format, &(ins.flags), act, ori);
 	if (**format == '.')
 		ins.prec = precision(format, act, ori);
@@ -79,7 +79,7 @@ int	separation(const char **format, int ret[2],
 		*format = origin;
 		if (write(ret[0], "%", 1) < 0)
 			return (-1);
-		return (0);
+		return (1);
 	}
 	ins.type = **format;
 	if (handler(act, ins, ret) < 0)
@@ -112,7 +112,7 @@ int	handler(va_list act, t_insert ins, int fd[2])
 		ret = main_x(act, ins, "0123456789ABCDEFX", fd[0]);
 	else if (ins.type == '%')
 	{
-		if (write(fd[0], "%", 1))
+		if (write(fd[0], "%", 1) < 0)
 			return (-1);
 		return (fd[1] += 1, 1);
 	}

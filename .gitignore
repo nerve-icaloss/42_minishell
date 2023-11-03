@@ -27,3 +27,5 @@ universal.h
 log.error
 supp.supp
 .gitmodules
+src/libft/ft_printf_tester
+src/libft/ft_printf_tester/*
