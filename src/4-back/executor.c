@@ -25,7 +25,7 @@ int	search_exec_path(t_execute *exec, t_myenv *env)
 		return (exec->exit = 1, 1);
 	if (exec->builtin_f)
 		return (exec->exit = 0, 0);
-	if (!(exec->argv[0][0] == '/' || exec->argv[0][0] == '.'))
+	if (!(find_slash(exec->argv[0]) || find_dot(exec->argv[0])))
 		cmd_path = search_cmd_path(exec, exec->argv[0], env);
 	else
 		cmd_path = check_cmd_path(exec, exec->argv[0]);

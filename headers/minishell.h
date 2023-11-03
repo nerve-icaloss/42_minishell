@@ -308,6 +308,8 @@ void			close_pipe_in(t_node *cmd);
 
 size_t			find_closing_quote(char *data);
 size_t			find_closing_brace(char *data);
+int				find_slash(char *str);
+int				find_dot(char *str);
 
 char			*ft_readline(char *prompt, void (*signal_handler)(int),
 					void (*signal_restore));
