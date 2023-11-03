@@ -6,7 +6,7 @@
 /*   By: hmelica <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/27 22:35:04 by hmelica           #+#    #+#             */
-/*   Updated: 2023/11/03 11:35:19 by hmelica          ###   ########.fr       */
+/*   Updated: 2023/11/03 11:54:37 by hmelica          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ int	check_path(char *path)
 			return (0);
 	if (!(dir.st_mode & S_IFMT & S_IFDIR))
 		errno = ENOTDIR;
-	return (dir.st_mode & S_IFMT & S_IXUSR);
+	return (dir.st_mode & S_IXUSR);
 }
 
 int	check_whole_path(char *path)
