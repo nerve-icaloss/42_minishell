@@ -6,7 +6,7 @@
 /*   By: hmelica <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/14 18:39:28 by hmelica           #+#    #+#             */
-/*   Updated: 2023/11/03 15:54:46 by hmelica          ###   ########.fr       */
+/*   Updated: 2023/11/09 14:11:29 by hmelica          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ int	main_x(va_list act, t_insert ins, char *tab, int fd)
 	ins.prec = (ins.prec - hex_len(i)) * !check_flag(ins.flags, '0');
 	ret += hex_len(i) + (ins.prec * (ins.prec > 0)) - (ins.null_prec && i == 0);
 	ins.min_width -= ret;
-	tmp  = write_x_number(i, ins, tab, fd);
+	tmp = write_x_number(i, ins, tab, fd);
 	if (tmp < 0)
 		return (-1);
 	ret += tmp;

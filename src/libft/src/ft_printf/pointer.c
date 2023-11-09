@@ -6,7 +6,7 @@
 /*   By: hmelica <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/14 18:39:28 by hmelica           #+#    #+#             */
-/*   Updated: 2023/11/03 15:13:47 by hmelica          ###   ########.fr       */
+/*   Updated: 2023/11/09 14:22:28 by hmelica          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,14 +54,12 @@ static int	write_pointer(void *p, t_insert ins, int fd)
 			if (write(fd, " ", 1) < 0)
 				return (-1);
 	}
-	if (!p)
-		ret += write(fd, "(nil)", 5);
-	else if (write(fd, "0x", 2) < 0)
+	if ((!p && write(fd, "(nil)", 5) < 0) || (p && write(fd, "0x", 2) < 0))
 		return (-1);
 	tmp = pnt_rec(p, fd);
 	if (tmp < 0)
 		return (-1);
-	ret += tmp;
+	ret += tmp + ((!p * 5));
 	if (ins.min_width > 0 && check_flag(ins.flags, '-'))
 	{
 		while (ins.min_width-- > 0 && ++ret)

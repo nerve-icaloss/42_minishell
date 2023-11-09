@@ -6,7 +6,7 @@
 /*   By: hmelica <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/14 18:39:28 by hmelica           #+#    #+#             */
-/*   Updated: 2023/11/03 15:54:36 by hmelica          ###   ########.fr       */
+/*   Updated: 2023/11/09 14:37:14 by hmelica          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,9 +50,8 @@ static int	write_number(unsigned int ui, t_insert ins, int i, int fd)
 	int		ret;
 
 	ret = 0;
-	c = ' ' * (check_flag(ins.flags, '0') == 0) + '0' * (check_flag(ins.flags,
-				'0') != 0);
-	if (i < 0 && (check_flag(ins.flags, '0')) && write(fd, "-", 1) < 0)
+	c = ' ' + 16 * (check_flag(ins.flags, '0') != 0);
+	if (i < 0 && c == '0' && write(fd, "-", 1) < 0)
 		return (-1);
 	if (ins.min_width > 0 && !check_flag(ins.flags, '-'))
 	{
@@ -60,8 +59,7 @@ static int	write_number(unsigned int ui, t_insert ins, int i, int fd)
 			if (write(fd, &c, 1) < 0)
 				return (-1);
 	}
-	if (i < 0 && (!check_flag(ins.flags, '0') || ins.prec < 0) && write(fd, "-",
-			1) < 0)
+	if (i < 0 && (c != '0' || ins.prec < 0) && write(fd, "-", 1) < 0)
 		return (-1);
 	if (i >= 0 && check_flag(ins.flags, ' ') && write(fd, " ", 1) < 0)
 		return (-1);
@@ -73,6 +71,17 @@ static int	write_number(unsigned int ui, t_insert ins, int i, int fd)
 	if (ins.null_prec && i == 0)
 		return (ret);
 	return (dec_rec(ui, fd) * ret);
+}
+
+int	post_print_d(int ret, t_insert *ins, int fd)
+{
+	if (ins->min_width > 0 && check_flag(ins->flags, '-'))
+	{
+		while (ins->min_width-- > 0 && ++ret)
+			if (write(fd, " ", 1) < 0)
+				return (-1);
+	}
+	return (ret);
 }
 
 /*
@@ -103,11 +112,5 @@ int	main_d(va_list act, t_insert ins, int fd)
 	if (tmp < 0)
 		return (-1);
 	ret += tmp;
-	if (ins.min_width > 0 && check_flag(ins.flags, '-'))
-	{
-		while (ins.min_width-- > 0 && ++ret)
-			if (write(fd, " ", 1) < 0)
-				return (-1);
-	}
-	return (ret);
+	return (post_print_d(ret, &ins, fd));
 }
