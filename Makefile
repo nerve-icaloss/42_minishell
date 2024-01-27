@@ -160,6 +160,7 @@ OK_PROMPT		= \033[1;32mdone \033[0m$(if $(filter $(MAKECMDGOALS), debug test),$(
 OK_PROMPT += $(ifdef TEST_MODE, "\033[1;35munit test mode\033[0m")
 
 DELETE = \033[2K\r
+GO_UP = \033[1A\r
 
 all: ${NAME}
 	@echo "\033[1;32mSuccess\033[0m"
@@ -187,7 +188,7 @@ ${OBJS_DIR}:
 ${OBJS_DIR}/%.o: ${SRCS_DIR}/%.c
 	@printf "$(DELETE)\033[1;34mCompiling\033[0m %-35s" $<
 	@${CC} ${CFLAGS} ${HEADERS_DIR_FLAG} -c $< -o $@
-	@printf "${OK_PROMPT}"
+	@printf "${OK_PROMPT}\n${GO_UP}"
 
 ${OBJS_BONUS}: OK_PROMPT += \033[1;35mbonus\033[0m
 
