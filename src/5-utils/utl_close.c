@@ -22,12 +22,12 @@ void	close_redirection(t_node *cmd, int mode)
 	}
 }
 
-void	close_pipe_in(t_node *cmd)
+void	close_pipe_out(t_node *cmd)
 {
-	if (cmd->fd[IN] > 0)
+	if (cmd->fd[OUT] > 0)
 	{
-		if (close(cmd->fd[IN]) == SYS_FAIL)
+		if (close(cmd->fd[OUT]) == SYS_FAIL)
 			perror("close");
-		cmd->fd[IN] = -1;
+		cmd->fd[OUT] = -1;
 	}
 }

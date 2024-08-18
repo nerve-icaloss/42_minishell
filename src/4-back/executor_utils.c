@@ -72,7 +72,7 @@ int	execute_pipex_init(t_execute *exec, t_node *pipex, t_node *cmd,
 	else
 		exec->toclose_child = -1;
 	if (execute_cmd_init(exec, cmd, env))
-		return (close_pipe_in(cmd), exec->exit = 1, 1);
+		return (close_pipe_out(cmd), exec->exit = 1, 1);
 	if (apply_redirection(exec, cmd))
 		return (reset_redirection(exec, cmd), exec->exit);
 	if (search_exec_path(exec, env))

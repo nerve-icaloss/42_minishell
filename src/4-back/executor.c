@@ -99,7 +99,7 @@ int	stop_execute(t_node *node, int exit)
 {
 	if (!node)
 		return (errno = ENODATA, 1);
-	if (g_signal)
+	if (g_signal > 0)
 		exit = g_signal;
 	if (node->type == NODE_AND && exit > 0)
 		return (1);

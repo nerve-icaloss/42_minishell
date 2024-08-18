@@ -304,7 +304,7 @@ int				open_append(char *file);
 int				open_trunc(char *file);
 
 void			close_redirection(t_node *cmd, int mode);
-void			close_pipe_in(t_node *cmd);
+void			close_pipe_out(t_node *cmd);
 
 size_t			find_closing_quote(char *data);
 size_t			find_closing_brace(char *data);
