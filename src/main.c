@@ -94,7 +94,7 @@ static void	rpel_loop(t_myshell *shell)
 
 	while (1)
 	{
-		cmdline = ft_readline("minishell-1.0$ ", NULL, handler_rpel);
+		cmdline = ft_readline("minishell-2.0$ ", NULL, handler_rpel);
 		if (!cmdline)
 		{
 			if (isatty(STDIN_FILENO))
