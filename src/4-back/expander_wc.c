@@ -128,7 +128,7 @@ int	run_wc_on(char **val, t_node **word, t_myvar *var)
 
 	if (!val || !*val)
 		return (-1);
-	while (ft_strchr(*val, '~'))
+	if (ft_strchr(*val, '~'))
 	{
 		s = ft_strdup(*val);
 		free(*val);
