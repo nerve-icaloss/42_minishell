@@ -136,7 +136,7 @@ int	parse_source(t_node **root, t_source *src)
 	}
 	while (!cmd->exit && tok->type != TOK_EOF)
 	{
-		cmd = parse_lvl(cmd, tok, TOK_AND);
+		cmd = parse_lvl(cmd, tok, TOK_OR);
 		if (!cmd)
 			return (1);
 		tok = tokenize(src);

@@ -111,8 +111,8 @@ typedef enum e_tok_type {
 	TOK_BRACKET = 0,
 	TOK_WORD = 1,
 	TOK_PIPE = 2,
-	TOK_OR = 3,
-	TOK_AND = 4,
+	TOK_AND = 3,
+	TOK_OR = 4,
 	TOK_EOB = 5,
 	TOK_EOF = 6,
 	TOK_SYNTAX = 7,
@@ -193,8 +193,8 @@ typedef enum e_node_type {
 	NODE_BRACKET = 0,
 	NODE_CMD = 1,
 	NODE_PIPE = 2,
-	NODE_OR = 3,
-	NODE_AND = 4,
+	NODE_AND = 3,
+	NODE_OR = 4,
 	NODE_WORD = 7,
 }	t_node_type;
 
